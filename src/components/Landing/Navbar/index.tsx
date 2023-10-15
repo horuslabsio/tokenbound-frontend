@@ -18,7 +18,7 @@ function NavBar() {
     setIsOpen(true);
   }
   return (
-    <header className="flex justify-between items-centers mb-32">
+    <header className="flex justify-between p-12 items-centers">
       <div>
         <Image
           className="cursor-pointer transition-transform transform-growth hover:scale-110"
@@ -29,7 +29,7 @@ function NavBar() {
         />
       </div>
 
-      <nav className=" hidden md:hidden lg:flex items-center space-x-8">
+      <nav className="hidden md:hidden lg:flex items-center space-x-8">
         <ul className="flex items-center md:space-x-4 lg:space-x-8">
           {navItems.map((item, idx) => (
             <li key={idx}>
