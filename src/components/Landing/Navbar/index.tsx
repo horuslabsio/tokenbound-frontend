@@ -7,7 +7,13 @@ import ConnectedNavBar from "@/components/Connected";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import ConnectWallet from "@/components/ConnectWallet/page";
+import { useAccount } from "@starknet-react/core";
+import Link from "next/link";
+
 function NavBar() {
+  const { isConnected, account } = useAccount();
+  // state for hamburger modal
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -17,9 +23,21 @@ function NavBar() {
   function openModal() {
     setIsOpen(true);
   }
+
+  // state for connectwallet component
+  let [isWalletOpen, setIsWalletOpen] = useState(false);
+
+  function closeWalletModal() {
+    setIsWalletOpen(false);
+  }
+
+  function openWalletModal() {
+    setIsWalletOpen(true);
+  }
   return (
     <header className="flex justify-between p-12 items-centers">
       <div>
+        <Link href={'/'}>
         <Image
           className="cursor-pointer transition-transform transform-growth hover:scale-110"
           src={STBA}
@@ -27,6 +45,7 @@ function NavBar() {
           height={40}
           alt="starknet-token-bound"
         />
+        </Link>
       </div>
 
       <nav className="hidden md:hidden lg:flex items-center space-x-8">
@@ -37,7 +56,26 @@ function NavBar() {
             </li>
           ))}
         </ul>
-        <ConnectedNavBar />
+
+        {isWalletOpen && (
+          <ConnectWallet
+            isWalletOpen={isWalletOpen}
+            closeWalletModal={closeWalletModal}
+            openWalletModal={openWalletModal}
+          />
+        )}
+
+        {!account ? (
+          <button
+            onClick={openWalletModal}
+            className="bg-black text-white px-4 py-2 rounded-lg"
+            type="button"
+          >
+            Connect Wallet
+          </button>
+        ) : (
+          <ConnectedNavBar />
+        )}
       </nav>
 
       {/* mobile navbar */}
@@ -94,7 +132,17 @@ function NavBar() {
                         ))}
                       </nav>
                       <div className="mt-4">
-                        <ConnectedNavBar />
+                        {!account ? (
+                          <button
+                            onClick={openWalletModal}
+                            className="bg-black text-white px-4 py-2 rounded-lg"
+                            type="button"
+                          >
+                            Connect Wallet
+                          </button>
+                        ) : (
+                          <ConnectedNavBar />
+                        )}
                       </div>
                     </div>
                   </Dialog.Panel>
