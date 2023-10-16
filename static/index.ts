@@ -1,22 +1,23 @@
 import { INavBarType } from "../types"; // Update the import to match your type definition
 
 export const navItems: INavBarType[] = [
+
   {
-    value: "Docs",
-    link: "#"
-  },
-  {
-    value: "EIP",
+    value: "Snip",
     link: "#"
   },
   {
     value: "Github",
-    link: "#"
+    link: "https://github.com/Starknet-Africa-Edu"
   },
   {
     value: "Telegram",
-    link: "#"
-  }
+    link: "https://t.me/StarkNetAfrica"
+  },
+  {
+    value: "Twitter",
+    link: "https://twitter.com/StarkNetAfrica"
+  },
 ];
 
 
