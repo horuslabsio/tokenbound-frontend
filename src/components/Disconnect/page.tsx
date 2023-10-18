@@ -1,11 +1,11 @@
 "use client";
-import { useAccount, useConnectors } from "@starknet-react/core";
+import { useAccount, useDisconnect } from "@starknet-react/core";
 import React from "react";
 import { toast } from "react-toastify";
 import { copyToClipBoard,shortenAddress } from "../../../utils/helper";
 function Disconnect() {
   const { address } = useAccount();
-  const { disconnect } = useConnectors();
+  const { disconnect } = useDisconnect();
 
   const copy = () => {
     let status = copyToClipBoard(address as string);
@@ -25,7 +25,7 @@ function Disconnect() {
       <div className="flex space-x-12 mt-4">
         <button
           type="button"
-          onClick={disconnect}
+          onClick={() => disconnect()}
           className="text-gray-300 outline outline-2 rounded-lg p-2 outline-blue-500 outline-offset-2 "
         >
           Disconnect

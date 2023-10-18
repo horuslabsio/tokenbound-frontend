@@ -4,7 +4,7 @@ import styles from "../../app/styles/icon.module.css";
 import {WalletIconsProps} from "../../../types/index"
 
 const WalletIcons: FunctionComponent<WalletIconsProps> = ({ id }) => {
-  if (id === "argentX")
+  if (id === "argentX" || id == "argentWebWallet")
     return (
       <svg
         className={styles.button_icon}

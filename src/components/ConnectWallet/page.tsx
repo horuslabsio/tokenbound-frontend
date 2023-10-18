@@ -1,10 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IWalletModal } from "../../../types";
-import Image from "next/image";
-import braavos from "../../../public/braavos.png";
-import argent from "../../../public/argent.png";
-import { useConnectors, Connector, useAccount } from "@starknet-react/core";
+import { useConnect, Connector, useAccount } from "@starknet-react/core";
 import WalletIcons from "../WalletIcon/page";
 
 export default function ConnectWallet({
@@ -12,9 +9,9 @@ export default function ConnectWallet({
   isWalletOpen,
   closeWalletModal,
 }: IWalletModal) {
-  const { connect, connectors } = useConnectors();
+  const { connect, connectors } = useConnect();
   const connectWallet = (connector: Connector) => {
-    connect(connector);
+    connect({ connector });
     closeWalletModal();
   };
 

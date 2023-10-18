@@ -2,6 +2,7 @@ import Image from "next/image";
 import sword from "../../../public/sword.jpg";
 import { BiCopyAlt } from "react-icons/bi";
 import Link from "next/link";
+
 const Card = () => {
 
   return (
