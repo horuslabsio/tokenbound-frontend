@@ -1,10 +1,12 @@
+"use client"
 import Image from "next/image";
 import sword from "../../../public/sword.jpg";
 import { BiCopyAlt } from "react-icons/bi";
 import Link from "next/link";
-
+import { useFetchUserNFT } from "@/hooks";
 const Card = () => {
-
+let {nft} = useFetchUserNFT()
+console.log('nft-result:', nft)
   return (
     <div className="w-full cursor-pointer  p-4">
       <Link href={`/assets/1`} >

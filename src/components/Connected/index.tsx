@@ -11,8 +11,6 @@ function ConnectedNavBar() {
   const { address, account } = useAccount();
   const [show, setShow] = useState<boolean>(false);
   const path = usePathname();
-
-  console.log('path:', path)
   const closeModal = () => {
     setShow(!show);
   };
@@ -26,7 +24,7 @@ function ConnectedNavBar() {
       </div>
       <div>
         {account && path == '/' && (
-          <Link href={`/wallet/1`}>
+          <Link href={`/wallet/${address}`}>
             <button
               className="bg-black text-white px-4 py-2 rounded-lg"
               type="button"

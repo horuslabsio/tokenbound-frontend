@@ -1,5 +1,5 @@
 
-
+import axios from "axios"
 export const shortenAddress = (address:string) => {
     if (!address) return null;
     return `${address.substr(0, 6)}...${address.substr(
@@ -44,3 +44,10 @@ export const copyToClipBoard = (text:string) => {
           return false;
       });
 };
+
+export const instance = axios.create({
+    headers: {
+        'accept': 'application/json',
+        'X-API-KEY': process.env.NEXT_PUBLIC_NFT_API_KEY
+    }
+});
