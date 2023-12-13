@@ -3,17 +3,28 @@
 import { BiCopyAlt } from "react-icons/bi";
 import Link from "next/link";
 import { useFetchUserNFT } from "@/hooks";
-import { shortenAddress } from "../../../utils/helper";
-import {  CSSProperties } from "react";
+import { copyToClipBoard, shortenAddress } from "../../../utils/helper";
+import { CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
+import { toast } from "react-toastify";
+
+
 const Card = () => {
   let { nft, loading } = useFetchUserNFT()
-  
+
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
     textAlign: 'center'
 
+  };
+  const copyToClipBoardHandler = async (text: string) => {
+    const success = await copyToClipBoard(text);
+    if (success) {
+      toast.info(`Copied to clipboard ${text}`);
+    } else {
+      toast.error("Not Copied");
+    }
   };
 
   return (
@@ -35,7 +46,7 @@ const Card = () => {
                   <div className="font-normal text-xl mb-2">{item.description}</div>
 
                   <p className="inline-flex items-center p-[2px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110">
-                    <span className="text-gray-400">{shortenAddress(item.contract.address)}</span>
+                    <span onClick={() => copyToClipBoardHandler(item.contract.address)} className="text-gray-400">{shortenAddress(item.contract.address)}</span>
                     <span className="ml-1">
                       <BiCopyAlt />
                     </span>
