@@ -1,30 +1,51 @@
 "use client"
-import Image from "next/image";
-import sword from "../../../public/sword.jpg";
+
 import { BiCopyAlt } from "react-icons/bi";
 import Link from "next/link";
 import { useFetchUserNFT } from "@/hooks";
+import { shortenAddress } from "../../../utils/helper";
+import {  CSSProperties } from "react";
+import SyncLoader from "react-spinners/SyncLoader";
 const Card = () => {
-let {nft} = useFetchUserNFT()
-console.log('nft-result:', nft)
+  let { nft, loading } = useFetchUserNFT()
+  
+  const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    textAlign: 'center'
+
+  };
+
   return (
     <div className="w-full cursor-pointer  p-4">
-      <Link href={`/assets/1`} >
-        <div className=" rounded overflow-hidden shadow-lg">
-          <Image className="w-full" src={sword} alt="Card Image" />
+      {
+        loading &&
 
-          <div className="px-6 py-4 bg-white">
-            <div className="font-bold text-xl mb-2">YinYang</div>
+        <SyncLoader cssOverride={override} aria-label="Loading Spinner" size={50} color="#36d7b7" />
+      }
+      {
+        !nft ? <p className="text-red-500">No NFT to display</p> :
+          nft.map((item, index) => (
+            <Link href={`/assets/${item.contract.address}`} key={index} >
+              <div className=" rounded overflow-hidden shadow-lg">
+                <img className="w-full" src={item?.image.pngUrl} alt="Card Image" />
 
-            <p className="inline-flex items-center p-[2px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110">
-              <span className="text-gray-400">0x1234...8567</span>
-              <span className="ml-1">
-                <BiCopyAlt />
-              </span>
-            </p>
-          </div>
-        </div>
-      </Link>
+                <div className="px-6 py-4 bg-white">
+                  <div className="font-bold text-xl mb-2">{item.name}</div>
+                  <div className="font-normal text-xl mb-2">{item.description}</div>
+
+                  <p className="inline-flex items-center p-[2px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110">
+                    <span className="text-gray-400">{shortenAddress(item.contract.address)}</span>
+                    <span className="ml-1">
+                      <BiCopyAlt />
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </Link>
+          ))
+      }
+
     </div>
   );
 };

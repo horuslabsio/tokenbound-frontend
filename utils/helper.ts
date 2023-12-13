@@ -47,7 +47,7 @@ export const copyToClipBoard = (text:string) => {
 
 export const instance = axios.create({
     headers: {
-        'accept': 'application/json',
-        'X-API-KEY': process.env.NEXT_PUBLIC_NFT_API_KEY
+        'accept': 'application/json'
+        // 'apiKey': process.env.NEXT_PUBLIC_NFT_API_KEY
     }
 });
