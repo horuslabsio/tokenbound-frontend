@@ -1,5 +1,7 @@
 
 import axios from "axios"
+import { toast } from "react-toastify";
+
 export const shortenAddress = (address:string) => {
     if (!address) return null;
     return `${address.substr(0, 6)}...${address.substr(
@@ -51,3 +53,14 @@ export const instance = axios.create({
         // 'apiKey': process.env.NEXT_PUBLIC_NFT_API_KEY
     }
 });
+
+export const copyToClipBoardHandler = async (text: string) => {
+    const success = await copyToClipBoard(text);
+    if (success) {
+      toast.info("Copied to clipboard");
+      console.log('hello')
+    } else {
+      toast.error("Not Copied");
+      console.log('hellllo')
+    }
+  };
