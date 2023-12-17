@@ -13,7 +13,7 @@ export type WalletIconsProps = {
     id: string;
   };
 
- export  type NftItem = {
+ export type NftItem = {
     acquiredAt: { blockTimestamp: null; blockNumber: null };
     balance: string;
     collection: null;
@@ -51,3 +51,8 @@ export type WalletIconsProps = {
     tokenUri: string;
   }
   
+  export type raw = {
+    tokenUri: string;
+    metadata: { image: string };
+    error: null;
+  };
