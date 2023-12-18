@@ -2,11 +2,12 @@
 
 import { BiCopyAlt } from "react-icons/bi";
 import Link from "next/link";
-import { useFetchUserNFT } from "@/hooks";
-import { copyToClipBoard, shortenAddress } from "../../../utils/helper";
+import { useFetchUserNFT } from "@hooks/index";
+import { copyToClipBoard, shortenAddress } from "@utils/helper";
 import { CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 import { toast } from "react-toastify";
+
 
 const Card = () => {
   let { nft, loading } = useFetchUserNFT()

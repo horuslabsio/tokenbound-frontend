@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { IWalletModal } from "../../../types";
+import { IWalletModal } from "types";
 import { useConnect, Connector, useAccount } from "@starknet-react/core";
 import WalletIcons from "../WalletIcon/page";
 

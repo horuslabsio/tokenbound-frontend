@@ -2,7 +2,7 @@
 import { useAccount, useDisconnect } from "@starknet-react/core";
 import React from "react";
 import { toast } from "react-toastify";
-import { copyToClipBoard,shortenAddress } from "../../../utils/helper";
+import { copyToClipBoard,shortenAddress } from "@utils/helper";
 function Disconnect() {
   const { address } = useAccount();
   const { disconnect } = useDisconnect();

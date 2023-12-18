@@ -1,18 +1,18 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import STBA from "../../../../public/starknet.jpeg";
-import { navItems } from "../../../../static";
-import ConnectedNavBar from "@/components/Connected";
+import STBA from "@public/starknet.jpeg";
+import { navItems } from "@static/index";
+import ConnectedNavBar from "@components/Connected";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import ConnectWallet from "@/components/ConnectWallet/page";
+import ConnectWallet from "@components/ConnectWallet/page";
 import { useAccount } from "@starknet-react/core";
 import Link from "next/link";
 
 function NavBar() {
-  const { isConnected, account } = useAccount();
+  const {  account } = useAccount();
   // state for hamburger modal
   let [isOpen, setIsOpen] = useState(false);
 
