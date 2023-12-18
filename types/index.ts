@@ -55,4 +55,4 @@ export type WalletIconsProps = {
     tokenUri: string;
     metadata: { image: string };
     error: null;
-  };
+  }
