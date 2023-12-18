@@ -41,8 +41,6 @@ function Assets() {
     }
   };
 
-
-
   return (
     <AppWrapper>
       {

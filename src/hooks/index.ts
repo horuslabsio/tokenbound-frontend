@@ -90,7 +90,7 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   useEffect(() => {
     const accountAddress = async() => {
       const provider = new RpcProvider({
-        nodeUrl: `https://starknet-goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
+        nodeUrl: `https://${network}.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
       })
       const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
   
@@ -112,6 +112,34 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   }, [])
 
   return deployedAccount
+}
+
+export const deployAccount = (contractAddress: string, tokenId: string): boolean => {
+  const [ success, setSuccess ] = useState<boolean>(false)
+  const { account } = useAccount()
+
+  useEffect(() => {
+    const deploy = async() => {
+      const contract = new Contract(TBAcontractAbi, TBAcontractAddress, account)
+  
+      try{
+        await contract.create_account(
+          TBAImplementationAccount,
+          generate_pub_key(contractAddress),
+          contractAddress,
+          tokenId,
+          3000000000
+        )
+        setSuccess(true)
+      }
+      catch(err) {
+        console.log(err)
+      }
+    }
+    deploy()
+  }, [])
+
+  return success
 }
 
 export const generate_pub_key = (privKey: string) => {
