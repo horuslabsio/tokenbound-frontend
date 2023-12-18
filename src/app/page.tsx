@@ -1,5 +1,5 @@
-import AppWrapper from "@/components/AppWrapper";
-import { FAQ } from "../../static";
+import AppWrapper from "@components/AppWrapper";
+import { FAQ } from "@static/index";
 
 
 export default function Home() {

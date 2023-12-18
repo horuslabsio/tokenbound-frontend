@@ -1,7 +1,7 @@
 import React from "react"
 import Image from "next/image"
-import STBA from "../../../../public/starknet.jpeg"
-import { navItems } from "../../../../static";
+import STBA from "@public/starknet.jpeg"
+import { navItems } from "@static/index";
 
 function Footer() {
   const currentYear = new Date().getFullYear();

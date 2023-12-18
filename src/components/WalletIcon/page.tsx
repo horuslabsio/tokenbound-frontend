@@ -1,7 +1,7 @@
 import React from "react";
 import { FunctionComponent } from "react";
-import styles from "../../app/styles/icon.module.css";
-import {WalletIconsProps} from "../../../types/index"
+import styles from "@app/styles/icon.module.css";
+import {WalletIconsProps} from "types/index"
 
 const WalletIcons: FunctionComponent<WalletIconsProps> = ({ id }) => {
   if (id === "argentX" || id == "argentWebWallet")

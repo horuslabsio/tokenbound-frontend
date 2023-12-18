@@ -1,11 +1,11 @@
 "use client"
 
-import AppWrapper from "@/components/AppWrapper";
+import AppWrapper from "components/AppWrapper";
 import React from "react";
 import { BiCopyAlt } from "react-icons/bi";
-import Card from "@/components/Card/page";
+import Card from "@components/Card/page";
 import { useAccount } from "@starknet-react/core";
-import { copyToClipBoard } from "../../../../utils/helper";
+import { copyToClipBoard } from "@utils/helper";
 import { toast } from "react-toastify";
 
 

@@ -1,6 +1,6 @@
 "use client";
 import React, { Fragment, useState } from "react";
-import { shortenAddress } from "../../../utils/helper";
+import { shortenAddress } from "@utils/helper";
 import Link from "next/link";
 import { useAccount } from "@starknet-react/core";
 import { Transition, Dialog } from "@headlessui/react";

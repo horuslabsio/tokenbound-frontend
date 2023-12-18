@@ -1,0 +1,2 @@
+export const TBAcontractAddress:string = "0x057cf5b3ac51e9ab1735f0720425d3889ac500fc8deac6567ad8163fd210aa92"
+export const TBAImplementationAccount:string = "0xe01784f9a93db5171ed32eaee0610326969980ecbcc4325753428d8227b96b"
