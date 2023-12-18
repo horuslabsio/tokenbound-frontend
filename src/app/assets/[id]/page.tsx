@@ -2,22 +2,43 @@
 import AppWrapper from "@/components/AppWrapper";
 import Image from "next/image";
 import React, { useState } from "react";
-import zeus from "../../../../public/zeus.jpg";
-import { BiCopyAlt } from "react-icons/bi";
-import { FaGem, FaCoins } from "react-icons/fa";
-import { useFetchNFTMetadata, computeAccountAddress } from "@/hooks";
+import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
+import { useFetchNFTMetadata, generate_pub_key, computeAccountAddress, TBAImplementationAccount, TBAcontractAddress } from "@/hooks";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
 import { copyToClipBoard, shortenAddress } from "../../../../utils/helper";
 import { toast } from "react-toastify";
+import { useAccount, useNetwork } from "@starknet-react/core";
+import { Contract } from "starknet"
+
+import TBAcontractAbi from "../../../abis/registry.abi.json"
 
 function Assets() {
+  const { account } = useAccount()
+  const { chain } = useNetwork()
   const [isCollectible, setIsCollectible] = useState(false)
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible)
   };
 
+  // set explorer url and nft api based on chain
+  let url
+  let network
+  if(chain.network == "mainnet") {
+    url = "https://starkscan.co"
+    network = 'starknet-goerli'
+  }
+  else if(chain.network == "sepolia") {
+    url = "https://sepolia.starkscan.co"
+    network = 'starknet-mainnet'
+  }
+  else {
+    url = "https://testnet.starkscan.co"
+    network = 'starknet-sepolia'
+  }
+
+  // get contractAddress and tokenId from Id param
   let { id } = useParams()
   let contractAddress = id.slice(0, 65) as string
   let tokenId = id.slice(65) as string
@@ -41,6 +62,24 @@ function Assets() {
     }
   };
 
+  const deployAccount = async() => {
+    const contract = new Contract(TBAcontractAbi, TBAcontractAddress, account)
+    try{
+      await contract.create_account(
+        TBAImplementationAccount,
+        generate_pub_key(contractAddress),
+        contractAddress,
+        tokenId,
+        3000000000
+      )
+      toast.info("Account was deployed successfully!")
+    }
+    catch(err) {
+      console.log(err)
+      toast.error("An error was encountered during the course of deployment!")
+    }
+  }
+
   return (
     <AppWrapper>
       {
@@ -59,13 +98,13 @@ function Assets() {
                   <div>
                   <p className="inline-flex items-center p-[5px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110" title="Tokenbound account address">
                     <span onClick={() => copyToClipBoardHandler(deployedAddress as string)} className="text-gray-400">{shortenAddress(deployedAddress as string)}</span>
-                    <span className="ml-1">
-                      <BiCopyAlt />
+                    <span className="ml-3">
+                      <a href={`${url}/contract/${deployedAddress}`} target="__blank"><FaArrowAltCircleRight size={25} /></a>
                     </span>
                   </p>
                 </div>
                 <div>
-                  <button className="bg-black text-white font-normal outline-none px-2 py-1 rounded-lg">Deploy Account</button>
+                  <button className="bg-black text-white font-normal outline-none px-2 py-1 rounded-lg" onClick={deployAccount}>Deploy Account</button>
                 </div>
                 </div>
                 <div>

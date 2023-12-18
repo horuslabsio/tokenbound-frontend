@@ -5,8 +5,8 @@ import { NftItem, raw } from "../../types";
 import { ec, stark, Contract, RpcProvider, num } from "starknet";
 
 import TBAcontractAbi from "../abis/registry.abi.json"
-const TBAcontractAddress = "0x057cf5b3ac51e9ab1735f0720425d3889ac500fc8deac6567ad8163fd210aa92"
-const TBAImplementationAccount = "0xe01784f9a93db5171ed32eaee0610326969980ecbcc4325753428d8227b96b"
+export const TBAcontractAddress = "0x057cf5b3ac51e9ab1735f0720425d3889ac500fc8deac6567ad8163fd210aa92"
+export const TBAImplementationAccount = "0xe01784f9a93db5171ed32eaee0610326969980ecbcc4325753428d8227b96b"
 
 const network = 'starknet-goerli'
 
@@ -112,34 +112,6 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   }, [])
 
   return deployedAccount
-}
-
-export const deployAccount = (contractAddress: string, tokenId: string): boolean => {
-  const [ success, setSuccess ] = useState<boolean>(false)
-  const { account } = useAccount()
-
-  useEffect(() => {
-    const deploy = async() => {
-      const contract = new Contract(TBAcontractAbi, TBAcontractAddress, account)
-  
-      try{
-        await contract.create_account(
-          TBAImplementationAccount,
-          generate_pub_key(contractAddress),
-          contractAddress,
-          tokenId,
-          3000000000
-        )
-        setSuccess(true)
-      }
-      catch(err) {
-        console.log(err)
-      }
-    }
-    deploy()
-  }, [])
-
-  return success
 }
 
 export const generate_pub_key = (privKey: string) => {
