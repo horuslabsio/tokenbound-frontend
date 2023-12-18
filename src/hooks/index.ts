@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import { instance } from "../../utils/helper";
 import { useAccount } from "@starknet-react/core";
 import { NftItem, raw } from "../../types";
+import { ec, stark, Contract, RpcProvider } from "starknet";
+
+import TBAcontractAbi from "../abis/registry.abi.json"
+const TBAcontractAddress = "0x057cf5b3ac51e9ab1735f0720425d3889ac500fc8deac6567ad8163fd210aa92"
+const TBAImplementationAccount = "0xe01784f9a93db5171ed32eaee0610326969980ecbcc4325753428d8227b96b"
+
+const network = 'starknet-goerli'
 
 export const useFetchUserNFT = () => {
   const { address, account } = useAccount()
@@ -18,7 +25,9 @@ export const useFetchUserNFT = () => {
           return
         }
 
-        const url = `https://starknet-mainnet.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${formatted_address}&withMetadata=true&pageSize=100`
+        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${formatted_address}&withMetadata=true&pageSize=100`
+
+        console.log(network)
 
         const response = await instance.get(url)
         const { data } = await response
@@ -53,7 +62,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
           setLoading(false)
           return
         }
-        const url = `https://starknet-mainnet.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${formatted_address}&tokenId=${id}&tokenType=ERC721`
+        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${formatted_address}&tokenId=${id}&tokenType=ERC721`
 
         const response = await instance.get(url)
         const { data } = await response
@@ -73,4 +82,40 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
     nft,
     loading
   }
+}
+
+export const computeAccountAddress = (contractAddress: string, tokenId: string) => {
+  const [ deployedAccount, setDeployedAccount ] = useState<string>('')
+
+  useEffect(() => {
+    const accountAddress = async() => {
+      const provider = new RpcProvider({
+        nodeUrl: `https://starknet-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
+      })
+      const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
+  
+      try{
+        const deployedAccount = await contract.get_account(
+          TBAImplementationAccount,
+          generate_pub_key(contractAddress),
+          contractAddress,
+          tokenId,
+          3000000000
+        )
+        setDeployedAccount(deployedAccount)
+      }
+      catch(err) {
+        console.log(err)
+      }
+    }
+    accountAddress()
+  }, [])
+
+  return deployedAccount
+}
+
+export const generate_pub_key = (privKey: string) => {
+  // const privKey = stark.randomAddress()
+  const starknetPublicKey = ec.starkCurve.getStarkKey(privKey)
+  return starknetPublicKey
 }

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import zeus from "../../../../public/zeus.jpg";
 import { BiCopyAlt } from "react-icons/bi";
 import { FaGem, FaCoins } from "react-icons/fa";
-import { useFetchNFTMetadata } from "@/hooks";
+import { useFetchNFTMetadata, generate_pub_key } from "@/hooks";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
@@ -13,26 +13,15 @@ import { copyToClipBoard, shortenAddress } from "../../../../utils/helper";
 import { toast } from "react-toastify";
 
 function Assets() {
-  const [isCollectible, setIsCollectible] = useState(false);
+  const [isCollectible, setIsCollectible] = useState(false)
+  const toggleContent = () => {
+    setIsCollectible((prevIsCollectible) => !prevIsCollectible)
+  };
 
   let { id } = useParams()
   let contractAddress = id.slice(0, 65) as string
   let tokenId = id.slice(65) as string
-
   const { nft, loading } = useFetchNFTMetadata(contractAddress, tokenId)
-
-  const toggleContent = () => {
-    setIsCollectible((prevIsCollectible) => !prevIsCollectible);
-  };
-
-  const copyToClipBoardHandler = async (text: string) => {
-    const success = await copyToClipBoard(text);
-    if (success) {
-      toast.info(`Copied to clipboard:  ${text}`);
-    } else {
-      toast.error("Not Copied");
-    }
-  };
 
   const override: CSSProperties = {
     display: "block",
@@ -41,6 +30,17 @@ function Assets() {
   };
 
   const src = nft.metadata.image
+
+  const copyToClipBoardHandler = async (text: string) => {
+    const success = await copyToClipBoard(text)
+    if (success) {
+      toast.info(`Copied to clipboard:  ${text}`)
+    } else {
+      toast.error("Not Copied")
+    }
+  };
+
+
 
   return (
     <AppWrapper>
@@ -58,7 +58,7 @@ function Assets() {
               <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-center">
                   <div>
-                  <p className="inline-flex items-center p-[5px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110">
+                  <p className="inline-flex items-center p-[5px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110" title="Tokenbound account address">
                     <span onClick={() => copyToClipBoardHandler(contractAddress as string)} className="text-gray-400">{shortenAddress(contractAddress as string)}</span>
                     <span className="ml-1">
                       <BiCopyAlt />
@@ -106,8 +106,6 @@ function Assets() {
                 </div>
               </div>
             </div>
-            {/* <p className="ml-4">Text below the image</p> */}
-
           </section>
         )
       }

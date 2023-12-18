@@ -1,0 +1,145 @@
+[
+    {
+      "name": "IRegistryImpl",
+      "type": "impl",
+      "interface_name": "token_bound_accounts::registry::registry::IRegistry"
+    },
+    {
+      "name": "core::integer::u256",
+      "type": "struct",
+      "members": [
+        {
+          "name": "low",
+          "type": "core::integer::u128"
+        },
+        {
+          "name": "high",
+          "type": "core::integer::u128"
+        }
+      ]
+    },
+    {
+      "name": "token_bound_accounts::registry::registry::IRegistry",
+      "type": "interface",
+      "items": [
+        {
+          "name": "create_account",
+          "type": "function",
+          "inputs": [
+            {
+              "name": "implementation_hash",
+              "type": "core::felt252"
+            },
+            {
+              "name": "public_key",
+              "type": "core::felt252"
+            },
+            {
+              "name": "token_contract",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "token_id",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "salt",
+              "type": "core::felt252"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ],
+          "state_mutability": "external"
+        },
+        {
+          "name": "get_account",
+          "type": "function",
+          "inputs": [
+            {
+              "name": "implementation_hash",
+              "type": "core::felt252"
+            },
+            {
+              "name": "public_key",
+              "type": "core::felt252"
+            },
+            {
+              "name": "token_contract",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "token_id",
+              "type": "core::integer::u256"
+            },
+            {
+              "name": "salt",
+              "type": "core::felt252"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "name": "total_deployed_accounts",
+          "type": "function",
+          "inputs": [
+            {
+              "name": "token_contract",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "token_id",
+              "type": "core::integer::u256"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "core::integer::u8"
+            }
+          ],
+          "state_mutability": "view"
+        }
+      ]
+    },
+    {
+      "kind": "struct",
+      "name": "token_bound_accounts::registry::registry::Registry::AccountCreated",
+      "type": "event",
+      "members": [
+        {
+          "kind": "data",
+          "name": "account_address",
+          "type": "core::starknet::contract_address::ContractAddress"
+        },
+        {
+          "kind": "data",
+          "name": "token_contract",
+          "type": "core::starknet::contract_address::ContractAddress"
+        },
+        {
+          "kind": "data",
+          "name": "token_id",
+          "type": "core::integer::u256"
+        }
+      ]
+    },
+    {
+      "kind": "enum",
+      "name": "token_bound_accounts::registry::registry::Registry::Event",
+      "type": "event",
+      "variants": [
+        {
+          "kind": "nested",
+          "name": "AccountCreated",
+          "type": "token_bound_accounts::registry::registry::Registry::AccountCreated"
+        }
+      ]
+    }
+  ]
