@@ -9,34 +9,18 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
 import { copyToClipBoard, shortenAddress } from "../../../../utils/helper";
 import { toast } from "react-toastify";
-import { useAccount, useNetwork } from "@starknet-react/core";
+import { useAccount } from "@starknet-react/core";
 import { Contract } from "starknet"
 
 import TBAcontractAbi from "../../../abis/registry.abi.json"
 
 function Assets() {
   const { account } = useAccount()
-  const { chain } = useNetwork()
   const [isCollectible, setIsCollectible] = useState(false)
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible)
   };
-
-  // set explorer url and nft api based on chain
-  let url
-  let network
-  if(chain.network == "mainnet") {
-    url = "https://starkscan.co"
-    network = 'starknet-goerli'
-  }
-  else if(chain.network == "sepolia") {
-    url = "https://sepolia.starkscan.co"
-    network = 'starknet-mainnet'
-  }
-  else {
-    url = "https://testnet.starkscan.co"
-    network = 'starknet-sepolia'
-  }
+  const url = process.env.NEXT_PUBLIC_EXPLORER
 
   // get contractAddress and tokenId from Id param
   let { id } = useParams()

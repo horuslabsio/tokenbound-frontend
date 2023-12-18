@@ -8,7 +8,7 @@ import TBAcontractAbi from "../abis/registry.abi.json"
 export const TBAcontractAddress = "0x057cf5b3ac51e9ab1735f0720425d3889ac500fc8deac6567ad8163fd210aa92"
 export const TBAImplementationAccount = "0xe01784f9a93db5171ed32eaee0610326969980ecbcc4325753428d8227b96b"
 
-const network = 'starknet-goerli'
+const network = process.env.NEXT_PUBLIC_NETWORK
 
 export const useFetchUserNFT = () => {
   const { address, account } = useAccount()
@@ -90,7 +90,7 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   useEffect(() => {
     const accountAddress = async() => {
       const provider = new RpcProvider({
-        nodeUrl: `https://${network}.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
+        nodeUrl: `https://starknet-goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
       })
       const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
   
