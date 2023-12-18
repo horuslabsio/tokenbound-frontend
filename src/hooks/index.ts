@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { instance } from "../../utils/helper";
 import { useAccount } from "@starknet-react/core";
 import { NftItem, raw } from "../../types";
-import { ec, stark, Contract, RpcProvider } from "starknet";
+import { ec, stark, Contract, RpcProvider, num } from "starknet";
 
 import TBAcontractAbi from "../abis/registry.abi.json"
 const TBAcontractAddress = "0x057cf5b3ac51e9ab1735f0720425d3889ac500fc8deac6567ad8163fd210aa92"
@@ -84,13 +84,13 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
   }
 }
 
-export const computeAccountAddress = (contractAddress: string, tokenId: string) => {
+export const computeAccountAddress = (contractAddress: string, tokenId: string): string => {
   const [ deployedAccount, setDeployedAccount ] = useState<string>('')
 
   useEffect(() => {
     const accountAddress = async() => {
       const provider = new RpcProvider({
-        nodeUrl: `https://starknet-mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
+        nodeUrl: `https://starknet-goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
       })
       const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
   
@@ -102,7 +102,7 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string) 
           tokenId,
           3000000000
         )
-        setDeployedAccount(deployedAccount)
+        setDeployedAccount(num.toHex(deployedAccount))
       }
       catch(err) {
         console.log(err)
