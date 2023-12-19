@@ -118,3 +118,11 @@ export const generate_pub_key = (privKey: string) => {
   const starknetPublicKey = ec.starkCurve.getStarkKey(privKey)
   return starknetPublicKey
 }
+
+
+// export const useTokenBalance = (address:string) =>{
+//   const provider = new RpcProvider({
+//     nodeUrl: `https://starknet-goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
+//   })
+//   const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
+// }

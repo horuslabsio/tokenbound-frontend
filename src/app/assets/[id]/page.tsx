@@ -11,6 +11,7 @@ import { copyToClipBoard, shortenAddress } from "@utils/helper";
 import { toast } from "react-toastify";
 import { useAccount } from "@starknet-react/core";
 import { Contract } from "starknet"
+import FungibleAsset from "@components/Assets/index"
 
 import TBAcontractAbi from "@abis/registry.abi.json"
 import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
@@ -76,9 +77,6 @@ function Assets() {
                 <div className="w-full md:w-1/2 mb-4 md:mb-0 mr-4">
                   {" "}
                   <Image className="w-full h-auto md:h-full rounded-lg object-cover" loader={() => src} src={src} width={100} height={100} alt="Card Image" />
-                {/* <div className="mt-2">
-                <h2 className="font-bold text-black">Ademola</h2>
-                </div> */}
                 </div>
                 <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-lg">
                   <div className="flex justify-between items-center">
@@ -127,7 +125,7 @@ function Assets() {
                         </button>
                       </div>
                     </div>
-                    {isCollectible ? <p>No collectible</p> : <p>No assets</p>}{" "}
+                    {isCollectible ? <p>No collectible</p> : <FungibleAsset/>}{" "}
                   </div>
                 </div>
               </div>
