@@ -35,7 +35,7 @@ const Card = () => {
         <SyncLoader cssOverride={override} aria-label="Loading Spinner" size={50} color="#36d7b7" />
       }
       {
-        !nft ? <p className="text-red-500">No NFT to display</p> :
+        nft.length == 0 ? <p className="text-red-500">No NFT to display</p> :
           nft.map((item, index) => (
             <Link href={`/assets/${item.contract.address}${item.tokenId}`} key={index} >
               <div className="h-full rounded overflow-hidden shadow-lg">
