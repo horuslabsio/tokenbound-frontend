@@ -36,6 +36,7 @@ function Assets() {
   };
 
   const src = nft.metadata.image
+
   const deployedAddress = computeAccountAddress(contractAddress, tokenId)
 
   const copyToClipBoardHandler = async (text: string) => {
