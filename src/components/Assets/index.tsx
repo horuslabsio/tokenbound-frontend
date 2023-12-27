@@ -37,6 +37,9 @@ function Asset() {
     args: [address!],
     watch: true
   })
+
+
+  
   // @ts-ignore
   let ETH_BALANCE = eth?.balance?.low.toString() / 1e18;
   // @ts-ignore

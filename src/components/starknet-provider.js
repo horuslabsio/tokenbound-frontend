@@ -7,7 +7,7 @@ import { StarknetConfig,alchemyProvider } from "@starknet-react/core";
 import { goerli, mainnet } from "@starknet-react/chains"
 
 export default function StarknetProvider({ children}) {
-  const chains = [goerli, mainnet]
+  const chains = [mainnet]
   const providers = [alchemyProvider({
     apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
   })];
