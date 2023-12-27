@@ -2,7 +2,7 @@
     {
       "name": "IRegistryImpl",
       "type": "impl",
-      "interface_name": "token_bound_accounts::registry::registry::IRegistry"
+      "interface_name": "token_bound_accounts::interfaces::IRegistry::IRegistry"
     },
     {
       "name": "core::integer::u256",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "name": "token_bound_accounts::registry::registry::IRegistry",
+      "name": "token_bound_accounts::interfaces::IRegistry::IRegistry",
       "type": "interface",
       "items": [
         {
@@ -28,10 +28,6 @@
           "inputs": [
             {
               "name": "implementation_hash",
-              "type": "core::felt252"
-            },
-            {
-              "name": "public_key",
               "type": "core::felt252"
             },
             {
@@ -60,10 +56,6 @@
           "inputs": [
             {
               "name": "implementation_hash",
-              "type": "core::felt252"
-            },
-            {
-              "name": "public_key",
               "type": "core::felt252"
             },
             {

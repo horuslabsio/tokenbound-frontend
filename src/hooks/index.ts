@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { instance } from "@utils/helper";
 import { useAccount } from "@starknet-react/core";
 import { NftItem, raw } from "types";
-import { ec, stark, Contract, RpcProvider, num } from "starknet";
+import { Contract, RpcProvider, num } from "starknet";
 
 import TBAcontractAbi from "@abis/registry.abi.json"
 import { TBAcontractAddress,TBAImplementationAccount } from "@utils/constants";
@@ -89,14 +89,13 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   useEffect(() => {
     const accountAddress = async() => {
       const provider = new RpcProvider({
-        nodeUrl: `https://starknet-goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
+        nodeUrl: `https://${network}.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
       })
       const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
   
       try{
         const deployedAccount = await contract.get_account(
           TBAImplementationAccount,
-          generate_pub_key(contractAddress),
           contractAddress,
           tokenId,
           3000000000
@@ -112,17 +111,3 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
 
   return deployedAccount
 }
-
-export const generate_pub_key = (privKey: string) => {
-  // const privKey = stark.randomAddress()
-  const starknetPublicKey = ec.starkCurve.getStarkKey(privKey)
-  return starknetPublicKey
-}
-
-
-// export const useTokenBalance = (address:string) =>{
-//   const provider = new RpcProvider({
-//     nodeUrl: `https://starknet-goerli.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
-//   })
-//   const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
-// }
