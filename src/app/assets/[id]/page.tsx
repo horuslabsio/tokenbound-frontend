@@ -39,6 +39,7 @@ function Assets() {
   const src = nft.metadata.image
 
   const deployedAddress = computeAccountAddress(contractAddress, tokenId)
+  console.log('deployed address',deployedAddress)
 
   const copyToClipBoardHandler = async (text: string) => {
     const success = await copyToClipBoard(text)
