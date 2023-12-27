@@ -3,7 +3,7 @@ import AppWrapper from "@components/AppWrapper";
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
-import { useFetchNFTMetadata, generate_pub_key, computeAccountAddress } from "@hooks/index";
+import { useFetchNFTMetadata, computeAccountAddress } from "@hooks/index";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
@@ -15,15 +15,16 @@ import FungibleAsset from "@components/Assets/index"
 
 import TBAcontractAbi from "@abis/registry.abi.json"
 import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
+
+const url = process.env.NEXT_PUBLIC_EXPLORER
+
 function Assets() {
   const { account } = useAccount()
   const [isCollectible, setIsCollectible] = useState(false)
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible)
   };
-  const url = process.env.NEXT_PUBLIC_EXPLORER
 
-  // get contractAddress and tokenId from Id param
   let { id } = useParams()
   let contractAddress = id.slice(0, 65) as string
   let tokenId = id.slice(65) as string
@@ -53,7 +54,6 @@ function Assets() {
     try {
       await contract.create_account(
         TBAImplementationAccount,
-        generate_pub_key(contractAddress),
         contractAddress,
         tokenId,
         3000000000
