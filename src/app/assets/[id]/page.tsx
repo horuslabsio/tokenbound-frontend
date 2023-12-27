@@ -1,7 +1,7 @@
 "use client";
 import AppWrapper from "@components/AppWrapper";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
 import { useFetchNFTMetadata, computeAccountAddress } from "@hooks/index";
 import { useParams } from "next/navigation";
@@ -15,11 +15,12 @@ import FungibleAsset from "@components/Assets/index"
 
 import TBAcontractAbi from "@abis/registry.abi.json"
 import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
+import { RpcProvider } from "starknet"
 
 const url = process.env.NEXT_PUBLIC_EXPLORER
 
 function Assets() {
-  const { account } = useAccount()
+  const { account, address } = useAccount()
   const [isCollectible, setIsCollectible] = useState(false)
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible)
@@ -39,7 +40,7 @@ function Assets() {
   const src = nft.metadata.image
 
   const deployedAddress = computeAccountAddress(contractAddress, tokenId)
-  console.log('deployed address',deployedAddress)
+
 
   const copyToClipBoardHandler = async (text: string) => {
     const success = await copyToClipBoard(text)
@@ -67,6 +68,19 @@ function Assets() {
     }
   }
 
+  const [contractHash, setContractHash] = useState("")
+
+  const rpcProvider = new RpcProvider({ nodeUrl: `https://starknet-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
+
+  const getContractHash = async () => {
+    const contractHashResult = await rpcProvider.getClassHashAt(deployedAddress)
+    setContractHash(contractHashResult)
+  }
+
+  useEffect(() => {
+    getContractHash()
+  }, [address])
+
   return (
     <AppWrapper>
       {
@@ -91,7 +105,10 @@ function Assets() {
                       </p>
                     </div>
                     <div>
-                      <button className="bg-black text-white font-normal outline-none px-2 py-1 rounded-lg" onClick={deployAccount}>Deploy Account</button>
+                      {
+                        contractHash ? <button disabled={!!contractHash} className={`${'bg-gray-500'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
+
+                      }
                     </div>
                   </div>
                   <div>
@@ -127,7 +144,7 @@ function Assets() {
                         </button>
                       </div>
                     </div>
-                    {isCollectible ? <p>No collectible</p> : <FungibleAsset/>}{" "}
+                    {isCollectible ? <p>No collectible</p> : <FungibleAsset tokenboundaddress={deployedAddress} />}{" "}
                   </div>
                 </div>
               </div>
