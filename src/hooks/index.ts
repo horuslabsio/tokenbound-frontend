@@ -89,7 +89,7 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   useEffect(() => {
     const accountAddress = async() => {
       const provider = new RpcProvider({
-        nodeUrl: `https://${network}.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
+        nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
       })
       const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
   
@@ -110,4 +110,26 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   }, [])
 
   return deployedAccount
+}
+
+export const accountDeploymentStatus = (contractAddress: string, tokenId: string): string => {
+  const [contractHash, setContractHash] = useState<string>("")
+  const deployedAddress = computeAccountAddress(contractAddress, tokenId)
+
+  useEffect(() => {
+    const rpcProvider = new RpcProvider({ nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
+
+    const getContractHash = async () => {
+      try{
+        const contractHashResult = await rpcProvider.getClassHashAt(deployedAddress)
+        setContractHash(contractHashResult)
+      }
+      catch (err) {
+        return ''
+      }
+    }
+    getContractHash()
+  }, [deployedAddress])
+  
+  return contractHash
 }
