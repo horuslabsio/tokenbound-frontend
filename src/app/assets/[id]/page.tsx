@@ -73,13 +73,14 @@ function Assets() {
   const rpcProvider = new RpcProvider({ nodeUrl: `https://starknet-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
 
   const getContractHash = async () => {
-    const contractHashResult = await rpcProvider.getClassHashAt(deployedAddress)
-    setContractHash(contractHashResult)
+    if (!deployedAddress) {
+      return;
+    } else {
+      const contractHashResult = await rpcProvider.getClassHashAt(deployedAddress)
+      setContractHash(contractHashResult)
+    }
   }
-
-  useEffect(() => {
-    getContractHash()
-  }, [address])
+  getContractHash()
 
   return (
     <AppWrapper>
@@ -106,7 +107,7 @@ function Assets() {
                     </div>
                     <div>
                       {
-                        contractHash ? <button disabled={!!contractHash} className={`${'bg-gray-500'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
+                        contractHash ? <button disabled={!!contractHash} className={`${'bg-gray-500'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>TBA Deployed</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
 
                       }
                     </div>
