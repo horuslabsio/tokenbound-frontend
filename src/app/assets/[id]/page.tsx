@@ -3,7 +3,7 @@ import AppWrapper from "@components/AppWrapper";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
-import { useFetchNFTMetadata, computeAccountAddress } from "@hooks/index";
+import { useFetchNFTMetadata, computeAccountAddress, accountDeploymentStatus } from "@hooks/index";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
@@ -15,12 +15,11 @@ import FungibleAsset from "@components/Assets/index"
 
 import TBAcontractAbi from "@abis/registry.abi.json"
 import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
-import { RpcProvider } from "starknet"
 
 const url = process.env.NEXT_PUBLIC_EXPLORER
 
 function Assets() {
-  const { account, address } = useAccount()
+  const { account } = useAccount()
   const [isCollectible, setIsCollectible] = useState(false)
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible)
@@ -29,18 +28,17 @@ function Assets() {
   let { id } = useParams()
   let contractAddress = id.slice(0, 65) as string
   let tokenId = id.slice(65) as string
+
   const { nft, loading } = useFetchNFTMetadata(contractAddress, tokenId)
+  const deployedAddress = computeAccountAddress(contractAddress, tokenId)
+  const deploymentStatus = accountDeploymentStatus(contractAddress, tokenId)
+  const src = nft.metadata.image
 
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
     textAlign: 'center'
   };
-
-  const src = nft.metadata.image
-
-  const deployedAddress = computeAccountAddress(contractAddress, tokenId)
-
 
   const copyToClipBoardHandler = async (text: string) => {
     const success = await copyToClipBoard(text)
@@ -68,20 +66,6 @@ function Assets() {
     }
   }
 
-  const [contractHash, setContractHash] = useState("")
-
-  const rpcProvider = new RpcProvider({ nodeUrl: `https://starknet-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
-
-  const getContractHash = async () => {
-    if (!deployedAddress) {
-      return;
-    } else {
-      const contractHashResult = await rpcProvider.getClassHashAt(deployedAddress)
-      setContractHash(contractHashResult)
-    }
-  }
-  getContractHash()
-
   return (
     <AppWrapper>
       {
@@ -107,7 +91,7 @@ function Assets() {
                     </div>
                     <div>
                       {
-                        contractHash ? <button disabled={!!contractHash} className={`${'bg-gray-500'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>TBA Deployed</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
+                        deploymentStatus ? <button disabled={!!deploymentStatus} className={`${'bg-gray-500'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>TBA Deployed</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
 
                       }
                     </div>
