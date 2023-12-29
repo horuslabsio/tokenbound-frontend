@@ -5,7 +5,7 @@ import { NftItem, raw } from "types";
 import { Contract, RpcProvider, num } from "starknet";
 
 import TBAcontractAbi from "@abis/registry.abi.json"
-import { TBAcontractAddress,TBAImplementationAccount,daAsset } from "@utils/constants";
+import { TBAcontractAddress,TBAImplementationAccount } from "@utils/constants";
 
 const network = process.env.NEXT_PUBLIC_NETWORK
 
@@ -83,7 +83,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
   }
 }
 
-export const computeAccountAddress = (contractAddress: string, tokenId: string): string => {
+export const useComputeAccountAddress = (contractAddress: string, tokenId: string): string => {
   const [ deployedAccount, setDeployedAccount ] = useState<string>('')
 
   useEffect(() => {
@@ -112,9 +112,9 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   return deployedAccount
 }
 
-export const accountDeploymentStatus = (contractAddress: string, tokenId: string): string => {
+export const useAccountDeploymentStatus = (contractAddress: string, tokenId: string): string => {
   const [contractHash, setContractHash] = useState<string>("")
-  const deployedAddress = computeAccountAddress(contractAddress, tokenId)
+  const deployedAddress = useComputeAccountAddress(contractAddress, tokenId)
 
   useEffect(() => {
     const rpcProvider = new RpcProvider({ nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
@@ -136,10 +136,9 @@ export const accountDeploymentStatus = (contractAddress: string, tokenId: string
 
 
 export const useTBAAsset = (tokenBoundAddress:string) => {
-  const { address, account } = useAccount()
+  const { address } = useAccount()
   const [tbanft, setTbaNft] = useState<NftItem[]>([])
   const [loadingTba, setTbaLoading] = useState<boolean>(true)
- // let formatted_address = account?.address.replace('0x', '0x0') 
 
   useEffect(() => {
     const fetchData = async () => {
