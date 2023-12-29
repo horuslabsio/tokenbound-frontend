@@ -3,7 +3,7 @@ import AppWrapper from "@components/AppWrapper";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
-import { useFetchNFTMetadata, computeAccountAddress, accountDeploymentStatus } from "@hooks/index";
+import { useFetchNFTMetadata, useComputeAccountAddress, useAccountDeploymentStatus } from "@hooks/index";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
@@ -31,8 +31,8 @@ function Assets() {
   let tokenId = id.slice(65) as string
 
   const { nft, loading } = useFetchNFTMetadata(contractAddress, tokenId)
-  const deployedAddress = computeAccountAddress(contractAddress, tokenId)
-  const deploymentStatus = accountDeploymentStatus(contractAddress, tokenId)
+  const deployedAddress = useComputeAccountAddress(contractAddress, tokenId)
+  const deploymentStatus = useAccountDeploymentStatus(contractAddress, tokenId)
   const src = nft.metadata.image
 
   const override: CSSProperties = {

@@ -83,7 +83,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
   }
 }
 
-export const computeAccountAddress = (contractAddress: string, tokenId: string): string => {
+export const useComputeAccountAddress = (contractAddress: string, tokenId: string): string => {
   const [ deployedAccount, setDeployedAccount ] = useState<string>('')
 
   useEffect(() => {
@@ -112,9 +112,9 @@ export const computeAccountAddress = (contractAddress: string, tokenId: string):
   return deployedAccount
 }
 
-export const accountDeploymentStatus = (contractAddress: string, tokenId: string): string => {
+export const useAccountDeploymentStatus = (contractAddress: string, tokenId: string): string => {
   const [contractHash, setContractHash] = useState<string>("")
-  const deployedAddress = computeAccountAddress(contractAddress, tokenId)
+  const deployedAddress = useComputeAccountAddress(contractAddress, tokenId)
 
   useEffect(() => {
     const rpcProvider = new RpcProvider({ nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
