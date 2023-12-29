@@ -5,7 +5,7 @@ import { NftItem, raw } from "types";
 import { Contract, RpcProvider, num } from "starknet";
 
 import TBAcontractAbi from "@abis/registry.abi.json"
-import { TBAcontractAddress,TBAImplementationAccount,daAsset } from "@utils/constants";
+import { TBAcontractAddress,TBAImplementationAccount } from "@utils/constants";
 
 const network = process.env.NEXT_PUBLIC_NETWORK
 
@@ -136,10 +136,9 @@ export const accountDeploymentStatus = (contractAddress: string, tokenId: string
 
 
 export const useTBAAsset = (tokenBoundAddress:string) => {
-  const { address, account } = useAccount()
+  const { address } = useAccount()
   const [tbanft, setTbaNft] = useState<NftItem[]>([])
   const [loadingTba, setTbaLoading] = useState<boolean>(true)
- // let formatted_address = account?.address.replace('0x', '0x0') 
 
   useEffect(() => {
     const fetchData = async () => {

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.16",
+    "@netlify/plugin-nextjs": "^4.41.3",
     "@starknet-react/chains": "^0.1.0-next.0",
     "@starknet-react/core": "^2.0.0-next.0",
     "@types/axios": "^0.14.0",
