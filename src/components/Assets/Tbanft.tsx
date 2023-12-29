@@ -42,11 +42,11 @@ const TBANFT = ({tba}:Itba) => {
           tbanft.map((item, index) => (
             <Link href={`/assets/${item.contract.address}${item.tokenId}`} key={index} >
               <div className="h-full rounded overflow-hidden shadow-lg">
-                <img className="w-full" src={item?.image.pngUrl} alt="Card Image" />
+                <img className="w-full object-contain"  src={item?.image.pngUrl} alt="Card Image" />
 
                 <div className="px-6 py-4 bg-white">
-                  <div className="font-bold text-xl mb-2">{item.name}</div>
-                  <div className="font-normal text-xl mb-2">{item.description.slice(0, 60)}...</div>
+                  {/* <div className="font-bold text-xl mb-2">{item.name}</div> */}
+                  {/* <div className="font-normal text-xl mb-2">{item.description.slice(0, 60)}...</div> */}
 
                   <p className="inline-flex items-center p-[2px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110" title="NFT address">
                     <span onClick={() => copyToClipBoardHandler(item.contract.address)} className="text-gray-400">{shortenAddress(item.contract.address)}</span>

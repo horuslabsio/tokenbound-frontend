@@ -150,7 +150,7 @@ export const useTBAAsset = (tokenBoundAddress:string) => {
           return
         }
 
-        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${tokenBoundAddress}&withMetadata=true&pageSize=100`
+        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${daAsset}&withMetadata=true&pageSize=100`
 
         const response = await instance.get(url)
         const { data } = await response
