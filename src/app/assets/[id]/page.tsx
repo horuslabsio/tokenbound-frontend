@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useAccount } from "@starknet-react/core";
 import { Contract } from "starknet"
 import FungibleAsset from "@components/Assets/index"
+import NonFungibleAsset from "@components/Assets/Tbanft"
 
 import TBAcontractAbi from "@abis/registry.abi.json"
 import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
@@ -129,7 +130,7 @@ function Assets() {
                         </button>
                       </div>
                     </div>
-                    {isCollectible ? <p>No collectible</p> : <FungibleAsset tokenboundaddress={deployedAddress} />}{" "}
+                    {isCollectible ? <NonFungibleAsset tba={deployedAddress} /> : <FungibleAsset tokenboundaddress={deployedAddress} />}{" "}
                   </div>
                 </div>
               </div>

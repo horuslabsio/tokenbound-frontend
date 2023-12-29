@@ -5,7 +5,7 @@ import { NftItem, raw } from "types";
 import { Contract, RpcProvider, num } from "starknet";
 
 import TBAcontractAbi from "@abis/registry.abi.json"
-import { TBAcontractAddress,TBAImplementationAccount } from "@utils/constants";
+import { TBAcontractAddress,TBAImplementationAccount,daAsset } from "@utils/constants";
 
 const network = process.env.NEXT_PUBLIC_NETWORK
 
@@ -132,4 +132,42 @@ export const accountDeploymentStatus = (contractAddress: string, tokenId: string
   }, [deployedAddress])
   
   return contractHash
+}
+
+
+export const useTBAAsset = (tokenBoundAddress:string) => {
+  const { address, account } = useAccount()
+  const [tbanft, setTbaNft] = useState<NftItem[]>([])
+  const [loadingTba, setTbaLoading] = useState<boolean>(true)
+ // let formatted_address = account?.address.replace('0x', '0x0') 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!address) {
+          console.error("Address is undefined. Unable to make the request.")
+          setTbaLoading(false)
+          return
+        }
+
+        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${tokenBoundAddress}&withMetadata=true&pageSize=100`
+
+        const response = await instance.get(url)
+        const { data } = await response
+        setTbaNft(data?.ownedNfts)
+        setTbaLoading(false)
+      } catch (error) {
+        console.error("Error fetching user NFT:", error)
+        setTbaLoading(false)
+      }
+    };
+    if (address) {
+      fetchData()
+    }
+  }, [address]) // Execute the effect when address changes
+
+  return {
+    tbanft,
+    loadingTba
+  }
 }
