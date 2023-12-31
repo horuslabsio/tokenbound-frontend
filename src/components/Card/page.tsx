@@ -43,7 +43,7 @@ const Card = () => {
 
                 <div className="px-6 py-4 bg-white">
                   <div className="font-bold text-xl mb-2">{item.name}</div>
-                  <div className="font-normal text-xl mb-2">{item.description.slice(0, 60)}...</div>
+                  <div className="font-normal text-xl mb-2">{item.description?.slice(0, 60)}...</div>
 
                   <p className="inline-flex items-center p-[2px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110" title="NFT address">
                     <span onClick={() => copyToClipBoardHandler(item.contract.address)} className="text-gray-400">{shortenAddress(item.contract.address)}</span>
