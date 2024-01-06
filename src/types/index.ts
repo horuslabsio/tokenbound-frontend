@@ -56,3 +56,8 @@ export type WalletIconsProps = {
     metadata: { image: string };
     error: null;
   }
+
+  export type IAccountParam = {
+    contractAddress:string,
+    tokenId:string
+  }
