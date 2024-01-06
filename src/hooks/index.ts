@@ -170,7 +170,7 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
   }
 }
 
-export const usetokenboundSDK = () => {
+export const tokenboundSDK = () => {
   const { account } = useAccount()
   const options = {
     account: account,
@@ -189,7 +189,7 @@ export const usetokenboundSDK = () => {
 
 
 export const useGetAccountStatus = ({contractAddress, tokenId}:IAccountParam) =>{
-  const {tokenbound} = usetokenboundSDK()
+  const {tokenbound} = tokenboundSDK()
   const [status, setStatus] = useState<boolean>(false)
 
   useEffect(() => {
@@ -226,7 +226,7 @@ export const useGetAccountStatus = ({contractAddress, tokenId}:IAccountParam) =>
 }
 
 export const useGetAccountAddress = ({ contractAddress, tokenId }: IAccountParam) => {
-  const { tokenbound } = usetokenboundSDK();
+  const { tokenbound } = tokenboundSDK();
   const { account } = useAccount();
   const [deployedAddress, setDeployedAddress] = useState<string>('');
 
