@@ -3,7 +3,7 @@ import AppWrapper from "@components/AppWrapper";
 import Image from "next/image";
 import React, {  useState } from "react";
 import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
-import { useFetchNFTMetadata, useTokenboundSDK, useGetAccountStatus, useGetAccountAddress } from "@hooks/index";
+import { useFetchNFTMetadata, tokenboundSDK, useGetAccountStatus, useGetAccountAddress } from "@hooks/index";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
@@ -30,7 +30,7 @@ function Assets() {
     contractAddress, tokenId
   })
   const {deployedAddress} = useGetAccountAddress({contractAddress,tokenId})
-  const { tokenbound } = useTokenboundSDK()
+  const { tokenbound } = tokenboundSDK()
   const src = nft.metadata.image
 
   const override: CSSProperties = {
