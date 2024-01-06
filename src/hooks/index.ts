@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { instance } from "@utils/helper";
 import { useAccount } from "@starknet-react/core";
-import { NftItem, raw } from "types";
+import {  IAccountParam, NftItem, raw } from "types";
 import { Contract, RpcProvider, num } from "starknet";
 
 import TBAcontractAbi from "@abis/registry.abi.json"
-import { TBAcontractAddress,TBAImplementationAccount } from "@utils/constants";
+import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
+import { TokenboundClient } from "starknet-tokenbound-sdk"
 
 const network = process.env.NEXT_PUBLIC_NETWORK
 
@@ -25,8 +26,6 @@ export const useFetchUserNFT = () => {
         }
 
         const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${formatted_address}&withMetadata=true&pageSize=100`
-
-        console.log(network)
 
         const response = await instance.get(url)
         const { data } = await response
@@ -49,12 +48,12 @@ export const useFetchUserNFT = () => {
 }
 
 export const useFetchNFTMetadata = (address: string, id: string) => {
-  const [nft, setNft] = useState<raw>({tokenUri: '', metadata: {image: ''}, error: null})
+  const [nft, setNft] = useState<raw>({ tokenUri: '', metadata: { image: '' }, error: null })
   const [loading, setLoading] = useState<boolean>(true)
   let formatted_address = address.replace('0x', '0x0')
 
   useEffect(() => {
-    const fetchData = async() => {
+    const fetchData = async () => {
       try {
         if (!address) {
           console.error("Address is undefined. Unable to make the request.")
@@ -82,60 +81,60 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
     loading
   }
 }
+// abstracted in the SDK
+// export const useComputeAccountAddress = (contractAddress: string, tokenId: string): string => {
+//   const [deployedAccount, setDeployedAccount] = useState<string>('')
 
-export const useComputeAccountAddress = (contractAddress: string, tokenId: string): string => {
-  const [ deployedAccount, setDeployedAccount ] = useState<string>('')
+//   useEffect(() => {
+//     const accountAddress = async () => {
+//       const provider = new RpcProvider({
+//         nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+//       })
+//       const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
 
-  useEffect(() => {
-    const accountAddress = async() => {
-      const provider = new RpcProvider({
-        nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
-      })
-      const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
-  
-      try{
-        const deployedAccount = await contract.get_account(
-          TBAImplementationAccount,
-          contractAddress,
-          tokenId,
-          3000000000
-        )
-        setDeployedAccount(num.toHex(deployedAccount))
-      }
-      catch(err) {
-        console.log(err)
-      }
-    }
-    accountAddress()
-  }, [])
+//       try {
+//         const deployedAccount = await contract.get_account(
+//           TBAImplementationAccount,
+//           contractAddress,
+//           tokenId,
+//           3000000000
+//         )
+//         setDeployedAccount(num.toHex(deployedAccount))
+//       }
+//       catch (err) {
+//         console.log(err)
+//       }
+//     }
+//     accountAddress()
+//   }, [])
 
-  return deployedAccount
-}
+//   return deployedAccount
+// }
+// //deprectaed in favour of SDK: checkAccountDeployment
+// export const useAccountDeploymentStatus = (contractAddress: string, tokenId: string): string => {
+//   const [contractHash, setContractHash] = useState<string>("")
+//   const deployedAddress = useComputeAccountAddress(contractAddress, tokenId)
 
-export const useAccountDeploymentStatus = (contractAddress: string, tokenId: string): string => {
-  const [contractHash, setContractHash] = useState<string>("")
-  const deployedAddress = useComputeAccountAddress(contractAddress, tokenId)
+//   useEffect(() => {
+//     const rpcProvider = new RpcProvider({ nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
 
-  useEffect(() => {
-    const rpcProvider = new RpcProvider({ nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
+//     const getContractHash = async () => {
+//       try {
+//         const contractHashResult = await rpcProvider.getClassHashAt(deployedAddress)
+//         setContractHash(contractHashResult)
+//       }
+//       catch (err) {
+//         return ''
+//       }
+//     }
+//     getContractHash()
+//   }, [deployedAddress])
 
-    const getContractHash = async () => {
-      try{
-        const contractHashResult = await rpcProvider.getClassHashAt(deployedAddress)
-        setContractHash(contractHashResult)
-      }
-      catch (err) {
-        return ''
-      }
-    }
-    getContractHash()
-  }, [deployedAddress])
-  
-  return contractHash
-}
+//   return contractHash
+// }
 
 
-export const useTBAAsset = (tokenBoundAddress:string) => {
+export const useTBAAsset = (tokenBoundAddress: string) => {
   const { address } = useAccount()
   const [tbanft, setTbaNft] = useState<NftItem[]>([])
   const [loadingTba, setTbaLoading] = useState<boolean>(true)
@@ -170,3 +169,85 @@ export const useTBAAsset = (tokenBoundAddress:string) => {
     loadingTba
   }
 }
+
+export const useTokenboundSDK = () => {
+  const { account } = useAccount()
+  const options = {
+    account: account,
+    registryAddress: TBAcontractAddress,
+    implementationAddress: TBAImplementationAccount,
+    jsonRPC: `https://starknet-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+  }
+
+  let tokenbound: any;
+
+  if (account) {
+    tokenbound = new TokenboundClient(options)
+  }
+  return { tokenbound }
+}
+
+
+export const useGetAccountStatus = async({contractAddress, tokenId}:IAccountParam) =>{
+  const {tokenbound} = useTokenboundSDK()
+  const [status, setStatus] = useState<boolean>(false)
+
+  useEffect(() => {
+    const getAccountStatus = async () => {
+      try {
+        const accountStatus = await tokenbound.checkAccountDeployment({
+          tokenContract: contractAddress,
+          tokenId,
+          salt: "3000000000"
+        })
+        setStatus(accountStatus?.deployed)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    getAccountStatus();
+
+    const intervalId = setInterval(() => {
+      getAccountStatus();
+
+      if (status) {
+        clearInterval(intervalId);
+      }
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [contractAddress, tokenId,status]);
+  return {
+    status
+  }
+}
+
+export const useGetAccountAddress = ({ contractAddress, tokenId }: IAccountParam) => {
+  const { tokenbound } = useTokenboundSDK();
+  const { account } = useAccount();
+  const [deployedAddress, setDeployedAddress] = useState<string>('');
+
+  useEffect(() => {
+    const getAccountAddress = async () => {
+      try {
+        const accountResult = await tokenbound.getAccount({
+          tokenContract: contractAddress,
+          tokenId,
+          salt: '3000000000'
+        });
+        setDeployedAddress(num.toHex(accountResult));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getAccountAddress();
+  }, [account, contractAddress, tokenId]); 
+
+  return {
+    deployedAddress
+  };
+};

@@ -1,26 +1,21 @@
 "use client";
 import AppWrapper from "@components/AppWrapper";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
-import { useFetchNFTMetadata, useComputeAccountAddress, useAccountDeploymentStatus } from "@hooks/index";
+import { useFetchNFTMetadata, useTokenboundSDK, useGetAccountStatus, useGetAccountAddress } from "@hooks/index";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
 import { copyToClipBoard, shortenAddress } from "@utils/helper";
 import { toast } from "react-toastify";
-import { useAccount } from "@starknet-react/core";
-import { Contract } from "starknet"
 import FungibleAsset from "@components/Assets/index"
 import NonFungibleAsset from "@components/Assets/Tbanft"
-
-import TBAcontractAbi from "@abis/registry.abi.json"
-import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
+import { num } from "starknet";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER
 
 function Assets() {
-  const { account } = useAccount()
   const [isCollectible, setIsCollectible] = useState(false)
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible)
@@ -31,8 +26,11 @@ function Assets() {
   let tokenId = id.slice(65) as string
 
   const { nft, loading } = useFetchNFTMetadata(contractAddress, tokenId)
-  const deployedAddress = useComputeAccountAddress(contractAddress, tokenId)
-  const deploymentStatus = useAccountDeploymentStatus(contractAddress, tokenId)
+  const status = useGetAccountStatus({
+    contractAddress, tokenId
+  })
+  const {deployedAddress} = useGetAccountAddress({contractAddress,tokenId})
+  const { tokenbound } = useTokenboundSDK()
   const src = nft.metadata.image
 
   const override: CSSProperties = {
@@ -51,14 +49,12 @@ function Assets() {
   };
 
   const deployAccount = async () => {
-    const contract = new Contract(TBAcontractAbi, TBAcontractAddress, account)
     try {
-      await contract.create_account(
-        TBAImplementationAccount,
-        contractAddress,
-        tokenId,
-        3000000000
-      )
+      await tokenbound.createAccount({
+        tokenContract: contractAddress,
+        tokenId: tokenId,
+        salt: "3000000000"
+      })
       toast.info("Account was deployed successfully!")
     }
     catch (err) {
@@ -92,7 +88,7 @@ function Assets() {
                     </div>
                     <div>
                       {
-                        deploymentStatus ? <button disabled={!!deploymentStatus} className={`${'bg-gray-500'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>TBA Deployed</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
+                        status ? <button disabled={!!status} className={`${'bg-gray-500'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>TBA Deployed</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
 
                       }
                     </div>

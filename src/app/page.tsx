@@ -16,13 +16,12 @@ export default function Home() {
           <h2>Frequently asked questions</h2>
           <p>
             Want to learn more?{" "}
-            <a href="#">
               {" "}
-              <span className="underline underline-offset-1">
+              <span className="underline underline-offset-1 text-blue-600">
                 {" "}
-                Join the working group.
+                <a href="https://t.me/+mXVPO0nwBPU3ODBk" target="_blank" rel="noopener noreferrer">Join the working group.</a>
+                
               </span>
-            </a>
           </p>
         </div>
 
