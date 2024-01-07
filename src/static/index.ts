@@ -39,16 +39,8 @@ export const FAQ = [
     description:"Digital collectibles/art are the future of creation. More than ever, people around the world are using technology to create digital goods such as NFTs. ERC-6551 is the most effective way to increase the surface area of interaction for NFTs. It was designed to be easily adopted by existing marketplaces, wallets, and dapps. It is permissionless and decentralized so that no single company owns your NFT’s wallet. When it comes to token provenance ERC-6551 allows your NFT to have an on-chain identity where history is created from the NFT itself rather than your wallet."
   },
   {
-    title:"How do I know if my NFT has an account/wallet address?",
-    description:"Every NFT already has an Address we can compute using ERC-6551 and Token Bound. You can view the tokens inside of your Token Bound Accounts on https://tokenbound.org/. As adoption grows we are pushing for further integration into wallet apps such as Metamask, Rainbow Wallet, Coinbase, and marketplaces like OpenSea, Zora, and blur. Our SDK tooling and documentation also makes it easy for creators and developers to integrate this functionality right into their own websites and apps."
-  },
-  {
     title:"What can I put in my NFT’s token bound account?",
-    description:"Absolutely anything you would put into your old wallet. ETH, USDC, ERC-20, ERC-721, ERC-1155, and any other tokens you would normally send to your Metamask, Ledger, etc"
-  },
-  {
-    title:"Can I trust my NFT’s wallet?",
-    description:"We take security seriously and we have already completed a preliminary audit with 0xmacro before launch. We will be conducting an additional audit with Certik (with support from our contributor partner Manifold), and seeking additional coverage through Code4rena"
+    description:"Absolutely anything you would put into your old wallet. ETH, USDC, ERC-20, ERC-721, ERC-1155, and any other tokens you would normally send to your Braavos,ArgentX wallet."
   },
   {
     title:"Can I nest my Token Bound NFTs inside of each other?",
