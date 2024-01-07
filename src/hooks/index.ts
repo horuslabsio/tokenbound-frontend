@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { instance } from "@utils/helper";
 import { useAccount } from "@starknet-react/core";
 import {  IAccountParam, NftItem, raw } from "types";
-import { Contract, RpcProvider, num } from "starknet";
+import {  num } from "starknet";
 
-import TBAcontractAbi from "@abis/registry.abi.json"
 import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
 import { TokenboundClient } from "starknet-tokenbound-sdk"
 
@@ -74,64 +73,14 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
     if (address) {
       fetchData()
     }
-  }, [address]) // Execute the effect when address changes
+  }, [address]) 
 
   return {
     nft,
     loading
   }
 }
-// abstracted in the SDK
-// export const useComputeAccountAddress = (contractAddress: string, tokenId: string): string => {
-//   const [deployedAccount, setDeployedAccount] = useState<string>('')
 
-//   useEffect(() => {
-//     const accountAddress = async () => {
-//       const provider = new RpcProvider({
-//         nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
-//       })
-//       const contract = new Contract(TBAcontractAbi, TBAcontractAddress, provider)
-
-//       try {
-//         const deployedAccount = await contract.get_account(
-//           TBAImplementationAccount,
-//           contractAddress,
-//           tokenId,
-//           3000000000
-//         )
-//         setDeployedAccount(num.toHex(deployedAccount))
-//       }
-//       catch (err) {
-//         console.log(err)
-//       }
-//     }
-//     accountAddress()
-//   }, [])
-
-//   return deployedAccount
-// }
-// //deprectaed in favour of SDK: checkAccountDeployment
-// export const useAccountDeploymentStatus = (contractAddress: string, tokenId: string): string => {
-//   const [contractHash, setContractHash] = useState<string>("")
-//   const deployedAddress = useComputeAccountAddress(contractAddress, tokenId)
-
-//   useEffect(() => {
-//     const rpcProvider = new RpcProvider({ nodeUrl: `https://${network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}` })
-
-//     const getContractHash = async () => {
-//       try {
-//         const contractHashResult = await rpcProvider.getClassHashAt(deployedAddress)
-//         setContractHash(contractHashResult)
-//       }
-//       catch (err) {
-//         return ''
-//       }
-//     }
-//     getContractHash()
-//   }, [deployedAddress])
-
-//   return contractHash
-// }
 
 
 export const useTBAAsset = (tokenBoundAddress: string) => {
