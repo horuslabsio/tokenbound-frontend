@@ -1,9 +1,9 @@
 "use client";
 import AppWrapper from "@components/AppWrapper";
 import Image from "next/image";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
-import { useFetchNFTMetadata, useTokenBoundSDK, useGetAccountStatus, useGetAccountAddress } from "@hooks/index";
+import { useFetchNFTMetadata, useTokenBoundSDK, useGetAccountAddress } from "@hooks/index";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
@@ -11,7 +11,6 @@ import { copyToClipBoard, shortenAddress } from "@utils/helper";
 import { toast } from "react-toastify";
 import FungibleAsset from "@components/Assets/index"
 import NonFungibleAsset from "@components/Assets/Tbanft"
-import { num } from "starknet";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER
 
@@ -26,11 +25,10 @@ function Assets() {
   let tokenId = id.slice(65) as string
 
   const { nft, loading } = useFetchNFTMetadata(contractAddress, tokenId)
-  const status = useGetAccountStatus({
-    contractAddress, tokenId
-  })
-  const {deployedAddress} = useGetAccountAddress({contractAddress,tokenId})
+  const { deployedAddress } = useGetAccountAddress({ contractAddress, tokenId })
   const { tokenbound } = useTokenBoundSDK()
+  const [status, setStatus] = useState<boolean>(false)
+
   const src = nft.metadata.image
 
   const override: CSSProperties = {
@@ -47,6 +45,24 @@ function Assets() {
       toast.error("Not Copied")
     }
   };
+
+  const getAccountStatus = async () => {
+    try {
+      const accountStatus = await tokenbound.checkAccountDeployment({
+        tokenContract: contractAddress,
+        tokenId,
+        salt: "3000000000"
+      })
+      console.log(accountStatus)
+      setStatus(accountStatus?.deployed)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  getAccountStatus()
+
+  console.log('status:', status)
 
   const deployAccount = async () => {
     try {
