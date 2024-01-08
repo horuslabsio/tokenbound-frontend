@@ -137,42 +137,7 @@ export const useTokenBoundSDK = () => {
 }
 
 
-export const useGetAccountStatus = ({contractAddress, tokenId}:IAccountParam) =>{
-  const {tokenbound} = useTokenBoundSDK()
-  const [status, setStatus] = useState<boolean>(false)
 
-  useEffect(() => {
-    const getAccountStatus = async () => {
-      try {
-        const accountStatus = await tokenbound.checkAccountDeployment({
-          tokenContract: contractAddress,
-          tokenId,
-          salt: "3000000000"
-        })
-        setStatus(accountStatus?.deployed)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    getAccountStatus();
-
-    const intervalId = setInterval(() => {
-      getAccountStatus();
-
-      if (status) {
-        clearInterval(intervalId);
-      }
-    }, 5000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [contractAddress, tokenId,status]);
-  return {
-    status
-  }
-}
 
 export const useGetAccountAddress = ({ contractAddress, tokenId }: IAccountParam) => {
   const { tokenbound } = useTokenBoundSDK();
@@ -185,7 +150,7 @@ export const useGetAccountAddress = ({ contractAddress, tokenId }: IAccountParam
         const accountResult = await tokenbound.getAccount({
           tokenContract: contractAddress,
           tokenId,
-          salt: '3000000000'
+          salt: 3000000000
         });
         setDeployedAddress(num.toHex(accountResult));
       } catch (error) {
