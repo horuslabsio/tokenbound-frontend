@@ -23,7 +23,8 @@ function Footer() {
           {
             navItems.map((item, idx) => (
               <ul key={idx}>
-                <a href={item.link}><li>{item.value}</li></a>
+                <a className="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer" href={item.link}>{item.value}</a>
+
               </ul>
             ))
           }

@@ -19,7 +19,7 @@ export default function Home() {
               {" "}
               <span className="underline underline-offset-1 text-blue-600">
                 {" "}
-                <a href="https://t.me/+mXVPO0nwBPU3ODBk" target="_blank" rel="noopener noreferrer">Join the working group.</a>
+                <a href="https://t.me/+mXVPO0nwBPU3ODBk" target="_blank" rel="noopener noreferrer">Discuss all things ERC-6551 On Telegram</a>
                 
               </span>
           </p>
