@@ -12,7 +12,7 @@ import { useAccount } from "@starknet-react/core";
 import Link from "next/link";
 
 function NavBar() {
-  const {  account } = useAccount();
+  const { account } = useAccount();
   // state for hamburger modal
   let [isOpen, setIsOpen] = useState(false);
 
@@ -38,13 +38,13 @@ function NavBar() {
     <header className="flex justify-between p-12 items-centers">
       <div>
         <Link href={'/'}>
-        <Image
-          className="cursor-pointer transition-transform transform-growth hover:scale-110"
-          src={STBA}
-          width={40}
-          height={40}
-          alt="starknet-token-bound"
-        />
+          <Image
+            className="cursor-pointer transition-transform transform-growth hover:scale-110"
+            src={STBA}
+            width={40}
+            height={40}
+            alt="starknet-token-bound"
+          />
         </Link>
       </div>
 
@@ -52,7 +52,7 @@ function NavBar() {
         <ul className="flex items-center md:space-x-4 lg:space-x-8">
           {navItems.map((item, idx) => (
             <li key={idx}>
-              <a href={item.link}>{item.value}</a>
+              <a className="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer" href={item.link}>{item.value}</a>
             </li>
           ))}
         </ul>
@@ -125,9 +125,8 @@ function NavBar() {
                       <nav className="flex block md:none lg:none items-center space-x-8">
                         {navItems.map((item, idx) => (
                           <ul key={idx}>
-                            <a href={item.link}>
-                              <li>{item.value}</li>
-                            </a>
+                            <a className="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer" href={item.link}>{item.value}</a>
+
                           </ul>
                         ))}
                       </nav>
