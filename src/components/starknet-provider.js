@@ -4,13 +4,13 @@ import { InjectedConnector } from "starknetkit/injected";
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
 import { StarknetConfig, alchemyProvider } from "@starknet-react/core";
-import { goerli, mainnet } from "@starknet-react/chains"
+import {mainnet } from "@starknet-react/chains"
 
 export default function StarknetProvider({ children }) {
   const chains = [mainnet]
-  const providers = [alchemyProvider({
+  const provider = alchemyProvider({
     apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
-  })];
+  });
 
   const connectors = [
     new InjectedConnector({ options: { id: "argentX", name: "Argent" } }),
@@ -22,7 +22,7 @@ export default function StarknetProvider({ children }) {
   return (
     <StarknetConfig
       chains={chains}
-      providers={providers}
+      provider={provider}
       connectors={connectors}
       autoConnect
     >
