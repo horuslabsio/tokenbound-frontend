@@ -104,7 +104,7 @@ function Assets() {
                     </div>
                     <div>
                       {
-                        status ? <button disabled={!!status} className={`${'bg-gray-500'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>TBA Deployed</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
+                        status ? <button disabled={!!status} className={`${'bg-gray-500'} text-white font-normal outline-none px-1 md:px-2 lg:px-2 py-1 rounded-lg`} onClick={deployAccount}>TBA Deployed</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-1 md:px-2 lg:px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
 
                       }
                     </div>

@@ -20,3 +20,12 @@ body{
   /* background-color: red; */
   padding:1rem 0;
 }
+
+@media (max-width: 480px) {
+  .max-width {
+    max-width: 100%;
+    margin: 0 auto;
+    /* background-color: red; */
+    padding: 1rem 0;
+  }
+}
