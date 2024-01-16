@@ -1,28 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Starknet-Tokenbound Explorer
+Welcome to the Starknet-Tokenbound Explorer! This project serves as a powerful tool for interacting with the tokenbound account on starknet and exploring token-bound assets on the network. 
 
 ## Getting Started
 
-First, run the development server:
-
+### Clone repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+git clone https://github.com/Starknet-Africa-Edu/TBA.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Change directory to project
+```bash
+cd TBA
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Install Dependencies
+```bash
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Getting Started
-Check the .env.example and fill in the appropriate values:
-- NEXT_PUBLIC_ALCHEMY_API_KEY = <use an api key from Alchemy>
-- NEXT_PUBLIC_INFURA_API_KEY = <use an api key from Infura>
+### Add Environment Variables
+- NEXT_PUBLIC_ALCHEMY_API_KEY = <Provide an API key from Alchemy>
+- NEXT_PUBLIC_INFURA_API_KEY = <Provide an API key from Alchemy>
 - NEXT_PUBLIC_NETWORK = <starknet-mainnet | starknet-goerli>
 - NEXT_PUBLIC_EXPLORER = <https://testnet.starkscan.co | https://starkscan.co>
 
-PS: The page that gets all NFTs belonging to the user is currently broken on testnet due to an issue with Alchemy's API, and the Token bound Register contract is yet to be deployed to mainnet.
+### Run project
+```bash
+yarn dev
+```
+
+### Explorer Preview
+*Explorer Preview: This is how the explorer page will look after successfully setting up the project.*
+![Local Image](public/explorer.png)
+
+
+### SDK Documentation
+For detailed information on the Starknet-tokenbound SDK and API, refer to the [Starknet-tokenbound SDK Documentation](https://tokenbound.gitbook.io/starknet-tokenbound/)
+
+Note: The page that retrieves all NFTs belonging to the user is currently broken on the testnet due to an issue with Alchemy's API, and the Token Bound  currently integrates  with mainnet.
