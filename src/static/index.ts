@@ -15,11 +15,11 @@ export const navItems: INavBarType[] = [
     link: "https://t.me/+mXVPO0nwBPU3ODBk"
   },
   {
-    value: "SDK docs",
+    value: "SDK",
     link: "https://tokenbound.gitbook.io/starknet-tokenbound/"
   },
   {
-    value: "Discussion forum",
+    value: "Discussion",
     link: "  https://community.starknet.io/t/snip-72-non-fungible-tokenbound-accounts/112479"
   },
 ];

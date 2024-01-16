@@ -35,7 +35,7 @@ function NavBar() {
     setIsWalletOpen(true);
   }
   return (
-    <header className="flex justify-between p-12 items-centers">
+    <header className="flex justify-between p-6 md:p-12 lg:p-12 items-centers">
       <div>
         <Link href={'/'}>
           <Image
@@ -107,7 +107,7 @@ function NavBar() {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="w-full  transform overflow-hidden rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="w-full  transform overflow-hidden rounded-sm bg-white p-3 text-left align-middle shadow-xl transition-all">
                     <Dialog.Title
                       as="h3"
                       className="text-lg font-medium leading-6 flex justify-end text-gray-900"
@@ -122,13 +122,13 @@ function NavBar() {
                     </Dialog.Title>
 
                     <div className="mt-4">
-                      <nav className="flex block md:none lg:none items-center space-x-8">
-                        {navItems.map((item, idx) => (
-                          <ul key={idx}>
-                            <a className="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer" href={item.link}>{item.value}</a>
+                      <nav>
+                        <ul className="flex block md:none lg:none items-center space-x-6">
+                          {navItems.map((item, idx) => (
+                            <li key={idx}> <a className="text-blue-500   hover:text-blue-700" target="_blank" rel="noopener noreferrer" href={item.link}>{item.value}</a></li>
 
-                          </ul>
-                        ))}
+                          ))}
+                        </ul>
                       </nav>
                       <div className="mt-4">
                         {!account ? (
