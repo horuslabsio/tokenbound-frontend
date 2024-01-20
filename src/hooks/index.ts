@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { instance } from "@utils/helper";
 import { useAccount } from "@starknet-react/core";
-import {  IAccountParam, NftItem, raw } from "types";
-import {  num } from "starknet";
+import { IAccountParam, NftItem, raw, TokenInfo } from "types";
+import { num } from "starknet";
 
 import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
 import { TokenboundClient } from "starknet-tokenbound-sdk"
@@ -11,7 +11,7 @@ const network = process.env.NEXT_PUBLIC_NETWORK
 
 export const useFetchUserNFT = () => {
   const { address, account } = useAccount()
-  const [nft, setNft] = useState<NftItem[]>([])
+  const [nft, setNft] = useState<TokenInfo[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   let formatted_address = account?.address.replace('0x', '0x0')
 
@@ -24,11 +24,11 @@ export const useFetchUserNFT = () => {
           return
         }
 
-        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${formatted_address}&withMetadata=true&pageSize=100`
-
+        // const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${formatted_address}&withMetadata=true&pageSize=100`
+        const url = `https://api.arkproject.dev/v1/owners/${formatted_address}/tokens`
         const response = await instance.get(url)
         const { data } = await response
-        setNft(data?.ownedNfts)
+        setNft(data?.result)
         setLoading(false)
       } catch (error) {
         console.error("Error fetching user NFT:", error)
@@ -47,9 +47,8 @@ export const useFetchUserNFT = () => {
 }
 
 export const useFetchNFTMetadata = (address: string, id: string) => {
-  const [nft, setNft] = useState<raw>({ tokenUri: '', metadata: { image: '' }, error: null })
+  const [nft, setNft] = useState<raw>({ name:'', description:'', image:'' })
   const [loading, setLoading] = useState<boolean>(true)
-  let formatted_address = address.replace('0x', '0x0')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,11 +58,12 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
           setLoading(false)
           return
         }
-        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${formatted_address}&tokenId=${id}&tokenType=ERC721`
-
+        // const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${formatted_address}&tokenId=${id}&tokenType=ERC721`
+        const url = `https://api.arkproject.dev/v1/tokens/${address}/${id}`;
+      
         const response = await instance.get(url)
         const { data } = await response
-        setNft(data?.raw)
+        setNft(data?.result?.metadata?.normalized)
         setLoading(false)
       } catch (error) {
         console.error("Error fetching user NFT:", error)
@@ -73,7 +73,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
     if (address) {
       fetchData()
     }
-  }, [address]) 
+  }, [address])
 
   return {
     nft,
@@ -159,7 +159,7 @@ export const useGetAccountAddress = ({ contractAddress, tokenId }: IAccountParam
     };
 
     getAccountAddress();
-  }, [account, contractAddress, tokenId]); 
+  }, [account, contractAddress, tokenId]);
 
   return {
     deployedAddress

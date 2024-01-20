@@ -19,18 +19,17 @@ function Assets() {
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible)
   };
-
+  
   let { id } = useParams()
-  let contractAddress = id.slice(0, 65) as string
-  let tokenId = id.slice(65) as string
-
+  let contractAddress = id.slice(0, 66) as string
+  let tokenId = id.slice(66) as string
   const { nft, loading } = useFetchNFTMetadata(contractAddress, tokenId)
   const { deployedAddress } = useGetAccountAddress({ contractAddress, tokenId })
   const { tokenbound } = useTokenBoundSDK()
   const [status, setStatus] = useState<boolean>(false)
 
-  const src = nft.metadata.image
-
+  const src = nft.image
+ 
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
@@ -53,7 +52,6 @@ function Assets() {
         tokenId,
         salt: "3000000000"
       })
-      console.log(accountStatus)
       setStatus(accountStatus?.deployed)
     } catch (error) {
       console.error(error)
@@ -62,7 +60,6 @@ function Assets() {
 
   getAccountStatus()
 
-  console.log('status:', status)
 
   const deployAccount = async () => {
     try {
