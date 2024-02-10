@@ -52,12 +52,40 @@ export type WalletIconsProps = {
   }
   
   export type raw = {
-    tokenUri: string;
-    metadata: { image: string };
-    error: null;
+    name: string;
+    description: string;
+    image: string;
   }
 
   export type IAccountParam = {
     contractAddress:string,
     tokenId:string
   }
+
+  export interface TokenInfo {
+    contract_address: string;
+    metadata: {
+      metadata_updated_at: number;
+      normalized: {
+        image_mime_type: string;
+        image_key: string;
+        image: string;
+        image_data: string;
+        external_url: string;
+        name:string;
+        description:string
+      };
+      raw: string;
+    };
+    mint_info: {
+      address: string;
+      timestamp: number;
+      transaction_hash: string;
+    };
+    owner: string;
+    token_id: string;
+    token_id_hex: string;
+  }
+  
+
+  
