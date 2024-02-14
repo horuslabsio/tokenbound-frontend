@@ -50,7 +50,6 @@ function Assets() {
       const accountStatus = await tokenbound.checkAccountDeployment({
         tokenContract: contractAddress,
         tokenId,
-        salt: "3000000000"
       })
       setStatus(accountStatus?.deployed)
     } catch (error) {
@@ -66,7 +65,6 @@ function Assets() {
       await tokenbound.createAccount({
         tokenContract: contractAddress,
         tokenId: tokenId,
-        salt: "3000000000"
       })
       toast.info("Account was deployed successfully!")
     }
