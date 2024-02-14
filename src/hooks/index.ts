@@ -47,7 +47,7 @@ export const useFetchUserNFT = () => {
 }
 
 export const useFetchNFTMetadata = (address: string, id: string) => {
-  const [nft, setNft] = useState<raw>({ name:'', description:'', image:'' })
+  const [nft, setNft] = useState<raw>({ name: '', description: '', image: '' })
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
         }
         // const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${formatted_address}&tokenId=${id}&tokenType=ERC721`
         const url = `https://api.arkproject.dev/v1/tokens/${address}/${id}`;
-      
+
         const response = await instance.get(url)
         const { data } = await response
         setNft(data?.result?.metadata?.normalized)
@@ -149,8 +149,7 @@ export const useGetAccountAddress = ({ contractAddress, tokenId }: IAccountParam
       try {
         const accountResult = await tokenbound.getAccount({
           tokenContract: contractAddress,
-          tokenId,
-          salt: 3000000000
+          tokenId
         });
         setDeployedAddress(num.toHex(accountResult));
       } catch (error) {
