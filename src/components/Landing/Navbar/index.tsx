@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import STBA from "@public/starknet.jpeg";
-import { navItems } from "@static/index";
+import { communityLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState, Fragment } from "react";
@@ -10,6 +10,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { useAccount } from "@starknet-react/core";
 import Link from "next/link";
+import DownChevronIcon from "svg/DownChevronIcon";
+import SearchIcon from "svg/SearchIcon";
 
 function NavBar() {
   const { account } = useAccount();
@@ -35,28 +37,66 @@ function NavBar() {
     setIsWalletOpen(true);
   }
   return (
-    <header className="flex justify-between p-6 md:p-12 lg:p-12 items-centers">
-      <div>
-        <Link href={'/'}>
+    <header className="fixed z-[99] w-screen px-8 py-2 flex items-center justify-between  bg-white">
+      <div className=" basis-1/2  flex items-center gap-40">
+        {/* HOVER ANIMATIONS */}
+        <Link className="" href={"/"}>
           <Image
-            className="cursor-pointer transition-transform transform-growth hover:scale-110"
-            src={STBA}
-            width={40}
-            height={40}
-            alt="starknet-token-bound"
+            src={"/logo.svg"}
+            alt="starknet logo"
+            width={200}
+            height={46}
           />
         </Link>
+        <div className="hidden lg:flex gap-8">
+          <button className="flex gap-1">
+            <span>Learn</span>
+            <span className="self-end">
+              <DownChevronIcon />
+            </span>
+          </button>
+          <button className="hidden lg:flex items-center">
+            <span>Community</span>
+            <span className="self-end">
+              <DownChevronIcon />
+            </span>
+          </button>
+        </div>
       </div>
 
       <nav className="hidden md:hidden lg:flex items-center space-x-8">
-        <ul className="flex items-center md:space-x-4 lg:space-x-8">
+        {/* <ul className="flex items-center md:space-x-4 lg:space-x-8">
           {navItems.map((item, idx) => (
             <li key={idx}>
-              <a className="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer" href={item.link}>{item.value}</a>
+              <a
+                className="text-blue-500 hover:text-blue-700"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={item.link}
+              >
+                {item.value}
+              </a>
             </li>
           ))}
-        </ul>
-
+        </ul> */}
+        <div className="relative w-[14rem]">
+          <input
+            className="bg-off-white py-3 px-16  w-full h-full rounded-[8px]"
+            role="search"
+            type="text"
+            name="search"
+            id="search"
+            placeholder="Search NFTs"
+          />
+          <span
+            style={{
+              top: "calc(50% - 2em /2)",
+            }}
+            className="absolute px-4 text-gray-500  left-0"
+          >
+            <SearchIcon />
+          </span>
+        </div>
         {isWalletOpen && (
           <ConnectWallet
             isWalletOpen={isWalletOpen}
@@ -68,7 +108,7 @@ function NavBar() {
         {!account ? (
           <button
             onClick={openWalletModal}
-            className="bg-black text-white px-4 py-2 rounded-lg"
+            className=" w-[14rem] p-3   bg-deep-blue rounded-[8px] text-white"
             type="button"
           >
             Connect Wallet
@@ -123,10 +163,19 @@ function NavBar() {
 
                     <div className="mt-4">
                       <nav>
-                        <ul className="flex block md:none lg:none items-center space-x-6">
-                          {navItems.map((item, idx) => (
-                            <li key={idx}> <a className="text-blue-500   hover:text-blue-700" target="_blank" rel="noopener noreferrer" href={item.link}>{item.value}</a></li>
-
+                        <ul className="flex md:none lg:none items-center space-x-6">
+                          {communityLinks.map((item, idx) => (
+                            <li key={idx}>
+                              {" "}
+                              <a
+                                className="text-blue-500   hover:text-blue-700"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={item.url}
+                              >
+                                {item.title}
+                              </a>
+                            </li>
                           ))}
                         </ul>
                       </nav>

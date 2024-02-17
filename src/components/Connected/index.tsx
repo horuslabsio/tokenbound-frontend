@@ -18,15 +18,15 @@ function ConnectedNavBar() {
     <div className="flex space-x-4 items-center">
       <div
         onClick={closeModal}
-        className="bg-gray-200 cursor-pointer px-2 py-2 rounded-lg"
+        className="bg-gray-200 cursor-pointer w-[14rem] p-3 rounded-lg"
       >
-        <h5>{shortenAddress(address as any)}</h5>
+        <p>{shortenAddress(address as any)}</p>
       </div>
       <div>
-        {account && path == '/' && (
+        {account && path == "/" && (
           <Link href={`/wallet/${address}`}>
             <button
-              className="bg-black text-white px-4 py-2 rounded-lg"
+              className=" w-[14rem] p-3  bg-deep-blue rounded-[8px] text-white"
               type="button"
             >
               My NFTs &rarr;
