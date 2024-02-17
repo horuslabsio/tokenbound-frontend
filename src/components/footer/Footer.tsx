@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import GithubIcon from "svg/GithubIcon";
 import SendIcon from "svg/SendIcon";
 import XIcon from "svg/XIcon";
-import X from "svg/XIcon";
 
 const Footer = () => {
   const [year, setYear] = useState<number>(2024);
@@ -43,13 +42,25 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-8 lg:mt-20">
-          <a href="http://" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/Starknet-Africa-Edu"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Github
           </a>
-          <a href="http://" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/Starknet-Africa-Edu/SNIPs/blob/main/SNIPS/snip-72.md"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Snips
           </a>
-          <a href="http://" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://tokenbound.gitbook.io/starknet-tokenbound/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             SDK
           </a>
           <a href="http://" target="_blank" rel="noopener noreferrer">
@@ -57,7 +68,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="flex flex-col gap-4 lg:mt-20">
-          <h6 className="text-[0.875em] lg:text-[1em]">Discussions</h6>
+          <h6 className=" lg:text-[1em]">Discussions</h6>
           <ul className="flex gap-4">
             <li className="bg-white p-2 rounded-lg flex place-content-center">
               <a href="http://" target="_blank" rel="noopener noreferrer">
@@ -65,7 +76,11 @@ const Footer = () => {
               </a>
             </li>
             <li className="bg-white p-2 rounded-lg flex place-content-center">
-              <a href="http://" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://github.com/Starknet-Africa-Edu"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <GithubIcon />
               </a>
             </li>
