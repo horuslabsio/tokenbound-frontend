@@ -31,9 +31,9 @@ const Footer = () => {
           </div>
           <div className="flex flex-col  mt-8 gap-6 md:items-center md:flex-row">
             <input
+              className=" p-3 bg-[#EFEFEF] w-[90%]  border-solid border-[1px] rounded-[8px] border-[#7A7A7A] md:w-[60%] lg:w-[40%]"
               type="email"
               placeholder="Email Address"
-              className=" p-3 bg-[#EFEFEF] w-[90%]  border-solid border-[1px] rounded-[8px] border-[#7A7A7A] md:w-[60%] lg:w-[40%]"
             />
             <button className=" w-[10rem] p-3 bg-deep-blue rounded-[8px] text-white">
               Get Updates
@@ -41,32 +41,40 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8 lg:mt-20">
-          <a
-            href="https://github.com/Starknet-Africa-Edu"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Github
-          </a>
-          <a
-            href="https://github.com/Starknet-Africa-Edu/SNIPs/blob/main/SNIPS/snip-72.md"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Snips
-          </a>
-          <a
-            href="https://tokenbound.gitbook.io/starknet-tokenbound/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            SDK
-          </a>
-          <a href="http://" target="_blank" rel="noopener noreferrer">
-            ERC-6551
-          </a>
-        </div>
+        <ul className="flex flex-col gap-8 lg:mt-20">
+          <li>
+            <a
+              href="https://github.com/Starknet-Africa-Edu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Github
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/Starknet-Africa-Edu/SNIPs/blob/main/SNIPS/snip-72.md"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Snips
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://tokenbound.gitbook.io/starknet-tokenbound/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              SDK
+            </a>
+          </li>
+          <li>
+            <a href="http://" target="_blank" rel="noopener noreferrer">
+              ERC-6551
+            </a>
+          </li>
+        </ul>
         <div className="flex flex-col gap-4 lg:mt-20">
           <h6 className=" lg:text-[1em]">Discussions</h6>
           <ul className="flex gap-4">
