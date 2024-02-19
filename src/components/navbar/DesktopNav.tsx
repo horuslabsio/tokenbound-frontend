@@ -27,10 +27,9 @@ const DesktopNav = ({
     setOpenDropDown((prev) => !prev);
   };
   return (
-    <nav className="flex items-center justify-between">
-      <div className=" basis-1/2  flex items-center gap-40">
-        {/* HOVER ANIMATIONS */}
-        <Link className="" href={"/"}>
+    <nav className="flex items-center gap-8 justify-between">
+      <div className="basis-[80%] lg:basis-1/2   flex items-center gap-40">
+        <Link href={"/"}>
           <Image
             src={"/logo.svg"}
             alt="starknet logo"
@@ -45,25 +44,43 @@ const DesktopNav = ({
             className="flex gap-1"
           >
             <span>Learn</span>
-            <span className="self-end">
+            <span
+              className={`self-end transition-all duration-300 ease-in-out ${
+                openDropDown && activeDropDown === "learning"
+                  ? "rotate-[-180deg]"
+                  : " rotate-0"
+              }`}
+            >
               <DownChevronIcon />
             </span>
-            {openDropDown && activeDropDown === "learning" && (
-              <DropDown dropdownItems={learningLinks} />
-            )}
+            <DropDown
+              dropdownItems={learningLinks}
+              openDropDown={openDropDown}
+              activeDropDown={activeDropDown}
+              id="learning"
+            />
           </button>
           <button
             onMouseEnter={() => setActiveDropDown("community")}
             onClick={toggleDropDown}
-            className="hidden lg:flex items-center"
+            className={`hidden lg:flex items-center gap-1`}
           >
             <span>Community</span>
-            <span className="self-end">
+            <span
+              className={`self-end transition-all duration-300 ease-in-out ${
+                openDropDown && activeDropDown === "community"
+                  ? " rotate-[-180deg]"
+                  : " rotate-0"
+              }`}
+            >
               <DownChevronIcon />
             </span>
-            {openDropDown && activeDropDown === "community" && (
-              <DropDown dropdownItems={communityLinks} />
-            )}
+            <DropDown
+              dropdownItems={communityLinks}
+              openDropDown={openDropDown}
+              activeDropDown={activeDropDown}
+              id="community"
+            />
           </button>
         </div>
       </div>
@@ -97,7 +114,7 @@ const DesktopNav = ({
         {!account ? (
           <button
             onClick={openWalletModal}
-            className=" w-[14rem] p-3 bg-deep-blue rounded-[8px] text-white"
+            className="w-[14rem] p-3 bg-deep-blue rounded-[8px] text-white"
             type="button"
           >
             Connect Wallet

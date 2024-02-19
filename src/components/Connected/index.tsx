@@ -7,7 +7,7 @@ import { Transition, Dialog } from "@headlessui/react";
 import Disconnect from "../Disconnect/page";
 import { usePathname } from "next/navigation";
 
-function ConnectedNavBar() {
+function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
   const { address, account } = useAccount();
   const [show, setShow] = useState<boolean>(false);
   const path = usePathname();
@@ -15,18 +15,19 @@ function ConnectedNavBar() {
     setShow(!show);
   };
   return (
-    <div className="flex space-x-4 items-center">
+    <div className="flex flex-col gap-4 md:items-center md:flex-row">
       <div
         onClick={closeModal}
-        className="bg-gray-200 cursor-pointer w-[14rem] p-3 rounded-lg"
+        className="bg-gray-200 cursor-pointer xsm:w-[90%] w-[10rem]  p-3  border-solid border-[1px] border-[#C4C4C4] rounded-full lg:my-0 lg:mx-auto"
       >
-        <p>{shortenAddress(address as any)}</p>
+        <p className="text-center">{shortenAddress(address as any)}</p>
       </div>
       <div>
         {account && path == "/" && (
           <Link href={`/wallet/${address}`}>
             <button
-              className=" w-[14rem] p-3  bg-deep-blue rounded-[8px] text-white"
+              onClick={closeMenu}
+              className=" xsm:w-[90%] w-[14rem] p-3  bg-deep-blue rounded-[8px] text-white"
               type="button"
             >
               My NFTs &rarr;

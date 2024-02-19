@@ -1,7 +1,7 @@
 import { INavBarType } from "../../types";
 import Image from "next/image";
 
-const Anchor = ({
+export const Anchor = ({
   src,
   title,
   url,
@@ -27,21 +27,41 @@ const Anchor = ({
   );
 };
 
-const DropDown = ({ dropdownItems }: { dropdownItems: INavBarType[] }) => {
+const DropDown = ({
+  dropdownItems,
+  activeDropDown,
+  openDropDown,
+  id,
+}: {
+  dropdownItems: INavBarType[];
+  openDropDown: boolean;
+  activeDropDown: string;
+  id: string;
+}) => {
   return (
-    <ul className="rounded-b-lg fixed grid grid-cols-2 gap-8 p-8 top-[4rem] bg-off-white min-w-[20rem] min-h-[7rem]">
-      {dropdownItems.map((item, index) => {
-        const { title, url } = item;
-        return (
-          <Anchor
-            key={index}
-            url={url}
-            src="/blockchain-05.svg"
-            title={title}
-          />
-        );
-      })}
-    </ul>
+    <div
+      className={`rounded-b-lg fixed top-[4.5rem] bg-off-white transition-all duration-300 ease-in-out grid ${
+        openDropDown && activeDropDown === id
+          ? "grid-rows-[1fr] opacity-100"
+          : "grid-rows-[0fr] opacity-0"
+      } `}
+    >
+      <div className="overflow-hidden">
+        <ul className="grid grid-cols-2 gap-8 p-8 min-w-[20rem] min-h-[7rem]">
+          {dropdownItems.map((item, index) => {
+            const { title, url } = item;
+            return (
+              <Anchor
+                key={index}
+                url={url}
+                src="/blockchain-05.svg"
+                title={title}
+              />
+            );
+          })}
+        </ul>
+      </div>
+    </div>
   );
 };
 
