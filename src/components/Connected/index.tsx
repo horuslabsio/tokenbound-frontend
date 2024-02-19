@@ -1,7 +1,6 @@
 "use client";
 import React, { Fragment, useState } from "react";
 import { shortenAddress } from "@utils/helper";
-import Link from "next/link";
 import { useAccount } from "@starknet-react/core";
 import { Transition, Dialog } from "@headlessui/react";
 import Disconnect from "../Disconnect/page";
@@ -22,7 +21,7 @@ function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
       >
         <p className="text-center">{shortenAddress(address as any)}</p>
       </div>
-      <div>
+      {/* <div>
         {account && path == "/" && (
           <Link href={`/wallet/${address}`}>
             <button
@@ -34,10 +33,10 @@ function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
             </button>
           </Link>
         )}
-      </div>
+      </div> */}
 
       <Transition appear show={show} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative z-[999]" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -50,7 +49,7 @@ function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
             <div className="fixed inset-0 bg-white bg-opacity-25" />
           </Transition.Child>
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex bg-[#0C0C4F90] min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -60,15 +59,13 @@ function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-[#010A20] outline outline-offset-2 outline-1 outline-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-400"
-                  >
-                    Disconnect
-                  </Dialog.Title>
-
-                  <Disconnect />
+                <Dialog.Panel
+                  style={{
+                    boxShadow: "0 0 50px 0 #EC796B33",
+                  }}
+                  className="transform rounded-lg overflow-hidden  bg-[#fAFAFA] p-10 lg:w-[30%]"
+                >
+                  <Disconnect closeModal={closeModal} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>
