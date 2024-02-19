@@ -27,7 +27,11 @@ const Accordion = ({
       >
         <span className="inline-block col-span-8 text-start">{question}</span>
         <div aria-hidden="true" className="col-span-2 flex justify-end">
-          <span className="w-[2rem] h-[2rem] rounded-full bg-deep-blue text-white flex items-center justify-center">
+          <span
+            className={`w-[2rem] h-[2rem] rounded-full bg-deep-blue text-white flex items-center justify-center transition-all duration-300 ease-in-out ${
+              currentAccordion === id ? "rotate-180" : "rotate-[0deg]"
+            }  `}
+          >
             <DownChevronIcon width="1.5em" height="1.5em" />
           </span>
         </div>

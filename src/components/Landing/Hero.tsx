@@ -5,7 +5,7 @@ const Hero = () => {
         <h1 className="text-center  bg-gradient-linear-starknet-gradient text-transparent bg-clip-text my-0 mx-auto lg:p-10  lg:w-[40%]">
           Transforming any NFT to a Wallet
         </h1>
-        <p className="lg:w-[35%] lg:px-10 text-justify  my-0 mx-auto">
+        <p className="lg:w-[35%] lg:px-10 text-center  my-0 mx-auto lg:text-justify">
           ERC-6551 turns every NFT into a smart wallet that can own tokens and
           interact with dApps across the Ethereum ecosystem.
         </p>

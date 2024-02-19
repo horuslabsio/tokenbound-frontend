@@ -18,7 +18,13 @@ export const Anchor = ({
         rel="noopener noreferrer"
         href={url}
       >
-        <span className="bg-white w-[40px] h-[40px] rounded-lg shadow-inner">
+        <span
+          style={{
+            boxShadow:
+              "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
+          }}
+          className="bg-white w-[40px] h-[40px] rounded-lg shadow-inner"
+        >
           <Image src={src} alt="logo" width={30} height={30} />
         </span>
         {title}
@@ -40,7 +46,10 @@ const DropDown = ({
 }) => {
   return (
     <div
-      className={`rounded-b-lg fixed top-[4.5rem] bg-off-white transition-all duration-300 ease-in-out grid ${
+      style={{
+        boxShadow: "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
+      }}
+      className={`rounded-lg fixed top-[4.7rem] bg-off-white transition-all duration-300 ease-in-out grid ${
         openDropDown && activeDropDown === id
           ? "grid-rows-[1fr] opacity-100"
           : "grid-rows-[0fr] opacity-0"

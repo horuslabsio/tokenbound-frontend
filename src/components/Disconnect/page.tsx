@@ -1,7 +1,6 @@
 "use client";
 import { useAccount, useDisconnect } from "@starknet-react/core";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
 import { copyToClipBoard } from "@utils/helper";
 import Image from "next/image";
 import Link from "next/link";
