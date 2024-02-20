@@ -1,7 +1,6 @@
 "use client";
 import React, { Fragment, useState } from "react";
 import { shortenAddress } from "@utils/helper";
-import Link from "next/link";
 import { useAccount } from "@starknet-react/core";
 import { Transition, Dialog } from "@headlessui/react";
 import Disconnect from "../Disconnect/page";
@@ -15,28 +14,16 @@ function ConnectedNavBar() {
     setShow(!show);
   };
   return (
-    <div className="flex space-x-4 items-center">
+    <div className="flex flex-col gap-4 md:items-center md:flex-row">
       <div
         onClick={closeModal}
-        className="bg-gray-200 cursor-pointer px-2 py-2 rounded-lg"
+        className="bg-gray-200 cursor-pointer xsm:w-[90%] w-[10rem]  p-3  border-solid border-[1px] border-[#C4C4C4] rounded-full lg:my-0 lg:mx-auto"
       >
-        <h5>{shortenAddress(address as any)}</h5>
-      </div>
-      <div>
-        {account && path == '/' && (
-          <Link href={`/wallet/${address}`}>
-            <button
-              className="bg-black text-white px-4 py-2 rounded-lg"
-              type="button"
-            >
-              My NFTs &rarr;
-            </button>
-          </Link>
-        )}
+        <p className="text-center">{shortenAddress(address as any)}</p>
       </div>
 
       <Transition appear show={show} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative z-[999]" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -49,7 +36,7 @@ function ConnectedNavBar() {
             <div className="fixed inset-0 bg-white bg-opacity-25" />
           </Transition.Child>
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex bg-[#0a0a0a30] min-h-full  justify-end p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -59,15 +46,13 @@ function ConnectedNavBar() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-[#010A20] outline outline-offset-2 outline-1 outline-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-400"
-                  >
-                    Disconnect
-                  </Dialog.Title>
-
-                  <Disconnect />
+                <Dialog.Panel
+                  style={{
+                    boxShadow: "0 0 50px 0 #EC796B33",
+                  }}
+                  className="rounded-[20px] overflow-hidden mt-20  bg-[#fAFAFA] p-10 lg:w-[30%] h-fit"
+                >
+                  <Disconnect closeModal={closeModal} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

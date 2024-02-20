@@ -3,18 +3,14 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import NavBar from "../Landing/Navbar";
-import Footer from "../Landing/Footer";
-
 type IWrapper = {
   children: React.ReactNode;
 };
 
-
 function AppWrapper({ children }: IWrapper) {
   return (
     <>
-        <ToastContainer
+      <ToastContainer
         position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -26,12 +22,10 @@ function AppWrapper({ children }: IWrapper) {
         pauseOnHover
         theme="light"
       />
-      
-        <NavBar />
-        <main className="mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-24 mb-32">
-          {children}
-        </main>
-        <Footer />
+
+      <main className="mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-24 mb-32">
+        {children}
+      </main>
     </>
   );
 }
