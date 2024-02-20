@@ -23,7 +23,7 @@ export const Anchor = ({
             boxShadow:
               "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
           }}
-          className="bg-white w-[40px] h-[40px] rounded-lg shadow-inner"
+          className="bg-white w-[30px] h-[30px] md:w-[40px] md:h-[40px] rounded-lg shadow-inner"
         >
           <Image src={src} alt="logo" width={30} height={30} />
         </span>

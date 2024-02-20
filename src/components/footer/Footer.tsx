@@ -78,12 +78,24 @@ const Footer = () => {
         <div className="flex flex-col gap-4 lg:mt-20">
           <h6 className=" lg:text-[1em]">Discussions</h6>
           <ul className="flex gap-4">
-            <li className="bg-white p-2 rounded-lg flex place-content-center">
+            <li
+              style={{
+                boxShadow:
+                  "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
+              }}
+              className="bg-white p-2 rounded-lg flex place-content-center"
+            >
               <a href="http://" target="_blank" rel="noopener noreferrer">
                 <XIcon />
               </a>
             </li>
-            <li className="bg-white p-2 rounded-lg flex place-content-center">
+            <li
+              style={{
+                boxShadow:
+                  "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
+              }}
+              className="bg-white p-2 rounded-lg flex place-content-center"
+            >
               <a
                 href="https://github.com/Starknet-Africa-Edu"
                 target="_blank"
@@ -92,7 +104,13 @@ const Footer = () => {
                 <GithubIcon />
               </a>
             </li>
-            <li className="bg-white p-2 rounded-lg flex place-content-center">
+            <li
+              style={{
+                boxShadow:
+                  "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
+              }}
+              className="bg-white p-2 rounded-lg flex place-content-center"
+            >
               <a
                 className="inline-block -rotate-[35deg]"
                 href="http://"

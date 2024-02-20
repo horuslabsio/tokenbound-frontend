@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import DownChevronIcon from "svg/DownChevronIcon";
@@ -23,9 +23,32 @@ const DesktopNav = ({
   /* STATE FOR DROPDOWN */
   const [openDropDown, setOpenDropDown] = useState(false);
   const [activeDropDown, setActiveDropDown] = useState("");
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const toggleDropDown = () => {
     setOpenDropDown((prev) => !prev);
   };
+  const closeDropDown = () => {
+    setOpenDropDown(false);
+    setActiveDropDown("");
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        closeDropDown();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
+
   return (
     <nav className="flex items-center gap-8 justify-between">
       <div className="basis-[80%] lg:basis-1/2   flex items-center gap-40">
@@ -37,7 +60,7 @@ const DesktopNav = ({
             height={46}
           />
         </Link>
-        <div className="hidden lg:flex gap-8">
+        <div ref={dropdownRef} className="hidden lg:flex gap-8">
           <button
             onMouseEnter={() => setActiveDropDown("learning")}
             onClick={toggleDropDown}

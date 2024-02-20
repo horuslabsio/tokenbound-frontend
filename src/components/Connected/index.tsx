@@ -6,7 +6,7 @@ import { Transition, Dialog } from "@headlessui/react";
 import Disconnect from "../Disconnect/page";
 import { usePathname } from "next/navigation";
 
-function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
+function ConnectedNavBar() {
   const { address, account } = useAccount();
   const [show, setShow] = useState<boolean>(false);
   const path = usePathname();
@@ -21,19 +21,6 @@ function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
       >
         <p className="text-center">{shortenAddress(address as any)}</p>
       </div>
-      {/* <div>
-        {account && path == "/" && (
-          <Link href={`/wallet/${address}`}>
-            <button
-              onClick={closeMenu}
-              className=" xsm:w-[90%] w-[14rem] p-3  bg-deep-blue rounded-[8px] text-white"
-              type="button"
-            >
-              My NFTs &rarr;
-            </button>
-          </Link>
-        )}
-      </div> */}
 
       <Transition appear show={show} as={Fragment}>
         <Dialog as="div" className="relative z-[999]" onClose={closeModal}>
@@ -49,7 +36,7 @@ function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
             <div className="fixed inset-0 bg-white bg-opacity-25" />
           </Transition.Child>
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex bg-[#0C0C4F90] min-h-full items-center justify-center p-4 text-center">
+            <div className="flex bg-[#0a0a0a30] min-h-full  justify-end p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -63,7 +50,7 @@ function ConnectedNavBar({ closeMenu }: { closeMenu?(): void }) {
                   style={{
                     boxShadow: "0 0 50px 0 #EC796B33",
                   }}
-                  className="transform rounded-lg overflow-hidden  bg-[#fAFAFA] p-10 lg:w-[30%]"
+                  className="rounded-[20px] overflow-hidden mt-20  bg-[#fAFAFA] p-10 lg:w-[30%] h-fit"
                 >
                   <Disconnect closeModal={closeModal} />
                 </Dialog.Panel>
