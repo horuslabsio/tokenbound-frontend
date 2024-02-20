@@ -110,7 +110,7 @@ const MobileNav = ({
                           Connect Wallet
                         </button>
                       ) : (
-                        <ConnectedNavBar closeMenu={closeMenu} />
+                        <ConnectedNavBar />
                       )}
                     </div>
                   </div>
