@@ -33,7 +33,6 @@ function NFT() {
       setIsWalletOpen(true);
     }
   }, [isConnected , address]);
-  console.log(isConnected, address);
   return (
     <AppWrapper>
       {isConnected && !!address ? (
