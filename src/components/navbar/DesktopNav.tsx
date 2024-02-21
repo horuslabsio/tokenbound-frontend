@@ -8,6 +8,7 @@ import SearchIcon from "svg/SearchIcon";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
+import SearchNFT from "./SearchNFT";
 
 const DesktopNav = ({
   isWalletOpen,
@@ -108,24 +109,7 @@ const DesktopNav = ({
         </div>
       </div>
       <div className="hidden md:hidden lg:flex items-center space-x-8">
-        <div className="relative w-[14rem]">
-          <input
-            className="bg-off-white py-3 px-16  w-full h-full rounded-[8px]"
-            role="search"
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search NFTs"
-          />
-          <span
-            style={{
-              top: "calc(50% - 2em /2)",
-            }}
-            className="absolute px-4 text-gray-500  left-0"
-          >
-            <SearchIcon />
-          </span>
-        </div>
+        <SearchNFT />
         {isWalletOpen && (
           <ConnectWallet
             isWalletOpen={isWalletOpen}

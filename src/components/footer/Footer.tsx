@@ -31,11 +31,11 @@ const Footer = () => {
           </div>
           <div className="flex flex-col  mt-8 gap-6 md:items-center md:flex-row">
             <input
-              className=" p-3 bg-[#EFEFEF] w-[90%]  border-solid border-[1px] rounded-[8px] border-[#7A7A7A] md:w-[60%] lg:w-[40%]"
+              className=" p-4 bg-[#EFEFEF] w-[90%]  border-solid border-[1px] rounded-[8px] border-[#7A7A7A] md:w-[60%] lg:w-[40%]"
               type="email"
               placeholder="Email Address"
             />
-            <button className=" w-[10rem] p-3 bg-deep-blue rounded-[8px] text-white">
+            <button className=" w-[10rem] p-4 bg-deep-blue rounded-[8px] text-white">
               Get Updates
             </button>
           </div>

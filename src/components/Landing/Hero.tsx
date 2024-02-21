@@ -9,7 +9,7 @@ const Hero = () => {
           ERC-6551 turns every NFT into a smart wallet that can own tokens and
           interact with dApps across the Ethereum ecosystem.
         </p>
-        <button className="xsm:w-[90%] w-[14rem] block mt-4 mx-auto p-3 bg-deep-blue rounded-[8px] text-white">
+        <button className="xsm:w-[90%] w-[14rem] block mt-4 mx-auto p-4 bg-deep-blue rounded-[8px] text-white">
           Go to Dashboard
         </button>
       </div>

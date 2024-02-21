@@ -5,6 +5,7 @@ import { Dialog, Transition } from "@headlessui/react";
 
 import { AccountInterface } from "starknet";
 import { Anchor } from "./DropDown";
+import SearchNFT from "./SearchNFT";
 const MobileNav = ({
   account,
   openWalletModal,
@@ -75,11 +76,24 @@ const MobileNav = ({
                       className="inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium text-blue-900 "
                       onClick={closeMenu}
                     >
-                      close menu
+                      <div
+                        className={`w-[2em] h-[2px] bg-[#393838] rounded-full transition-all duration-300 ease-in-out ${
+                          isOpen
+                            ? "rotate-45 translate-y-[.5em]"
+                            : "transform-none"
+                        } `}
+                      ></div>
+                      <div
+                        className={`w-[2em] h-[2px] bg-[#393838] rounded-full transition-all duration-300 ease-in-out ${
+                          isOpen
+                            ? "rotate-[-45deg] translate-y-[-.2em]"
+                            : "transform-none"
+                        } `}
+                      ></div>
                     </button>
                   </Dialog.Title>
 
-                  <div className="mt-4 p-4 ">
+                  <div className="mt-4 p-4 flex flex-col gap-8 ">
                     <nav>
                       <ul className="flex flex-wrap md:none lg:none items-center gap-6">
                         {learningLinks.map((item, idx) => (
@@ -100,11 +114,12 @@ const MobileNav = ({
                         ))}
                       </ul>
                     </nav>
-                    <div className="mt-8">
+                    <SearchNFT />
+                    <div>
                       {!account ? (
                         <button
                           onClick={openWalletModal}
-                          className="xsm:w-[90%] w-[14rem] bg-deep-blue text-white px-4 py-3 rounded-lg"
+                          className="xsm:w-[90%] w-[14rem] bg-deep-blue text-white px-4 py-4 rounded-lg"
                           type="button"
                         >
                           Connect Wallet
