@@ -55,6 +55,7 @@ const Card = () => {
           </Link>
         ))
       }
+      
 
       {/* {
         nft.length == 0 ? <p className="text-red-500">No NFT to display</p> :
