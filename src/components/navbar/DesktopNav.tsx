@@ -121,7 +121,7 @@ const DesktopNav = ({
         {!account ? (
           <button
             onClick={openWalletModal}
-            className="w-[14rem] p-3 bg-deep-blue rounded-[8px] text-white"
+            className="w-[14rem] p-4 bg-deep-blue rounded-[8px] text-white"
             type="button"
           >
             Connect Wallet
