@@ -13,7 +13,7 @@ export default function NFTCard({image}) {
       <Image src={image} alt="nft" 
       width={509} 
       height={380} 
-    className="!w-auto !h-[auto]"
+    className="!w-full !h-auto"
       />
         </div>
       <div className="px-7 py-6 bg-white h-[219px] text-left w-full">
