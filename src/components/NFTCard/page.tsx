@@ -42,7 +42,7 @@ const NFTCard = ({ nft }: NFTCard) => {
           <span className="text-gray-400">
             {shortenAddress(nft?.contract_address)}
           </span>
-          <span className="ml-1 border-l p-[2px] border-gray-500">
+          <span className="ml-1  p-[2px]">
             <BiCopyAlt />
           </span>
         </p>
