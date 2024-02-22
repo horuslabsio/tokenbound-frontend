@@ -7,6 +7,7 @@ import { copyToClipBoard, shortenAddress } from "@utils/helper";
 import { CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 import { toast } from "react-toastify";
+import NFTCard from "@components/NFTCard";
 
 const Card = () => {
   let { nft, loading } = useFetchUserNFT();
@@ -28,6 +29,8 @@ const Card = () => {
 
   return (
     <div className="w-full cursor-pointer  p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+     
+
       {Boolean(loading) ? (
         <SyncLoader
           cssOverride={override}
@@ -79,7 +82,8 @@ const Card = () => {
       ) : (
         <p className="text-red-500">No NFT to display</p>
       )}
-
+       
+      
       {/* {
         nft.length == 0 ? <p className="text-red-500">No NFT to display</p> :
           nft.map((item, index) => (
