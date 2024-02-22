@@ -7,9 +7,9 @@ interface NFTCard {
   nft: any;
 }
 const NFTCard = ({ nft }: NFTCard) => {
-    const router=useRouter()
-  const copyToClipBoardHandler = async (e:SyntheticEvent,text: string) => {
-    e.stopPropagation()
+  const router = useRouter();
+  const copyToClipBoardHandler = async (e: SyntheticEvent, text: string) => {
+    e.stopPropagation();
     const success = await copyToClipBoard(text);
     if (success) {
       toast.info(`Copied to clipboard ${text}`);
@@ -17,26 +17,29 @@ const NFTCard = ({ nft }: NFTCard) => {
       toast.error("Not Copied");
     }
   };
-  const redirect=()=>{
-    router.push(`/assets/${nft?.contract_address}${nft?.token_id}`)
-  }
+  const redirect = () => {
+    router.push(`/assets/${nft?.contract_address}${nft?.token_id}`);
+  };
   return (
-    <div className="h-[500px] w-full rounded-xl bg-white cursor-pointer " onClick={redirect}>
+    <div
+      className="h-[500px] w-full rounded-xl bg-white cursor-pointer "
+      onClick={redirect}
+    >
       <img
         className="w-full h-[300px] object-cover rounded-xl"
         src={nft?.metadata?.normalized?.image}
       />
       <div className="h-full w-full p-8 flex flex-col gap-4">
-        <p className="text-2xl text-black"> {nft?.metadata?.normalized?.name}</p>
+        <p className="text-2xl text-black">
+          {" "}
+          {nft?.metadata?.normalized?.name}
+        </p>
         <p
           className="inline-flex items-center p-[4px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110 w-[124px]"
           title="NFT address"
-          onClick={(e) => copyToClipBoardHandler(e,nft?.contract_address)}
+          onClick={(e) => copyToClipBoardHandler(e, nft?.contract_address)}
         >
-          <span
-           
-            className="text-gray-400"
-          >
+          <span className="text-gray-400">
             {shortenAddress(nft?.contract_address)}
           </span>
           <span className="ml-1 border-l p-[2px] border-gray-500">
@@ -52,28 +55,3 @@ const NFTCard = ({ nft }: NFTCard) => {
 };
 
 export default NFTCard;
-{
-  /* <div className="flex-1  h-[500px] min-w-[350px] max-w-[400px] rounded-xl bg-white ">
-<img className='w-full h-[300px] object-cover rounded-xl' src='https://picsum.photos/200/300'  />
-<div className="h-full w-full p-8 flex flex-col gap-4">
-    <p className='text-2xl text-black'>Rainbow #23</p>
-    <p
-          className="inline-flex items-center p-[4px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110 w-[110px]"
-          title="NFT address"
-        >
-          <span
-            onClick={() =>
-              copyToClipBoardHandler("0xwe..qwwww")
-            }
-            className="text-gray-400"
-          >
-            {"0xaw...edf4"}
-          </span>
-          <span className="ml-1 border-l p-[2px] border-gray-500">
-            <BiCopyAlt />
-          </span>
-        </p>
-    <p className="w-full text-lg line-clamp-2 ">Rainbow Palm minted by Stoneclave  that can own tokens Rainbow Palm minted by Stoneclave  that can own tokens Rainbow Palm minted by Stoneclave  that can own tokens </p>
-</div>
-</div> */
-}

@@ -1,12 +1,7 @@
 "use client";
-
-import { BiCopyAlt } from "react-icons/bi";
-import Link from "next/link";
 import { useFetchUserNFT } from "@hooks/index";
-import { copyToClipBoard, shortenAddress } from "@utils/helper";
 import { CSSProperties } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
-import { toast } from "react-toastify";
 import NFTCard from "@components/NFTCard/page";
 
 const NFTCollection = () => {
@@ -17,20 +12,8 @@ const NFTCollection = () => {
     margin: "0 auto",
     textAlign: "center",
   };
-
-  // const copyToClipBoardHandler = async (text: string) => {
-  //   const success = await copyToClipBoard(text);
-  //   if (success) {
-  //     toast.info(`Copied to clipboard ${text}`);
-  //   } else {
-  //     toast.error("Not Copied");
-  //   }
-  // };
-
   return (
     <div className="grid gap-y-6 auto-cols-auto gap-6 xl:grid-cols-3 sm:grid-cols-2  h-auto mt-6">
-     
-
       {Boolean(loading) ? (
         <SyncLoader
           cssOverride={override}
@@ -39,16 +22,11 @@ const NFTCollection = () => {
           color="#36d7b7"
         />
       ) : Array.isArray(nft) && nft?.length > 0 ? (
-        nft?.map((item, index) => (
-           <NFTCard nft={item} key={index} />
-          
-        ))
+        nft?.map((item, index) => <NFTCard nft={item} key={index} />)
       ) : (
         <p className="text-red-500">No NFT to display</p>
       )}
 
-       
-      
       {/* {
         nft.length == 0 ? <p className="text-red-500">No NFT to display</p> :
           nft.map((item, index) => (
