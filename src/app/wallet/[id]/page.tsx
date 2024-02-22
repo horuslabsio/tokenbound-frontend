@@ -2,12 +2,11 @@
 import AppWrapper from "components/AppWrapper";
 import React, { useEffect, useState } from "react";
 import { BiCopyAlt } from "react-icons/bi";
-import Card from "@components/Card/page";
 import { useAccount } from "@starknet-react/core";
 import { copyToClipBoard } from "@utils/helper";
 import { toast } from "react-toastify";
 import ConnectWallet from "@components/ConnectWallet/page";
-import NFTCard from "@components/NFTCard";
+import NFTCollection from "@components/NFTCollection/page";
 
 function NFT() {
   const { address, isConnected } = useAccount();
@@ -52,22 +51,7 @@ function NFT() {
               </span>
             </p>
           </div>
-
-          {/* <div className="flex justify-start my-5 items-center">
-            <p className="mr-4 text-3xl text-gray-300">Collectibles</p>
-            <div className="border-b border-gray flex-grow"></div>
-          </div> */}
-          <div className="flex flex-wrap gap-4 h-full">
-          <NFTCard />
-          <NFTCard />
-          <NFTCard />
-          <NFTCard />
-          <NFTCard />
-
-          </div>
-          {/* <div className="">
-            <Card />
-          </div> */}
+          <NFTCollection />
         </main>
       ) : (
         <main className="min-h-screen pb-16 pt-32">
