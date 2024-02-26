@@ -8,6 +8,7 @@ import Features from "@components/Landing/Features";
 import Projects from "@components/Landing/Projects";
 import ShowCase from "@components/Landing/ShowCase";
 import FAQs from "@components/Landing/FQAs";
+import { useFetchUserNFT } from "@hooks/index";
 
 export default function Home() {
   return (
