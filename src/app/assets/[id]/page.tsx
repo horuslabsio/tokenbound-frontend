@@ -37,7 +37,7 @@ function Assets() {
   const { tokenbound } = useTokenBoundSDK();
   const [status, setStatus] = useState<boolean>(false);
 
-  const src = nft.image;
+  console.log(nft)
 
   const override: CSSProperties = {
     display: "block",
@@ -100,9 +100,9 @@ function Assets() {
           <div className="grid grid-cols-[1fr] md:grid-cols-[673px_1fr] gap-x-[24px] w-full p-4">
             <div className="mb-4 md:mb-0 mr-4 w-[673px] h-[480px]">
               {" "}
-              <Image
+              <img
                 className="!w-[673px] !h-[480px] rounded-[12px] object-cover"
-                src="/unsplash_hKxsoF4aubY.png"
+                src={nft.image}
                 width={673}
                 height={480}
                 alt="Card Image"
@@ -112,7 +112,7 @@ function Assets() {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-x-3">
                   <h2 className="text-[24px] leading-[40px] font-medium text-black">
-                    Rainbow Palm #452
+                    {nft.name}
                   </h2>
                   <button
                     className="inline-flex items-center px-[12px] py-[4px] bg-gray-200 text-sm cursor-pointer rounded-full"
@@ -129,8 +129,8 @@ function Assets() {
                 <div>
                   {status ? (
                     <button
-                      disabled={!!status}
-                      className={`${"bg-gray-500"} text-white text-sm py-[13px] px-6 rounded-[6px]`}
+                      disabled={status}
+                      className={`${"bg-gray-500"} text-white text-sm py-[13px] px-6 disabled:cursor-not-allowed rounded-[6px]`}
                       onClick={deployAccount}
                     >
                       TBA Deployed
@@ -145,7 +145,7 @@ function Assets() {
                   )}
                 </div>
               </div>
-              <p className="mt-[18px] text-base leading-6 text-[#5A5A5A]">Our implementation focuses on ease of use and adoption. Unlike other proposals and projects, Token Bound works with no action needed by project owners, no wrapping contracts, and no change to the ERC-721 standard. Most importantly, every ERC-721 and ERC-1155 NFT you already.</p>
+              <p className="mt-[18px] text-base leading-6 text-[#5A5A5A]">{nft.description}</p>
               <div>
                 <div className="mt-6 flex items-center gap-x-[12px] p-[7px] bg-[#EFEFEF] rounded-[8px] w-fit">
                     <button

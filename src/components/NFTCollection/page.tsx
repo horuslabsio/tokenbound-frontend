@@ -6,7 +6,7 @@ import NFTCard from "@components/NFTCard/page";
 
 const NFTCollection = () => {
   let { nft, loading } = useFetchUserNFT();
-
+console.log(nft)
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
