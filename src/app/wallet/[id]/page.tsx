@@ -39,7 +39,7 @@ function NFT() {
         <main className="min-h-screen pb-16 pt-32">
           <div className="flex items-center space-x-4 justify-start gap-1">
             <h2 className=" text-black text-4xl font-medium ">My NFT Collections</h2>
-            <p className="inline-flex items-center px-[12px] py-[4px] bg-gray-200 text-sm cursor-pointer rounded-full hover:transform hover:scale-110"  onClick={() => copyToClipBoardHandler(address!)}>
+            <button className="inline-flex items-center px-[12px] py-[4px] bg-gray-200 text-sm cursor-pointer rounded-full hover:transform hover:scale-110"  onClick={() => copyToClipBoardHandler(address!)}>
               <span
                
                 className="text-gray-400"
@@ -49,7 +49,7 @@ function NFT() {
               <span className="ml-2 border-l border-gray-500 p-1">
                 <BiCopyAlt  />
               </span>
-            </p>
+            </button>
           </div>
           <NFTCollection />
         </main>
