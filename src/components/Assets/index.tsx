@@ -1,5 +1,5 @@
 import React, { CSSProperties, useState } from 'react'
-import ETH from "@public/ETH.png"
+import ETH from "@public/eth.png"
 import USDC from "@public/USDC.png"
 import DAI from "@public/DAI.png"
 import USDT from "@public/usdt.png"
@@ -68,16 +68,16 @@ function Asset({ tokenboundaddress }: AssetProps) {
 
 
   return (
-    <div className='mt-4'>
-      <div className='flex items-center -mx-[11px] mb-2'>
+    <div className='mt-4 flex flex-col gap-y-5'>
+      <div className='flex items-center gap-x-3'>
         <div>
-          <img src={ETH.src} className='w-full h-12' alt='asset-logo' />
+          <img src={ETH.src} className='!w-[40px] !h-[30px]' alt='asset-logo' />
         </div>
         <div>
 
           {
             //@ts-ignore
-            ethLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl'> {`${ETH_BALANCE.toFixed(4)} ETH`}</h2>
+            ethLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mb-2'> {`${ETH_BALANCE.toFixed(4)} ETH`}</h2>
 
           }
           {
@@ -85,14 +85,14 @@ function Asset({ tokenboundaddress }: AssetProps) {
           }
         </div>
       </div>
-      <div className='flex items-center'>
+      <div className='flex items-center gap-x-3'>
         <div>
-          <Image src={USDC.src} width={40} height={30} alt='asset-logo' />
+          <img src={USDC.src} className='!w-[40px] !h-[30px]' alt='asset-logo' />
         </div>
         <div>
           {
             //@ts-ignore
-            usdcLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mx-2'> {`${USDC_BALANCE.toFixed(4)} USDC`}</h2>
+            usdcLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mb-2'> {`${USDC_BALANCE.toFixed(4)} USDC`}</h2>
 
           }
           {
@@ -100,15 +100,15 @@ function Asset({ tokenboundaddress }: AssetProps) {
           }
         </div>
       </div>
-      <div className='flex items-center mt-2'>
+      <div className='flex items-center gap-x-3'>
         <div>
-          <Image src={DAI.src} width={40} height={30} alt='asset-logo' />
+          <img src={DAI.src} className='!w-[40px] !h-[30px]' alt='asset-logo' />
         </div>
         <div>
           <div>
             {
               //@ts-ignore
-              daiLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mx-2'> {`${DAI_BALANCE.toFixed(4)} DAI`}</h2>
+              daiLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mb-2'> {`${DAI_BALANCE?.toFixed(4) || 0} DAI`}</h2>
 
             }
             {
@@ -118,15 +118,15 @@ function Asset({ tokenboundaddress }: AssetProps) {
         </div>
       </div>
 
-      <div className='flex items-center mt-2'>
+      <div className='flex items-center gap-x-3'>
         <div>
-          <Image src={USDT.src} width={40} height={30} alt='asset-logo' />
+          <img src={USDT.src} className='!w-[40px] !h-[30px]' alt='asset-logo' />
         </div>
         <div>
           <div>
             {
               //@ts-ignore
-              usdtLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mx-2'> {`${USDT_BALANCE.toFixed(4)} USDT`}</h2>
+              usdtLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mb-2'> {`${USDT_BALANCE.toFixed(4)} USDT`}</h2>
 
             }
             {

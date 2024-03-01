@@ -50,7 +50,7 @@ export const copyToClipBoard = (text:string) => {
 export const instance = axios.create({
     headers: {
         'accept': 'application/json',
-        'x-api-key': process.env.NEXT_PUBLIC_ARK_API_KEY!
+        'x-api-key': process.env.NEXT_PUBLIC_ARK_API_KEY
     }
 });
 

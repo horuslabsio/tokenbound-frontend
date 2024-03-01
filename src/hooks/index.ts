@@ -23,6 +23,7 @@ export const useFetchUserNFT = () => {
           setLoading(false)
           return
         }
+        console.log(address, formatted_address)
 
         // const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${formatted_address}&withMetadata=true&pageSize=100`
         const url = `https://api.arkproject.dev/v1/owners/${formatted_address}/tokens`
