@@ -4,10 +4,10 @@ import Link from "next/link";
 import DownChevronIcon from "svg/DownChevronIcon";
 import DropDown from "./DropDown";
 import { communityLinks, learningLinks } from "@static/index";
-import SearchIcon from "svg/SearchIcon";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
+import SearchNFT from "./SearchNFT";
 
 const DesktopNav = ({
   isWalletOpen,
@@ -51,7 +51,7 @@ const DesktopNav = ({
 
   return (
     <nav className="flex items-center gap-8 justify-between">
-      <div className="basis-[80%] lg:basis-1/2   flex items-center gap-40">
+      <div className="flex items-center gap-10">
         <Link href={"/"}>
           <Image
             src={"/logo.svg"}
@@ -108,24 +108,7 @@ const DesktopNav = ({
         </div>
       </div>
       <div className="hidden md:hidden lg:flex items-center space-x-8">
-        <div className="relative w-[14rem]">
-          <input
-            className="bg-off-white py-3 px-16  w-full h-full rounded-[8px]"
-            role="search"
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search NFTs"
-          />
-          <span
-            style={{
-              top: "calc(50% - 2em /2)",
-            }}
-            className="absolute px-4 text-gray-500  left-0"
-          >
-            <SearchIcon />
-          </span>
-        </div>
+        <SearchNFT />
         {isWalletOpen && (
           <ConnectWallet
             isWalletOpen={isWalletOpen}
@@ -137,7 +120,7 @@ const DesktopNav = ({
         {!account ? (
           <button
             onClick={openWalletModal}
-            className="w-[14rem] p-3 bg-deep-blue rounded-[8px] text-white"
+            className="w-[14rem] p-4 bg-deep-blue rounded-[8px] text-white"
             type="button"
           >
             Connect Wallet

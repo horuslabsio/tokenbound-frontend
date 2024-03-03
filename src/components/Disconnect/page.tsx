@@ -59,7 +59,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
         <Link href={`/wallet/${address}`}>
           <button
             onClick={closeModal}
-            className="w-full p-3 bg-deep-blue rounded-[8px] text-white my-2"
+            className="w-full p-4 bg-deep-blue rounded-[8px] text-white my-2"
             type="button"
           >
             My NFTs &rarr;
@@ -68,7 +68,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
         <button
           type="button"
           onClick={() => disconnect()}
-          className="w-full p-3  text-[#810E0E] rounded-[8px]  border-solid border-[1px] border-[#810E0E]"
+          className="w-full p-4  text-[#810E0E] rounded-[8px]  border-solid border-[1px] border-[#810E0E]"
         >
           Disconnect
         </button>
