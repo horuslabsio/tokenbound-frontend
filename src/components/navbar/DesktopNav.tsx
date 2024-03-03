@@ -4,7 +4,6 @@ import Link from "next/link";
 import DownChevronIcon from "svg/DownChevronIcon";
 import DropDown from "./DropDown";
 import { communityLinks, learningLinks } from "@static/index";
-import SearchIcon from "svg/SearchIcon";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
@@ -52,7 +51,7 @@ const DesktopNav = ({
 
   return (
     <nav className="flex items-center gap-8 justify-between">
-      <div className="basis-[80%] lg:basis-1/2   flex items-center gap-40">
+      <div className="flex items-center gap-10">
         <Link href={"/"}>
           <Image
             src={"/logo.svg"}

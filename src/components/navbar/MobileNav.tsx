@@ -42,7 +42,11 @@ const MobileNav = ({
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeMenu}>
+        <Dialog
+          as="div"
+          className="relative z-10 block  lg:hidden "
+          onClose={closeMenu}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -93,7 +97,7 @@ const MobileNav = ({
                     </button>
                   </Dialog.Title>
 
-                  <div className="mt-4 p-4 flex flex-col gap-8 ">
+                  <div className="mt-8 p-4 flex flex-col gap-8">
                     <nav>
                       <ul className="flex flex-wrap md:none lg:none items-center gap-6">
                         {learningLinks.map((item, idx) => (
