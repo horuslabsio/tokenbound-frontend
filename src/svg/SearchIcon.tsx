@@ -2,8 +2,8 @@ const SearchIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="2em"
-      height="2em"
+      width="1.7em"
+      height="1.7em"
       viewBox="0 0 20 20"
     >
       <path

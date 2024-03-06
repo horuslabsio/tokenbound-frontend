@@ -27,7 +27,7 @@ const Card = ({
       <figcaption className="bg-white p-8 rounded-b-[8px] flex flex-col gap-4">
         <h5 className="text-black">{title}</h5>
         <p>{description}</p>
-        <button className="flex items-center w-fit gap-4 border-solid border-[2px] rounded-[5px] py-2 px-6  border-deep-blue text-deep-blue group transition-all duration-300 ease-in-out hover:bg-[#0C0C4F20]">
+        <button className="flex items-center w-fit gap-4 border-solid border-[2px] rounded-[5px] py-3 px-6  border-deep-blue text-deep-blue group transition-all duration-300 ease-in-out hover:bg-[#0C0C4F20]">
           <span className="text-start">{button}</span>
           <span className="transition-all duration-300 ease-in-out group-hover:-rotate-[20deg]">
             <svg
@@ -38,9 +38,9 @@ const Card = ({
             >
               <path
                 fill="currentColor"
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M13.47 5.47a.75.75 0 0 1 1.06 0l6 6a.75.75 0 0 1 0 1.06l-6 6a.75.75 0 1 1-1.06-1.06l4.72-4.72H4a.75.75 0 0 1 0-1.5h14.19l-4.72-4.72a.75.75 0 0 1 0-1.06"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
           </span>

@@ -17,7 +17,7 @@ function ConnectedNavBar() {
     <div className="flex flex-col gap-4 md:items-center md:flex-row">
       <div
         onClick={closeModal}
-        className="bg-gray-200 cursor-pointer xsm:w-[90%] w-[10rem]  p-3  border-solid border-[1px] border-[#C4C4C4] rounded-full lg:my-0 lg:mx-auto"
+        className="bg-gray-200 cursor-pointer xsm:w-[90%] w-[10rem]  p-4  border-solid border-[1px] border-[#C4C4C4] rounded-full lg:my-0 lg:mx-auto"
       >
         <p className="text-center">{shortenAddress(address as any)}</p>
       </div>
@@ -50,7 +50,7 @@ function ConnectedNavBar() {
                   style={{
                     boxShadow: "0 0 50px 0 #EC796B33",
                   }}
-                  className="rounded-[20px] overflow-hidden mt-20  bg-[#fAFAFA] p-10 lg:w-[30%] h-fit"
+                  className="rounded-[20px] overflow-hidden mt-20  bg-[#fAFAFA] p-10 lg:w-[30rem] h-[33rem]"
                 >
                   <Disconnect closeModal={closeModal} />
                 </Dialog.Panel>

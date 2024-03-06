@@ -20,6 +20,7 @@ const TBANFT = ({tba}:Itba) => {
     margin: "0 auto",
     textAlign: 'center'
   };
+  console.log(tbanft)
 
   const copyToClipBoardHandler = async (text: string) => {
     const success = await copyToClipBoard(text);

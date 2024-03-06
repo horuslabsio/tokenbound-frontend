@@ -6,7 +6,7 @@ const Community = () => {
         Learn more about Starknet Tokenbound with the builders and contributors
         to ERC-6551 on Telegram
       </p>
-      <div className="flex rounded-full gap-2 bg-white  w-fit p-2 md:rounded-full md:flex-row">
+      <div className="flex rounded-full gap-2 bg-white  w-fit p-3 md:rounded-full md:flex-row">
         <p className="p-2 bg-off-white rounded-full text-deep-blue font-medium">
           Every Thursday
         </p>
@@ -21,7 +21,7 @@ const Community = () => {
         </p>
       </div>
       <a
-        className="md:w-[20rem] text-center block mt-4 mx-auto p-3 bg-deep-blue rounded-[8px] text-white"
+        className="md:w-[20rem] text-center block mt-4 mx-auto p-4 bg-deep-blue rounded-[8px] text-white"
         href="http://"
         target="_blank"
         rel="noopener noreferrer"

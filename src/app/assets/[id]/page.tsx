@@ -3,45 +3,56 @@ import AppWrapper from "@components/AppWrapper";
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
-import { useFetchNFTMetadata, useTokenBoundSDK, useGetAccountAddress } from "@hooks/index";
+import {
+  useFetchNFTMetadata,
+  useTokenBoundSDK,
+  useGetAccountAddress,
+} from "@hooks/index";
 import { useParams } from "next/navigation";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
 import { copyToClipBoard, shortenAddress } from "@utils/helper";
 import { toast } from "react-toastify";
-import FungibleAsset from "@components/Assets/index"
-import NonFungibleAsset from "@components/Assets/Tbanft"
+import FungibleAsset from "@components/Assets/index";
+import NonFungibleAsset from "@components/Assets/Tbanft";
+import { useAccount } from "@starknet-react/core";
+import { BiCopyAlt } from "react-icons/bi";
 
-const url = process.env.NEXT_PUBLIC_EXPLORER
+const url = process.env.NEXT_PUBLIC_EXPLORER;
 
 function Assets() {
-  const [isCollectible, setIsCollectible] = useState(false)
+  const [isCollectible, setIsCollectible] = useState(true);
   const toggleContent = () => {
-    setIsCollectible((prevIsCollectible) => !prevIsCollectible)
+    setIsCollectible((prevIsCollectible) => !prevIsCollectible);
   };
-  
-  let { id } = useParams()
-  let contractAddress = id.slice(0, 66) as string
-  let tokenId = id.slice(66) as string
-  const { nft, loading } = useFetchNFTMetadata(contractAddress, tokenId)
-  const { deployedAddress } = useGetAccountAddress({ contractAddress, tokenId })
-  const { tokenbound } = useTokenBoundSDK()
-  const [status, setStatus] = useState<boolean>(false)
 
-  const src = nft.image
- 
+  let { id } = useParams();
+  let contractAddress = id.slice(0, 66) as string;
+  let tokenId = id.slice(66) as string;
+  const { nft, loading } = useFetchNFTMetadata(contractAddress, tokenId);
+  const { deployedAddress } = useGetAccountAddress({
+    contractAddress,
+    tokenId,
+  });
+  const { tokenbound } = useTokenBoundSDK();
+  const [status, setStatus] = useState<boolean>(false);
+
+  console.log(nft)
+
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
-    textAlign: 'center'
+    textAlign: "center",
   };
 
+  const { address, isConnected } = useAccount();
+
   const copyToClipBoardHandler = async (text: string) => {
-    const success = await copyToClipBoard(text)
+    const success = await copyToClipBoard(text);
     if (success) {
-      toast.info(`Copied to clipboard:  ${text}`)
+      toast.info(`Copied to clipboard:  ${text}`);
     } else {
-      toast.error("Not Copied")
+      toast.error("Not Copied");
     }
   };
 
@@ -50,100 +61,118 @@ function Assets() {
       const accountStatus = await tokenbound.checkAccountDeployment({
         tokenContract: contractAddress,
         tokenId,
-      })
-      setStatus(accountStatus?.deployed)
+      });
+      setStatus(accountStatus?.deployed);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
-  getAccountStatus()
-
+  getAccountStatus();
 
   const deployAccount = async () => {
     try {
       await tokenbound.createAccount({
         tokenContract: contractAddress,
         tokenId: tokenId,
-      })
-      toast.info("Account was deployed successfully!")
+      });
+      toast.info("Account was deployed successfully!");
+    } catch (err) {
+      console.log(err);
+      toast.error("An error was encountered during the course of deployment!");
     }
-    catch (err) {
-      console.log(err)
-      toast.error("An error was encountered during the course of deployment!")
-    }
-  }
+  };
 
   return (
     <AppWrapper>
-      {
-        loading ? (
-          <SyncLoader cssOverride={override} aria-label="Loading Spinner" size={50} color="#36d7b7" />
-        ) :
-          (
-            <section>
-              <div className="flex flex-col md:flex-row justify-between w-full p-4">
-                <div className="w-full md:w-1/2 mb-4 md:mb-0 mr-4">
-                  {" "}
-                  <Image className="w-full h-auto md:h-full rounded-lg object-cover" loader={() => src} src={src} width={100} height={100} alt="Card Image" />
+      {loading ? (
+        <SyncLoader
+          cssOverride={override}
+          aria-label="Loading Spinner"
+          size={50}
+          color="#36d7b7"
+        />
+      ) : (
+        <section className="pt-[240px]">
+          <h2 className=" text-black text-[36px] leading-10 mb-[32px] font-medium ">
+            My NFT Collections
+          </h2>
+          <div className="grid grid-cols-[1fr] md:grid-cols-[673px_1fr] gap-x-[24px] w-full p-4">
+            <div className="mb-4 md:mb-0 mr-4 w-[673px] h-[480px]">
+              {" "}
+              <img
+                className="!w-[673px] !h-[480px] rounded-[12px] object-cover"
+                src={nft.image}
+                width={673}
+                height={480}
+                alt="Card Image"
+              />
+            </div>
+            <div className="w-full">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-x-3">
+                  <h2 className="text-[24px] leading-[40px] font-medium text-black">
+                    {nft.name}
+                  </h2>
+                  <button
+                    className="inline-flex items-center px-[12px] py-[4px] bg-gray-200 text-sm cursor-pointer rounded-full"
+                    onClick={() => copyToClipBoardHandler(address!)}
+                  >
+                    <span className="text-gray-400">
+                      {address?.slice(0, 4)}...{address?.slice(61, 66)}
+                    </span>
+                    <span className="ml-2 border-l border-gray-500 pl-[6px] py-[2px]">
+                      <BiCopyAlt />
+                    </span>
+                  </button>
                 </div>
-                <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-lg">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="inline-flex items-center p-[5px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110" title="Tokenbound account address">
-                        <span onClick={() => copyToClipBoardHandler(deployedAddress as string)} className="text-gray-400">{shortenAddress(deployedAddress as string)}</span>
-                        <span className="ml-3">
-                          <a href={`${url}/contract/${deployedAddress}`} target="__blank"><FaArrowAltCircleRight size={25} /></a>
-                        </span>
-                      </p>
-                    </div>
-                    <div>
-                      {
-                        status ? <button disabled={!!status} className={`${'bg-gray-500'} text-white font-normal outline-none px-1 md:px-2 lg:px-2 py-1 rounded-lg`} onClick={deployAccount}>TBA Deployed</button> : <button className={`${'bg-black'} text-white font-normal outline-none px-1 md:px-2 lg:px-2 py-1 rounded-lg`} onClick={deployAccount}>Deploy Account</button>
-
-                      }
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mt-6">
-                      <div
-                        className={`inline-flex mr-2 rounded-lg ${isCollectible ? `bg-gray-200` : ``
-                          } text-gray-300`}
-                      >
-                        <div className="mr-2">
-                          <FaGem size={24} />
-                        </div>
-                        <button
-                          onClick={toggleContent}
-                          className="text-gray-400 cursor-pointer "
-                        >
-                          Collectible
-                        </button>
-                      </div>
-                      <div
-                        className={`inline-flex mr-2 rounded-lg ${isCollectible ? `` : `bg-gray-200`
-                          } 
-                        text-gray-300
-                      `}
-                      >
-                        <div className="mr-2">
-                          <FaCoins size={24} />
-                        </div>
-                        <button
-                          onClick={toggleContent}
-                          className="text-gray-400 cursor-pointer"
-                        >
-                          Assets
-                        </button>
-                      </div>
-                    </div>
-                    {isCollectible ? <NonFungibleAsset tba={deployedAddress} /> : <FungibleAsset tokenboundaddress={deployedAddress} />}{" "}
-                  </div>
+                <div>
+                  {status ? (
+                    <button
+                      disabled={status}
+                      className={`${"bg-gray-500"} text-white text-sm py-[13px] px-6 disabled:cursor-not-allowed rounded-[6px]`}
+                      onClick={deployAccount}
+                    >
+                      TBA Deployed
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-[#0C0C4F] text-[#fafafa] text-sm py-[13px] px-6 rounded-[6px]"
+                      onClick={deployAccount}
+                    >
+                      Deploy Account
+                    </button>
+                  )}
                 </div>
               </div>
-            </section>
-          )
-      }
+              <p className="mt-[18px] text-base leading-6 text-[#5A5A5A]">{nft.description}</p>
+              <div>
+                <div className="mt-6 flex items-center gap-x-[12px] p-[7px] bg-[#EFEFEF] rounded-[8px] w-fit">
+                    <button
+                      onClick={toggleContent}
+                      className={`${isCollectible ? 'bg-[#0C0C4F] text-white' : 'bg-[#F2F2F2] text-gray-400'} cursor-pointer  rounded-[6px] gap-x-1 flex items-center py-[10px] px-4`}
+                    >
+                      <FaGem size={24} />
+                      Collectible
+                    </button>
+                    <button
+                      onClick={toggleContent}
+                      className={`${!isCollectible ? 'bg-[#0C0C4F] text-white' : 'bg-[#F2F2F2] text-gray-400'} cursor-pointer gap-x-1 rounded-[6px] py-[10px] px-4 flex items-center`}
+                    >
+                      <FaCoins size={24} />
+                      Assets
+                    </button>
+                </div>
+                {isCollectible ? (
+                  <NonFungibleAsset tba={deployedAddress} />
+                ) : (
+                  <FungibleAsset tokenboundaddress={deployedAddress} />
+                )}{" "}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </AppWrapper>
   );
 }

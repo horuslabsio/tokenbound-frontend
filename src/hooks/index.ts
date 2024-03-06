@@ -3,153 +3,151 @@ import { instance } from "@utils/helper";
 import { useAccount } from "@starknet-react/core";
 import { IAccountParam, NftItem, raw, TokenInfo } from "types";
 import { num } from "starknet";
-
 import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
-import { TokenboundClient } from "starknet-tokenbound-sdk"
+import { TokenboundClient } from "starknet-tokenbound-sdk";
 
-const network = process.env.NEXT_PUBLIC_NETWORK
+const network = process.env.NEXT_PUBLIC_NETWORK;
 
 export const useFetchUserNFT = () => {
-  const { address, account } = useAccount()
-  const [nft, setNft] = useState<TokenInfo[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
-  let formatted_address = account?.address.replace('0x', '0x0')
+  const { address, account } = useAccount();
+  const [nft, setNft] = useState<TokenInfo[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  let formatted_address = account?.address.replace("0x", "0x0");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (!address) {
-          console.error("Address is undefined. Unable to make the request.")
-          setLoading(false)
-          return
+          console.error("Address is undefined. Unable to make the request.");
+          setLoading(false);
+          return;
         }
+        console.log(address, formatted_address)
 
         // const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${formatted_address}&withMetadata=true&pageSize=100`
-        const url = `https://api.arkproject.dev/v1/owners/${formatted_address}/tokens`
-        const response = await instance.get(url)
-        const { data } = await response
-        setNft(data?.result)
-        setLoading(false)
+        const url = `https://api.arkproject.dev/v1/owners/${formatted_address}/tokens`;
+        const response = await instance.get(url);
+        const { data } = await response;
+        setNft(data?.result);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching user NFT:", error)
-        setLoading(false)
+        console.error("Error fetching user NFT:", error);
+        setLoading(false);
       }
     };
     if (address) {
-      fetchData()
+      fetchData();
     }
-  }, [address]) // Execute the effect when address changes
+  }, [address]); // Execute the effect when address changes
 
   return {
     nft,
-    loading
-  }
-}
+    loading,
+  };
+};
 
 export const useFetchNFTMetadata = (address: string, id: string) => {
-  const [nft, setNft] = useState<raw>({ name: '', description: '', image: '' })
-  const [loading, setLoading] = useState<boolean>(true)
+  const [nft, setNft] = useState<raw>({ name: "", description: "", image: "" });
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (!address) {
-          console.error("Address is undefined. Unable to make the request.")
-          setLoading(false)
-          return
+          console.error("Address is undefined. Unable to make the request.");
+          setLoading(false);
+          return;
         }
         // const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${formatted_address}&tokenId=${id}&tokenType=ERC721`
         const url = `https://api.arkproject.dev/v1/tokens/${address}/${id}`;
 
-        const response = await instance.get(url)
-        const { data } = await response
-        setNft(data?.result?.metadata?.normalized)
-        setLoading(false)
+        const response = await instance.get(url);
+        const { data } = await response;
+        setNft(data?.result?.metadata?.normalized);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching user NFT:", error)
-        setLoading(false)
+        console.error("Error fetching user NFT:", error);
+        setLoading(false);
       }
     };
     if (address) {
-      fetchData()
+      fetchData();
     }
-  }, [address])
+  }, [address]);
 
   return {
     nft,
-    loading
-  }
-}
-
-
+    loading,
+  };
+};
 
 export const useTBAAsset = (tokenBoundAddress: string) => {
-  const { address } = useAccount()
-  const [tbanft, setTbaNft] = useState<NftItem[]>([])
-  const [loadingTba, setTbaLoading] = useState<boolean>(true)
+  const { address } = useAccount();
+  const [tbanft, setTbaNft] = useState<NftItem[]>([]);
+  const [loadingTba, setTbaLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (!address) {
-          console.error("Address is undefined. Unable to make the request.")
-          setTbaLoading(false)
-          return
+          console.error("Address is undefined. Unable to make the request.");
+          setTbaLoading(false);
+          return;
         }
 
-        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${tokenBoundAddress}&withMetadata=true&pageSize=100`
+        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${tokenBoundAddress}&withMetadata=true&pageSize=100`;
 
-        const response = await instance.get(url)
-        const { data } = await response
-        setTbaNft(data?.ownedNfts)
-        setTbaLoading(false)
+        const response = await instance.get(url);
+        const { data } = await response;
+        setTbaNft(data?.ownedNfts);
+        setTbaLoading(false);
       } catch (error) {
-        console.error("Error fetching user NFT:", error)
-        setTbaLoading(false)
+        console.error("Error fetching user NFT:", error);
+        setTbaLoading(false);
       }
     };
     if (address) {
-      fetchData()
+      fetchData();
     }
-  }, [address, tokenBoundAddress]) // Execute the effect when address changes
+  }, [address, tokenBoundAddress]); // Execute the effect when address changes
 
   return {
     tbanft,
-    loadingTba
-  }
-}
+    loadingTba,
+  };
+};
 
 export const useTokenBoundSDK = () => {
-  const { account } = useAccount()
+  const { account } = useAccount();
   const options = {
     account: account,
     registryAddress: TBAcontractAddress,
     implementationAddress: TBAImplementationAccount,
-    jsonRPC: `https://starknet-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
-  }
+    jsonRPC: `https://starknet-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+  };
 
   let tokenbound: any;
 
   if (account) {
-    tokenbound = new TokenboundClient(options)
+    tokenbound = new TokenboundClient(options);
   }
-  return { tokenbound }
-}
+  return { tokenbound };
+};
 
-
-
-
-export const useGetAccountAddress = ({ contractAddress, tokenId }: IAccountParam) => {
+export const useGetAccountAddress = ({
+  contractAddress,
+  tokenId,
+}: IAccountParam) => {
   const { tokenbound } = useTokenBoundSDK();
   const { account } = useAccount();
-  const [deployedAddress, setDeployedAddress] = useState<string>('');
+  const [deployedAddress, setDeployedAddress] = useState<string>("");
 
   useEffect(() => {
     const getAccountAddress = async () => {
       try {
         const accountResult = await tokenbound.getAccount({
           tokenContract: contractAddress,
-          tokenId
+          tokenId,
         });
         setDeployedAddress(num.toHex(accountResult));
       } catch (error) {
@@ -161,6 +159,6 @@ export const useGetAccountAddress = ({ contractAddress, tokenId }: IAccountParam
   }, [account, contractAddress, tokenId]);
 
   return {
-    deployedAddress
+    deployedAddress,
   };
 };
