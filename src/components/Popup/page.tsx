@@ -1,6 +1,19 @@
 import * as React from "react";
+interface Asset {
+  name: string;
+  symbol: string;
+  icon: string;
+  arrowIcon: string;
+}
 
-function AssetCard({ asset, amount, currencyValue, currency }) {
+interface AssetCardProps {
+  asset: Asset;
+  amount: string;
+  currencyValue: string;
+  currency?: string; // Include this if you plan to use 'currency' later, otherwise remove it.
+}
+
+function AssetCard({ asset, amount, currencyValue, currency }: AssetCardProps) {
   return (
     <div className="flex gap-3 justify-between px-4 py-3.5 mt-2 whitespace-nowrap bg-white rounded-lg">
       <img 
