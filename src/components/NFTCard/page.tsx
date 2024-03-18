@@ -22,14 +22,18 @@ const NFTCard = ({ nft }: NFTCard) => {
   };
   return (
     <div
-      className="h-[500px] w-full bg-white cursor-pointer rounded-[8px] overflow-hidden"
+      className=" w-full bg-white cursor-pointer rounded-[8px] overflow-hidden"
       onClick={redirect}
     >
+      <div>
       <img
-        className="w-full h-[300px] object-cover "
+        className="w-full  object-contain "
         src={nft?.metadata?.normalized?.image}
       />
-      <div className="h-[219px] w-full px-[28px] pt-6 flex flex-col gap-4">
+      </div>
+      <div>
+
+      <div className=" w-full px-[28px] pt-6 pb-6 flex flex-col gap-4">
         <p className="text-2xl text-[#0A0A0A] font-medium">
           {" "}
           {nft?.metadata?.normalized?.name}
@@ -49,6 +53,7 @@ const NFTCard = ({ nft }: NFTCard) => {
         <p className="w-full text-[14px] leading-[20px] text-[#5A5A5A] font-medium">
           {nft?.metadata?.normalized.description}{" "}
         </p>
+      </div>
       </div>
     </div>
   );
