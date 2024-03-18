@@ -93,22 +93,22 @@ function Assets() {
           color="#36d7b7"
         />
       ) : (
-        <section className="pt-[240px]">
+        <section className="min-h-screen pb-16 pt-32">
           <h2 className=" text-black text-[36px] leading-10 mb-[32px] font-medium ">
             My NFT Collections
           </h2>
-          <div className="grid grid-cols-[1fr] md:grid-cols-[673px_1fr] gap-x-[24px] w-full p-4">
-            <div className="mb-4 md:mb-0 mr-4 w-[673px] h-[480px]">
+          <div className="grid grid-cols-[1fr] lg:grid-cols-[673px_1fr] lg:gap-x-[24px] w-full md:p-4 lg:p-4">
+            <div className="mb-4 md:mb-0 mr-4 md:w-full md:h-[480px] lg:w-[673px] lg:h-[480px]">
               {" "}
               <img
-                className="!w-[673px] !h-[480px] rounded-[12px] object-cover"
+                className="md:!w-full md:!h-[480px] lg:!w-[673px] lg:!h-[480px] rounded-[12px] object-cover"
                 src={nft.image}
                 width={673}
                 height={480}
                 alt="Card Image"
               />
             </div>
-            <div className="w-full">
+            <div className="md:mt-12 w-full">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-x-3">
                   <h2 className="text-[24px] leading-[40px] font-medium text-black">
@@ -130,14 +130,14 @@ function Assets() {
                   {status ? (
                     <button
                       disabled={status}
-                      className={`${"bg-gray-500"} text-white text-sm py-[13px] px-6 disabled:cursor-not-allowed rounded-[6px]`}
+                      className={`${"bg-gray-500"} text-white text-[0.45rem] md:text-sm lg:text-sm  py-[6px] px-2 md:py-[.5rem] md:px-[.5rem] lg:py-[13px] lg:px-6 disabled:cursor-not-allowed rounded-[6px]`}
                       onClick={deployAccount}
                     >
                       TBA Deployed
                     </button>
                   ) : (
                     <button
-                      className="bg-[#0C0C4F] text-[#fafafa] text-sm py-[13px] px-6 rounded-[6px]"
+                      className="bg-[#0C0C4F] text-[#fafafa] text-[0.45rem] md:text-sm lg:text-sm  py-[6px] px-2 md:py-[.5rem] md:px-[.5rem] lg:py-[13px] lg:px-6 rounded-[6px]"
                       onClick={deployAccount}
                     >
                       Deploy Account
