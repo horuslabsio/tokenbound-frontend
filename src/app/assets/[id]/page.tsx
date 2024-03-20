@@ -108,7 +108,7 @@ function Assets() {
                 alt="Card Image"
               />
             </div>
-            <div className="md:mt-12 w-full">
+            <div className="md:mt-6 lg:mt-0 w-full">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-x-3">
                   <h2 className="text-[24px] leading-[40px] font-medium text-black">
