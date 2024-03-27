@@ -1,53 +1,137 @@
-import React, { CSSProperties, useState } from 'react'
-import ETH from "@public/eth.png"
-import USDC from "@public/USDC.png"
-import DAI from "@public/DAI.png"
-import USDT from "@public/usdt.png"
-import Image from 'next/image'
-import { useContractRead } from '@starknet-react/core'
-import { DaiTokenAddress, EtherTokenAddress, UsdcTokenAddress, usdtTokenAddress } from '@utils/constants'
-import Erc20Abi from "@abis/token.abi.json"
-import { BounceLoader } from 'react-spinners'
-
+import React, { CSSProperties, useState } from "react";
+import ETH from "@public/eth.png";
+import USDC from "@public/USDC.png";
+import DAI from "@public/DAI.png";
+import USDT from "@public/usdt.png";
+import { useContractRead } from "@starknet-react/core";
+import {
+  DaiTokenAddress,
+  EtherTokenAddress,
+  UsdcTokenAddress,
+  usdtTokenAddress,
+} from "@utils/constants";
+import Erc20Abi from "@abis/token.abi.json";
+import TransferModal from "./TransferModal";
 
 interface AssetProps {
-  tokenboundaddress: string; // Define the 'address' prop
+  tokenBoundAddress: string; // Define the 'address' prop
 }
-function Asset({ tokenboundaddress }: AssetProps) {
+
+const FungibleAsset = ({
+  balance,
+  err,
+  loading,
+  src,
+  unit,
+  toggleModal,
+}: {
+  src: string;
+  loading: boolean;
+  err: Error | null;
+  balance: string;
+  unit: string;
+  toggleModal: () => void;
+}) => {
+  return (
+    <div className="flex w-full items-center gap-3">
+      <div>
+        <img src={src} className="!w-[40px] !h-[30px]" alt="asset-logo" />
+      </div>
+      <div className="flex-1">
+        {loading ? (
+          <div aria-label="loader" className="flex justify-between">
+            <div className="w-[10rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
+            <div className="w-[5rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
+          </div>
+        ) : (
+          <>
+            {err ? (
+              <p className="text-red-700">Failed to fetch token</p>
+            ) : (
+              <div className="flex items-center justify-between">
+                <h4 className="text-[1.2em]">{`${balance} ${unit}`}</h4>
+                <button
+                  disabled={+balance <= 0}
+                  onClick={toggleModal}
+                  className={`border-solid border-[1px] text-deep-blue border-deep-blue p-2 rounded-[5px] ${
+                    +balance > 0 ? "opacity-100" : "opacity-50"
+                  } `}
+                >
+                  Transfer
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+function Asset({ tokenBoundAddress }: AssetProps) {
+  const [openTransferModal, setOpenTransferModal] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState({
+    src: "",
+    abbreviation: "",
+    balance: "",
+    name: "",
+  });
+  const toggleTransferModal = (asset: {
+    src: string;
+    abbreviation: string;
+    balance: string;
+    name: string;
+  }) => {
+    setSelectedAsset(asset);
+    setOpenTransferModal(!openTransferModal);
+  };
   // @notice
   // @dev
   // @detail: token balance to be fetched for Token bound account but temporarily fetching balance of connected address
-  const { data: eth, isLoading: ethLoading, error: ethError } = useContractRead({
+  const {
+    data: eth,
+    isLoading: ethLoading,
+    error: ethError,
+  } = useContractRead({
     address: EtherTokenAddress,
     abi: Erc20Abi,
-    functionName: 'balanceOf',
-    args: [tokenboundaddress!],
-    watch: true
-  })
-  const { data: dai, isLoading: daiLoading, error: daiError } = useContractRead({
+    functionName: "balanceOf",
+    args: [tokenBoundAddress!],
+    watch: true,
+  });
+  const {
+    data: dai,
+    isLoading: daiLoading,
+    error: daiError,
+  } = useContractRead({
     address: DaiTokenAddress,
     abi: Erc20Abi,
-    functionName: 'balanceOf',
-    args: [tokenboundaddress!],
-    watch: true
-  })
-  const { data: usdc, isLoading: usdcLoading, error: usdcError } = useContractRead({
+    functionName: "balanceOf",
+    args: [tokenBoundAddress!],
+    watch: true,
+  });
+  const {
+    data: usdc,
+    isLoading: usdcLoading,
+    error: usdcError,
+  } = useContractRead({
     address: UsdcTokenAddress,
     abi: Erc20Abi,
-    functionName: 'balanceOf',
-    args: [tokenboundaddress!],
-    watch: true
-  })
+    functionName: "balanceOf",
+    args: [tokenBoundAddress!],
+    watch: true,
+  });
 
-  const { data: usdt, isLoading: usdtLoading, error: usdtError } = useContractRead({
+  const {
+    data: usdt,
+    isLoading: usdtLoading,
+    error: usdtError,
+  } = useContractRead({
     address: usdtTokenAddress,
     abi: Erc20Abi,
-    functionName: 'balanceOf',
-    args: [tokenboundaddress!],
-    watch: true
-  })
-
-
+    functionName: "balanceOf",
+    args: [tokenBoundAddress!],
+    watch: true,
+  });
 
   // @ts-ignore
   let ETH_BALANCE = eth?.balance?.low.toString() / 1e18;
@@ -58,86 +142,97 @@ function Asset({ tokenboundaddress }: AssetProps) {
   //@ts-ignore
   let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
 
-
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
-    position: 'relative',
-    left: "20px"
+    position: "relative",
+    left: "20px",
   };
 
-
   return (
-    <div className='mt-4 flex flex-col gap-y-5'>
-      <div className='flex items-center gap-x-3'>
-        <div>
-          <img src={ETH.src} className='!w-[40px] !h-[30px]' alt='asset-logo' />
-        </div>
-        <div>
+    <div className="mt-4 flex flex-col  gap-6">
+      <FungibleAsset
+        balance={Number.isNaN(ETH_BALANCE) ? "0.000" : ETH_BALANCE.toFixed(4)}
+        err={ethError}
+        loading={ethLoading}
+        src={ETH.src}
+        unit="ETH"
+        toggleModal={() =>
+          toggleTransferModal({
+            src: ETH.src,
+            abbreviation: "ETH",
+            balance: Number.isNaN(ETH_BALANCE)
+              ? "0.000"
+              : ETH_BALANCE.toFixed(4),
+            name: "Ethereum",
+          })
+        }
+      />
 
-          {
-            //@ts-ignore
-            ethLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mb-2'> {`${ETH_BALANCE.toFixed(4)} ETH`}</h2>
+      <FungibleAsset
+        balance={Number.isNaN(USDC_BALANCE) ? "0.000" : USDC_BALANCE.toFixed(4)}
+        err={usdcError}
+        loading={usdcLoading}
+        src={USDC.src}
+        unit="USDC"
+        toggleModal={() =>
+          toggleTransferModal({
+            src: USDC.src,
+            abbreviation: "USDC",
+            balance: Number.isNaN(USDC_BALANCE)
+              ? "0.000"
+              : USDC_BALANCE.toFixed(4),
+            name: "USDC",
+          })
+        }
+      />
 
-          }
-          {
-            ethError && <p className='text-red'>Failed to fetch token</p>
-          }
-        </div>
-      </div>
-      <div className='flex items-center gap-x-3'>
-        <div>
-          <img src={USDC.src} className='!w-[40px] !h-[30px]' alt='asset-logo' />
-        </div>
-        <div>
-          {
-            //@ts-ignore
-            usdcLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mb-2'> {`${USDC_BALANCE.toFixed(4)} USDC`}</h2>
+      <FungibleAsset
+        balance={Number.isNaN(DAI_BALANCE) ? "0.000" : DAI_BALANCE.toFixed(4)}
+        err={daiError}
+        loading={daiLoading}
+        src={DAI.src}
+        unit="DAI"
+        toggleModal={() =>
+          toggleTransferModal({
+            src: DAI.src,
+            abbreviation: "DAI",
+            balance: Number.isNaN(DAI_BALANCE)
+              ? "0.000"
+              : DAI_BALANCE.toFixed(4),
+            name: "DAI",
+          })
+        }
+      />
 
-          }
-          {
-            usdcError && <p className='text-red'>Failed to fetch token</p>
-          }
-        </div>
-      </div>
-      <div className='flex items-center gap-x-3'>
-        <div>
-          <img src={DAI.src} className='!w-[40px] !h-[30px]' alt='asset-logo' />
-        </div>
-        <div>
-          <div>
-            {
-              //@ts-ignore
-              daiLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mb-2'> {`${DAI_BALANCE?.toFixed(4) || 0} DAI`}</h2>
-
-            }
-            {
-              daiError && <p className='text-red'>Failed to fetch token</p>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div className='flex items-center gap-x-3'>
-        <div>
-          <img src={USDT.src} className='!w-[40px] !h-[30px]' alt='asset-logo' />
-        </div>
-        <div>
-          <div>
-            {
-              //@ts-ignore
-              usdtLoading ? <BounceLoader cssOverride={override} size={10} color="#36d7b7" /> : <h2 className='font-bold text-gray-600 text-2xl mb-2'> {`${USDT_BALANCE.toFixed(4)} USDT`}</h2>
-
-            }
-            {
-              usdtError && <p className='text-red'>Failed to fetch token</p>
-            }
-          </div>
-        </div>
-      </div>
+      <FungibleAsset
+        balance={Number.isNaN(USDT_BALANCE) ? "0.000" : USDT_BALANCE.toFixed(4)}
+        err={usdtError}
+        loading={usdtLoading}
+        src={USDT.src}
+        unit="USDT"
+        toggleModal={() =>
+          toggleTransferModal({
+            src: USDT.src,
+            abbreviation: "USDT",
+            balance: Number.isNaN(USDT_BALANCE)
+              ? "0.000"
+              : USDT_BALANCE.toFixed(4),
+            name: "USDT",
+          })
+        }
+      />
+      <TransferModal
+        openModal={openTransferModal}
+        closeModal={() => setOpenTransferModal(false)}
+        src={selectedAsset?.src}
+        abbreviation={selectedAsset?.abbreviation}
+        balance={selectedAsset?.balance}
+        name={selectedAsset?.name}
+        price=""
+      />
     </div>
-  )
+  );
 }
 
-export default Asset
-
+export default Asset;

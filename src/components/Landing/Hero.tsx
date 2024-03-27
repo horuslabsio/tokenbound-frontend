@@ -8,7 +8,9 @@ const Hero = () => {
           Transforming any NFT to a Wallet
         </h1>
         <p className="lg:w-[35%] lg:px-10 text-center  my-0 mx-auto lg:text-justify">
-          A "Token Bound Account" is a smart contract account, controlled by an NFT. It can do everything a normal wallet can do and is compatible with every NFT you already own.
+          A &#8221;Token Bound Account&#8221; is a smart contract account,
+          controlled by an NFT. It can do everything a normal wallet can do and
+          is compatible with every NFT you already own.
         </p>
         <Link href={"https://tokenbound.gitbook.io/starknet-tokenbound/"}>
           <button className="xsm:w-[90%] w-[14rem] block mt-4 mx-auto p-4 bg-deep-blue rounded-[8px] text-white">

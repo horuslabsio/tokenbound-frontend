@@ -1,4 +1,12 @@
-const CopyCheckIcon = ({ copied = true }: { copied?: boolean }) => {
+const CopyCheckIcon = ({
+  copied = true,
+  width = "1.8em",
+  height = "1.8em",
+}: {
+  copied?: boolean;
+  width?: string;
+  height?: string;
+}) => {
   return (
     <svg
       style={{
@@ -7,8 +15,8 @@ const CopyCheckIcon = ({ copied = true }: { copied?: boolean }) => {
         transition: "stroke-dashoffset 2s ease-in-out",
       }}
       xmlns="http://www.w3.org/2000/svg"
-      width="1.8em"
-      height="1.8em"
+      width={width}
+      height={height}
       viewBox="0 0 24 24"
     >
       <g
