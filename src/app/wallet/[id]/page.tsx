@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAccount } from "@starknet-react/core";
-import { copyToClipBoard } from "@utils/helper";
 import ConnectWallet from "@components/ConnectWallet/page";
 import NFTCollection from "@components/NFTCollection/page";
 import CopyButton from "@components/utils/CopyButton";
@@ -9,7 +8,6 @@ import CopyButton from "@components/utils/CopyButton";
 function NFT() {
   const { address, isConnected } = useAccount();
   const [isWalletOpen, setIsWalletOpen] = useState<boolean>(false);
-  const [copied, setCopied] = useState(false);
   function closeWalletModal() {
     if (isConnected) {
       setIsWalletOpen(false);
@@ -19,15 +17,7 @@ function NFT() {
   function openWalletModal() {
     setIsWalletOpen(true);
   }
-  const copyToClipBoardHandler = async (text: string) => {
-    const success = await copyToClipBoard(text);
-    if (success) {
-      setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-      }, 3000);
-    }
-  };
+
   useEffect(() => {
     if (!isConnected && !address) {
       setIsWalletOpen(true);
