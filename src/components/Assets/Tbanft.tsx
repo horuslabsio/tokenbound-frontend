@@ -1,10 +1,8 @@
 "use client";
 import { BiCopyAlt } from "react-icons/bi";
 import Link from "next/link";
-import { useFetchUserNFT, useTBAAsset } from "@hooks/index";
+import { useTBAAsset } from "@hooks/index";
 import { copyToClipBoard, shortenAddress } from "@utils/helper";
-import { CSSProperties } from "react";
-import SyncLoader from "react-spinners/SyncLoader";
 import { toast } from "react-toastify";
 
 interface Itba {
@@ -14,12 +12,6 @@ interface Itba {
 const TBANFT = ({ tba }: Itba) => {
   const { tbanft, loadingTba } = useTBAAsset(tba);
 
-  const override: CSSProperties = {
-    display: "block",
-    margin: "0 auto",
-    textAlign: "center",
-  };
-  console.log(tbanft);
 
   const copyToClipBoardHandler = async (text: string) => {
     const success = await copyToClipBoard(text);
@@ -59,9 +51,6 @@ const TBANFT = ({ tba }: Itba) => {
                   />
 
                   <div className="px-6 py-4 bg-white">
-                    {/* <div className="font-bold text-xl mb-2">{item.name}</div> */}
-                    {/* <div className="font-normal text-xl mb-2">{item.description.slice(0, 60)}...</div> */}
-
                     <p
                       className="inline-flex items-center p-[2px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110"
                       title="NFT address"

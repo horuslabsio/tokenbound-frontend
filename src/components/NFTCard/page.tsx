@@ -1,24 +1,11 @@
 import CopyButton from "@components/utils/CopyButton";
-import { copyToClipBoard, shortenAddress } from "@utils/helper";
+import { shortenAddress } from "@utils/helper";
 import { useRouter } from "next/navigation";
-import { SyntheticEvent, useState } from "react";
 interface NFTCard {
   nft: any;
 }
 const NFTCard = ({ nft }: NFTCard) => {
-  const [copied, setCopied] = useState(false);
   const router = useRouter();
-  const copyToClipBoardHandler = async (e: SyntheticEvent, text: string) => {
-    e.stopPropagation();
-    const success = await copyToClipBoard(text);
-    if (success) {
-      setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-      }, 3000);
-    } else {
-    }
-  };
   const redirect = () => {
     router.push(`/assets/${nft?.contract_address}${nft?.token_id}`);
   };
