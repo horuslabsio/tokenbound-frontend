@@ -31,9 +31,9 @@ const TBANFT = ({ tba }: Itba) => {
   };
 
   return (
-    <div className="w-full cursor-pointer  p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-none  gap-4">
+    <div className="w-full cursor-pointer  p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-none  gap-4">
       {loadingTba ? (
-        <div aria-label="loader" className="grid grid-cols-3 gap-4  w-[80%]">
+        <div aria-label="loader" className="grid grid-cols-3 gap-4  lg:w-[80%]">
           <div className="w-full h-[7rem] rounded-[5px] bg-[#eae9e9] animate-pulse"></div>
           <div className="w-full h-[7rem] rounded-[5px] bg-[#eae9e9] animate-pulse"></div>
           <div className="w-full h-[7rem] rounded-[5px] bg-[#eae9e9] animate-pulse"></div>

@@ -6,21 +6,20 @@ import NFTCard from "@components/NFTCard/page";
 
 const NFTCollection = () => {
   let { nft, loading } = useFetchUserNFT();
-console.log(nft)
+  console.log(nft);
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
     textAlign: "center",
   };
   return (
-    <div className="grid gap-y-6 auto-cols-auto gap-6 xl:grid-cols-3 sm:grid-cols-2  h-auto mt-6">
+    <div className="grid gap-y-6 auto-cols-auto gap-6 lg:grid-cols-3 md:grid-cols-2  h-auto mt-6">
       {Boolean(loading) ? (
-        <SyncLoader
-          cssOverride={override}
-          aria-label="Loading Spinner"
-          size={50}
-          color="#36d7b7"
-        />
+        <>
+          <div className="w-full h-[60vh] rounded-[5px] bg-[#eae9e9] animate-pulse"></div>
+          <div className="w-full h-[60vh] rounded-[5px] bg-[#eae9e9] animate-pulse"></div>
+          <div className="w-full h-[60vh] rounded-[5px] bg-[#eae9e9] animate-pulse hidden lg:block"></div>
+        </>
       ) : Array.isArray(nft) && nft?.length > 0 ? (
         nft?.map((item, index) => <NFTCard nft={item} key={index} />)
       ) : (

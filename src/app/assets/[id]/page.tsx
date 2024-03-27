@@ -1,24 +1,19 @@
 "use client";
-import AppWrapper from "@components/AppWrapper";
-import Image from "next/image";
-import React, { useState } from "react";
-import { FaGem, FaCoins, FaArrowAltCircleRight } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaGem, FaCoins } from "react-icons/fa";
 import {
   useFetchNFTMetadata,
   useTokenBoundSDK,
   useGetAccountAddress,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
-import SyncLoader from "react-spinners/SyncLoader";
 import { CSSProperties } from "react";
 import { copyToClipBoard, shortenAddress } from "@utils/helper";
 import { toast } from "react-toastify";
 import FungibleAsset from "@components/Assets/index";
 import NonFungibleAsset from "@components/Assets/Tbanft";
 import { useAccount } from "@starknet-react/core";
-import { BiCopyAlt } from "react-icons/bi";
-import CopyCheckIcon from "svg/CopyCheckIcon";
-import CopyIcon from "svg/CopyIcon";
+import CopyButton from "@components/utils/CopyButton";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
 
@@ -39,7 +34,8 @@ function Assets() {
     tokenId,
   });
   const { tokenbound } = useTokenBoundSDK();
-  const [status, setStatus] = useState<boolean>(false);
+  const [status, setStatus] = useState<boolean | null>(null);
+  // const [btnLoading, setBtnLoading] = useState<boolean>(true);
 
   console.log(nft);
 
@@ -58,12 +54,9 @@ function Assets() {
       setTimeout(() => {
         setCopied(false);
       }, 3000);
-      toast.info(`Copied to clipboard:  ${text}`);
-    } else {
-      toast.error("Not Copied");
     }
   };
-
+  // useEffect(() => {
   const getAccountStatus = async () => {
     try {
       const accountStatus = await tokenbound.checkAccountDeployment({
@@ -90,9 +83,10 @@ function Assets() {
       toast.error("An error was encountered during the course of deployment!");
     }
   };
+  console.log(status);
 
   return (
-    <section className="min-h-screen pt-32 px-4 md:px-16 lg:px-16 ">
+    <section className="min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">
       <section className="min-h-screen">
         <h2 className="text-deep-blue mb-8">My NFT Collections</h2>
         <div className="grid grid-cols-[1fr] md:grid-cols-2 gap-8 w-full">
@@ -108,13 +102,13 @@ function Assets() {
             ) : (
               <div
                 aria-label="loader"
-                className=" w-full h-full bg-[#eae9e9] rounded-[8px] animate-pulse"
+                className=" w-full min-h-[500px] h-full bg-[#eae9e9] rounded-[8px] animate-pulse"
               ></div>
             )}
           </div>
           <div className="flex flex-col gap-6">
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-x-3">
+              <div className="flex md:flex-col lg:flex-row items-center md:items-start lg:items-center gap-3">
                 {nft.name ? (
                   <h3 className="text-deep-blue">{nft.name}</h3>
                 ) : (
@@ -125,58 +119,34 @@ function Assets() {
                 )}
 
                 <div>
-                  <button
-                    className="inline-flex items-center px-[12px] py-[4px] bg-gray-200 text-sm cursor-pointer rounded-full"
-                    onClick={() => copyToClipBoardHandler(address!)}
-                  >
-                    <span className="text-gray-400">
-                      {address?.slice(0, 4)}...{address?.slice(61, 66)}
-                    </span>
-
-                    <span className="ml-2 border-l border-gray-500 relative">
-                      <div
-                        style={{
-                          color: copied ? "#e5e7eb" : "",
-                          transition: "opacity 300ms ease-in-out 2s",
-                        }}
-                        className={`flex pl-[6px]  py-[2px] ${
-                          copied ? "opacity-0" : "opacity-100"
-                        }`}
-                      >
-                        <CopyIcon width="1.3em" height="1.3em" />
-                      </div>
-                      <div
-                        style={{
-                          left: "calc(50% - 0.5em / 2)",
-                        }}
-                        className="absolute top-[4px]"
-                      >
-                        <CopyCheckIcon
-                          copied={copied}
-                          width="1.2em"
-                          height="1.2em"
-                        />
-                      </div>
-                    </span>
-                  </button>
+                  <CopyButton textToCopy={address || ""} />
                 </div>
               </div>
               <div>
-                {status ? (
-                  <button
-                    disabled={status}
-                    className={`bg-[#0c0c4f] opacity-50 text-white text-sm py-[13px] px-6 disabled:cursor-not-allowed rounded-[6px]`}
+                {status === null ? (
+                  <div
+                    className="bg-[#0C0C4F] text-[#fafafa] h-[3.5rem] w-[8rem]   rounded-[6px] animate-pulse"
                     onClick={deployAccount}
-                  >
-                    TBA Deployed
-                  </button>
+                  ></div>
                 ) : (
-                  <button
-                    className="bg-[#0C0C4F] text-[#fafafa] text-[0.45rem] md:text-sm lg:text-sm  py-[6px] px-2 md:py-[.5rem] md:px-[.5rem] lg:py-[13px] lg:px-6 rounded-[6px]"
-                    onClick={deployAccount}
-                  >
-                    Deploy Account
-                  </button>
+                  <>
+                    {status ? (
+                      <button
+                        disabled={status}
+                        className={`bg-[#0c0c4f] opacity-50 text-white text-sm py-[13px] px-6 disabled:cursor-not-allowed rounded-[6px]`}
+                        onClick={deployAccount}
+                      >
+                        TBA Deployed
+                      </button>
+                    ) : (
+                      <button
+                        className="bg-[#0C0C4F] text-[#fafafa]    py-[6px] px-2 md:py-[.5rem] md:px-[.5rem] lg:py-[13px] lg:px-6 rounded-[6px]"
+                        onClick={deployAccount}
+                      >
+                        Deploy Account
+                      </button>
+                    )}
+                  </>
                 )}
               </div>
             </div>

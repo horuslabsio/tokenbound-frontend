@@ -11,7 +11,7 @@ import {
   usdtTokenAddress,
 } from "@utils/constants";
 import Erc20Abi from "@abis/token.abi.json";
-import { BounceLoader } from "react-spinners";
+import TransferModal from "./TransferModal";
 
 interface AssetProps {
   tokenBoundAddress: string; // Define the 'address' prop
@@ -23,12 +23,14 @@ const FungibleAsset = ({
   loading,
   src,
   unit,
+  toggleModal,
 }: {
   src: string;
   loading: boolean;
   err: Error | null;
   balance: string;
   unit: string;
+  toggleModal: () => void;
 }) => {
   return (
     <div className="flex w-full items-center gap-3">
@@ -36,33 +38,52 @@ const FungibleAsset = ({
         <img src={src} className="!w-[40px] !h-[30px]" alt="asset-logo" />
       </div>
       <div className="flex-1">
-        {
-          //@ts-ignore
-          loading ? (
-            <div aria-label="loader" className="flex justify-between">
-              <div className="w-[10rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
-              <div className="w-[5rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
-            </div>
-          ) : (
-            <>
-              {err ? (
-                <p className="text-red-700">Failed to fetch token</p>
-              ) : (
-                <div className="flex items-center justify-between">
-                  <h4 className="text-[1.2em]">{`${balance} ${unit}`}</h4>
-                  <button className="border-solid border-[1px] text-deep-blue border-deep-blue p-2 rounded-[5px]">
-                    Transfer
-                  </button>
-                </div>
-              )}
-            </>
-          )
-        }
+        {loading ? (
+          <div aria-label="loader" className="flex justify-between">
+            <div className="w-[10rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
+            <div className="w-[5rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
+          </div>
+        ) : (
+          <>
+            {err ? (
+              <p className="text-red-700">Failed to fetch token</p>
+            ) : (
+              <div className="flex items-center justify-between">
+                <h4 className="text-[1.2em]">{`${balance} ${unit}`}</h4>
+                <button
+                  disabled={+balance <= 0}
+                  onClick={toggleModal}
+                  className={`border-solid border-[1px] text-deep-blue border-deep-blue p-2 rounded-[5px] ${
+                    +balance > 0 ? "opacity-100" : "opacity-50"
+                  } `}
+                >
+                  Transfer
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
 };
 function Asset({ tokenBoundAddress }: AssetProps) {
+  const [openTransferModal, setOpenTransferModal] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState({
+    src: "",
+    abbreviation: "",
+    balance: "",
+    name: "",
+  });
+  const toggleTransferModal = (asset: {
+    src: string;
+    abbreviation: string;
+    balance: string;
+    name: string;
+  }) => {
+    setSelectedAsset(asset);
+    setOpenTransferModal(!openTransferModal);
+  };
   // @notice
   // @dev
   // @detail: token balance to be fetched for Token bound account but temporarily fetching balance of connected address
@@ -136,30 +157,79 @@ function Asset({ tokenBoundAddress }: AssetProps) {
         loading={ethLoading}
         src={ETH.src}
         unit="ETH"
+        toggleModal={() =>
+          toggleTransferModal({
+            src: ETH.src,
+            abbreviation: "ETH",
+            balance: Number.isNaN(ETH_BALANCE)
+              ? "0.000"
+              : ETH_BALANCE.toFixed(4),
+            name: "Ethereum",
+          })
+        }
       />
 
       <FungibleAsset
-        balance={USDC_BALANCE.toFixed(4)}
+        balance={Number.isNaN(USDC_BALANCE) ? "0.000" : USDC_BALANCE.toFixed(4)}
         err={usdcError}
         loading={usdcLoading}
         src={USDC.src}
         unit="USDC"
+        toggleModal={() =>
+          toggleTransferModal({
+            src: USDC.src,
+            abbreviation: "USDC",
+            balance: Number.isNaN(USDC_BALANCE)
+              ? "0.000"
+              : USDC_BALANCE.toFixed(4),
+            name: "USDC",
+          })
+        }
       />
 
       <FungibleAsset
-        balance={DAI_BALANCE?.toFixed(4)}
+        balance={Number.isNaN(DAI_BALANCE) ? "0.000" : DAI_BALANCE.toFixed(4)}
         err={daiError}
         loading={daiLoading}
         src={DAI.src}
         unit="DAI"
+        toggleModal={() =>
+          toggleTransferModal({
+            src: DAI.src,
+            abbreviation: "DAI",
+            balance: Number.isNaN(DAI_BALANCE)
+              ? "0.000"
+              : DAI_BALANCE.toFixed(4),
+            name: "DAI",
+          })
+        }
       />
 
       <FungibleAsset
-        balance={USDT_BALANCE.toFixed(4)}
+        balance={Number.isNaN(USDT_BALANCE) ? "0.000" : USDT_BALANCE.toFixed(4)}
         err={usdtError}
         loading={usdtLoading}
         src={USDT.src}
         unit="USDT"
+        toggleModal={() =>
+          toggleTransferModal({
+            src: USDT.src,
+            abbreviation: "USDT",
+            balance: Number.isNaN(USDT_BALANCE)
+              ? "0.000"
+              : USDT_BALANCE.toFixed(4),
+            name: "USDT",
+          })
+        }
+      />
+      <TransferModal
+        openModal={openTransferModal}
+        closeModal={() => setOpenTransferModal(false)}
+        src={selectedAsset?.src}
+        abbreviation={selectedAsset?.abbreviation}
+        balance={selectedAsset?.balance}
+        name={selectedAsset?.name}
+        price=""
       />
     </div>
   );
