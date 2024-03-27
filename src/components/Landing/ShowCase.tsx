@@ -54,25 +54,22 @@ const ShowCase = () => {
   return (
     <section className="flex flex-col gap-20 px-4 py-16 lg:p-16  mx-auto md:gap-10 lg:flex-row">
       <Card
-        title="TRAKKA"
+        title="EXPLORER"
         src="/Biometric authentication and lock with personal data.svg"
-        button="Go to Dashboard"
-        description="Tokenbound Accounts turns every NFT into a smart wallet that can own
-          tokens and interact with dApps across the Ethereum ecosystem"
+        button="Tokenbound Explorer"
+        description="We provide an explorer UI from which you can deploy new tokenbound accounts, track them and interact with them."
       />
       <Card
-        title="TRAKKA"
+        title="DEVELOPER SDK"
         src="/Biometric authentication and lock with personal data.svg"
-        button="Starknet Tokenbound SDK"
-        description="Tokenbound Accounts turns every NFT into a smart wallet that can own
-          tokens and interact with dApps across the Ethereum ecosystem"
+        button="Tokenbound SDK"
+        description="Tokenbound SDK is a developer-focused kit for creating, retrieving and interacting with tokenbound accounts right from your dApp."
       />
       <Card
-        title="TRAKKA"
+        title="SHOWCASE"
         src="/Cryptocurrency and cloud computing service(1).svg"
         button="Community Showcase"
-        description="Tokenbound Accounts turns every NFT into a smart wallet that can own
-          tokens and interact with dApps across the Ethereum ecosystem "
+        description="View and checkout the top ecosystem/community projects built around Tokenbound Accounts."
       />
     </section>
   );
