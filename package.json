@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.16",
-    "@starknet-react/chains": "^0.1.0-next.0",
-    "@starknet-react/core": "^2.2.0",
+    "@starknet-react/chains": "^0.1.7",
+    "@starknet-react/core": "^2.5.0",
     "@types/axios": "^0.14.0",
     "@types/node": "20.4.10",
     "@types/react": "18.2.20",
