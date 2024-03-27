@@ -14,7 +14,7 @@ const Project = ({
 }) => {
   return (
     <a
-      className="group"
+      className="group w-full"
       href="http://"
       target="_blank"
       rel="noopener noreferrer"
@@ -55,9 +55,7 @@ const Projects = () => {
   return (
     <section className="flex flex-col gap-16  px-4 py-16 lg:p-16 lg:h-screen">
       <div className="flex flex-col lg:flex-row">
-        <h2 className="text-black basis-1/2">
-          Community projects
-        </h2>
+        <h2 className="text-black basis-1/2">Community projects</h2>
         <div className="basis-1/2 flex justify-end items-center">
           <button className="bg-[#EFEFEF] rounded-full p-3">View All</button>
         </div>

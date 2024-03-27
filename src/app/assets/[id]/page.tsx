@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaGem, FaCoins } from "react-icons/fa";
 import {
   useFetchNFTMetadata,
@@ -35,8 +35,6 @@ function Assets() {
   });
   const { tokenbound } = useTokenBoundSDK();
   const [status, setStatus] = useState<boolean | null>(null);
-  // const [btnLoading, setBtnLoading] = useState<boolean>(true);
-
   console.log(nft);
 
   const override: CSSProperties = {
@@ -56,7 +54,7 @@ function Assets() {
       }, 3000);
     }
   };
-  // useEffect(() => {
+
   const getAccountStatus = async () => {
     try {
       const accountStatus = await tokenbound.checkAccountDeployment({
@@ -83,7 +81,6 @@ function Assets() {
       toast.error("An error was encountered during the course of deployment!");
     }
   };
-  console.log(status);
 
   return (
     <section className="min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">
