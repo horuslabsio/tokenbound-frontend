@@ -13,6 +13,7 @@ type Props = {
   src: string;
   tokenBoundAddress: string;
   contractAddress: string;
+  decimal: number;
 };
 
 const TransferModal = ({
@@ -24,6 +25,7 @@ const TransferModal = ({
   abbreviation,
   src,
   contractAddress,
+  decimal,
 }: Props) => {
   const [transferDetails, setTransferDetails] = useState({
     recipientWalletAddress: "",
@@ -53,16 +55,18 @@ const TransferModal = ({
   const { tokenbound } = useTokenBoundSDK();
   const transferERC20Assets = async () => {
     try {
-      await tokenbound.transferERC20({
+      const stat = await tokenbound.transferERC20({
         tbaAddress: tokenBoundAddress,
         contractAddress: contractAddress,
         recipient: transferDetails.recipientWalletAddress,
-        amount: +transferDetails.amount * 1e18,
+        amount: +transferDetails.amount * decimal,
       });
+      console.log(stat);
     } catch (error) {
       console.log("there was an error transferring the assets");
     }
   };
+  console.log(+transferDetails.amount * decimal);
 
   return (
     <Transition appear show={openModal} as={Fragment}>

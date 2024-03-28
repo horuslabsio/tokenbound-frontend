@@ -6,11 +6,11 @@ import USDT from "@public/usdt.png";
 import STRK from "@public/starknet.jpeg";
 import { useContractRead } from "@starknet-react/core";
 import {
-  DaiTokenAddress,
-  EtherTokenAddress,
-  UsdcTokenAddress,
-  usdtTokenAddress,
-  starkTokenAddress,
+  DAI_TOKEN_DETAILS,
+  ETHER_TOKEN_DETAILS,
+  STARK_TOKEN_DETAILS,
+  USDC_TOKEN_DETAILS,
+  USDT_TOKEN_DETAILS,
 } from "@utils/constants";
 import Erc20Abi from "@abis/token.abi.json";
 import TransferModal from "./TransferModal";
@@ -77,6 +77,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     balance: "",
     name: "",
     contractAddress: "",
+    decimal: 1e18,
   });
   const toggleTransferModal = (asset: {
     src: string;
@@ -84,6 +85,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     balance: string;
     name: string;
     contractAddress: string;
+    decimal: number;
   }) => {
     setSelectedAsset(asset);
     setOpenTransferModal(!openTransferModal);
@@ -96,7 +98,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     isLoading: ethLoading,
     error: ethError,
   } = useContractRead({
-    address: EtherTokenAddress,
+    address: ETHER_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tokenBoundAddress!],
@@ -107,7 +109,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     isLoading: starkLoading,
     error: starkError,
   } = useContractRead({
-    address: starkTokenAddress,
+    address: STARK_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tokenBoundAddress!],
@@ -118,7 +120,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     isLoading: daiLoading,
     error: daiError,
   } = useContractRead({
-    address: DaiTokenAddress,
+    address: DAI_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tokenBoundAddress!],
@@ -129,7 +131,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     isLoading: usdcLoading,
     error: usdcError,
   } = useContractRead({
-    address: UsdcTokenAddress,
+    address: USDC_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tokenBoundAddress!],
@@ -141,7 +143,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     isLoading: usdtLoading,
     error: usdtError,
   } = useContractRead({
-    address: usdtTokenAddress,
+    address: USDT_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tokenBoundAddress!],
@@ -182,7 +184,8 @@ function Asset({ tokenBoundAddress }: AssetProps) {
               ? "0.000"
               : ETH_BALANCE.toFixed(4),
             name: "Ethereum",
-            contractAddress: EtherTokenAddress,
+            contractAddress: ETHER_TOKEN_DETAILS.address,
+            decimal: ETHER_TOKEN_DETAILS.decimal,
           })
         }
       />
@@ -203,7 +206,8 @@ function Asset({ tokenBoundAddress }: AssetProps) {
               ? "0.000"
               : STARK_BALANCE.toFixed(4),
             name: "Stark",
-            contractAddress: starkTokenAddress,
+            contractAddress: STARK_TOKEN_DETAILS.address,
+            decimal: STARK_TOKEN_DETAILS.decimal,
           })
         }
       />
@@ -222,7 +226,8 @@ function Asset({ tokenBoundAddress }: AssetProps) {
               ? "0.000"
               : USDC_BALANCE.toFixed(4),
             name: "USDC",
-            contractAddress: starkTokenAddress,
+            contractAddress: USDC_TOKEN_DETAILS.address,
+            decimal: USDC_TOKEN_DETAILS.decimal,
           })
         }
       />
@@ -241,7 +246,8 @@ function Asset({ tokenBoundAddress }: AssetProps) {
               ? "0.000"
               : DAI_BALANCE.toFixed(4),
             name: "DAI",
-            contractAddress: DaiTokenAddress,
+            contractAddress: DAI_TOKEN_DETAILS.address,
+            decimal: DAI_TOKEN_DETAILS.decimal,
           })
         }
       />
@@ -260,7 +266,8 @@ function Asset({ tokenBoundAddress }: AssetProps) {
               ? "0.000"
               : USDT_BALANCE.toFixed(4),
             name: "USDT",
-            contractAddress: usdtTokenAddress,
+            contractAddress: USDT_TOKEN_DETAILS.address,
+            decimal: USDT_TOKEN_DETAILS.decimal,
           })
         }
       />
@@ -273,6 +280,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
         name={selectedAsset?.name}
         contractAddress={selectedAsset?.contractAddress}
         tokenBoundAddress={tokenBoundAddress}
+        decimal={selectedAsset?.decimal}
       />
     </div>
   );
