@@ -22,9 +22,6 @@ export const useFetchUserNFT = () => {
           setLoading(false);
           return;
         }
-        console.log(address, formatted_address)
-
-        // const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${formatted_address}&withMetadata=true&pageSize=100`
         const url = `https://api.arkproject.dev/v1/owners/${formatted_address}/tokens`;
         const response = await instance.get(url);
         const { data } = await response;
@@ -58,7 +55,6 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
           setLoading(false);
           return;
         }
-        // const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${formatted_address}&tokenId=${id}&tokenType=ERC721`
         const url = `https://api.arkproject.dev/v1/tokens/${address}/${id}`;
 
         const response = await instance.get(url);
@@ -83,23 +79,23 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
 
 export const useTBAAsset = (tokenBoundAddress: string) => {
   const { address } = useAccount();
-  const [tbanft, setTbaNft] = useState<NftItem[]>([]);
+  const [tbanft, setTbaNft] = useState<TokenInfo[]>([]);
   const [loadingTba, setTbaLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!address) {
+        if (!tokenBoundAddress) {
           console.error("Address is undefined. Unable to make the request.");
           setTbaLoading(false);
           return;
         }
 
-        const url = `https://${network}.g.alchemy.com/nft/v3/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTsForOwner?owner=${tokenBoundAddress}&withMetadata=true&pageSize=100`;
-
+        const url = `https://api.arkproject.dev/v1/owners/${tokenBoundAddress}/tokens`;
         const response = await instance.get(url);
         const { data } = await response;
-        setTbaNft(data?.ownedNfts);
+        console.log('data:',data.result)
+        setTbaNft(data?.result);
         setTbaLoading(false);
       } catch (error) {
         console.error("Error fetching user NFT:", error);
