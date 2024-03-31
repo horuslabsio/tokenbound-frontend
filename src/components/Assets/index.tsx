@@ -161,12 +161,6 @@ function Asset({ tokenBoundAddress }: AssetProps) {
   //@ts-ignore
   let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
 
-  const override: CSSProperties = {
-    display: "block",
-    margin: "0 auto",
-    position: "relative",
-    left: "20px",
-  };
 
   return (
     <div className="mt-4 flex flex-col  gap-6">

@@ -5,8 +5,9 @@ type ModalProps = {
   children: ReactNode;
   closeModal: () => void;
   openModal: boolean;
+  type:string
 };
-const Modal = ({ children, closeModal, openModal }: ModalProps) => {
+const Modal = ({ children, closeModal, openModal, type }: ModalProps) => {
   return (
     <Transition appear show={openModal} as={Fragment}>
       <Dialog as="div" className="relative z-[999]" onClose={closeModal}>
@@ -36,7 +37,7 @@ const Modal = ({ children, closeModal, openModal }: ModalProps) => {
                 style={{
                   boxShadow: "0 0 50px 0 #EC796B33",
                 }}
-                className="rounded-[20px] overflow-hidden mt-20  bg-[#fAFAFA] p-10 w-[90%] md:w-[50%] lg:w-[30rem] min-h-[30rem] text-deep-blue"
+                className={`rounded-[20px] overflow-hidden mt-20  bg-[#fAFAFA] p-10 w-[90%] md:w-[50%] lg:w-[30rem] ${type === 'erc20'? `min-h-[30rem]` : type === 'nft' ? `min-h-[2rem]`: '' }  text-deep-blue`}
               >
                 {children}
               </Dialog.Panel>
