@@ -1,10 +1,8 @@
 "use client";
-import { BiCopyAlt } from "react-icons/bi";
 import Link from "next/link";
 import { useTBAAsset } from "@hooks/index";
-import { copyToClipBoard, shortenAddress } from "@utils/helper";
-import { toast } from "react-toastify";
-import CopyButton from "@components/utils/CopyButton";
+import { useState } from "react";
+import TransferNftModal from "./TransferNftModal";
 
 interface Itba {
   tba: string;
@@ -13,9 +11,11 @@ interface Itba {
 const TBANFT = ({ tba }: Itba) => {
   let formatted_address = tba.replace("0x", "0x0");
   const { tbanft, loadingTba } = useTBAAsset(formatted_address);
+  const [open, setOpen] = useState(false);
 
-
-console.log('asset:', tbanft)
+  const Handler = () => {
+    setOpen(!open);
+  };
   return (
     <div className="w-full cursor-pointer  p-4 grid grid-cols-3   gap-4">
       {loadingTba ? (
@@ -29,26 +29,41 @@ console.log('asset:', tbanft)
         </div>
       ) : (
         <>
-        <div>
           {tbanft.length == 0 ? (
             <p className="text-red-500">No NFT Asset yet</p>
           ) : (
             tbanft.map((item, index) => (
-              <Link
-                href={`/assets/${item?.contract_address}${item?.token_id}`}
-                key={index}
-              >
-                <div className="h-full rounded overflow-hidden shadow-lg">
-                  <img
-                    className="w-full object-contain"
-                    src={item?.metadata.normalized.image}
-                    alt="Card Image"
+              <div>
+                <Link
+                  href={`/assets/${item?.contract_address}${item?.token_id}`}
+                  key={index}
+                >
+                  <div className="rounded  overflow-hidden shadow-lg">
+                    <img
+                      className="w-full object-center object-cover"
+                      src={item?.metadata.normalized.image}
+                      alt="Card Image"
+                    />
+                  </div>
+                </Link>
+                <button
+                  onClick={Handler}
+                  className="mt-2 border-solid border-[1px] text-deep-blue border-deep-blue w-full rounded-[5px] "
+                >
+                  Transfer NFT
+                </button>
+                {open && (
+                  <TransferNftModal
+                    openModal={open}
+                    closeModal={Handler}
+                    tokenBoundAddress={tba}
+                    contractAddress={item?.contract_address}
+                    tokenId={item.token_id}
                   />
-                </div>
-              </Link>
+                )}
+              </div>
             ))
           )}
-          </div>
         </>
       )}
     </div>
