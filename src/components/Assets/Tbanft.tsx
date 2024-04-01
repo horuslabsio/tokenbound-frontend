@@ -33,7 +33,7 @@ const TBANFT = ({ tba }: Itba) => {
             <p className="text-red-500">No NFT Asset yet</p>
           ) : (
             tbanft.map((item, index) => (
-              <div>
+              <div key={index}>
                 <Link
                   href={`/assets/${item?.contract_address}${item?.token_id}`}
                   key={index}

@@ -22,7 +22,7 @@ function ConnectedNavBar() {
         <p className="text-center">{shortenAddress(address as any)}</p>
       </div>
 
-      <Modal closeModal={closeModal} openModal={show}>
+      <Modal type="" closeModal={closeModal} openModal={show}>
         <Disconnect closeModal={closeModal} />
       </Modal>
     </div>
