@@ -2,14 +2,21 @@
 
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
-import { alchemyProvider } from "@starknet-react/core";
-import { mainnet } from "@starknet-react/chains"
-import { argent, braavos, StarknetConfig, starkscan, useInjectedConnectors } from '@starknet-react/core'
+import { sepolia, mainnet } from "@starknet-react/chains";
+import { argent, braavos, StarknetConfig, starkscan, useInjectedConnectors, publicProvider, } from '@starknet-react/core'
+
+
+import { jsonRpcProvider } from "@starknet-react/core";
+
+function rpc(chain) {
+  return {
+    nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+  }
+}
+
+const provider = jsonRpcProvider({ rpc });
 export default function StarknetProvider({ children }) {
-  const chains = [mainnet]
-  const alchemyProviderConfig = alchemyProvider({
-    apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
-  });
+  const chains = [mainnet,sepolia]
   const { connectors: injected } = useInjectedConnectors({
     recommended: [argent(), braavos()],
     includeRecommended: 'always',
@@ -21,10 +28,12 @@ export default function StarknetProvider({ children }) {
     new ArgentMobileConnector(),
   ]
 
+  console.log
+
   return (
     <StarknetConfig
       chains={chains}
-      provider={alchemyProviderConfig}
+      provider={ provider}
       connectors={connectors}
       explorer={starkscan}
       autoConnect

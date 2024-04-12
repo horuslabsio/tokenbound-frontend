@@ -6,6 +6,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { AccountInterface } from "starknet";
 import { Anchor } from "./DropDown";
 import SearchNFT from "./SearchNFT";
+import NetworkSwitcher from "@components/NetworkSwitcher";
 const MobileNav = ({
   account,
   openWalletModal,
@@ -119,6 +120,7 @@ const MobileNav = ({
                       </ul>
                     </nav>
                     <SearchNFT />
+                    <NetworkSwitcher/>
                     <div>
                       {!account ? (
                         <button

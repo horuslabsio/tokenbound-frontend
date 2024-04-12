@@ -4,9 +4,9 @@ type TokenDetailsProps = {
 };
 
 export const TBAcontractAddress: string =
-  "0x1b0ef7a47d9db8652f8a9010ecaf3e6537442bfab3afed13449b571fa1da37a";
+  "0x7f63abcad960f980c12d650b2cc4c27a8f63ee1f6eb36ea8286a946a2330c1b";
 export const TBAImplementationAccount: string =
-  "0x499ef439944ff0a477c4ecc14785ad31f4c12300993e1ce6568f9c1f2c24c09";
+  "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd";
 
 export const ETHER_TOKEN_DETAILS: TokenDetailsProps = {
   address: "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
@@ -28,3 +28,8 @@ export const STARK_TOKEN_DETAILS: TokenDetailsProps = {
   address: "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
   decimal: 1e18,
 };
+
+export const TBAcontractAddress_SEPOLIA: string =
+  "0x4101d3fa033024654083dd982273a300cb019b8cb96dd829267a4daf59f7b7e";
+export const TBAImplementationAccount_SEPOLIA: string =
+  "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd";

@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
 import SearchNFT from "./SearchNFT";
+import NetworkSwitcher from "@components/NetworkSwitcher";
 
 const DesktopNav = ({
   isWalletOpen,
@@ -116,7 +118,7 @@ const DesktopNav = ({
             openWalletModal={openWalletModal}
           />
         )}
-
+    <NetworkSwitcher/>
         {!account ? (
           <button
             onClick={openWalletModal}
