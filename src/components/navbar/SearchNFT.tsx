@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import SearchIcon from "svg/SearchIcon";
 import SyncLoader from "react-spinners/SyncLoader";
 import Image from "next/image";
+import { useNetwork } from "@starknet-react/core";
 
 type NftInfo = {
   contract_address: string;
@@ -13,6 +14,7 @@ type NftInfo = {
 };
 
 const SearchNFT = () => {
+ const {chain} = useNetwork()
   const nftDropDownRef = useRef<HTMLDivElement | null>(null);
   const [searchInput, setSearchInput] = useState("");
   const [nft, setNft] = useState<NftInfo>({
@@ -48,7 +50,7 @@ const SearchNFT = () => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const url = `https://api.arkproject.dev/v1/contracts/${searchInput}`;
+        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/contracts/${searchInput}`;
         const response = await instance.get(url);
         const { data } = response;
         setNft(data?.result);

@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import { instance } from "@utils/helper";
-import { useAccount } from "@starknet-react/core";
+import { useAccount, useNetwork } from "@starknet-react/core";
 import { IAccountParam, NftItem, raw, TokenInfo } from "types";
 import { num } from "starknet";
-import { TBAcontractAddress, TBAImplementationAccount } from "@utils/constants";
+import { TBAcontractAddress, TBAcontractAddress_SEPOLIA, TBAImplementationAccount, TBAImplementationAccount_SEPOLIA } from "@utils/constants";
 import { TokenboundClient } from "starknet-tokenbound-sdk";
 
-const network = process.env.NEXT_PUBLIC_NETWORK;
 
 export const useFetchUserNFT = () => {
   const { address, account } = useAccount();
   const [nft, setNft] = useState<TokenInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   let formatted_address = account?.address.replace("0x", "0x0");
-
+ const {chain} = useNetwork()
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,7 +21,7 @@ export const useFetchUserNFT = () => {
           setLoading(false);
           return;
         }
-        const url = `https://api.arkproject.dev/v1/owners/${formatted_address}/tokens`;
+        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${formatted_address}/tokens`;
         const response = await instance.get(url);
         const { data } = await response;
         setNft(data?.result);
@@ -35,7 +34,7 @@ export const useFetchUserNFT = () => {
     if (address) {
       fetchData();
     }
-  }, [address]); // Execute the effect when address changes
+  }, [address,chain]); // Execute the effect when address changes
 
   return {
     nft,
@@ -46,6 +45,7 @@ export const useFetchUserNFT = () => {
 export const useFetchNFTMetadata = (address: string, id: string) => {
   const [nft, setNft] = useState<raw>({ name: "", description: "", image: "" });
   const [loading, setLoading] = useState<boolean>(true);
+  const {chain} = useNetwork()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +55,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
           setLoading(false);
           return;
         }
-        const url = `https://api.arkproject.dev/v1/tokens/${address}/${id}`;
+        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/tokens/${address}/${id}`;
 
         const response = await instance.get(url);
         const { data } = await response;
@@ -69,7 +69,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
     if (address) {
       fetchData();
     }
-  }, [address]);
+  }, [address,chain]);
 
   return {
     nft,
@@ -81,7 +81,7 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
   const { address } = useAccount();
   const [tbanft, setTbaNft] = useState<TokenInfo[]>([]);
   const [loadingTba, setTbaLoading] = useState<boolean>(true);
-
+const {chain} = useNetwork()
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -91,7 +91,7 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
           return;
         }
 
-        const url = `https://api.arkproject.dev/v1/owners/${tokenBoundAddress}/tokens`;
+        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${tokenBoundAddress}/tokens`;
         const response = await instance.get(url);
         const { data } = await response;
         console.log('data:',data.result)
@@ -105,7 +105,7 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
     if (address) {
       fetchData();
     }
-  }, [address, tokenBoundAddress]); // Execute the effect when address changes
+  }, [address, tokenBoundAddress,chain]); // Execute the effect when address changes
 
   return {
     tbanft,
@@ -115,10 +115,11 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
 
 export const useTokenBoundSDK = () => {
   const { account } = useAccount();
+  const {chain} = useNetwork()
   const options = {
     account: account,
-    registryAddress: TBAcontractAddress,
-    implementationAddress: TBAImplementationAccount,
+    registryAddress:  chain.network === 'mainnet'? TBAcontractAddress : TBAcontractAddress_SEPOLIA,
+    implementationAddress: chain.network === 'mainnet'? TBAImplementationAccount : TBAImplementationAccount_SEPOLIA,
     jsonRPC: `https://starknet-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
   };
 
