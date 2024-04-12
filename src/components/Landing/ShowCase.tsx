@@ -14,7 +14,7 @@ const Card = ({
   return (
     <figure className="h-full flex flex-col">
       <div
-        className={`flex h-[40vh] bg-deep-blue w-full rounded-t-[8px] items-center justify-center relative`}
+        className={` h-[40vh] bg-[#EFEFEF] w-full rounded-t-[8px]  relative`}
       >
         <Image
           className="rounded-t-[8px]"
@@ -55,19 +55,19 @@ const ShowCase = () => {
     <section className="flex flex-col gap-20 px-4 py-16 lg:p-16  mx-auto md:gap-10 lg:flex-row">
       <Card
         title="EXPLORER"
-        src="/Biometric authentication and lock with personal data.svg"
+        src="/explorer.svg"
         button="Tokenbound Explorer"
         description="We provide an explorer UI from which you can deploy new tokenbound accounts, track them and interact with them."
       />
       <Card
         title="DEVELOPER SDK"
-        src="/Biometric authentication and lock with personal data.svg"
+        src="/developer-sdk.svg"
         button="Tokenbound SDK"
         description="Tokenbound SDK is a developer-focused kit for creating, retrieving and interacting with tokenbound accounts right from your dApp."
       />
       <Card
         title="SHOWCASE"
-        src="/Cryptocurrency and cloud computing service(1).svg"
+        src="/community-showcase.svg"
         button="Community Showcase"
         description="View and checkout the top ecosystem/community projects built around Tokenbound Accounts."
       />
