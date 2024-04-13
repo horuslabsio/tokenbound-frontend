@@ -3,7 +3,7 @@
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
 import { sepolia, mainnet } from "@starknet-react/chains";
-import { argent, braavos, StarknetConfig, starkscan, useInjectedConnectors, publicProvider, } from '@starknet-react/core'
+import { argent, braavos, StarknetConfig, starkscan, useInjectedConnectors, } from '@starknet-react/core'
 
 
 import { jsonRpcProvider } from "@starknet-react/core";

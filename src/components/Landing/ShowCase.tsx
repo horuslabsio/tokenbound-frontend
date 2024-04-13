@@ -5,11 +5,13 @@ const Card = ({
   title,
   src,
   button,
+  link
 }: {
   description: string;
   button: string;
   title: string;
   src: string;
+  link:string
 }) => {
   return (
     <figure className="h-full flex flex-col">
@@ -28,7 +30,7 @@ const Card = ({
         <h5 className="text-black">{title}</h5>
         <p>{description}</p>
         <button className="flex items-center w-fit gap-4 border-solid border-[2px] rounded-[5px] py-3 px-6  border-deep-blue text-deep-blue group transition-all duration-300 ease-in-out hover:bg-[#0C0C4F20]">
-          <span className="text-start">{button}</span>
+          <a href={link}  target="_blank" rel="noopener noreferrer"><span className="text-start">{button}</span></a>
           <span className="transition-all duration-300 ease-in-out group-hover:-rotate-[20deg]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,18 +60,21 @@ const ShowCase = () => {
         src="/explorer.svg"
         button="Tokenbound Explorer"
         description="We provide an explorer UI from which you can deploy new tokenbound accounts, track them and interact with them."
+        link="#"
       />
       <Card
         title="DEVELOPER SDK"
         src="/developer-sdk.svg"
         button="Tokenbound SDK"
         description="Tokenbound SDK is a developer-focused kit for creating, retrieving and interacting with tokenbound accounts right from your dApp."
+        link="https://tokenbound.gitbook.io/starknet-tokenbound/"
       />
       <Card
         title="SHOWCASE"
         src="/community-showcase.svg"
         button="Community Showcase"
         description="View and checkout the top ecosystem/community projects built around Tokenbound Accounts."
+        link="#"
       />
     </section>
   );

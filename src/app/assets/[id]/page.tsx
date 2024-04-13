@@ -7,12 +7,10 @@ import {
   useGetAccountAddress,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
-import { CSSProperties } from "react";
-import { copyToClipBoard, shortenAddress } from "@utils/helper";
+
 import { toast } from "react-toastify";
 import FungibleAsset from "@components/Assets/index";
 import NonFungibleAsset from "@components/Assets/Tbanft";
-import { useAccount } from "@starknet-react/core";
 import {FaArrowAltCircleRight} from "react-icons/fa"
 import CopyButton from "@components/utils/CopyButton";
 
