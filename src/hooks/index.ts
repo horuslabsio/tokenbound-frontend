@@ -120,7 +120,7 @@ export const useTokenBoundSDK = () => {
     account: account,
     registryAddress:  chain.network === 'mainnet'? TBAcontractAddress : TBAcontractAddress_SEPOLIA,
     implementationAddress: chain.network === 'mainnet'? TBAImplementationAccount : TBAImplementationAccount_SEPOLIA,
-    jsonRPC: `https://starknet-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+    jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
   };
 
   let tokenbound: any;
@@ -137,6 +137,7 @@ export const useGetAccountAddress = ({
 }: IAccountParam) => {
   const { tokenbound } = useTokenBoundSDK();
   const { account } = useAccount();
+  const {chain} = useNetwork()
   const [deployedAddress, setDeployedAddress] = useState<string>("");
 
   useEffect(() => {
@@ -151,9 +152,8 @@ export const useGetAccountAddress = ({
         console.error(error);
       }
     };
-
     getAccountAddress();
-  }, [account, contractAddress, tokenId]);
+  }, [account, contractAddress, tokenId,chain]);
 
   return {
     deployedAddress,
