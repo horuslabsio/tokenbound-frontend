@@ -11,10 +11,12 @@ import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import FungibleAsset from "@components/Assets/index";
 import NonFungibleAsset from "@components/Assets/Tbanft";
-import {FaArrowAltCircleRight} from "react-icons/fa"
+import { FaArrowAltCircleRight } from "react-icons/fa";
 import CopyButton from "@components/utils/CopyButton";
+import { useNetwork } from "@starknet-react/core";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
+const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
 
 function Assets() {
   const [isCollectible, setIsCollectible] = useState(true);
@@ -33,8 +35,6 @@ function Assets() {
   });
   const { tokenbound } = useTokenBoundSDK();
   const [status, setStatus] = useState<boolean | null>(null);
-
-
 
   const getAccountStatus = async () => {
     try {
@@ -62,7 +62,8 @@ function Assets() {
       toast.error("An error was encountered during the course of deployment!");
     }
   };
-
+  const { chain } = useNetwork();
+console.log('chain:',chain.network)
   return (
     <section className="min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">
       <section className="min-h-screen">
@@ -95,16 +96,26 @@ function Assets() {
                     className="w-[10rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"
                   ></div>
                 )}
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="inline-flex items-center p-[5px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110" title="Tokenbound account address">
-                        <CopyButton textToCopy={deployedAddress}/>
-                        <span className="ml-3">
-                          <a href={`${url}/contract/${deployedAddress}`} target="__blank"><FaArrowAltCircleRight size={25} /></a>
-                        </span>
-                      </p>
-                    </div>   
-                    </div>            
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p
+                      className="inline-flex items-center p-[5px] bg-gray-200 cursor-pointer rounded-full hover:transform hover:scale-110"
+                      title="Tokenbound account address"
+                    >
+                      <CopyButton textToCopy={deployedAddress} />
+                      <span className="ml-3">
+                        <a
+                          href={`${
+                            chain.network === "mainnet" ? url : chain.network === "sepolia"? sepolia_url : ""
+                          }/contract/${deployedAddress}`}
+                          target="__blank"
+                        >
+                          <FaArrowAltCircleRight size={25} />
+                        </a>
+                      </span>
+                    </p>
+                  </div>
+                </div>
               </div>
               <div>
                 {status === null ? (
