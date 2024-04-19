@@ -63,7 +63,7 @@ function Assets() {
     }
   };
   const { chain } = useNetwork();
-
+console.log('chain:',chain.network)
   return (
     <section className="min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">
       <section className="min-h-screen">
@@ -106,7 +106,7 @@ function Assets() {
                       <span className="ml-3">
                         <a
                           href={`${
-                            chain.network === "mainnet" ? url : sepolia_url
+                            chain.network === "mainnet" ? url : chain.network === "sepolia"? sepolia_url : ""
                           }/contract/${deployedAddress}`}
                           target="__blank"
                         >
