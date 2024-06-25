@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { instance } from "@utils/helper";
 import { useAccount, useNetwork } from "@starknet-react/core";
-import { IAccountParam, NftItem, raw, TokenInfo } from "types";
+import { IAccountParam, raw, TokenInfo } from "types";
 import { num } from "starknet";
 import { TBAcontractAddress, TBAcontractAddress_SEPOLIA, TBAImplementationAccount, TBAImplementationAccount_SEPOLIA } from "@utils/constants";
 import { TokenboundClient } from "starknet-tokenbound-sdk";
+import axios from "axios";
 
 
 export const useFetchUserNFT = () => {
@@ -159,3 +160,39 @@ export const useGetAccountAddress = ({
     deployedAddress,
   };
 };
+
+
+const useRefreshMetadata = (contractAddress:string, tokenId:string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<string>("");
+  const { chain } = useNetwork();
+
+  const refreshMetadata = async () => {
+    if (!contractAddress) {
+      console.error("Address is undefined. Unable to make the request.");
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    try {
+      const url = `https://${
+        chain.network === "mainnet"
+          ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
+          : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
+      }/v1/tokens/${contractAddress}/${tokenId}/metadata/refresh`;
+      const result: string = await axios.post(url, {
+        contract_address: contractAddress,
+        tokenId,
+      });
+      setSuccess(result);
+    } catch (error) {
+      console.error("Error fetching user NFT:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, success, refreshMetadata };
+};
+
+export default useRefreshMetadata;

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { FaGem, FaCoins } from "react-icons/fa";
-import {
+import useRefreshMetadata, {
   useFetchNFTMetadata,
   useTokenBoundSDK,
   useGetAccountAddress,
@@ -14,6 +14,7 @@ import NonFungibleAsset from "@components/Assets/Tbanft";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import CopyButton from "@components/utils/CopyButton";
 import { useNetwork } from "@starknet-react/core";
+import Tooltip from "@components/utils/tooltip";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
 const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
@@ -48,6 +49,7 @@ function Assets() {
     }
   };
 
+ const {refreshMetadata,loading} = useRefreshMetadata(contractAddress,tokenId);
   getAccountStatus();
 
   const deployAccount = async () => {
@@ -63,7 +65,7 @@ function Assets() {
     }
   };
   const { chain } = useNetwork();
-console.log('chain:',chain.network)
+
   return (
     <section className="min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">
       <section className="min-h-screen">
@@ -178,6 +180,9 @@ console.log('chain:',chain.network)
                   <FaCoins size={20} />
                   Assets
                 </button>
+                <Tooltip message="click to refresh asset if metadata does not display">
+                <button onClick={refreshMetadata} disabled={loading} type="button" className={`${loading ? 'bg-red-300' : ''} cursor-pointer  bg-red-500 text-white rounded-[6px] gap-x-1 p-2 flex items-center transition-all duration-500`}>Refresh metadata</button>
+                </Tooltip>
               </div>
               {isCollectible ? (
                 <NonFungibleAsset tba={deployedAddress} />
