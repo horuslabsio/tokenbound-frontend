@@ -161,10 +161,14 @@ export const useGetAccountAddress = ({
   };
 };
 
+type RefreshType = {
+  status:number,
+  data:{result:string}
+}
 
 const useRefreshMetadata = (contractAddress:string, tokenId:string) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<string>("");
+  const [success, setSuccess] = useState<RefreshType>({status:0, data:{result:""}});
   const { chain } = useNetwork();
 
   const refreshMetadata = async () => {
@@ -180,10 +184,15 @@ const useRefreshMetadata = (contractAddress:string, tokenId:string) => {
           ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
           : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
       }/v1/tokens/${contractAddress}/${tokenId}/metadata/refresh`;
-      const result: string = await axios.post(url, {
-        contract_address: contractAddress,
-        tokenId,
+      const result: string = await axios.post(url, {}, {
+          headers: {
+            accept: "application/json",
+            "x-api-key": process.env.NEXT_PUBLIC_ARK_API_KEY,
+          },
+          withCredentials: false,
+
       });
+      // @ts-ignore
       setSuccess(result);
     } catch (error) {
       console.error("Error fetching user NFT:", error);

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { FaGem, FaCoins } from "react-icons/fa";
 import useRefreshMetadata, {
   useFetchNFTMetadata,
@@ -21,6 +21,8 @@ const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
 
 function Assets() {
   const [isCollectible, setIsCollectible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false)
+
 
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible);
@@ -49,9 +51,20 @@ function Assets() {
     }
   };
 
- const {refreshMetadata,loading} = useRefreshMetadata(contractAddress,tokenId);
+ const {refreshMetadata,loading, success} = useRefreshMetadata(contractAddress,tokenId);
   getAccountStatus();
 
+  useEffect(() => {
+    let timer:any
+    if (success) {
+        setIsVisible(true);
+        timer = setTimeout(() => {
+            setIsVisible(false);
+        }, 2000);
+    }
+    
+    return () => clearTimeout(timer); 
+}, [success]);
   const deployAccount = async () => {
     try {
       await tokenbound.createAccount({
@@ -182,6 +195,7 @@ function Assets() {
                 </button>
                 <Tooltip message="click to refresh asset if metadata does not display">
                 <button onClick={refreshMetadata} disabled={loading} type="button" className={`${loading ? 'bg-red-300' : ''} cursor-pointer  bg-red-500 text-white rounded-[6px] gap-x-1 p-2 flex items-center transition-all duration-500`}>Refresh metadata</button>
+                {success?.status == 200 && isVisible ? <p className="absolute bg-blue-500 text-white text-xs pl-1 pr-1  rounded-lg  transition ease-in-out duration-300">{success?.data.result}</p> : '' }
                 </Tooltip>
               </div>
               {isCollectible ? (
