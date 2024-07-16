@@ -25,6 +25,7 @@ export const useFetchUserNFT = () => {
         const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${formatted_address}/tokens`;
         const response = await instance.get(url);
         const { data } = await response;
+        console.log('nft-data:',data?.result)
         setNft(data?.result);
         setLoading(false);
       } catch (error) {
