@@ -77,15 +77,14 @@ function Assets() {
       toast.error("An error was encountered during the course of deployment!");
     }
   };
-  const { chain } = useNetwork();
-
+  const { chain } = useNetwork()
   return (
     <section className="min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">
       <section className="min-h-screen">
         <h2 className="text-deep-blue mb-8">My NFT Collections</h2>
         <div className="grid grid-cols-[1fr] md:grid-cols-2 gap-8 w-full">
           <div className=" w-full rounded-[8px]">
-            {nft.image ? (
+            {nft?.image ? (
               <img
                 className="!w-[673px] !h-[480px] rounded-[8px] object-cover"
                 src={nft.image}
@@ -103,7 +102,7 @@ function Assets() {
           <div className="flex flex-col gap-6">
             <div className="flex justify-between items-center">
               <div className="flex md:flex-col lg:flex-row items-center md:items-start lg:items-center gap-3">
-                {nft.name ? (
+                {nft?.name ? (
                   <h3 className="text-deep-blue">{nft.name}</h3>
                 ) : (
                   <div
@@ -160,7 +159,7 @@ function Assets() {
                 )}
               </div>
             </div>
-            {nft.description ? (
+            {nft?.description ? (
               <p className="mt-[18px]">{nft.description}</p>
             ) : (
               <div aria-label="loader" className="flex flex-col gap-4">
