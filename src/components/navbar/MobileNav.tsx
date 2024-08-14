@@ -120,7 +120,7 @@ const MobileNav = ({
                       </ul>
                     </nav>
                     <SearchNFT />
-                    <NetworkSwitcher/>
+                    <NetworkSwitcher />
                     <div>
                       {!account ? (
                         <button

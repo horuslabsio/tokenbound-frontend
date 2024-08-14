@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Features = () => {
   return (
-    <section className="flex flex-col items-center gap-10 px-4 py-16 md:px-16 lg:p-16  lg:flex-row">
+    <section className="container mx-auto flex flex-col items-center justify-between gap-10 px-4 py-16 md:px-16 lg:p-16  lg:flex-row">
       <article className="flex flex-col gap-4 basis-1/2">
         <h2 className="text-deep-blue">
           Turn existing NFTs into a smart wallet you could use to interact with
@@ -48,7 +48,10 @@ const Features = () => {
           </li>
         </ul>
       </article>
-      <figure className="flex h-[40vh]  place-content-center rounded-[12px] w-full md:w-[60vh] mx-auto lg:h-[50%]">
+      <figure
+        className=" w-[50%] max-w-[400px]"
+        // className="flex h-[40vh]  place-content-center rounded-[12px] w-full md:w-[60%] mx-auto lg:h-[50%]"
+      >
         <Image
           className="rounded-[12px] h-[40vh] lg:h-full"
           src="/erc-illustration.svg"

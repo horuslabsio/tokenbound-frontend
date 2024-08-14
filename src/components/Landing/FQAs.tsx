@@ -78,7 +78,7 @@ const FQAs = () => {
   };
 
   return (
-    <section className="min-h-[80vh] flex flex-col gap-8 px-4 py-16 lg:p-16">
+    <section className="container mx-auto flex flex-col gap-8 px-4 py-16 lg:p-16">
       <h2 className="text-black text-center">
         Frequently Asked Questions (FAQs)
       </h2>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -52,9 +52,9 @@ const DesktopNav = ({
   }, [dropdownRef]);
 
   return (
-    <nav className="flex items-center gap-8 justify-between">
+    <nav className="container mx-auto flex items-center gap-8 justify-between">
       <div className="flex items-center gap-10">
-        <Link href={"/"}>
+        <Link className="block w-[150px] md:w-[200px]" href={"/"}>
           <Image
             src={"/logo.svg"}
             alt="starknet logo"
@@ -118,11 +118,11 @@ const DesktopNav = ({
             openWalletModal={openWalletModal}
           />
         )}
-    <NetworkSwitcher/>
+        <NetworkSwitcher />
         {!account ? (
           <button
             onClick={openWalletModal}
-            className="w-[14rem] p-4 bg-deep-blue rounded-[8px] text-white"
+            className="w-[14rem] h-[3rem] py-3 px-4 bg-deep-blue rounded-[8px] text-white"
             type="button"
           >
             Connect Wallet

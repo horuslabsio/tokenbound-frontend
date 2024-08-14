@@ -46,7 +46,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
         <button
           title="Copy Address"
           onClick={copy}
-          className=" border-solid border-[1px] border-[#C4C4C4] rounded-full p-2 flex gap-2"
+          className=" border-solid border-[1px] border-[#C4C4C4] rounded-full p-2 flex items-center gap-2"
         >
           <span className="overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[90%]">
             {address}
@@ -59,7 +59,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
         <Link href={`/wallet/${address}`}>
           <button
             onClick={closeModal}
-            className="w-full p-4 bg-deep-blue rounded-[8px] text-white my-2"
+            className="w-full h-[3rem] px-4 bg-deep-blue rounded-[8px] text-white my-2"
             type="button"
           >
             My NFTs &rarr;
@@ -68,7 +68,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
         <button
           type="button"
           onClick={() => disconnect()}
-          className="w-full p-4  text-[#810E0E] rounded-[8px]  border-solid border-[1px] border-[#810E0E]"
+          className="w-full h-[3rem] px-4  text-[#810E0E] rounded-[8px]  border-solid border-[1px] border-[#810E0E]"
         >
           Disconnect
         </button>

@@ -3,7 +3,7 @@ import Link from "next/link";
 const Hero = () => {
   return (
     <section>
-      <div className="p-4">
+      <div className="p-4 container mx-auto">
         <h1 className="text-center  bg-gradient-linear-starknet-gradient text-transparent bg-clip-text my-0 mx-auto lg:p-10  lg:w-[40%]">
           Transforming any NFT to a Wallet
         </h1>
