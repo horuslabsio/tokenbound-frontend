@@ -95,7 +95,7 @@ const Projects = () => {
         />
         <Project
           url="https://ccnfts.vercel.app/"
-          title="Crowdpass"
+          title="CCNFTS"
           src={ccnftsImage}
           description="CCNFTs is revolutionizing the gaming world on the blockchain with a thrilling vision for the future."
         />
