@@ -14,7 +14,7 @@ type NftInfo = {
 };
 
 const SearchNFT = () => {
- const {chain} = useNetwork()
+  const { chain } = useNetwork();
   const nftDropDownRef = useRef<HTMLDivElement | null>(null);
   const [searchInput, setSearchInput] = useState("");
   const [nft, setNft] = useState<NftInfo>({
@@ -50,7 +50,11 @@ const SearchNFT = () => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/contracts/${searchInput}`;
+        const url = `https://${
+          chain.network === "mainnet"
+            ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
+            : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
+        }/v1/contracts/${searchInput}`;
         const response = await instance.get(url);
         const { data } = response;
         setNft(data?.result);
@@ -101,7 +105,7 @@ const SearchNFT = () => {
           onFocus={handleFocus}
           onBlur={handleBlur}
           value={searchInput}
-          className="bg-off-white py-4 pl-10 pr-4  w-full h-full rounded-[8px] text-[.875rem]"
+          className="bg-off-white h-[3rem] py-4 pl-10 pr-4  w-full rounded-[8px] text-[.875rem] placeholder:text-[.9em]"
           role="search"
           type="text"
           name="search"

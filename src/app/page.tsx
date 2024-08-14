@@ -25,7 +25,7 @@ export default function Home() {
         pauseOnHover
         theme="light"
       />
-      <main className="min-h-screen pb-16 pt-32">
+      <main className="min-h-screen pb-16 pt-32 flex flex-col gap-8">
         <Hero />
         <Features />
         <ShowCase />
