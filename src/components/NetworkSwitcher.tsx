@@ -4,7 +4,6 @@ import * as React from "react";
 import { FaCheck } from "react-icons/fa";
 import { LuChevronsUpDown } from "react-icons/lu";
 
-
 import { useNetwork } from "@starknet-react/core";
 import { Button } from "../components/utils/button";
 import {
@@ -69,7 +68,7 @@ export function NetworkSwitcher() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[200px] h-[3rem] justify-between"
         >
           {selectedNetwork
             ? networks.find((network) => network.value === selectedNetwork)
