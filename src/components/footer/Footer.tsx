@@ -15,7 +15,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-off-white text-[#7A7A7A] min-h-[50vh] flex justify-center flex-col gap-16 px-8 pt-16 pb-8">
+    <footer className="bg-off-white text-[#7A7A7A] flex justify-end flex-col gap-16 px-8 pt-16 pb-8">
       <div className="container mx-auto flex flex-col  justify-center gap-8 lg:flex-row">
         <div className="basis-1/2 flex flex-col gap-4">
           <p>Powered by</p>

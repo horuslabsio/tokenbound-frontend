@@ -1,11 +1,11 @@
 import Image, { StaticImageData } from "next/image";
 import UpRightArrowIcon from "svg/UpRightArrowIcon";
-import blingImage from "../../../public/community/0.gif";
-import unixImage from "../../../public/community/1.gif";
-import runAwaysImage from "../../../public/community/2.gif";
-import tokenGImage from "../../../public/community/3.gif";
-import crowdPassImage from "../../../public/community/4.gif";
-import ccnftsImage from "../../../public/community/5.gif";
+import blingImage from "../../../public/community/0.png";
+import unixImage from "../../../public/community/1.png";
+import runAwaysImage from "../../../public/community/2.png";
+import tokenGImage from "../../../public/community/3.png";
+import crowdPassImage from "../../../public/community/4.png";
+import ccnftsImage from "../../../public/community/5.png";
 
 const Project = ({
   description,
