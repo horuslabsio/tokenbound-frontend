@@ -148,14 +148,14 @@ function Assets() {
                     {status ? (
                       <button
                         disabled={status}
-                        className={`bg-[#0c0c4f] opacity-50 text-white text-sm py-[13px] px-6 disabled:cursor-not-allowed rounded-[6px]`}
+                        className={`bg-[#0c0c4f] opacity-50 text-white text-sm py-[13px] h-[3rem] px-6 disabled:cursor-not-allowed rounded-[6px]`}
                         onClick={deployAccount}
                       >
                         TBA Deployed
                       </button>
                     ) : (
                       <button
-                        className="bg-[#0C0C4F] text-[#fafafa]    py-[6px] px-2 md:py-[.5rem] md:px-[.5rem] lg:py-[13px] lg:px-6 rounded-[6px]"
+                        className="bg-[#0C0C4F] text-[#fafafa] h-[3rem] py-[6px] px-2 md:py-[.5rem] md:px-[.5rem] lg:py-[13px] lg:px-6 rounded-[6px]"
                         onClick={deployAccount}
                       >
                         Deploy Account
