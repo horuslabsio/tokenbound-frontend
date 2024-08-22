@@ -26,7 +26,7 @@ function NFT() {
   return (
     <>
       {isConnected && !!address ? (
-        <section className="min-h-screen  pt-32 px-4 md:px-16 lg:px-16">
+        <section className="container mx-auto min-h-screen  pt-32 px-4 md:px-16 lg:px-16">
           <div className="flex items-center space-x-4 justify-start gap-1 mb-16">
             <h2 className=" text-black text-4xl font-medium ">
               My NFT Collections

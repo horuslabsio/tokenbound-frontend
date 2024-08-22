@@ -18,15 +18,35 @@ const Hero = () => {
           </button>
         </Link>
       </div>
-      <div>
-        <img src="/Frame 20.png" alt="" />
+
+      <div className="relative h-[200px] md:h-[400px] w-screen  max-w-[2000px] mx-auto overflow-hidden">
+        <div className="absolute z-[3] bg-[#fafafa] h-[100px] md:h-[200px] top-[-50px] md:top-[-120px] w-[110%] left-1/2 -translate-x-1/2 rounded-[50%]"></div>
+        <div className="custom-shape w-full h-full grid grid-cols-4 gap-4">
+          <div className="h-[200px] md:h-[400px]">
+            <img src="/hero-1.png" alt="" className="h-full w-full" />
+          </div>
+          <div className="h-[200px] md:h-[400px]">
+            <img
+              src="/hero-2.png"
+              alt=""
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="h-[200px] md:h-[400px]">
+            <img
+              src="/hero-3.png"
+              alt=""
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="h-[200px] md:h-[400px]">
+            <img src="/hero-4.png" alt="" className="h-full w-full" />
+          </div>
+        </div>
+        <div className="absolute z-[3] bg-[#fafafa] h-[100px] md:h-[200px] bottom-[-50px] md:bottom-[-120px] left-1/2 -translate-x-1/2 w-[110%] rounded-[50%]"></div>
       </div>
     </section>
   );
 };
 
 export default Hero;
-/* 
-
-
-*/

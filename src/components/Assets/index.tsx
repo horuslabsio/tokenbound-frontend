@@ -55,7 +55,7 @@ const FungibleAsset = ({
                 <button
                   disabled={+balance <= 0}
                   onClick={toggleModal}
-                  className={`border-solid border-[1px] text-deep-blue border-deep-blue p-2 rounded-[5px] ${
+                  className={`border-solid border-[1px] h-[3rem] text-deep-blue border-deep-blue p-2 rounded-[5px] ${
                     +balance > 0 ? "opacity-100" : "opacity-50"
                   } `}
                 >
@@ -160,7 +160,6 @@ function Asset({ tokenBoundAddress }: AssetProps) {
   let USDC_BALANCE = usdc?.balance?.low.toString() / 1e6;
   //@ts-ignore
   let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
-
 
   return (
     <div className="mt-4 flex flex-col  gap-6">

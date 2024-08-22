@@ -48,10 +48,7 @@ const Features = () => {
           </li>
         </ul>
       </article>
-      <figure
-        className=" w-[50%] max-w-[400px]"
-        // className="flex h-[40vh]  place-content-center rounded-[12px] w-full md:w-[60%] mx-auto lg:h-[50%]"
-      >
+      <figure className=" w-[50%] max-w-[400px]">
         <Image
           className="rounded-[12px] h-[40vh] lg:h-full"
           src="/erc-illustration.svg"

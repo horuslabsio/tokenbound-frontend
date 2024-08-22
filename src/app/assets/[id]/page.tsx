@@ -1,5 +1,5 @@
 "use client";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaGem, FaCoins } from "react-icons/fa";
 import useRefreshMetadata, {
   useFetchNFTMetadata,
@@ -21,8 +21,7 @@ const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
 
 function Assets() {
   const [isCollectible, setIsCollectible] = useState(true);
-  const [isVisible, setIsVisible] = useState(false)
-
+  const [isVisible, setIsVisible] = useState(false);
 
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible);
@@ -51,20 +50,23 @@ function Assets() {
     }
   };
 
- const {refreshMetadata,loading, success} = useRefreshMetadata(contractAddress,tokenId);
+  const { refreshMetadata, loading, success } = useRefreshMetadata(
+    contractAddress,
+    tokenId
+  );
   getAccountStatus();
 
   useEffect(() => {
-    let timer:any
+    let timer: any;
     if (success) {
-        setIsVisible(true);
-        timer = setTimeout(() => {
-            setIsVisible(false);
-        }, 2000);
+      setIsVisible(true);
+      timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 2000);
     }
-    
-    return () => clearTimeout(timer); 
-}, [success]);
+
+    return () => clearTimeout(timer);
+  }, [success]);
   const deployAccount = async () => {
     try {
       await tokenbound.createAccount({
@@ -77,9 +79,9 @@ function Assets() {
       toast.error("An error was encountered during the course of deployment!");
     }
   };
-  const { chain } = useNetwork()
+  const { chain } = useNetwork();
   return (
-    <section className="min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">
+    <section className="container mx-auto min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">
       <section className="min-h-screen">
         <h2 className="text-deep-blue mb-8">My NFT Collections</h2>
         <div className="grid grid-cols-[1fr] md:grid-cols-2 gap-8 w-full">
@@ -120,7 +122,11 @@ function Assets() {
                       <span className="ml-3">
                         <a
                           href={`${
-                            chain.network === "mainnet" ? url : chain.network === "sepolia"? sepolia_url : ""
+                            chain.network === "mainnet"
+                              ? url
+                              : chain.network === "sepolia"
+                              ? sepolia_url
+                              : ""
                           }/contract/${deployedAddress}`}
                           target="__blank"
                         >
@@ -142,14 +148,14 @@ function Assets() {
                     {status ? (
                       <button
                         disabled={status}
-                        className={`bg-[#0c0c4f] opacity-50 text-white text-sm py-[13px] px-6 disabled:cursor-not-allowed rounded-[6px]`}
+                        className={`bg-[#0c0c4f] opacity-50 text-white text-sm py-[13px] h-[3rem] px-6 disabled:cursor-not-allowed rounded-[6px]`}
                         onClick={deployAccount}
                       >
                         TBA Deployed
                       </button>
                     ) : (
                       <button
-                        className="bg-[#0C0C4F] text-[#fafafa]    py-[6px] px-2 md:py-[.5rem] md:px-[.5rem] lg:py-[13px] lg:px-6 rounded-[6px]"
+                        className="bg-[#0C0C4F] text-[#fafafa] h-[3rem] py-[6px] px-2 md:py-[.5rem] md:px-[.5rem] lg:py-[13px] lg:px-6 rounded-[6px]"
                         onClick={deployAccount}
                       >
                         Deploy Account
@@ -193,8 +199,23 @@ function Assets() {
                   Assets
                 </button>
                 <Tooltip message="click to refresh asset if metadata does not display">
-                <button onClick={refreshMetadata} disabled={loading} type="button" className={`${loading ? 'bg-red-300' : ''} cursor-pointer  bg-red-500 text-white rounded-[6px] gap-x-1 p-2 flex items-center transition-all duration-500`}>Refresh metadata</button>
-                {success?.status == 200 && isVisible ? <p className="absolute bg-blue-500 text-white text-xs pl-1 pr-1  rounded-lg  transition ease-in-out duration-300">{success?.data.result}</p> : '' }
+                  <button
+                    onClick={refreshMetadata}
+                    disabled={loading}
+                    type="button"
+                    className={`${
+                      loading ? "bg-red-300" : ""
+                    } cursor-pointer  bg-red-500 text-white rounded-[6px] gap-x-1 p-2 flex items-center transition-all duration-500`}
+                  >
+                    Refresh metadata
+                  </button>
+                  {success?.status == 200 && isVisible ? (
+                    <p className="absolute bg-blue-500 text-white text-xs pl-1 pr-1  rounded-lg  transition ease-in-out duration-300">
+                      {success?.data.result}
+                    </p>
+                  ) : (
+                    ""
+                  )}
                 </Tooltip>
               </div>
               {isCollectible ? (
