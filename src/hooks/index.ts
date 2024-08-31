@@ -9,10 +9,9 @@ import axios from "axios";
 
 
 export const useFetchUserNFT = () => {
-  const { address, account } = useAccount();
+  const { address } = useAccount();
   const [nft, setNft] = useState<TokenInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  let formatted_address = account?.address.replace("0x", "0x0");
  const {chain} = useNetwork()
   useEffect(() => {
     const fetchData = async () => {
@@ -22,10 +21,9 @@ export const useFetchUserNFT = () => {
           setLoading(false);
           return;
         }
-        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${formatted_address}/tokens`;
+        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${address}/tokens`;
         const response = await instance.get(url);
         const { data } = await response;
-        console.log('nft-data:',data?.result)
         setNft(data?.result);
         setLoading(false);
       } catch (error) {
