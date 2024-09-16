@@ -6,4 +6,5 @@ In the above link is contained the figma files for the new explorer revamp. It c
 2. The page which displays all NFTs owned by the user [issue linked here](https://github.com/Starknet-Africa-Edu/TBA-FRONTEND/issues/37)
 3. The page which displays a single tokenbound account, it's contained collectibles and assets [issue linked here](https://github.com/Starknet-Africa-Edu/TBA-FRONTEND/issues/38)
 4. Modal for transferring assets, both ERC20s and NFTs [issue linked here](https://github.com/Starknet-Africa-Edu/TBA-FRONTEND/issues/44)
+5. The page which displays connect Tokenbound account [figma Design](https://www.figma.com/design/ZScIKYIid05JolyRKqjRpU/TBA?m=auto&t=fpT5Av7N73GkSfXE-6)
 
