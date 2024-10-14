@@ -3,8 +3,7 @@ import { instance } from "@utils/helper";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import { IAccountParam, raw, TokenInfo } from "types";
 import { num } from "starknet";
-import { TBAcontractAddress, TBAcontractAddress_SEPOLIA, TBAImplementationAccount, TBAImplementationAccount_SEPOLIA } from "@utils/constants";
-import { TokenboundClient } from "starknet-tokenbound-sdk";
+import { TBAChainID, TBAVersion, TokenboundClient,  } from "starknet-tokenbound-sdk";
 import axios from "axios";
 
 
@@ -13,6 +12,7 @@ export const useFetchUserNFT = () => {
   const [nft, setNft] = useState<TokenInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
  const {chain} = useNetwork()
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -117,9 +117,10 @@ export const useTokenBoundSDK = () => {
   const { account } = useAccount();
   const {chain} = useNetwork()
   const options = {
+    
     account: account,
-    registryAddress:  chain.network === 'mainnet'? TBAcontractAddress : TBAcontractAddress_SEPOLIA,
-    implementationAddress: chain.network === 'mainnet'? TBAImplementationAccount : TBAImplementationAccount_SEPOLIA,
+    chain_id: chain.network === 'mainnet' ? TBAChainID.main  : TBAChainID.sepolia,
+    version: TBAVersion.V3,
     jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
   };
 
@@ -140,20 +141,24 @@ export const useGetAccountAddress = ({
   const {chain} = useNetwork()
   const [deployedAddress, setDeployedAddress] = useState<string>("");
 
+
+
   useEffect(() => {
-    const getAccountAddress = async () => {
-      try {
-        const accountResult = await tokenbound.getAccount({
-          tokenContract: contractAddress,
-          tokenId,
-        });
-        setDeployedAddress(num.toHex(accountResult));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getAccountAddress();
-  }, [account, contractAddress, tokenId,chain]);
+    if(tokenbound){
+      const getAccountAddress = async () => {
+        try {
+          const accountResult = await tokenbound.getAccount({
+            tokenContract: contractAddress,
+            tokenId,
+          });
+          setDeployedAddress(num.toHex(accountResult));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getAccountAddress();
+    }
+  }, [tokenbound,account, contractAddress, tokenId,chain]);
 
   return {
     deployedAddress,

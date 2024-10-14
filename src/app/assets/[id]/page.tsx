@@ -7,7 +7,6 @@ import useRefreshMetadata, {
   useGetAccountAddress,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
-
 import { toast } from "react-toastify";
 import FungibleAsset from "@components/Assets/index";
 import NonFungibleAsset from "@components/Assets/Tbanft";
