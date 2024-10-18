@@ -71,12 +71,12 @@ function Assets() {
   useEffect(() => {
     if (status) {
       const fetchClassHash = async () => {
-
-        const tbaClassHash = (await provider.getClassHashAt(deployedAddress));
-          setVersions({v2: false, v3: false})
+        if (deployedAddress) {
+          const tbaClassHash = (await provider.getClassHashAt(deployedAddress));
+          setVersions({ v2: false, v3: false })
           setTbaClassHash(tbaClassHash)
-      };
-
+        };
+      }
       fetchClassHash().catch(error => console.error("Error:", error));
     }
   }, [status, deployedAddress]);
@@ -141,7 +141,7 @@ function Assets() {
 
     try {
       await tokenbound?.upgrade({
-        tbaAddress: contractAddress,
+        tbaAddress: deployedAddress,
         newClassHash: v3Implementation
       });
 
