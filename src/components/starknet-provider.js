@@ -15,6 +15,7 @@ function rpc(chain) {
 }
 
 const provider = jsonRpcProvider({ rpc });
+
 export default function StarknetProvider({ children }) {
   const chains = [mainnet,sepolia]
   const { connectors: injected } = useInjectedConnectors({
@@ -28,7 +29,6 @@ export default function StarknetProvider({ children }) {
     new ArgentMobileConnector(),
   ]
 
-  console.log
 
   return (
     <StarknetConfig

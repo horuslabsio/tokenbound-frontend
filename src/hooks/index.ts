@@ -5,6 +5,7 @@ import { IAccountParam, raw, TokenInfo } from "types";
 import { num } from "starknet";
 import { TBAChainID, TBAVersion, TokenboundClient,  } from "starknet-tokenbound-sdk";
 import axios from "axios";
+import { useTokenBoundSDK2 } from "./useTokenboundHookContext";
 
 
 export const useFetchUserNFT = () => {
@@ -23,7 +24,7 @@ export const useFetchUserNFT = () => {
         }
         const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${address}/tokens`;
         const response = await instance.get(url);
-        const { data } = await response;
+        const { data } =  response;
         setNft(data?.result);
         setLoading(false);
       } catch (error) {
@@ -34,7 +35,7 @@ export const useFetchUserNFT = () => {
     if (address) {
       fetchData();
     }
-  }, [address,chain]); // Execute the effect when address changes
+  }, [address,chain]); 
 
   return {
     nft,
@@ -46,6 +47,8 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
   const [nft, setNft] = useState<raw>({ name: "", description: "", image: "" });
   const [loading, setLoading] = useState<boolean>(true);
   const {chain} = useNetwork()
+
+  const {tokenbound} = useTokenBoundSDK2()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,6 +62,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
 
         const response = await instance.get(url);
         const { data } = await response;
+
         setNft(data?.result?.metadata?.normalized);
         setLoading(false);
       } catch (error) {
@@ -69,7 +73,9 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
     if (address) {
       fetchData();
     }
-  }, [address,chain]);
+  }, [address,chain, tokenbound]);
+
+
 
   return {
     nft,
@@ -113,35 +119,51 @@ const {chain} = useNetwork()
   };
 };
 
+
+
+
+
 export const useTokenBoundSDK = () => {
+
+  const [activeVersion, setVersion] = useState<string>(TBAVersion.V3)
+  const [tokenbound, setTokenbound] = useState<any>(null); 
+
   const { account } = useAccount();
   const {chain} = useNetwork()
-  const options = {
-    
-    account: account,
-    chain_id: chain.network === 'mainnet' ? TBAChainID.main  : TBAChainID.sepolia,
-    version: TBAVersion.V3,
-    jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+
+
+  const handleVersionSwitch = (version: string) => {
+    setVersion(version);
   };
 
-  let tokenbound: any;
+  useEffect(() => {
+    if (account && chain) {
+      const options = {
+        account: account,
+        chain_id: chain.network === 'mainnet' ? TBAChainID.main : TBAChainID.sepolia,
+        version: activeVersion,
+        jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      };
 
-  if (account) {
-    tokenbound = new TokenboundClient(options);
-  }
-  return { tokenbound };
+      const tb = new TokenboundClient(options);
+      setTokenbound(tb);
+    }
+  }, [account, chain, activeVersion]);
+
+  return { tokenbound, handleVersionSwitch, activeVersion };
 };
+
 
 export const useGetAccountAddress = ({
   contractAddress,
   tokenId,
 }: IAccountParam) => {
-  const { tokenbound } = useTokenBoundSDK();
+
+  const { tokenbound } = useTokenBoundSDK2();
+
   const { account } = useAccount();
   const {chain} = useNetwork()
   const [deployedAddress, setDeployedAddress] = useState<string>("");
-
-
 
   useEffect(() => {
     if(tokenbound){
@@ -158,7 +180,7 @@ export const useGetAccountAddress = ({
       };
       getAccountAddress();
     }
-  }, [tokenbound,account, contractAddress, tokenId,chain]);
+  }, [tokenbound, account, contractAddress, tokenId,chain]);
 
   return {
     deployedAddress,
