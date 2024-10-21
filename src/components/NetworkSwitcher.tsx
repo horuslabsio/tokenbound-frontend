@@ -3,9 +3,9 @@
 import * as React from "react";
 import { FaCheck } from "react-icons/fa";
 import { LuChevronsUpDown } from "react-icons/lu";
-
-import { useNetwork } from "@starknet-react/core";
+import { useAccount, useNetwork } from "@starknet-react/core";
 import { Button } from "../components/utils/button";
+
 import {
   Command,
   CommandEmpty,
@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from "../components/utils/popover";
 import { cn } from "../lib/utils";
+import { useRouter, usePathname } from "next/navigation";
 
 const NETWORK_MAPPING: { [key: string]: string } = {
   mainnet: "SN_MAIN",
@@ -38,6 +39,11 @@ const networks = [
 
 export function NetworkSwitcher() {
   const { chain } = useNetwork();
+  const { address } = useAccount();
+
+  const { push } = useRouter();
+  const path = usePathname();
+
   const [open, setOpen] = React.useState<boolean>(false);
   const [selectedNetwork, setSelectedNetwork] = React.useState(
     NETWORK_MAPPING[chain.network]
@@ -48,9 +54,10 @@ export function NetworkSwitcher() {
         type: "wallet_switchStarknetChain",
         params: { chainId: newNetworkId },
       });
-
-      console.log(`Switched to network ${networkLabel}`);
       setSelectedNetwork(newNetworkId);
+      if (path.startsWith("/assets")) {
+        push(`/wallet/${address}`);
+      }
     } catch (error) {
       console.error("Failed to switch networks:", error);
     }
