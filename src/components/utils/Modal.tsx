@@ -5,7 +5,7 @@ type ModalProps = {
   children: ReactNode;
   closeModal: () => void;
   openModal: boolean;
-  type:string
+  type: string;
 };
 const Modal = ({ children, closeModal, openModal, type }: ModalProps) => {
   return (
@@ -23,7 +23,7 @@ const Modal = ({ children, closeModal, openModal, type }: ModalProps) => {
           <div className="fixed inset-0 bg-white bg-opacity-25" />
         </Transition.Child>
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex bg-[#0a0a0a30] min-h-full  justify-center items-center p-4">
+          <div className="flex min-h-full items-center justify-center bg-[#0a0a0a30] p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -37,7 +37,7 @@ const Modal = ({ children, closeModal, openModal, type }: ModalProps) => {
                 style={{
                   boxShadow: "0 0 50px 0 #EC796B33",
                 }}
-                className={`rounded-[20px] overflow-hidden mt-20  bg-[#fAFAFA] p-10 w-[90%] md:w-[50%] lg:w-[30rem] ${type === 'erc20'? `min-h-[30rem]` : type === 'nft' ? `min-h-[2rem]`: '' }  text-deep-blue`}
+                className={`mt-20 w-[90%] overflow-hidden rounded-[20px] bg-[#fAFAFA] p-10 md:w-[50%] lg:w-[30rem] ${type === "erc20" ? `min-h-[30rem]` : type === "nft" ? `min-h-[2rem]` : ""} text-deep-blue`}
               >
                 {children}
               </Dialog.Panel>

@@ -2,15 +2,15 @@ import Image from "next/image";
 
 const Features = () => {
   return (
-    <section className="container mx-auto flex flex-col items-center justify-between gap-10 px-4 py-16 md:px-16 lg:p-16  lg:flex-row">
-      <article className="flex flex-col gap-4 basis-1/2">
+    <section className="container mx-auto flex flex-col items-center justify-between gap-10 px-4 py-16 md:px-16 lg:flex-row lg:p-16">
+      <article className="flex basis-1/2 flex-col gap-4">
         <h2 className="text-deep-blue">
           Turn existing NFTs into a smart wallet you could use to interact with
           the Starknet ecosystem.
         </h2>
         <ul className="flex flex-col gap-8">
-          <li className="flex flex-col md:items-center gap-4 md:flex-row">
-            <div className="xsm:w-[40%] w-[5rem] p-4 bg-[#F1F1F1] rounded-[12px] ">
+          <li className="flex flex-col gap-4 md:flex-row md:items-center">
+            <div className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4 xsm:w-[40%]">
               <img src="/bitcoin-wallet.svg" alt="" className="aria-hidden" />
             </div>
             <div className="basis-[90%]">
@@ -22,8 +22,8 @@ const Features = () => {
               </p>
             </div>
           </li>
-          <li className="flex flex-col md:items-center gap-4 md:flex-row">
-            <div className="w-[5rem]  p-4 bg-[#F1F1F1] rounded-[12px] ">
+          <li className="flex flex-col gap-4 md:flex-row md:items-center">
+            <div className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4">
               <img src="/blockchain-05.svg" alt="" className="aria-hidden" />
             </div>
             <div className="basis-[90%]">
@@ -33,8 +33,8 @@ const Features = () => {
               </p>
             </div>
           </li>
-          <li className="flex flex-col md:items-center gap-4 md:flex-row">
-            <div className="xsm:w-[40%] w-[5rem]  p-4 bg-[#F1F1F1] rounded-[12px] ">
+          <li className="flex flex-col gap-4 md:flex-row md:items-center">
+            <div className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4 xsm:w-[40%]">
               <img src="/blockchain-05.svg" alt="" className="aria-hidden" />
             </div>
             <div className="basis-[90%]">
@@ -48,9 +48,9 @@ const Features = () => {
           </li>
         </ul>
       </article>
-      <figure className=" w-[50%] max-w-[400px]">
+      <figure className="w-[50%] max-w-[400px]">
         <Image
-          className="rounded-[12px] h-[40vh] lg:h-full"
+          className="h-[40vh] rounded-[12px] lg:h-full"
           src="/erc-illustration.svg"
           alt=""
           width={100}

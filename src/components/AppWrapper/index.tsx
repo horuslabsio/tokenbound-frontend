@@ -21,7 +21,7 @@ function AppWrapper({ children }: IWrapper) {
         theme="light"
       /> */}
 
-      <main className="mx-auto max-w-[1800px] px-4 sm:px-6 lg:px-[72px] mb-32">
+      <main className="mx-auto mb-32 max-w-[1800px] px-4 sm:px-6 lg:px-[72px]">
         {children}
       </main>
     </>

@@ -37,25 +37,22 @@ const versions = [
 ];
 
 export function VersionSwitcher() {
-
   const { chain } = useNetwork();
   const [open, setOpen] = React.useState<boolean>(false);
- 
-  const {handleVersionSwitch, activeVersion} = useTokenBoundSDK()
+
+  const { handleVersionSwitch, activeVersion } = useTokenBoundSDK();
 
   const [selectedVersion, setSelectedVersion] = React.useState(
-    VERSION_MAPPING[activeVersion]
+    VERSION_MAPPING[activeVersion],
   );
 
-
-
   const switchVersion = async (value: string) => {
-    setSelectedVersion(value)
-    handleVersionSwitch(value)
+    setSelectedVersion(value);
+    handleVersionSwitch(value);
   };
 
   React.useEffect(() => {
-    setSelectedVersion( VERSION_MAPPING[TBAVersion.V3]);
+    setSelectedVersion(VERSION_MAPPING[TBAVersion.V3]);
   }, [chain.network]);
 
   return (
@@ -65,7 +62,7 @@ export function VersionSwitcher() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[90px] h-[3rem] justify-between"
+          className="h-[3rem] w-[90px] justify-between"
         >
           {selectedVersion
             ? versions.find((version) => version.value === selectedVersion)
@@ -74,7 +71,7 @@ export function VersionSwitcher() {
           <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      
+
       <PopoverContent className="w-[90px] p-0">
         <Command>
           <CommandGroup>
@@ -92,7 +89,7 @@ export function VersionSwitcher() {
                     "mr-2 h-4 w-4",
                     selectedVersion === version.value
                       ? "opacity-100"
-                      : "opacity-0"
+                      : "opacity-0",
                   )}
                 />
                 {version.label}

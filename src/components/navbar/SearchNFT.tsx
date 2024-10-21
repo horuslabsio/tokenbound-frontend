@@ -91,13 +91,13 @@ const SearchNFT = () => {
   return (
     <div
       ref={nftDropDownRef}
-      className={`relative xsm:w-[90%] transition-all duration-300 ease-in-out ${
-        isFocused ? " w-[90%] lg:w-[30vw]" : "w-[14rem]"
+      className={`relative transition-all duration-300 ease-in-out xsm:w-[90%] ${
+        isFocused ? "w-[90%] lg:w-[30vw]" : "w-[14rem]"
       }`}
     >
       <div
-        className={`relative xsm:w-[90%] transition-all duration-300 ease-in-out ${
-          isFocused ? " w-[80vw] lg:w-[30vw]" : "w-[14rem]"
+        className={`relative transition-all duration-300 ease-in-out xsm:w-[90%] ${
+          isFocused ? "w-[80vw] lg:w-[30vw]" : "w-[14rem]"
         }`}
       >
         <input
@@ -105,7 +105,7 @@ const SearchNFT = () => {
           onFocus={handleFocus}
           onBlur={handleBlur}
           value={searchInput}
-          className="bg-off-white h-[3rem] py-4 pl-10 pr-4  w-full rounded-[8px] text-[.875rem] placeholder:text-[.9em]"
+          className="h-[3rem] w-full rounded-[8px] bg-off-white py-4 pl-10 pr-4 text-[.875rem] placeholder:text-[.9em]"
           role="search"
           type="text"
           name="search"
@@ -116,7 +116,7 @@ const SearchNFT = () => {
           style={{
             top: "calc(50% - 1.7em /2)",
           }}
-          className="absolute pl-2 pr-4 text-gray-500  left-0"
+          className="absolute left-0 pl-2 pr-4 text-gray-500"
         >
           <SearchIcon />
         </span>
@@ -125,12 +125,10 @@ const SearchNFT = () => {
         style={{
           boxShadow: "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
         }}
-        className={`mt-8 lg:mt-0 lg:fixed xsm:w-[90%] w-[80vw] lg:w-[30vw] min-h-[4rem] bg-white rounded-[8px] top-[5rem]  gird
-        ${searchInput ? "block" : "hidden"}
-          `}
+        className={`gird top-[5rem] mt-8 min-h-[4rem] w-[80vw] rounded-[8px] bg-white xsm:w-[90%] lg:fixed lg:mt-0 lg:w-[30vw] ${searchInput ? "block" : "hidden"} `}
       >
         <div className="overflow-hidden">
-          <div className="flex flex-col p-4  gap-6">
+          <div className="flex flex-col gap-6 p-4">
             {loading ? (
               <SyncLoader
                 aria-label="Loading Spinner"
@@ -140,8 +138,8 @@ const SearchNFT = () => {
             ) : (
               <>
                 {nft.name === "" && nft.image === "" && nft.symbol === "" ? (
-                  <div className="my-auto ">
-                    <h6 className="uppercase text-[.9em]">
+                  <div className="my-auto">
+                    <h6 className="text-[.9em] uppercase">
                       Collection not found
                     </h6>
                   </div>
@@ -152,16 +150,16 @@ const SearchNFT = () => {
                       href={`https://starkscan.co/contract/${nft.contract_address}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="h-[4rem] flex gap-4"
+                      className="flex h-[4rem] gap-4"
                     >
-                      <div className="max-w-[50px] max-h-[50px] rounded-[8px]">
+                      <div className="max-h-[50px] max-w-[50px] rounded-[8px]">
                         <Image
                           loader={myLoader}
                           src={nft.image}
                           width={20}
                           height={20}
                           alt={nft.name}
-                          className="rounded-[8px] w-full h-full"
+                          className="h-full w-full rounded-[8px]"
                         />
                       </div>
 

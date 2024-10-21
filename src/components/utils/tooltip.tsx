@@ -1,15 +1,17 @@
-import React from "react"
+import React from "react";
 
 interface ITooltip {
-    message:string,
-    children:React.ReactNode
+  message: string;
+  children: React.ReactNode;
 }
 
-export default function Tooltip({ message, children }:ITooltip) {
-    return (
+export default function Tooltip({ message, children }: ITooltip) {
+  return (
     <div className="group relative flex">
-        {children}
-        <span className="absolute top-10 scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100">{message}</span>
+      {children}
+      <span className="absolute top-10 scale-0 rounded bg-gray-800 p-2 text-xs text-white transition-all group-hover:scale-100">
+        {message}
+      </span>
     </div>
-    )
+  );
 }

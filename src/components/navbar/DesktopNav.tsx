@@ -53,7 +53,7 @@ const DesktopNav = ({
   }, [dropdownRef]);
 
   return (
-    <nav className="container mx-auto flex items-center gap-8 justify-between">
+    <nav className="container mx-auto flex items-center justify-between gap-8">
       <div className="flex items-center gap-10">
         <Link className="block w-[150px] md:w-[200px]" href={"/"}>
           <Image
@@ -63,7 +63,7 @@ const DesktopNav = ({
             height={46}
           />
         </Link>
-        <div ref={dropdownRef} className="hidden lg:flex gap-8">
+        <div ref={dropdownRef} className="hidden gap-8 lg:flex">
           <button
             onMouseEnter={() => setActiveDropDown("learning")}
             onClick={toggleDropDown}
@@ -74,7 +74,7 @@ const DesktopNav = ({
               className={`self-end transition-all duration-300 ease-in-out ${
                 openDropDown && activeDropDown === "learning"
                   ? "rotate-[-180deg]"
-                  : " rotate-0"
+                  : "rotate-0"
               }`}
             >
               <DownChevronIcon />
@@ -89,14 +89,14 @@ const DesktopNav = ({
           <button
             onMouseEnter={() => setActiveDropDown("community")}
             onClick={toggleDropDown}
-            className={`hidden lg:flex items-center gap-1`}
+            className={`hidden items-center gap-1 lg:flex`}
           >
             <span>Community</span>
             <span
               className={`self-end transition-all duration-300 ease-in-out ${
                 openDropDown && activeDropDown === "community"
-                  ? " rotate-[-180deg]"
-                  : " rotate-0"
+                  ? "rotate-[-180deg]"
+                  : "rotate-0"
               }`}
             >
               <DownChevronIcon />
@@ -110,7 +110,7 @@ const DesktopNav = ({
           </button>
         </div>
       </div>
-      <div className="hidden md:hidden lg:flex items-center space-x-8">
+      <div className="hidden items-center space-x-8 md:hidden lg:flex">
         <SearchNFT />
         {isWalletOpen && (
           <ConnectWallet
@@ -123,7 +123,7 @@ const DesktopNav = ({
         {!account ? (
           <button
             onClick={openWalletModal}
-            className="w-[14rem] h-[3rem] py-3 px-4 bg-deep-blue rounded-[8px] text-white"
+            className="h-[3rem] w-[14rem] rounded-[8px] bg-deep-blue px-4 py-3 text-white"
             type="button"
           >
             Connect Wallet

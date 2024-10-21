@@ -22,7 +22,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
   };
   return (
     <section>
-      <div className="rounded-full bg-[#EFC58E] w-[10rem] h-[10rem] mx-auto">
+      <div className="mx-auto h-[10rem] w-[10rem] rounded-full bg-[#EFC58E]">
         {/* if it will be an image */}
         {/* <Image
           className="rounded-full"
@@ -32,10 +32,10 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
           height={100}
         /> */}
       </div>
-      <div className="flex flex-col gap-4  mt-4">
+      <div className="mt-4 flex flex-col gap-4">
         <div
-          className={`self-end w-[40%] bg-green-600 text-white rounded-full p-2 flex items-center justify-center gap-2 transition-all duration-300 ease-in-out ${
-            copied ? "opacity-100 scale-100" : "opacity-0 scale-75"
+          className={`flex w-[40%] items-center justify-center gap-2 self-end rounded-full bg-green-600 p-2 text-white transition-all duration-300 ease-in-out ${
+            copied ? "scale-100 opacity-100" : "scale-75 opacity-0"
           }`}
         >
           <p className="text-center">copied!</p>
@@ -46,9 +46,9 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
         <button
           title="Copy Address"
           onClick={copy}
-          className=" border-solid border-[1px] border-[#C4C4C4] rounded-full p-2 flex items-center gap-2"
+          className="flex items-center gap-2 rounded-full border-[1px] border-solid border-[#C4C4C4] p-2"
         >
-          <span className="overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[90%]">
+          <span className="max-w-[90%] overflow-hidden overflow-ellipsis whitespace-nowrap">
             {address}
           </span>
           <span className="border-l-solid border-l-[1px] border-l-[#7A7A7A] pl-2">
@@ -59,7 +59,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
         <Link href={`/wallet/${address}`}>
           <button
             onClick={closeModal}
-            className="w-full h-[3rem] px-4 bg-deep-blue rounded-[8px] text-white my-2"
+            className="my-2 h-[3rem] w-full rounded-[8px] bg-deep-blue px-4 text-white"
             type="button"
           >
             My NFTs &rarr;
@@ -68,7 +68,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
         <button
           type="button"
           onClick={() => disconnect()}
-          className="w-full h-[3rem] px-4  text-[#810E0E] rounded-[8px]  border-solid border-[1px] border-[#810E0E]"
+          className="h-[3rem] w-full rounded-[8px] border-[1px] border-solid border-[#810E0E] px-4 text-[#810E0E]"
         >
           Disconnect
         </button>

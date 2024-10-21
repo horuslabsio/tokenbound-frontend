@@ -37,13 +37,13 @@ const FungibleAsset = ({
   return (
     <div className="flex w-full items-center gap-3">
       <div>
-        <img src={src} className="!w-[40px] !h-[30px]" alt="asset-logo" />
+        <img src={src} className="!h-[30px] !w-[40px]" alt="asset-logo" />
       </div>
       <div className="flex-1">
         {loading ? (
           <div aria-label="loader" className="flex justify-between">
-            <div className="w-[10rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
-            <div className="w-[5rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
+            <div className="h-[1.2rem] w-[10rem] animate-pulse rounded-full bg-[#eae9e9]"></div>
+            <div className="h-[1.2rem] w-[5rem] animate-pulse rounded-full bg-[#eae9e9]"></div>
           </div>
         ) : (
           <>
@@ -55,7 +55,7 @@ const FungibleAsset = ({
                 <button
                   disabled={+balance <= 0}
                   onClick={toggleModal}
-                  className={`border-solid border-[1px] h-[3rem] text-deep-blue border-deep-blue p-2 rounded-[5px] ${
+                  className={`h-[3rem] rounded-[5px] border-[1px] border-solid border-deep-blue p-2 text-deep-blue ${
                     +balance > 0 ? "opacity-100" : "opacity-50"
                   } `}
                 >
@@ -162,7 +162,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
   let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
 
   return (
-    <div className="mt-4 flex flex-col  gap-6">
+    <div className="mt-4 flex flex-col gap-6">
       <FungibleAsset
         balance={Number.isNaN(ETH_BALANCE) ? "0.000" : ETH_BALANCE.toFixed(4)}
         err={ethError}

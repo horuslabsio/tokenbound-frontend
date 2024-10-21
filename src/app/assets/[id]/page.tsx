@@ -16,6 +16,7 @@ import { RpcProvider, num } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";
 import { TBAVersion, TokenboundClient } from "starknet-tokenbound-sdk";
+import Button from "ui/button";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
 const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
@@ -56,7 +57,7 @@ function Assets() {
   const { nft } = useFetchNFTMetadata(contractAddress, tokenId);
 
   const [tokenbound, setTokenbound] = useState<TokenboundClient | undefined>(
-    undefined
+    undefined,
   );
   const [tokenboundV2, setTokenboundV2] = useState<
     TokenboundClient | undefined
@@ -76,7 +77,7 @@ function Assets() {
       const tb = new TokenboundClient(options);
       setTokenbound(tb);
     }
-  }, [account, chain, status]);
+  }, [account, chain]);
 
   useEffect(() => {
     if (account && chain) {
@@ -89,7 +90,7 @@ function Assets() {
       const tb = new TokenboundClient(options);
       setTokenboundV2(tb);
     }
-  }, [account, chain, status]);
+  }, [account, chain]);
 
   useEffect(() => {
     if (tokenbound) {
@@ -186,7 +187,7 @@ function Assets() {
 
   const { refreshMetadata, loading, success } = useRefreshMetadata(
     contractAddress,
-    tokenId
+    tokenId,
   );
 
   const deployAccount = async () => {
@@ -207,8 +208,8 @@ function Assets() {
     let v3Implementation =
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
     try {
-      await tokenbound?.upgrade({
-        tbaAddress: deployedAddress,
+      await tokenboundV2?.upgrade({
+        tbaAddress: deployedAddressV2,
         newClassHash: v3Implementation,
       });
       // handleVersionSwitch(TBAVersion.V3);
@@ -223,15 +224,15 @@ function Assets() {
   const isDeployable = !version.v2.status && !version.v3.status;
 
   return (
-    <section className="container mx-auto min-h-screen pt-32 pb-16 px-4 ">
-      <section className="min-h-screen">
-        <h2 className="text-deep-blue mb-8">My NFT Collections</h2>
+    <section className="container mx-auto min-h-screen px-4 pb-16 pt-32">
+      <div className="mx-auto max-w-[1100px]">
+        <h2 className="mb-8 text-deep-blue"> Token Bound Account</h2>
 
-        <div className="grid grid-cols-[1fr] md:grid-cols-2 gap-8 w-full">
-          <div className=" w-full rounded-[8px]">
+        <div className="grid w-full grid-cols-[1fr] gap-8 md:grid-cols-2">
+          <div className="w-full rounded-[8px]">
             {nft?.image ? (
               <img
-                className="!w-[673px] !h-[480px] rounded-[8px] object-cover"
+                className="!h-[480px] !w-[673px] rounded-[8px] object-cover"
                 src={nft.image}
                 width={673}
                 height={480}
@@ -240,62 +241,64 @@ function Assets() {
             ) : (
               <div
                 aria-label="loader"
-                className=" w-full min-h-[500px] h-full bg-[#eae9e9] rounded-[8px] animate-pulse"
+                className="h-full min-h-[500px] w-full animate-pulse rounded-[8px] bg-[#eae9e9]"
               ></div>
             )}
           </div>
           <div>
-            <div className="flex  gap-4 items-center h-fit">
+            <div className="flex h-fit items-center gap-4">
               <h3
                 className={`${
                   nft.name
                     ? "text-deep-blue"
-                    : "w-[10rem] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"
-                }  `}
+                    : "h-[1.2rem] w-[10rem] animate-pulse rounded-full bg-[#eae9e9]"
+                } `}
               >
                 {nft.name || ""}
               </h3>
-              {version.v2.status && version.v3.status && (
-                <button
-                  title="switch versions"
-                  className="bg-[#eae9e9] flex items-center text-sm justify-center  gap-2  w-[74px] py-3 rounded-[4px]"
-                >
-                  <span>V3</span>
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="1em"
-                      height="1em"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fill="currentColor"
-                        fill-rule="evenodd"
-                        d="M8 1a.5.5 0 0 1 .374.168l4 4.5l-.748.664L8 2.252l-3.626 4.08l-.748-.664l4-4.5A.5.5 0 0 1 8 1m0 12.747l-3.626-4.08l-.748.665l4 4.5a.5.5 0 0 0 .748 0l4-4.5l-.748-.664z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                </button>
-              )}
+
+              <Button
+                variant={"ghost"}
+                title="switch versions"
+                className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-[#eae9e9] py-3 text-sm"
+              >
+                <span>V3</span>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      d="M8 1a.5.5 0 0 1 .374.168l4 4.5l-.748.664L8 2.252l-3.626 4.08l-.748-.664l4-4.5A.5.5 0 0 1 8 1m0 12.747l-3.626-4.08l-.748.665l4 4.5a.5.5 0 0 0 .748 0l4-4.5l-.748-.664z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </Button>
 
               <div>
-                <div className="flex bg-[#eae9e9] rounded-[6px] text-sm  items-center">
-                  <CopyButton
-                    className="px-2 py-3 text-center"
-                    textToCopy={activeVersion.address}
-                  />
+                <div className="flex items-center rounded-[6px] bg-[#eae9e9] text-sm">
+                  <Tooltip message="Click to copy">
+                    <CopyButton
+                      className="px-2 py-3 text-center"
+                      textToCopy={activeVersion.address}
+                    />
+                  </Tooltip>
                   <Link
                     href={`${
                       chain.network === "mainnet"
                         ? url
                         : chain.network === "sepolia"
-                        ? sepolia_url
-                        : ""
+                          ? sepolia_url
+                          : ""
                     }/contract/${deployedAddress}`}
                     target="__blank"
                     title="view on starkscan"
-                    className="text-lg inline-flex rounded-r-[6px] items-center py-3 px-2 h-full border border-l-deep-blue hover:bg-deep-blue transition-all hover:text-white"
+                    className="inline-flex h-full items-center rounded-r-[6px] border border-l-deep-blue px-2 py-3 text-lg transition-all hover:bg-deep-blue hover:text-white"
                   >
                     <span>
                       <svg
@@ -320,26 +323,11 @@ function Assets() {
               <div>
                 <>
                   {isDeployable ? (
-                    <button
-                      onClick={deployAccount}
-                      className="bg-deep-blue text-sm text-white px-4 py-3 rounded-[6px] disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                      Deploy Account
-                    </button>
+                    <Button onClick={deployAccount}>Deploy Account</Button>
                   ) : isUpgradable ? (
-                    <button
-                      className="bg-deep-blue text-sm text-white px-4 py-3 rounded-[6px] disabled:cursor-not-allowed disabled:opacity-50"
-                      onClick={upgradeAccount}
-                    >
-                      Upgrade Account
-                    </button>
+                    <Button onClick={upgradeAccount}>Upgrade Account</Button>
                   ) : version.v3.status ? (
-                    <button
-                      disabled
-                      className="bg-deep-blue text-sm text-white px-4 py-3 rounded-[6px] disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                      TBA Deployed
-                    </button>
+                    <Button disabled>TBA Deployed</Button>
                   ) : null}
                 </>
               </div>
@@ -348,47 +336,49 @@ function Assets() {
               <p className="mt-[18px]">{nft.description}</p>
             ) : (
               <div aria-label="loader" className="flex flex-col gap-4">
-                <div className="w-[75%] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
-                <div className="w-[75%] h-[1.2rem] rounded-full bg-[#eae9e9] animate-pulse"></div>
+                <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-[#eae9e9]"></div>
+                <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-[#eae9e9]"></div>
               </div>
             )}
             <div>
-              <div className="mt-6 flex items-center gap-[12px] p-2 bg-[#EFEFEF] rounded-[8px] w-fit">
-                <button
+              <div className="mt-6 flex w-fit items-center gap-[12px] rounded-[8px] bg-[#EFEFEF] p-2">
+                <Button
+                  variant={"ghost"}
                   onClick={toggleContent}
                   className={`${
                     isCollectible
                       ? "bg-[#0C0C4F] text-white"
                       : "bg-[#F2F2F2] text-gray-400"
-                  } cursor-pointer  rounded-[6px] gap-x-1 p-2 flex items-center transition-all duration-500`}
+                  } flex cursor-pointer items-center gap-x-1 rounded-[6px] transition-all duration-500`}
                 >
-                  <FaGem size={20} />
+                  <FaGem size={18} />
                   Collectible
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant={"ghost"}
                   onClick={toggleContent}
                   className={`${
                     !isCollectible
                       ? "bg-[#0C0C4F] text-white"
                       : "bg-[#F2F2F2] text-gray-400"
-                  } cursor-pointer gap-x-1 rounded-[6px] flex items-center p-2 transition-all duration-500`}
+                  } flex cursor-pointer items-center gap-x-1 rounded-[6px] transition-all duration-500`}
                 >
-                  <FaCoins size={20} />
+                  <FaCoins size={18} />
                   Assets
-                </button>
+                </Button>
                 <Tooltip message="click to refresh asset if metadata does not display">
-                  <button
+                  <Button
                     onClick={refreshMetadata}
                     disabled={loading}
-                    type="button"
+                    variant={"ghost"}
                     className={`${
                       loading ? "bg-red-300" : ""
-                    } cursor-pointer  bg-red-500 text-white rounded-[6px] gap-x-1 p-2 flex items-center transition-all duration-500`}
+                    } flex cursor-pointer items-center gap-x-1 rounded-[6px] bg-red-500 text-white transition-all duration-500`}
                   >
                     Refresh metadata
-                  </button>
+                  </Button>
                   {success?.status == 200 && isVisible ? (
-                    <p className="absolute bg-blue-500 text-white text-xs pl-1 pr-1  rounded-lg  transition ease-in-out duration-300">
+                    <p className="absolute rounded-lg bg-blue-500 pl-1 pr-1 text-xs text-white transition duration-300 ease-in-out">
                       {success?.data.result}
                     </p>
                   ) : (
@@ -404,7 +394,7 @@ function Assets() {
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </section>
   );
 }

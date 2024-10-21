@@ -1,10 +1,10 @@
-"use client"
+"use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import StarknetProvider from "@components/starknet-provider";
 import Navbar from "@components/navbar/Navbar";
 import Footer from "@components/footer/Footer";
-import {metadata} from "./metadata"
+import { metadata } from "./metadata";
 import { TokenboundProvider } from "@hooks/useTokenboundHookContext";
 
 const inter = Inter({ subsets: ["latin"] });

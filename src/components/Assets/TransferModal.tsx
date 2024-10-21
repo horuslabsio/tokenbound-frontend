@@ -69,21 +69,18 @@ const TransferModal = ({
   };
   const { tokenbound } = useTokenBoundSDK();
 
-
-  
-  
   const transferERC20Assets = async () => {
     try {
-      if(tokenbound){
+      if (tokenbound) {
         setTokenTransferredSuccessfully(false);
-      const status = await tokenbound.transferERC20({
-        tbaAddress: tokenBoundAddress,
-        contractAddress: contractAddress,
-        recipient: transferDetails.recipientWalletAddress,
-        amount: (+transferDetails.amount * decimal).toString(),
-      });
-      setTokenTransferredSuccessfully(status);
-      console.log("transferStat", status);
+        const status = await tokenbound.transferERC20({
+          tbaAddress: tokenBoundAddress,
+          contractAddress: contractAddress,
+          recipient: transferDetails.recipientWalletAddress,
+          amount: (+transferDetails.amount * decimal).toString(),
+        });
+        setTokenTransferredSuccessfully(status);
+        console.log("transferStat", status);
       }
     } catch (error) {
       console.log("there was an error transferring the assets");
@@ -105,19 +102,19 @@ const TransferModal = ({
     <Modal type="erc20" closeModal={closeTransferModal} openModal={openModal}>
       <>
         {tokenTransferredSuccessfully ? (
-          <div className="flex flex-col justify-center items-center gap-8">
-            <div className="w-full flex justify-end items-end">
+          <div className="flex flex-col items-center justify-center gap-8">
+            <div className="flex w-full items-end justify-end">
               <button onClick={closeTransferModal}>
                 <CancelIcon />
               </button>
             </div>
-            <div className="w-[7rem] h-[7rem] bg-deep-blue text-white flex justify-center items-center rounded-full">
+            <div className="flex h-[7rem] w-[7rem] items-center justify-center rounded-full bg-deep-blue text-white">
               <CheckedIcon />
             </div>
             <h3 className="font-bold">Completed</h3>
             <p>Transaction successful🎉</p>
             <button
-              className={`w-full p-[.8rem] bg-deep-blue rounded-[8px] text-white `}
+              className={`w-full rounded-[8px] bg-deep-blue p-[.8rem] text-white`}
               onClick={closeTransferModal}
             >
               Close
@@ -125,17 +122,17 @@ const TransferModal = ({
           </div>
         ) : (
           <>
-            <div className="flex justify-between ">
+            <div className="flex justify-between">
               <h3 className="text-[1.5em]">Send</h3>
               <button onClick={closeTransferModal}>
                 <CancelIcon />
               </button>
             </div>
-            <div className=" flex flex-col gap-4">
+            <div className="flex flex-col gap-4">
               <div>
-                <h4 className="text-[1em] mb-2">Asset</h4>
-                <div className="flex justify-between flex-wrap gap-2">
-                  <div className="flex items-center flex-wrap gap-4">
+                <h4 className="mb-2 text-[1em]">Asset</h4>
+                <div className="flex flex-wrap justify-between gap-2">
+                  <div className="flex flex-wrap items-center gap-4">
                     <div className="h-[2.2rem] w-[2.2rem] rounded-full">
                       <Image
                         alt=""
@@ -150,7 +147,7 @@ const TransferModal = ({
                       <p className="text-[.875em] text-[#5a5a5a]">{name}</p>
                     </div>
                   </div>
-                  <div className="flex gap-1 items-center">
+                  <div className="flex items-center gap-1">
                     <div>
                       <p>{balance}</p>
                     </div>
@@ -168,14 +165,14 @@ const TransferModal = ({
                     placeholder="Enter Wallet Address"
                     value={transferDetails.recipientWalletAddress}
                     onChange={handleInputChange}
-                    className=" p-[.8rem] border-solid border-[1px] rounded-[8px] border-[#7A7A7A]"
+                    className="rounded-[8px] border-[1px] border-solid border-[#7A7A7A] p-[.8rem]"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label htmlFor="amount">Amount</label>
                   <input
                     required
-                    className=" p-[.8rem] border-solid border-[1px] rounded-[8px] border-[#7A7A7A]"
+                    className="rounded-[8px] border-[1px] border-solid border-[#7A7A7A] p-[.8rem]"
                     type="text"
                     id="amount"
                     name="amount"
@@ -190,14 +187,14 @@ const TransferModal = ({
                     e.preventDefault();
                     transferERC20Assets();
                   }}
-                  className={`w-full p-[.8rem] bg-deep-blue rounded-[8px] text-white ${
+                  className={`w-full rounded-[8px] bg-deep-blue p-[.8rem] text-white ${
                     disableSendBtn === "disableButton"
-                      ? "opacity-50 !cursor-not-allowed"
-                      : "opacity-100 !cursor-pointer"
+                      ? "!cursor-not-allowed opacity-50"
+                      : "!cursor-pointer opacity-100"
                   }`}
                 >
                   {tokenTransferredSuccessfully === false ? (
-                    <span className="flex gap-2 justify-center">
+                    <span className="flex justify-center gap-2">
                       <span>sending</span>
                       <SyncLoader
                         aria-label="Loading Spinner"

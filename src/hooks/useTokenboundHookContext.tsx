@@ -1,6 +1,17 @@
 import { useAccount, useNetwork } from "@starknet-react/core";
-import React, { useState, useMemo, ReactNode, createContext, useContext, useEffect } from "react";
-import { TBAChainID, TBAVersion, TokenboundClient } from "starknet-tokenbound-sdk";
+import React, {
+  useState,
+  useMemo,
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+} from "react";
+import {
+  TBAChainID,
+  TBAVersion,
+  TokenboundClient,
+} from "starknet-tokenbound-sdk";
 
 interface TokenboundType {
   tokenbound: TokenboundClient | undefined;
@@ -11,16 +22,19 @@ interface TokenboundType {
 const TokenboundContext = createContext<TokenboundType | undefined>(undefined);
 
 interface TokenboundProviderProps {
-  children: ReactNode; 
+  children: ReactNode;
 }
 
-const TokenboundProvider: React.FC<TokenboundProviderProps> = ({ children }) => {
+const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
+  children,
+}) => {
   const { account } = useAccount();
   const { chain } = useNetwork();
 
-  const [activeVersion, setVersion] = useState<string>(TBAVersion.V3)
-  const [tokenbound, setTokenbound] = useState<TokenboundClient | undefined>(undefined); 
-
+  const [activeVersion, setVersion] = useState<string>(TBAVersion.V3);
+  const [tokenbound, setTokenbound] = useState<TokenboundClient | undefined>(
+    undefined,
+  );
 
   const handleVersionSwitch = (version: string) => {
     setVersion(version);
@@ -30,7 +44,8 @@ const TokenboundProvider: React.FC<TokenboundProviderProps> = ({ children }) => 
     if (account && chain) {
       const options = {
         account: account,
-        chain_id: chain.network === 'mainnet' ? TBAChainID.main : TBAChainID.sepolia,
+        chain_id:
+          chain.network === "mainnet" ? TBAChainID.main : TBAChainID.sepolia,
         version: activeVersion,
         jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
       };
@@ -40,8 +55,10 @@ const TokenboundProvider: React.FC<TokenboundProviderProps> = ({ children }) => 
     }
   }, [account, chain, activeVersion]);
 
-
-  const value = useMemo(() => ({ tokenbound, handleVersionSwitch, activeVersion }), [tokenbound, activeVersion]);
+  const value = useMemo(
+    () => ({ tokenbound, handleVersionSwitch, activeVersion }),
+    [tokenbound, activeVersion],
+  );
 
   return (
     <TokenboundContext.Provider value={value}>
@@ -53,7 +70,9 @@ const TokenboundProvider: React.FC<TokenboundProviderProps> = ({ children }) => 
 export const useTokenBoundSDK = () => {
   const context = useContext(TokenboundContext);
   if (!context) {
-    throw new Error("useTokenBoundSDK must be used within a TokenboundProvider");
+    throw new Error(
+      "useTokenBoundSDK must be used within a TokenboundProvider",
+    );
   }
   return context;
 };

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useTBAAsset } from "@hooks/index";
 import { useState } from "react";
 import TransferNftModal from "./TransferNftModal";
+import Button from "ui/button";
 
 interface Itba {
   tba: string;
@@ -11,39 +12,37 @@ interface Itba {
 const TBANFT = ({ tba }: Itba) => {
   let formatted_address = tba.replace("0x", "0x0");
   const { tbanft, loadingTba } = useTBAAsset(formatted_address);
-  console.log(tbanft);
-
   const [open, setOpen] = useState(false);
 
   const Handler = () => {
     setOpen(!open);
   };
   return (
-    <div className="w-full cursor-pointer  ">
+    <div className="w-full cursor-pointer">
       {loadingTba ? (
         <div
           aria-label="loader"
-          className="grid grid-cols-3 max-w-[350px] justify-between gap-2 mt-8"
+          className="mt-8 grid max-w-[350px] grid-cols-3 justify-between gap-2"
         >
-          <div className="w-full h-[7rem] rounded-[5px] bg-[#eae9e9] animate-pulse"></div>
-          <div className="w-full h-[7rem] rounded-[5px] bg-[#eae9e9] animate-pulse"></div>
-          <div className="w-full h-[7rem] rounded-[5px] bg-[#eae9e9] animate-pulse"></div>
+          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
+          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
+          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
         </div>
       ) : (
         <>
           {tbanft.length == 0 ? (
-            <p className="text-red-500 mt-8">No NFT Asset yet</p>
+            <p className="mt-8 text-red-500">No NFT Asset yet</p>
           ) : (
-            <div className="grid grid-cols-3 max-w-[350px] justify-between gap-2 mt-8">
+            <div className="mt-8 grid max-w-[350px] grid-cols-3 justify-between gap-2">
               {tbanft.map((item, index) => (
-                <div className="relative group" key={index}>
+                <div className="group relative" key={index}>
                   <Link
                     href={`/assets/${item?.contract_address}${item?.token_id}`}
                     key={index}
                   >
-                    <div className="rounded-[6px] w-full h-[7rem]">
+                    <div className="h-[7rem] w-full rounded-[6px]">
                       <img
-                        className="w-full rounded-[6px] object-center object-cover"
+                        className="w-full rounded-[6px] object-cover object-center"
                         src={
                           item?.metadata?.normalized?.image ||
                           `https://placehold.co/250x250?text=${item.token_id}`
@@ -52,13 +51,14 @@ const TBANFT = ({ tba }: Itba) => {
                       />
                     </div>
                   </Link>
-                  <div className="absolute bg-[#ffffffd1] transition-all opacity-0 group-hover:opacity-100 top-0 left-0 w-full h-full grid place-content-center">
-                    <button
+                  <div className="absolute left-0 top-0 grid h-full w-full place-content-center bg-[#ffffffd1] opacity-0 transition-all group-hover:opacity-100">
+                    <Button
+                      size={"sm"}
+                      variant={"border-thin"}
                       onClick={Handler}
-                      className="border-deep-blue border text-sm text-deep-blue py-1 px-2 rounded-[6px] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       Transfer
-                    </button>
+                    </Button>
                   </div>
                   {open && (
                     <TransferNftModal

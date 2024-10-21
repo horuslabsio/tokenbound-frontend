@@ -38,6 +38,7 @@ const config: Config = {
         "off-white": "#F6F6F6",
         "deep-blue": "#0C0C4F",
         "bg-white": "#FAFAFA",
+        "gray-50": "#eae9e9",
       },
     },
     transform: {

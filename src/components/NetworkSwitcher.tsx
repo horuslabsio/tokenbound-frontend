@@ -46,7 +46,7 @@ export function NetworkSwitcher() {
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [selectedNetwork, setSelectedNetwork] = React.useState(
-    NETWORK_MAPPING[chain.network]
+    NETWORK_MAPPING[chain.network],
   );
   const switchNetwork = async (newNetworkId: string, networkLabel: string) => {
     try {
@@ -75,7 +75,7 @@ export function NetworkSwitcher() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] h-[3rem] justify-between"
+          className="h-[3rem] w-[200px] justify-between"
         >
           {selectedNetwork
             ? networks.find((network) => network.value === selectedNetwork)
@@ -103,7 +103,7 @@ export function NetworkSwitcher() {
                     "mr-2 h-4 w-4",
                     selectedNetwork === network.value
                       ? "opacity-100"
-                      : "opacity-0"
+                      : "opacity-0",
                   )}
                 />
                 {network.label}

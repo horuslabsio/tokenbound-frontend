@@ -16,7 +16,7 @@ function Navbar() {
     setIsWalletOpen(true);
   }
   return (
-    <header className="fixed z-[99] min-h-[4rem] w-screen px-8 py-3 flex items-center justify-between lg:block  bg-white">
+    <header className="fixed z-[99] flex min-h-[4rem] w-screen items-center justify-between bg-white px-8 py-3 lg:block">
       <DesktopNav
         account={account}
         closeWalletModal={closeWalletModal}

@@ -194,7 +194,7 @@ const useRefreshMetadata = (contractAddress: string, tokenId: string) => {
             "x-api-key": process.env.NEXT_PUBLIC_ARK_API_KEY,
           },
           withCredentials: false,
-        }
+        },
       );
       // @ts-ignore
       setSuccess(result);
