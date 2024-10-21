@@ -68,10 +68,14 @@ const TransferModal = ({
     setTokenTransferredSuccessfully(null);
   };
   const { tokenbound } = useTokenBoundSDK();
-  if(!tokenbound) return 
+
+
+  
+  
   const transferERC20Assets = async () => {
     try {
-      setTokenTransferredSuccessfully(false);
+      if(tokenbound){
+        setTokenTransferredSuccessfully(false);
       const status = await tokenbound.transferERC20({
         tbaAddress: tokenBoundAddress,
         contractAddress: contractAddress,
@@ -80,6 +84,7 @@ const TransferModal = ({
       });
       setTokenTransferredSuccessfully(status);
       console.log("transferStat", status);
+      }
     } catch (error) {
       console.log("there was an error transferring the assets");
     }

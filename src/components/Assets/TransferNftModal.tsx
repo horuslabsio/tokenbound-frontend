@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import CancelIcon from "svg/CancelIcon";
-import { useTokenBoundSDK } from "@hooks/index";
+import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 import SyncLoader from "react-spinners/SyncLoader";
 import CheckedIcon from "svg/CheckedIcon";
 import Modal from "@components/utils/Modal";
@@ -36,7 +36,7 @@ const TransferNftModal = ({
     if (name === "recipientWalletAddress") {
       if (value === "" && transferDetails.recipientWalletAddress === "") {
         newValue = "0x";
-      } 
+      }
 
     }
 
@@ -50,20 +50,22 @@ const TransferNftModal = ({
   };
   const { tokenbound } = useTokenBoundSDK();
   const transferNFTAssets = async () => {
-    
+
     try {
-      setTokenTransferredSuccessfully(false);
-      const status = await tokenbound.transferNFT({
-        tbaAddress: tokenBoundAddress,
-        contractAddress: contractAddress,
-        tokenId :tokenId,
-        sender:tokenBoundAddress,
-        recipient: transferDetails.recipientWalletAddress,
-      });
-      setTokenTransferredSuccessfully(status);
-      console.log("transferStat", status);
+      if (tokenbound) {
+        setTokenTransferredSuccessfully(false);
+        const status = await tokenbound.transferNFT({
+          tbaAddress: tokenBoundAddress,
+          contractAddress: contractAddress,
+          tokenId: tokenId,
+          sender: tokenBoundAddress,
+          recipient: transferDetails.recipientWalletAddress,
+        });
+        setTokenTransferredSuccessfully(status);
+        console.log("transferStat", status);
+      }
     } catch (error) {
-        console.log(error)
+      console.log(error)
       console.log("there was an error transferring the assets");
     }
   };
@@ -131,18 +133,17 @@ const TransferNftModal = ({
                     className=" p-[.8rem] border-solid border-[1px] rounded-[8px] border-[#7A7A7A]"
                   />
                 </div>
-                
+
                 <button
                   disabled={disableSendBtn === "disableButton"}
                   onClick={(e) => {
                     e.preventDefault();
                     transferNFTAssets();
                   }}
-                  className={`w-full p-[.8rem] bg-deep-blue rounded-[8px] text-white ${
-                    disableSendBtn === "disableButton"
+                  className={`w-full p-[.8rem] bg-deep-blue rounded-[8px] text-white ${disableSendBtn === "disableButton"
                       ? "opacity-50 !cursor-not-allowed"
                       : "opacity-100 !cursor-pointer"
-                  }`}
+                    }`}
                 >
                   {tokenTransferredSuccessfully === false ? (
                     <span className="flex gap-2 justify-center">
