@@ -3,9 +3,8 @@ import { instance } from "@utils/helper";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import { IAccountParam, raw, TokenInfo } from "types";
 import { num } from "starknet";
-import { TBAChainID, TBAVersion, TokenboundClient,  } from "starknet-tokenbound-sdk";
 import axios from "axios";
-import { useTokenBoundSDK2 } from "./useTokenboundHookContext";
+import { useTokenBoundSDK } from "./useTokenboundHookContext";
 
 
 export const useFetchUserNFT = () => {
@@ -48,7 +47,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
   const [loading, setLoading] = useState<boolean>(true);
   const {chain} = useNetwork()
 
-  const {tokenbound} = useTokenBoundSDK2()
+  const {tokenbound} = useTokenBoundSDK()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,44 +121,12 @@ const {chain} = useNetwork()
 
 
 
-
-export const useTokenBoundSDK = () => {
-
-  const [activeVersion, setVersion] = useState<string>(TBAVersion.V3)
-  const [tokenbound, setTokenbound] = useState<any>(null); 
-
-  const { account } = useAccount();
-  const {chain} = useNetwork()
-
-
-  const handleVersionSwitch = (version: string) => {
-    setVersion(version);
-  };
-
-  useEffect(() => {
-    if (account && chain) {
-      const options = {
-        account: account,
-        chain_id: chain.network === 'mainnet' ? TBAChainID.main : TBAChainID.sepolia,
-        version: activeVersion,
-        jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-      };
-
-      const tb = new TokenboundClient(options);
-      setTokenbound(tb);
-    }
-  }, [account, chain, activeVersion]);
-
-  return { tokenbound, handleVersionSwitch, activeVersion };
-};
-
-
 export const useGetAccountAddress = ({
   contractAddress,
   tokenId,
 }: IAccountParam) => {
 
-  const { tokenbound } = useTokenBoundSDK2();
+  const { tokenbound } = useTokenBoundSDK();
 
   const { account } = useAccount();
   const {chain} = useNetwork()

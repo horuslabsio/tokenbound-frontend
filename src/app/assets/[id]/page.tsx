@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { FaGem, FaCoins } from "react-icons/fa";
 import useRefreshMetadata, {
   useFetchNFTMetadata,
-  useTokenBoundSDK,
   useGetAccountAddress,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
@@ -17,7 +16,7 @@ import Tooltip from "@components/utils/tooltip";
 import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";
-import { useTokenBoundSDK2 } from "@hooks/useTokenboundHookContext";
+import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 import { TBAVersion } from "starknet-tokenbound-sdk";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
@@ -28,16 +27,14 @@ function Assets() {
   const [isVisible, setIsVisible] = useState(false);
   const [tbaClassHash, setTbaClassHash] = useState<string>("")
   const [versions, setVersions] = useState<{ v2: boolean, v3: boolean }>({ v2: false, v3: false })
-
   const { chain } = useNetwork();
-
 
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible);
   };
 
   const provider = new RpcProvider({
-    nodeUrl: `https://starknet-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+    nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
   });
 
 
@@ -51,7 +48,7 @@ function Assets() {
     tokenId,
   });
 
-  const { tokenbound, handleVersionSwitch } = useTokenBoundSDK2();
+  const { tokenbound, handleVersionSwitch } = useTokenBoundSDK();
 
   const [status, setStatus] = useState<boolean | undefined>(undefined);
 
@@ -138,13 +135,11 @@ function Assets() {
   const upgradeAccount = async () => {
     let network = chain.network;
     let v3Implementation = AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
-
     try {
       await tokenbound?.upgrade({
         tbaAddress: deployedAddress,
         newClassHash: v3Implementation
       });
-
       handleVersionSwitch(TBAVersion.V3)
       toast.info("Account was upgraded successfully!");
     } catch (err) {
@@ -155,6 +150,7 @@ function Assets() {
 
   const isUgradable = !versions.v3 && versions.v2;
   const isDeployable = !versions.v2 && !versions.v3
+
 
   return (
     <section className="container mx-auto min-h-screen pt-32 pb-16 px-4 md:px-16 lg:px-16 ">

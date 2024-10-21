@@ -18,7 +18,7 @@ import {
 } from "../components/utils/popover";
 import { cn } from "../lib/utils";
 import { TBAVersion } from "starknet-tokenbound-sdk";
-import { useTokenBoundSDK2 } from "@hooks/useTokenboundHookContext";
+import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 
 const VERSION_MAPPING: { [key: string]: string } = {
   V2: "V2",
@@ -41,7 +41,7 @@ export function VersionSwitcher() {
   const { chain } = useNetwork();
   const [open, setOpen] = React.useState<boolean>(false);
  
-  const {handleVersionSwitch, activeVersion} = useTokenBoundSDK2()
+  const {handleVersionSwitch, activeVersion} = useTokenBoundSDK()
 
   const [selectedVersion, setSelectedVersion] = React.useState(
     VERSION_MAPPING[activeVersion]
