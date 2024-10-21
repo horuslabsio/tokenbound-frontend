@@ -10,7 +10,7 @@ import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
 import SearchNFT from "./SearchNFT";
 import NetworkSwitcher from "@components/NetworkSwitcher";
-import VersionSwitcher  from "@components/VersionSwitcher";
+import VersionSwitcher from "@components/VersionSwitcher";
 
 const DesktopNav = ({
   isWalletOpen,
@@ -119,7 +119,6 @@ const DesktopNav = ({
             openWalletModal={openWalletModal}
           />
         )}
-                <VersionSwitcher />
         <NetworkSwitcher />
         {!account ? (
           <button

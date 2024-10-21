@@ -6,13 +6,12 @@ import { num } from "starknet";
 import axios from "axios";
 import { useTokenBoundSDK } from "./useTokenboundHookContext";
 
-
 export const useFetchUserNFT = () => {
   const { address } = useAccount();
   const [nft, setNft] = useState<TokenInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
- const {chain} = useNetwork()
- 
+  const { chain } = useNetwork();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -21,9 +20,13 @@ export const useFetchUserNFT = () => {
           setLoading(false);
           return;
         }
-        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${address}/tokens`;
+        const url = `https://${
+          chain.network === "mainnet"
+            ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
+            : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
+        }/v1/owners/${address}/tokens`;
         const response = await instance.get(url);
-        const { data } =  response;
+        const { data } = response;
         setNft(data?.result);
         setLoading(false);
       } catch (error) {
@@ -34,7 +37,7 @@ export const useFetchUserNFT = () => {
     if (address) {
       fetchData();
     }
-  }, [address,chain]); 
+  }, [address, chain]);
 
   return {
     nft,
@@ -45,9 +48,9 @@ export const useFetchUserNFT = () => {
 export const useFetchNFTMetadata = (address: string, id: string) => {
   const [nft, setNft] = useState<raw>({ name: "", description: "", image: "" });
   const [loading, setLoading] = useState<boolean>(true);
-  const {chain} = useNetwork()
+  const { chain } = useNetwork();
 
-  const {tokenbound} = useTokenBoundSDK()
+  const { tokenbound } = useTokenBoundSDK();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +60,11 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
           setLoading(false);
           return;
         }
-        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/tokens/${address}/${id}`;
+        const url = `https://${
+          chain.network === "mainnet"
+            ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
+            : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
+        }/v1/tokens/${address}/${id}`;
 
         const response = await instance.get(url);
         const { data } = await response;
@@ -72,9 +79,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
     if (address) {
       fetchData();
     }
-  }, [address,chain, tokenbound]);
-
-
+  }, [address, chain, tokenbound]);
 
   return {
     nft,
@@ -86,7 +91,7 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
   const { address } = useAccount();
   const [tbanft, setTbaNft] = useState<TokenInfo[]>([]);
   const [loadingTba, setTbaLoading] = useState<boolean>(true);
-const {chain} = useNetwork()
+  const { chain } = useNetwork();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -96,10 +101,14 @@ const {chain} = useNetwork()
           return;
         }
 
-        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${tokenBoundAddress}/tokens`;
+        const url = `https://${
+          chain.network === "mainnet"
+            ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
+            : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
+        }/v1/owners/${tokenBoundAddress}/tokens`;
         const response = await instance.get(url);
         const { data } = await response;
-        console.log('data:',data.result)
+        console.log("data:", data.result);
         setTbaNft(data?.result);
         setTbaLoading(false);
       } catch (error) {
@@ -110,7 +119,7 @@ const {chain} = useNetwork()
     if (address) {
       fetchData();
     }
-  }, [address, tokenBoundAddress,chain]); // Execute the effect when address changes
+  }, [address, tokenBoundAddress, chain]); // Execute the effect when address changes
 
   return {
     tbanft,
@@ -118,22 +127,18 @@ const {chain} = useNetwork()
   };
 };
 
-
-
-
 export const useGetAccountAddress = ({
   contractAddress,
   tokenId,
 }: IAccountParam) => {
-
   const { tokenbound } = useTokenBoundSDK();
 
   const { account } = useAccount();
-  const {chain} = useNetwork()
+  const { chain } = useNetwork();
   const [deployedAddress, setDeployedAddress] = useState<string>("");
 
   useEffect(() => {
-    if(tokenbound){
+    if (tokenbound) {
       const getAccountAddress = async () => {
         try {
           const accountResult = await tokenbound.getAccount({
@@ -147,7 +152,7 @@ export const useGetAccountAddress = ({
       };
       getAccountAddress();
     }
-  }, [tokenbound, account, contractAddress, tokenId,chain]);
+  }, [tokenbound, account, contractAddress, tokenId, chain]);
 
   return {
     deployedAddress,
@@ -155,13 +160,16 @@ export const useGetAccountAddress = ({
 };
 
 type RefreshType = {
-  status:number,
-  data:{result:string}
-}
+  status: number;
+  data: { result: string };
+};
 
-const useRefreshMetadata = (contractAddress:string, tokenId:string) => {
+const useRefreshMetadata = (contractAddress: string, tokenId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<RefreshType>({status:0, data:{result:""}});
+  const [success, setSuccess] = useState<RefreshType>({
+    status: 0,
+    data: { result: "" },
+  });
   const { chain } = useNetwork();
 
   const refreshMetadata = async () => {
@@ -177,14 +185,17 @@ const useRefreshMetadata = (contractAddress:string, tokenId:string) => {
           ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
           : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
       }/v1/tokens/${contractAddress}/${tokenId}/metadata/refresh`;
-      const result: string = await axios.post(url, {}, {
+      const result: string = await axios.post(
+        url,
+        {},
+        {
           headers: {
             accept: "application/json",
             "x-api-key": process.env.NEXT_PUBLIC_ARK_API_KEY,
           },
           withCredentials: false,
-
-      });
+        }
+      );
       // @ts-ignore
       setSuccess(result);
     } catch (error) {

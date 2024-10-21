@@ -1,42 +1,40 @@
-import { useState } from "react";
+import { ReactNode, forwardRef, useState } from "react";
 import CopyCheckIcon from "svg/CopyCheckIcon";
 import CopyIcon from "svg/CopyIcon";
 import { copyToClipBoard } from "@utils/helper";
 
-type Props = {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   textToCopy: string;
   textDisplayed?: string;
-  style?: string;
-};
+  children?: ReactNode;
+}
 
-const CopyButton = ({ textToCopy, textDisplayed, style }: Props) => {
-  const [copied, setCopied] = useState(false);
+const CopyButton = forwardRef(
+  ({ textToCopy, textDisplayed, className }: Props) => {
+    const [copied, setCopied] = useState(false);
 
-  const copyToClipBoardHandler = async (text: string) => {
-    const success = await copyToClipBoard(text);
-    if (success) {
-      setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-      }, 3000);
-    }
-  };
-  return (
-    <button
-      className={
-        style
-          ? style
-          : "inline-flex items-center px-[12px] py-[4px] bg-gray-200 text-sm cursor-pointer rounded-full text-gray-700"
+    const copyToClipBoardHandler = async (text: string) => {
+      const success = await copyToClipBoard(text);
+      if (success) {
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+        }, 3000);
       }
-      onClick={() => copyToClipBoardHandler(textToCopy!)}
-    >
-      <span>
-        {textDisplayed
-          ? textDisplayed
-          : `${textToCopy?.slice(0, 4)}...${textToCopy?.slice(61, 66)}`}
-      </span>
+    };
+    return (
+      <button
+        title="click to copy"
+        className={className}
+        onClick={() => copyToClipBoardHandler(textToCopy!)}
+      >
+        <span>
+          {textDisplayed
+            ? textDisplayed
+            : `${textToCopy?.slice(0, 4)}...${textToCopy?.slice(61, 66)}`}
+        </span>
 
-      <span className="ml-2 border-l border-gray-500 relative">
+        {/* <span className="ml-2 border-l border-gray-500 relative">
         <div
           style={{
             color: copied ? "#e5e7eb" : "",
@@ -56,9 +54,10 @@ const CopyButton = ({ textToCopy, textDisplayed, style }: Props) => {
         >
           <CopyCheckIcon copied={copied} width="1.2em" height="1.2em" />
         </div>
-      </span>
-    </button>
-  );
-};
-
+      </span> */}
+      </button>
+    );
+  }
+);
+CopyButton.displayName = "CopyButton";
 export default CopyButton;
