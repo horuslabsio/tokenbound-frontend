@@ -3,9 +3,8 @@ import { instance } from "@utils/helper";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import { IAccountParam, raw, TokenInfo } from "types";
 import { num } from "starknet";
-import { TBAcontractAddress, TBAcontractAddress_SEPOLIA, TBAImplementationAccount, TBAImplementationAccount_SEPOLIA } from "@utils/constants";
-import { TokenboundClient } from "starknet-tokenbound-sdk";
 import axios from "axios";
+import { useTokenBoundSDK } from "./useTokenboundHookContext";
 
 
 export const useFetchUserNFT = () => {
@@ -13,6 +12,7 @@ export const useFetchUserNFT = () => {
   const [nft, setNft] = useState<TokenInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
  const {chain} = useNetwork()
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,7 +23,7 @@ export const useFetchUserNFT = () => {
         }
         const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${address}/tokens`;
         const response = await instance.get(url);
-        const { data } = await response;
+        const { data } =  response;
         setNft(data?.result);
         setLoading(false);
       } catch (error) {
@@ -34,7 +34,7 @@ export const useFetchUserNFT = () => {
     if (address) {
       fetchData();
     }
-  }, [address,chain]); // Execute the effect when address changes
+  }, [address,chain]); 
 
   return {
     nft,
@@ -46,6 +46,8 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
   const [nft, setNft] = useState<raw>({ name: "", description: "", image: "" });
   const [loading, setLoading] = useState<boolean>(true);
   const {chain} = useNetwork()
+
+  const {tokenbound} = useTokenBoundSDK()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,6 +61,7 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
 
         const response = await instance.get(url);
         const { data } = await response;
+
         setNft(data?.result?.metadata?.normalized);
         setLoading(false);
       } catch (error) {
@@ -69,7 +72,9 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
     if (address) {
       fetchData();
     }
-  }, [address,chain]);
+  }, [address,chain, tokenbound]);
+
+
 
   return {
     nft,
@@ -113,47 +118,36 @@ const {chain} = useNetwork()
   };
 };
 
-export const useTokenBoundSDK = () => {
-  const { account } = useAccount();
-  const {chain} = useNetwork()
-  const options = {
-    account: account,
-    registryAddress:  chain.network === 'mainnet'? TBAcontractAddress : TBAcontractAddress_SEPOLIA,
-    implementationAddress: chain.network === 'mainnet'? TBAImplementationAccount : TBAImplementationAccount_SEPOLIA,
-    jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-  };
 
-  let tokenbound: any;
 
-  if (account) {
-    tokenbound = new TokenboundClient(options);
-  }
-  return { tokenbound };
-};
 
 export const useGetAccountAddress = ({
   contractAddress,
   tokenId,
 }: IAccountParam) => {
+
   const { tokenbound } = useTokenBoundSDK();
+
   const { account } = useAccount();
   const {chain} = useNetwork()
   const [deployedAddress, setDeployedAddress] = useState<string>("");
 
   useEffect(() => {
-    const getAccountAddress = async () => {
-      try {
-        const accountResult = await tokenbound.getAccount({
-          tokenContract: contractAddress,
-          tokenId,
-        });
-        setDeployedAddress(num.toHex(accountResult));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getAccountAddress();
-  }, [account, contractAddress, tokenId,chain]);
+    if(tokenbound){
+      const getAccountAddress = async () => {
+        try {
+          const accountResult = await tokenbound.getAccount({
+            tokenContract: contractAddress,
+            tokenId,
+          });
+          setDeployedAddress(num.toHex(accountResult));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getAccountAddress();
+    }
+  }, [tokenbound, account, contractAddress, tokenId,chain]);
 
   return {
     deployedAddress,

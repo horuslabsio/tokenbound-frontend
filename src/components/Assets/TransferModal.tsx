@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 import CancelIcon from "svg/CancelIcon";
-import { useTokenBoundSDK } from "@hooks/index";
+import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 import SyncLoader from "react-spinners/SyncLoader";
 import CheckedIcon from "svg/CheckedIcon";
 import Modal from "@components/utils/Modal";
@@ -68,17 +68,23 @@ const TransferModal = ({
     setTokenTransferredSuccessfully(null);
   };
   const { tokenbound } = useTokenBoundSDK();
+
+
+  
+  
   const transferERC20Assets = async () => {
     try {
-      setTokenTransferredSuccessfully(false);
+      if(tokenbound){
+        setTokenTransferredSuccessfully(false);
       const status = await tokenbound.transferERC20({
         tbaAddress: tokenBoundAddress,
         contractAddress: contractAddress,
         recipient: transferDetails.recipientWalletAddress,
-        amount: +transferDetails.amount * decimal,
+        amount: (+transferDetails.amount * decimal).toString(),
       });
       setTokenTransferredSuccessfully(status);
       console.log("transferStat", status);
+      }
     } catch (error) {
       console.log("there was an error transferring the assets");
     }

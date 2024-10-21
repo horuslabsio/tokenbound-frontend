@@ -31,5 +31,22 @@ export const STARK_TOKEN_DETAILS: TokenDetailsProps = {
 
 export const TBAcontractAddress_SEPOLIA: string =
   "0x4101d3fa033024654083dd982273a300cb019b8cb96dd829267a4daf59f7b7e";
+
 export const TBAImplementationAccount_SEPOLIA: string =
   "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd";
+
+  
+  export type ChainId = 'mainnet' | 'sepolia';
+
+  
+  export const AccountClassHashes = {
+    V2: {
+      mainnet: "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd",
+      sepolia: "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd", 
+    },
+    V3: {
+      mainnet: "",
+      sepolia: "0x29d2a1b11dd97289e18042502f11356133a2201dd19e716813fb01fbee9e9a4", 
+    },
+  };
+  
