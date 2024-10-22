@@ -1,8 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useFetchNFTMetadata, useGetTbaAddress } from "@hooks/index";
+import {
+  useDeployAccount,
+  useFetchNFTMetadata,
+  useGetTbaAddress,
+  useUpgradeAccount,
+} from "@hooks/index";
 import { useParams } from "next/navigation";
-import { toast } from "react-toastify";
 import CopyButton from "@components/utils/CopyButton";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import Tooltip from "@components/utils/tooltip";
@@ -20,11 +24,11 @@ const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
 function Assets() {
   const { tokenboundV2, tokenboundV3, activeVersion, setVersion } =
     useTokenBoundSDK();
-  const [v2Address, setV2Address] = useState<string>("");
-  const [v3Address, setV3Address] = useState<string>("");
-
   const { chain } = useNetwork();
   const { account } = useAccount();
+
+  const [v2Address, setV2Address] = useState<string>("");
+  const [v3Address, setV3Address] = useState<string>("");
 
   const provider = new RpcProvider({
     nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
@@ -99,35 +103,17 @@ function Assets() {
     fetchClassHash();
   }, [v3Address, v2Address, account, chain]);
 
-  const deployAccount = async () => {
-    try {
-      await tokenboundV3?.createAccount({
-        tokenContract: contractAddress,
-        tokenId: tokenId,
-      });
-      toast.info("Account was deployed successfully!");
-    } catch (err) {
-      console.log(err);
-      toast.error("An error was encountered during the course of deployment!");
-    }
-  };
+  const { deployAccount, deploymentStatus } = useDeployAccount({
+    contractAddress: contractAddress,
+    tokenboundClient: tokenboundV3,
+    tokenId: tokenId,
+  });
 
-  const upgradeAccount = async () => {
-    let network = chain.network;
-    let v3Implementation =
-      AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
-    try {
-      await tokenboundV2?.upgrade({
-        tbaAddress: v2Address,
-        newClassHash: v3Implementation,
-      });
-      // handleVersionSwitch(TBAVersion.V3);
-      toast.info("Account was upgraded successfully!");
-    } catch (err) {
-      console.log(err);
-      toast.error("An error was encountered during the course of upgrade!");
-    }
-  };
+  const { upgradeAccount, upgradeStatus } = useUpgradeAccount({
+    chain: chain,
+    contractAddress: v2Address,
+    tokenboundClient: tokenboundV2,
+  });
 
   return (
     <section className="container mx-auto min-h-screen px-4 pb-16 pt-32">
@@ -147,85 +133,111 @@ function Assets() {
             ) : (
               <div
                 aria-label="loader"
-                className="h-full min-h-[500px] w-full animate-pulse rounded-[8px] bg-[#eae9e9]"
+                className="h-full min-h-[500px] w-full animate-pulse rounded-[8px] bg-gray-50"
               ></div>
             )}
           </div>
           <div>
-            <div className="flex h-fit items-center gap-4">
+            <div className="flex h-fit items-center justify-between gap-4">
               <h3
                 className={`${
-                  nft.name
-                    ? "text-deep-blue"
-                    : "h-[1.2rem] w-[10rem] animate-pulse rounded-full bg-[#eae9e9]"
+                  nft?.name
+                    ? "overflow-hidden text-ellipsis whitespace-nowrap text-deep-blue"
+                    : "h-[1.2rem] w-[10rem] animate-pulse rounded-full bg-gray-50"
                 } `}
               >
-                {nft.name || ""}
+                {nft?.name || ""}
               </h3>
-              {activeVersion.version === "V2" ? (
-                <Tooltip message="Switch to V3">
-                  <Button
-                    aria-label="Switch to V3"
-                    variant={"ghost"}
-                    className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-[#eae9e9] py-3 text-sm"
-                  >
-                    <span>V3</span>
-                    <span>
-                      <SwitchIcon />
-                    </span>
-                  </Button>
-                </Tooltip>
-              ) : (
-                <Tooltip message="Switch to V2">
-                  <Button
-                    aria-label="Switch to V2"
-                    variant={"ghost"}
-                    className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-[#eae9e9] py-3 text-sm"
-                  >
-                    <span>V2</span>
-                    <span>
-                      <SwitchIcon />
-                    </span>
-                  </Button>
-                </Tooltip>
-              )}
 
-              <div>
-                <div className="flex items-center rounded-[6px] bg-[#eae9e9] text-sm">
-                  <Tooltip message="Click to copy">
-                    <CopyButton
-                      className="px-2 py-3 text-center"
-                      textToCopy={activeVersion.address}
-                    />
+              <div className="flex gap-4">
+                {activeVersion.version === "V2" ? (
+                  <Tooltip message="Switch to V3">
+                    <Button
+                      aria-label="Switch to V3"
+                      variant={"ghost"}
+                      className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-gray-50 py-3 text-sm"
+                      onClick={upgradeAccount}
+                    >
+                      <span>V3</span>
+                      <span>
+                        <SwitchIcon />
+                      </span>
+                    </Button>
                   </Tooltip>
-                  <Link
-                    href={`${
-                      chain.network === "mainnet"
-                        ? url
-                        : chain.network === "sepolia"
-                          ? sepolia_url
-                          : ""
-                    }/contract/${activeVersion.address}`}
-                    target="__blank"
-                    title="view on starkscan"
-                    className="inline-flex h-full items-center rounded-r-[6px] border border-l-deep-blue px-2 py-3 text-lg transition-all hover:bg-deep-blue hover:text-white"
-                  >
-                    <span>
-                      <NewTbaIcon />
-                    </span>
-                  </Link>
+                ) : activeVersion.version === "V3" ? (
+                  <Tooltip message="Switch to V2">
+                    <Button
+                      aria-label="Switch to V2"
+                      variant={"ghost"}
+                      className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-gray-50 py-3 text-sm"
+                    >
+                      <span>V2</span>
+                      <span>
+                        <SwitchIcon />
+                      </span>
+                    </Button>
+                  </Tooltip>
+                ) : null}
+                <div>
+                  <div className="flex items-center rounded-[6px] bg-gray-50 text-sm">
+                    <Tooltip message="Click to copy">
+                      <CopyButton
+                        className="px-2 py-3 text-center"
+                        textToCopy={activeVersion.address}
+                      />
+                    </Tooltip>
+                    <Link
+                      href={`${
+                        chain.network === "mainnet"
+                          ? url
+                          : chain.network === "sepolia"
+                            ? sepolia_url
+                            : ""
+                      }/contract/${activeVersion.address}`}
+                      target="__blank"
+                      title="view on starkscan"
+                      className="inline-flex h-full items-center rounded-r-[6px] border border-l-deep-blue px-2 py-3 text-lg transition-all hover:bg-deep-blue hover:text-white"
+                    >
+                      <span>
+                        <NewTbaIcon />
+                      </span>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <>
-                  {activeVersion.version === "undeployed" ? (
-                    <Button onClick={deployAccount}>Deploy Account</Button>
-                  ) : activeVersion.version === "V2" ? (
-                    <Button onClick={upgradeAccount}>Upgrade Account</Button>
-                  ) : activeVersion.version === "V3" ? (
-                    <Button disabled>TBA Deployed</Button>
-                  ) : null}
-                </>
+                <div>
+                  <>
+                    {activeVersion.version === "undeployed" ? (
+                      <Button
+                        disabled={deploymentStatus === "ongoing"}
+                        onClick={deployAccount}
+                        className={`${deploymentStatus === "failed" && "!bg-red-500"}`}
+                      >
+                        {deploymentStatus === "idle"
+                          ? "Deploy Account"
+                          : deploymentStatus === "ongoing"
+                            ? "Deploying..."
+                            : deploymentStatus === "failed"
+                              ? "Failed"
+                              : "Deployed"}
+                      </Button>
+                    ) : activeVersion.version === "V2" ? (
+                      <Button
+                        className={`${upgradeStatus === "failed" && "!bg-red-500"}`}
+                        onClick={upgradeAccount}
+                      >
+                        {upgradeStatus === "idle"
+                          ? "Upgrade Account"
+                          : deploymentStatus === "ongoing"
+                            ? "Upgrading..."
+                            : deploymentStatus === "failed"
+                              ? "Failed"
+                              : "Upgraded"}
+                      </Button>
+                    ) : activeVersion.version === "V3" ? (
+                      <Button disabled>TBA Deployed</Button>
+                    ) : null}
+                  </>
+                </div>
               </div>
             </div>
             {nft?.description ? (
@@ -235,8 +247,8 @@ function Assets() {
                 aria-label="loader"
                 className="mt-[18px] flex flex-col gap-4"
               >
-                <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-[#eae9e9]"></div>
-                <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-[#eae9e9]"></div>
+                <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-gray-50"></div>
+                <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-gray-50"></div>
               </div>
             )}
             <Portfolio

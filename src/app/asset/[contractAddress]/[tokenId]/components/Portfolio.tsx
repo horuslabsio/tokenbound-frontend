@@ -20,7 +20,7 @@ const Portfolio = ({
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible);
   };
-  const { refreshMetadata, loading, success } = useRefreshMetadata(
+  const { refreshMetadata, loading, success, showSuccess } = useRefreshMetadata(
     contractAddress,
     tokenId,
   );
@@ -67,20 +67,27 @@ const Portfolio = ({
           >
             Refresh metadata
           </Button>
-          {/* {success?.status == 200 && isVisible ? (
+          {showSuccess ? (
             <p className="absolute rounded-lg bg-blue-500 pl-1 pr-1 text-xs text-white transition duration-300 ease-in-out">
               {success?.data.result}
             </p>
           ) : (
             ""
-          )} */}
+          )}
         </Tooltip>
       </div>
-      {isCollectible ? (
-        <NonFungibleAsset tbaAddress={tbaAddress} />
-      ) : (
-        <FungibleAsset tbaAddress={tbaAddress} />
-      )}
+      <div className="grid grid-cols-[1fr] grid-rows-[1fr]">
+        <div
+          className={`col-start-1 row-start-1 ${isCollectible ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+        >
+          <NonFungibleAsset tbaAddress={tbaAddress} />
+        </div>
+        <div
+          className={`col-start-1 row-start-1 ${isCollectible ? "pointer-events-none opacity-0" : "pointer-events-auto opacity-100"}`}
+        >
+          <FungibleAsset tbaAddress={tbaAddress} />
+        </div>
+      </div>
     </div>
   );
 };

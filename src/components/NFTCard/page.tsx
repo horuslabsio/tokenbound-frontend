@@ -19,8 +19,7 @@ const NFTCard = ({ nft }: NFTCard) => {
       />
       <div className="flex h-[219px] w-full flex-col gap-4 px-[28px] pt-6">
         <p className="text-2xl font-medium text-[#0A0A0A]">
-          {" "}
-          {nft?.metadata?.normalized?.name}
+          {nft?.metadata?.normalized?.name || "No name available"}
         </p>
         <CopyButton
           textToCopy={nft?.contract_address || ""}
@@ -29,7 +28,7 @@ const NFTCard = ({ nft }: NFTCard) => {
         />
 
         <p className="w-full text-[14px] font-medium leading-[20px] text-[#5A5A5A]">
-          {nft?.metadata?.normalized.description}{" "}
+          {nft?.metadata?.normalized.description || ""}
         </p>
       </div>
     </div>

@@ -14,10 +14,7 @@ import {
 } from "@utils/constants";
 import Erc20Abi from "@abis/token.abi.json";
 import TransferModal from "./TransferModal";
-
-interface AssetProps {
-  tokenBoundAddress: string; // Define the 'address' prop
-}
+import Button from "ui/button";
 
 const Token = ({
   balance,
@@ -36,31 +33,30 @@ const Token = ({
 }) => {
   return (
     <div className="flex w-full items-center gap-3">
-      <div>
-        <img src={src} className="!h-[30px] !w-[40px]" alt="asset-logo" />
-      </div>
+      {!err && (
+        <div>
+          <img src={src} className="!h-[30px] !w-[40px]" alt="asset-logo" />
+        </div>
+      )}
       <div className="flex-1">
-        {loading ? (
+        {loading && !err ? (
           <div aria-label="loader" className="flex justify-between">
             <div className="h-[1.2rem] w-[10rem] animate-pulse rounded-full bg-[#eae9e9]"></div>
             <div className="h-[1.2rem] w-[5rem] animate-pulse rounded-full bg-[#eae9e9]"></div>
           </div>
         ) : (
           <>
-            {err ? (
-              <p className="text-red-700">Failed to fetch token</p>
-            ) : (
+            {err ? null : (
               <div className="flex items-center justify-between">
                 <h4 className="text-[1.2em]">{`${balance} ${unit}`}</h4>
-                <button
+                <Button
                   disabled={+balance <= 0}
                   onClick={toggleModal}
-                  className={`h-[3rem] rounded-[5px] border-[1px] border-solid border-deep-blue p-2 text-deep-blue ${
-                    +balance > 0 ? "opacity-100" : "opacity-50"
-                  } `}
+                  size={"sm"}
+                  variant={"border-thin"}
                 >
                   Transfer
-                </button>
+                </Button>
               </div>
             )}
           </>
@@ -162,7 +158,7 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   //@ts-ignore
   let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
   return (
-    <div className="mt-4 flex flex-col gap-6">
+    <div className="mt-4 flex flex-col gap-4">
       <Token
         balance={Number.isNaN(ETH_BALANCE) ? "0.000" : ETH_BALANCE.toFixed(4)}
         err={ethError}
@@ -244,7 +240,6 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
           })
         }
       />
-
       <Token
         balance={Number.isNaN(USDT_BALANCE) ? "0.000" : USDT_BALANCE.toFixed(4)}
         err={usdtError}

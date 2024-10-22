@@ -6,6 +6,7 @@ import { AccountInterface, num } from "starknet";
 import axios from "axios";
 import { TokenboundClient } from "starknet-tokenbound-sdk";
 import { Chain } from "@starknet-react/chains";
+import { AccountClassHashes } from "@utils/constants";
 // import { useTokenBoundSDK } from "./useTokenboundHookContext";
 
 export const useFetchUserNFT = () => {
@@ -127,37 +128,77 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
   };
 };
 
-// export const useGetAccountAddress = ({
-//   contractAddress,
-//   tokenId,
-// }: IAccountParam) => {
-//   const { tokenbound } = useTokenBoundSDK();
+export const useDeployAccount = ({
+  contractAddress,
+  tokenId,
+  tokenboundClient,
+}: {
+  contractAddress: string;
+  tokenId: string;
+  tokenboundClient: TokenboundClient | undefined;
+}) => {
+  const [deploymentStatus, setDeploymentStatus] = useState<
+    "idle" | "success" | "failed" | "ongoing"
+  >("idle");
+  const deployAccount = async () => {
+    setDeploymentStatus("ongoing");
+    try {
+      await tokenboundClient?.createAccount({
+        tokenContract: contractAddress,
+        tokenId: tokenId,
+      });
+      setDeploymentStatus("success");
+    } catch (err) {
+      console.log(err);
+      setDeploymentStatus("failed");
+    } finally {
+      setTimeout(() => {
+        setDeploymentStatus("idle");
+      }, 2000);
+    }
+  };
 
-//   const { account } = useAccount();
-//   const { chain } = useNetwork();
-//   const [deployedAddress, setDeployedAddress] = useState<string>("");
+  return { deploymentStatus, deployAccount };
+};
 
-//   useEffect(() => {
-//     if (tokenbound) {
-//       const getAccountAddress = async () => {
-//         try {
-//           const accountResult = await tokenbound.getAccount({
-//             tokenContract: contractAddress,
-//             tokenId,
-//           });
-//           setDeployedAddress(num.toHex(accountResult));
-//         } catch (error) {
-//           console.error(error);
-//         }
-//       };
-//       getAccountAddress();
-//     }
-//   }, [tokenbound, account, contractAddress, tokenId, chain]);
+export const useUpgradeAccount = ({
+  contractAddress,
+  tokenboundClient,
+  chain,
+}: {
+  contractAddress: string;
+  tokenboundClient: TokenboundClient | undefined;
+  chain: Chain;
+}) => {
+  const [upgradeStatus, setUpgradeStatus] = useState<
+    "idle" | "success" | "failed" | "ongoing"
+  >("idle");
+  const upgradeAccount = async () => {
+    let network = chain.network;
+    let v3Implementation =
+      AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
+    setUpgradeStatus("ongoing");
+    try {
+      const res = await tokenboundClient?.upgrade({
+        tbaAddress: contractAddress,
+        newClassHash: v3Implementation,
+      });
+      if (res.ok) {
+        console.log("response", res);
+        setUpgradeStatus("success");
+      }
+    } catch (err) {
+      console.log(err);
+      setUpgradeStatus("failed");
+    } finally {
+      setTimeout(() => {
+        setUpgradeStatus("idle");
+      }, 2000);
+    }
+  };
 
-//   return {
-//     deployedAddress,
-//   };
-// };
+  return { upgradeAccount, upgradeStatus };
+};
 
 type RefreshType = {
   status: number;
@@ -170,7 +211,21 @@ const useRefreshMetadata = (contractAddress: string, tokenId: string) => {
     status: 0,
     data: { result: "" },
   });
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const { chain } = useNetwork();
+
+  useEffect(() => {
+    if (success?.status === 200) {
+      setShowSuccess(true);
+
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
 
   const refreshMetadata = async () => {
     if (!contractAddress) {
@@ -205,7 +260,7 @@ const useRefreshMetadata = (contractAddress: string, tokenId: string) => {
     }
   };
 
-  return { loading, success, refreshMetadata };
+  return { loading, success, refreshMetadata, showSuccess };
 };
 
 export default useRefreshMetadata;

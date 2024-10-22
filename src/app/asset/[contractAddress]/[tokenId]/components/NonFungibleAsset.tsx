@@ -5,7 +5,7 @@ import Button from "ui/button";
 import TransferNftModal from "./TransferNftModal";
 
 const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
-  let formatted_address = tbaAddress.replace("0x", "0x0");
+  const formatted_address = tbaAddress.replace("0x", "0x0");
   const { tbanft, loadingTba } = useTBAAsset(formatted_address);
   const [open, setOpen] = useState(false);
 
@@ -13,15 +13,15 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     setOpen(!open);
   };
   return (
-    <div className="w-full cursor-pointer">
+    <div className="w-full">
       {loadingTba ? (
         <div
           aria-label="loader"
           className="mt-8 grid max-w-[350px] grid-cols-3 justify-between gap-2"
         >
-          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
-          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
-          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
+          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-gray-50"></div>
+          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-gray-50"></div>
+          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-gray-50"></div>
         </div>
       ) : (
         <>
