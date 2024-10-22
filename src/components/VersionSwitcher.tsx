@@ -1,11 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { FaCheck } from "react-icons/fa";
-import { LuChevronsUpDown } from "react-icons/lu";
 
 import { useNetwork } from "@starknet-react/core";
-import { Button } from "../components/utils/button";
+
 import {
   Command,
   CommandGroup,
@@ -19,6 +17,8 @@ import {
 import { cn } from "../lib/utils";
 import { TBAVersion } from "starknet-tokenbound-sdk";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
+import Button from "ui/button";
+import { CheckIcon, SwitchIcon } from "@public/icons/icon";
 
 const VERSION_MAPPING: { [key: string]: string } = {
   V2: "V2",
@@ -68,7 +68,9 @@ export function VersionSwitcher() {
             ? versions.find((version) => version.value === selectedVersion)
                 ?.label
             : "Select Version..."}
-          <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <span className="ml-2 h-4 w-4 shrink-0 opacity-50">
+            <SwitchIcon />
+          </span>
         </Button>
       </PopoverTrigger>
 
@@ -84,14 +86,12 @@ export function VersionSwitcher() {
                   setOpen(false);
                 }}
               >
-                <FaCheck
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    selectedVersion === version.value
-                      ? "opacity-100"
-                      : "opacity-0",
-                  )}
-                />
+                <span
+                  className={`mr-2 h-4 w-4 ${selectedVersion === version.value ? "opacity-100" : "opacity-0"}`}
+                >
+                  <CheckIcon />
+                </span>
+
                 {version.label}
               </CommandItem>
             ))}

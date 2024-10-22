@@ -1,10 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { FaCheck } from "react-icons/fa";
-import { LuChevronsUpDown } from "react-icons/lu";
 import { useAccount, useNetwork } from "@starknet-react/core";
-import { Button } from "../components/utils/button";
+import Button from "ui/button";
 
 import {
   Command,
@@ -20,6 +18,7 @@ import {
 } from "../components/utils/popover";
 import { cn } from "../lib/utils";
 import { useRouter, usePathname } from "next/navigation";
+import { CheckIcon, SwitchIcon } from "@public/icons/icon";
 
 const NETWORK_MAPPING: { [key: string]: string } = {
   mainnet: "SN_MAIN",
@@ -81,7 +80,9 @@ export function NetworkSwitcher() {
             ? networks.find((network) => network.value === selectedNetwork)
                 ?.label
             : "Select Network..."}
-          <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <span className="ml-2 h-4 w-4 shrink-0 opacity-50">
+            <SwitchIcon />
+          </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -98,14 +99,12 @@ export function NetworkSwitcher() {
                   setOpen(false);
                 }}
               >
-                <FaCheck
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    selectedNetwork === network.value
-                      ? "opacity-100"
-                      : "opacity-0",
-                  )}
-                />
+                <span
+                  className={`mr-2 h-4 w-4 ${selectedNetwork === network.value ? "opacity-100" : "opacity-0"}`}
+                >
+                  <CheckIcon />
+                </span>
+
                 {network.label}
               </CommandItem>
             ))}

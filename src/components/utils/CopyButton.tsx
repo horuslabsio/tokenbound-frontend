@@ -9,8 +9,8 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   copyIcon?: boolean;
 }
 
-const CopyButton = forwardRef(
-  ({ textToCopy, textDisplayed, className, copyIcon }: Props) => {
+const CopyButton = forwardRef<HTMLButtonElement, Props>(
+  ({ textToCopy, textDisplayed, className, copyIcon }, ref) => {
     const [copied, setCopied] = useState(false);
 
     const copyToClipBoardHandler = async (text: string) => {
@@ -24,6 +24,7 @@ const CopyButton = forwardRef(
     };
     return (
       <button
+        ref={ref}
         aria-label="Click to copy"
         className={className}
         onClick={() => copyToClipBoardHandler(textToCopy!)}

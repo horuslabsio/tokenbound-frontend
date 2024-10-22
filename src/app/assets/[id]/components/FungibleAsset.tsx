@@ -19,7 +19,7 @@ interface AssetProps {
   tokenBoundAddress: string; // Define the 'address' prop
 }
 
-const FungibleAsset = ({
+const Token = ({
   balance,
   err,
   loading,
@@ -69,7 +69,8 @@ const FungibleAsset = ({
     </div>
   );
 };
-function Asset({ tokenBoundAddress }: AssetProps) {
+
+const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   const [openTransferModal, setOpenTransferModal] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState({
     src: "",
@@ -101,7 +102,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     address: ETHER_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
-    args: [tokenBoundAddress!],
+    args: [tbaAddress!],
     watch: true,
   });
   const {
@@ -112,7 +113,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     address: STARK_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
-    args: [tokenBoundAddress!],
+    args: [tbaAddress!],
     watch: true,
   });
   const {
@@ -123,7 +124,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     address: DAI_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
-    args: [tokenBoundAddress!],
+    args: [tbaAddress!],
     watch: true,
   });
   const {
@@ -134,7 +135,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     address: USDC_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
-    args: [tokenBoundAddress!],
+    args: [tbaAddress!],
     watch: true,
   });
 
@@ -146,7 +147,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
     address: USDT_TOKEN_DETAILS.address,
     abi: Erc20Abi,
     functionName: "balanceOf",
-    args: [tokenBoundAddress!],
+    args: [tbaAddress!],
     watch: true,
   });
 
@@ -160,10 +161,9 @@ function Asset({ tokenBoundAddress }: AssetProps) {
   let USDC_BALANCE = usdc?.balance?.low.toString() / 1e6;
   //@ts-ignore
   let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
-
   return (
     <div className="mt-4 flex flex-col gap-6">
-      <FungibleAsset
+      <Token
         balance={Number.isNaN(ETH_BALANCE) ? "0.000" : ETH_BALANCE.toFixed(4)}
         err={ethError}
         loading={ethLoading}
@@ -183,7 +183,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
         }
       />
 
-      <FungibleAsset
+      <Token
         balance={
           Number.isNaN(STARK_BALANCE) ? "0.000" : STARK_BALANCE.toFixed(4)
         }
@@ -205,7 +205,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
         }
       />
 
-      <FungibleAsset
+      <Token
         balance={Number.isNaN(USDC_BALANCE) ? "0.000" : USDC_BALANCE.toFixed(4)}
         err={usdcError}
         loading={usdcLoading}
@@ -225,7 +225,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
         }
       />
 
-      <FungibleAsset
+      <Token
         balance={Number.isNaN(DAI_BALANCE) ? "0.000" : DAI_BALANCE.toFixed(4)}
         err={daiError}
         loading={daiLoading}
@@ -245,7 +245,7 @@ function Asset({ tokenBoundAddress }: AssetProps) {
         }
       />
 
-      <FungibleAsset
+      <Token
         balance={Number.isNaN(USDT_BALANCE) ? "0.000" : USDT_BALANCE.toFixed(4)}
         err={usdtError}
         loading={usdtLoading}
@@ -272,11 +272,11 @@ function Asset({ tokenBoundAddress }: AssetProps) {
         balance={selectedAsset?.balance}
         name={selectedAsset?.name}
         contractAddress={selectedAsset?.contractAddress}
-        tokenBoundAddress={tokenBoundAddress}
+        tokenBoundAddress={tbaAddress}
         decimal={selectedAsset?.decimal}
       />
     </div>
   );
-}
+};
 
-export default Asset;
+export default FungibleAsset;

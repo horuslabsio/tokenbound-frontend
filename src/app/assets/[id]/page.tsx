@@ -1,14 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
-import { FaGem, FaCoins } from "react-icons/fa";
 import useRefreshMetadata, {
   useFetchNFTMetadata,
   useGetAccountAddress,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
-import FungibleAsset from "@components/Assets/index";
-import NonFungibleAsset from "@components/Assets/Tbanft";
 import CopyButton from "@components/utils/CopyButton";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import Tooltip from "@components/utils/tooltip";
@@ -17,12 +14,13 @@ import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";
 import { TBAVersion, TokenboundClient } from "starknet-tokenbound-sdk";
 import Button from "ui/button";
+import { SwitchIcon } from "@public/icons/icon";
+import Portfolio from "./components/Portfolio";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
 const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
 
 function Assets() {
-  const [isCollectible, setIsCollectible] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
 
   const [version, setVersion] = useState<{
@@ -42,10 +40,6 @@ function Assets() {
 
   const { chain } = useNetwork();
   const { account } = useAccount();
-
-  const toggleContent = () => {
-    setIsCollectible((prevIsCollectible) => !prevIsCollectible);
-  };
 
   const provider = new RpcProvider({
     nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
@@ -185,11 +179,6 @@ function Assets() {
     }
   }, [version]);
 
-  const { refreshMetadata, loading, success } = useRefreshMetadata(
-    contractAddress,
-    tokenId,
-  );
-
   const deployAccount = async () => {
     try {
       await tokenbound?.createAccount({
@@ -264,19 +253,7 @@ function Assets() {
               >
                 <span>V3</span>
                 <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill="currentColor"
-                      fill-rule="evenodd"
-                      d="M8 1a.5.5 0 0 1 .374.168l4 4.5l-.748.664L8 2.252l-3.626 4.08l-.748-.664l4-4.5A.5.5 0 0 1 8 1m0 12.747l-3.626-4.08l-.748.665l4 4.5a.5.5 0 0 0 .748 0l4-4.5l-.748-.664z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  <SwitchIcon />
                 </span>
               </Button>
 
@@ -340,58 +317,11 @@ function Assets() {
                 <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-[#eae9e9]"></div>
               </div>
             )}
-            <div>
-              <div className="mt-6 flex w-fit items-center gap-[12px] rounded-[8px] bg-[#EFEFEF] p-2">
-                <Button
-                  variant={"ghost"}
-                  onClick={toggleContent}
-                  className={`${
-                    isCollectible
-                      ? "bg-[#0C0C4F] text-white"
-                      : "bg-[#F2F2F2] text-gray-400"
-                  } flex cursor-pointer items-center gap-x-1 rounded-[6px] transition-all duration-500`}
-                >
-                  <FaGem size={18} />
-                  Collectible
-                </Button>
-                <Button
-                  variant={"ghost"}
-                  onClick={toggleContent}
-                  className={`${
-                    !isCollectible
-                      ? "bg-[#0C0C4F] text-white"
-                      : "bg-[#F2F2F2] text-gray-400"
-                  } flex cursor-pointer items-center gap-x-1 rounded-[6px] transition-all duration-500`}
-                >
-                  <FaCoins size={18} />
-                  Assets
-                </Button>
-                <Tooltip message="click to refresh asset if metadata does not display">
-                  <Button
-                    onClick={refreshMetadata}
-                    disabled={loading}
-                    variant={"ghost"}
-                    className={`${
-                      loading ? "bg-red-300" : ""
-                    } flex cursor-pointer items-center gap-x-1 rounded-[6px] bg-red-500 text-white transition-all duration-500`}
-                  >
-                    Refresh metadata
-                  </Button>
-                  {success?.status == 200 && isVisible ? (
-                    <p className="absolute rounded-lg bg-blue-500 pl-1 pr-1 text-xs text-white transition duration-300 ease-in-out">
-                      {success?.data.result}
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                </Tooltip>
-              </div>
-              {isCollectible ? (
-                <NonFungibleAsset tba={activeVersion.address} />
-              ) : (
-                <FungibleAsset tokenBoundAddress={activeVersion.address} />
-              )}{" "}
-            </div>
+            <Portfolio
+              contractAddress={contractAddress}
+              tbaAddress={activeVersion.address}
+              tokenId={tokenId}
+            />
           </div>
         </div>
       </div>

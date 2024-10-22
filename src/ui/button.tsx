@@ -11,6 +11,8 @@ const buttonVariants = cva(
           "text-deep-blue border-deep-blue border rounded-[5px] hover:bg-[#0C0C4F20]",
         "border-bold":
           "text-deep-blue border-deep-blue border-[2px] rounded-[5px] hover:bg-[#0C0C4F20]",
+        outline:
+          "border border-neutral-200 bg-white hover:bg-neutral-100 hover:text-neutral-900 dark:border-neutral-800 rounded-[6px]",
         ghost: "",
       },
       size: {

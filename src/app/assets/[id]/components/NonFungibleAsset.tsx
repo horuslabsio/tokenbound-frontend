@@ -1,16 +1,11 @@
-"use client";
-import Link from "next/link";
 import { useTBAAsset } from "@hooks/index";
+import Link from "next/link";
 import { useState } from "react";
-import TransferNftModal from "./TransferNftModal";
 import Button from "ui/button";
+import TransferNftModal from "./TransferNftModal";
 
-interface Itba {
-  tba: string;
-}
-
-const TBANFT = ({ tba }: Itba) => {
-  let formatted_address = tba.replace("0x", "0x0");
+const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
+  let formatted_address = tbaAddress.replace("0x", "0x0");
   const { tbanft, loadingTba } = useTBAAsset(formatted_address);
   const [open, setOpen] = useState(false);
 
@@ -64,7 +59,7 @@ const TBANFT = ({ tba }: Itba) => {
                     <TransferNftModal
                       openModal={open}
                       closeModal={Handler}
-                      tokenBoundAddress={tba}
+                      tokenBoundAddress={tbaAddress}
                       contractAddress={item?.contract_address}
                       tokenId={item.token_id}
                     />
@@ -79,4 +74,4 @@ const TBANFT = ({ tba }: Itba) => {
   );
 };
 
-export default TBANFT;
+export default NonFungibleAsset;
