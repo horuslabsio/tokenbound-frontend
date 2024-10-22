@@ -2,10 +2,10 @@
 import { useAccount, useDisconnect } from "@starknet-react/core";
 import React, { useState } from "react";
 import { copyToClipBoard } from "@utils/helper";
-import Image from "next/image";
+
 import Link from "next/link";
-import CopyIcon from "svg/CopyIcon";
-import CopyCheckIcon from "svg/CopyCheckIcon";
+import { CopyCheckIcon, CopyIcon } from "@public/icons/icon";
+
 function Disconnect({ closeModal }: { closeModal: () => void }) {
   const [copied, setCopied] = useState(false);
   const { address } = useAccount();
@@ -22,16 +22,7 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
   };
   return (
     <section>
-      <div className="mx-auto h-[10rem] w-[10rem] rounded-full bg-[#EFC58E]">
-        {/* if it will be an image */}
-        {/* <Image
-          className="rounded-full"
-          src="/unsplash_hKxsoF4aubY.png"
-          alt=""
-          width={100}
-          height={100}
-        /> */}
-      </div>
+      <div className="mx-auto h-[10rem] w-[10rem] rounded-full bg-[#EFC58E]"></div>
       <div className="mt-4 flex flex-col gap-4">
         <div
           className={`flex w-[40%] items-center justify-center gap-2 self-end rounded-full bg-green-600 p-2 text-white transition-all duration-300 ease-in-out ${

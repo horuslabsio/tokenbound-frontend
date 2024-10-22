@@ -1,11 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import {
-  useFetchNFTMetadata,
-  useGetTbaAddress,
-  useInitializeTokenboundV2,
-  useInitializeTokenboundV3,
-} from "@hooks/index";
+import { useFetchNFTMetadata, useGetTbaAddress } from "@hooks/index";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import CopyButton from "@components/utils/CopyButton";
@@ -17,27 +12,16 @@ import Link from "next/link";
 import Button from "ui/button";
 import { NewTbaIcon, SwitchIcon } from "@public/icons/icon";
 import Portfolio from "./components/Portfolio";
+import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
 const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
 
 function Assets() {
+  const { tokenboundV2, tokenboundV3, activeVersion, setVersion } =
+    useTokenBoundSDK();
   const [v2Address, setV2Address] = useState<string>("");
   const [v3Address, setV3Address] = useState<string>("");
-  const [version, setVersion] = useState<{
-    v2: { address: string; status: boolean };
-    v3: { address: string; status: boolean };
-  }>({
-    v2: { address: "", status: false },
-    v3: { address: "", status: false },
-  });
-  const [activeVersion, setActiveVersion] = useState<{
-    version: "V3" | "V2" | "undeployed" | undefined;
-    address: string;
-  }>({
-    version: undefined,
-    address: "",
-  });
 
   const { chain } = useNetwork();
   const { account } = useAccount();
@@ -52,9 +36,6 @@ function Assets() {
   let tokenId = params.tokenId as string;
 
   const { nft } = useFetchNFTMetadata(contractAddress, tokenId);
-
-  const tokenboundV2 = useInitializeTokenboundV2();
-  const tokenboundV3 = useInitializeTokenboundV3();
 
   useGetTbaAddress({
     contractAddress: contractAddress,
@@ -117,19 +98,6 @@ function Assets() {
     };
     fetchClassHash();
   }, [v3Address, v2Address, account, chain]);
-
-  useEffect(() => {
-    if (version.v3.status) {
-      setActiveVersion({ address: version.v3.address, version: "V3" });
-    } else if (version.v2.status) {
-      setActiveVersion({ address: version.v2.address, version: "V2" });
-    } else {
-      setActiveVersion({
-        address: version.v3.address,
-        version: "undeployed",
-      });
-    }
-  }, [version]);
 
   const deployAccount = async () => {
     try {
@@ -263,7 +231,10 @@ function Assets() {
             {nft?.description ? (
               <p className="mt-[18px]">{nft.description}</p>
             ) : (
-              <div aria-label="loader" className="flex flex-col gap-4">
+              <div
+                aria-label="loader"
+                className="mt-[18px] flex flex-col gap-4"
+              >
                 <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-[#eae9e9]"></div>
                 <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-[#eae9e9]"></div>
               </div>

@@ -1,9 +1,10 @@
 import { instance } from "@utils/helper";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import SearchIcon from "svg/SearchIcon";
+
 import SyncLoader from "react-spinners/SyncLoader";
 import Image from "next/image";
 import { useNetwork } from "@starknet-react/core";
+import { SearchIcon } from "@public/icons/icon";
 
 type NftInfo = {
   contract_address: string;

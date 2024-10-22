@@ -1,5 +1,6 @@
+import { RightArrow } from "@public/icons/icon";
 import Image from "next/image";
-import RightArrow from "svg/RightArrow";
+
 import Button from "ui/button";
 
 const Card = ({

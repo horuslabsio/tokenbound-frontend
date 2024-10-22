@@ -1,6 +1,7 @@
 import { useState } from "react";
-import DownChevronIcon from "svg/DownChevronIcon";
+
 import { FAQs as FQAData } from "../../static";
+import { DownChevronIcon } from "@public/icons/icon";
 
 type Props = {
   id: string;

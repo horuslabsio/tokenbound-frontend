@@ -1,10 +1,9 @@
 "use client";
+import { GithubIcon, SendIcon, TwitterIcon } from "@public/icons/icon";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import GithubIcon from "svg/GithubIcon";
-import SendIcon from "svg/SendIcon";
-import XIcon from "svg/XIcon";
+import Button from "ui/button";
 
 const Footer = () => {
   const [year, setYear] = useState<number>(2024);
@@ -35,9 +34,7 @@ const Footer = () => {
               type="email"
               placeholder="Email Address"
             />
-            <button className="h-[3rem] w-[10rem] rounded-[8px] bg-deep-blue px-4 py-3 text-white">
-              Get Updates
-            </button>
+            <Button>Get Updates</Button>
           </div>
         </div>
 
@@ -86,7 +83,7 @@ const Footer = () => {
               className="flex place-content-center rounded-lg bg-white p-2"
             >
               <a href="http://" target="_blank" rel="noopener noreferrer">
-                <XIcon />
+                <TwitterIcon />
               </a>
             </li>
             <li

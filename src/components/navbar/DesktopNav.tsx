@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import DownChevronIcon from "svg/DownChevronIcon";
 import DropDown from "./DropDown";
 import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
@@ -10,7 +9,8 @@ import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
 import SearchNFT from "./SearchNFT";
 import NetworkSwitcher from "@components/NetworkSwitcher";
-import VersionSwitcher from "@components/VersionSwitcher";
+import Button from "ui/button";
+import { DownChevronIcon } from "@public/icons/icon";
 
 const DesktopNav = ({
   isWalletOpen,
@@ -121,13 +121,9 @@ const DesktopNav = ({
         )}
         <NetworkSwitcher />
         {!account ? (
-          <button
-            onClick={openWalletModal}
-            className="h-[3rem] w-[14rem] rounded-[8px] bg-deep-blue px-4 py-3 text-white"
-            type="button"
-          >
+          <Button onClick={openWalletModal} size={"lg"} className="w-[14rem]">
             Connect Wallet
-          </button>
+          </Button>
         ) : (
           <ConnectedNavBar />
         )}

@@ -1,7 +1,6 @@
 import { forwardRef, useState } from "react";
-import CopyCheckIcon from "svg/CopyCheckIcon";
-import CopyIcon from "svg/CopyIcon";
 import { copyToClipBoard } from "@utils/helper";
+import { CopyCheckIcon, CopyIcon } from "@public/icons/icon";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   textToCopy: string;

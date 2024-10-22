@@ -6,7 +6,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        fill: "rounded-[6px] bg-deep-blue text-white",
+        fill: "rounded-[8px] bg-deep-blue text-white",
         "border-thin":
           "text-deep-blue border-deep-blue border rounded-[5px] hover:bg-[#0C0C4F20]",
         "border-bold":

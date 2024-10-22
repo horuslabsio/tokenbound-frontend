@@ -1,11 +1,12 @@
 import Image, { StaticImageData } from "next/image";
-import UpRightArrowIcon from "svg/UpRightArrowIcon";
+
 import blingImage from "../../../public/community/0.png";
 import unixImage from "../../../public/community/1.png";
 import runAwaysImage from "../../../public/community/2.png";
 import tokenGImage from "../../../public/community/3.png";
 import crowdPassImage from "../../../public/community/4.png";
 import carbonableImage from "../../../public/community/5.png";
+import { UpRightArrowIcon } from "@public/icons/icon";
 
 const Project = ({
   description,

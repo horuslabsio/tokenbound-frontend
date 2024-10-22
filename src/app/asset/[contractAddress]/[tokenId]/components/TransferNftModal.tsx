@@ -1,9 +1,9 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import CancelIcon from "svg/CancelIcon";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 import SyncLoader from "react-spinners/SyncLoader";
-import CheckedIcon from "svg/CheckedIcon";
+
 import Modal from "@components/utils/Modal";
+import { CheckIcon, XIcon } from "@public/icons/icon";
 
 type Props = {
   openModal: boolean;
@@ -20,6 +20,7 @@ const TransferNftModal = ({
   contractAddress,
   tokenId,
 }: Props) => {
+  const { tokenboundV2, tokenboundV3, activeVersion } = useTokenBoundSDK();
   const [transferDetails, setTransferDetails] = useState({
     recipientWalletAddress: "",
   });
@@ -44,8 +45,9 @@ const TransferNftModal = ({
   const closeTransferModal = () => {
     closeModal();
   };
-  const { tokenbound } = useTokenBoundSDK();
   const transferNFTAssets = async () => {
+    const tokenbound =
+      activeVersion.version === "V2" ? tokenboundV2 : tokenboundV3;
     try {
       if (tokenbound) {
         setTokenTransferredSuccessfully(false);
@@ -83,11 +85,11 @@ const TransferNftModal = ({
           <div className="flex flex-col items-center justify-center gap-8">
             <div className="flex w-full items-end justify-end">
               <button onClick={closeTransferModal}>
-                <CancelIcon />
+                <XIcon />
               </button>
             </div>
             <div className="flex h-[7rem] w-[7rem] items-center justify-center rounded-full bg-deep-blue text-white">
-              <CheckedIcon />
+              <CheckIcon />
             </div>
             <h3 className="font-bold">Completed</h3>
             <p>Transaction successful🎉</p>
@@ -103,7 +105,7 @@ const TransferNftModal = ({
             <div className="flex justify-between">
               <h3 className="text-[1.5em]">Send</h3>
               <button onClick={closeTransferModal}>
-                <CancelIcon />
+                <XIcon />
               </button>
             </div>
             <div className="flex flex-col gap-4">

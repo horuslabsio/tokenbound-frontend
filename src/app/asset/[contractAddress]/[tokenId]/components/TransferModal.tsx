@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
-import CancelIcon from "svg/CancelIcon";
-// import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
+
 import SyncLoader from "react-spinners/SyncLoader";
-import CheckedIcon from "svg/CheckedIcon";
+
 import Modal from "@components/utils/Modal";
+import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
+import { CheckIcon, XIcon } from "@public/icons/icon";
 
 type Props = {
   openModal: boolean;
@@ -36,6 +37,7 @@ const TransferModal = ({
   const [tokenTransferredSuccessfully, setTokenTransferredSuccessfully] =
     useState<boolean | null>(null);
   const [disableSendBtn, setDisableSendBtn] = useState("enableButton");
+  const { tokenboundV2, tokenboundV3, activeVersion } = useTokenBoundSDK();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -67,24 +69,25 @@ const TransferModal = ({
     });
     setTokenTransferredSuccessfully(null);
   };
-  // const { tokenbound } = useTokenBoundSDK();
 
   const transferERC20Assets = async () => {
-    // try {
-    //   if (tokenbound) {
-    //     setTokenTransferredSuccessfully(false);
-    //     const status = await tokenbound.transferERC20({
-    //       tbaAddress: tokenBoundAddress,
-    //       contractAddress: contractAddress,
-    //       recipient: transferDetails.recipientWalletAddress,
-    //       amount: (+transferDetails.amount * decimal).toString(),
-    //     });
-    //     setTokenTransferredSuccessfully(status);
-    //     console.log("transferStat", status);
-    //   }
-    // } catch (error) {
-    //   console.log("there was an error transferring the assets");
-    // }
+    const tokenbound =
+      activeVersion.version === "V2" ? tokenboundV2 : tokenboundV3;
+    try {
+      if (tokenbound) {
+        setTokenTransferredSuccessfully(false);
+        const status = await tokenbound.transferERC20({
+          tbaAddress: tokenBoundAddress,
+          contractAddress: contractAddress,
+          recipient: transferDetails.recipientWalletAddress,
+          amount: (+transferDetails.amount * decimal).toString(),
+        });
+        setTokenTransferredSuccessfully(status);
+        console.log("transferStat", status);
+      }
+    } catch (error) {
+      console.log("there was an error transferring the assets");
+    }
   };
 
   useEffect(() => {
@@ -105,11 +108,11 @@ const TransferModal = ({
           <div className="flex flex-col items-center justify-center gap-8">
             <div className="flex w-full items-end justify-end">
               <button onClick={closeTransferModal}>
-                <CancelIcon />
+                <XIcon />
               </button>
             </div>
             <div className="flex h-[7rem] w-[7rem] items-center justify-center rounded-full bg-deep-blue text-white">
-              <CheckedIcon />
+              <CheckIcon />
             </div>
             <h3 className="font-bold">Completed</h3>
             <p>Transaction successful🎉</p>
@@ -125,7 +128,7 @@ const TransferModal = ({
             <div className="flex justify-between">
               <h3 className="text-[1.5em]">Send</h3>
               <button onClick={closeTransferModal}>
-                <CancelIcon />
+                <XIcon />
               </button>
             </div>
             <div className="flex flex-col gap-4">
