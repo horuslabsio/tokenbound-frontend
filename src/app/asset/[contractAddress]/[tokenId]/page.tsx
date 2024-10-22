@@ -1,28 +1,29 @@
 "use client";
 import { useState, useEffect } from "react";
-import useRefreshMetadata, {
+import {
   useFetchNFTMetadata,
-  useGetAccountAddress,
+  useGetTbaAddress,
+  useInitializeTokenboundV2,
+  useInitializeTokenboundV3,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import CopyButton from "@components/utils/CopyButton";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import Tooltip from "@components/utils/tooltip";
-import { RpcProvider, num } from "starknet";
+import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";
-import { TBAVersion, TokenboundClient } from "starknet-tokenbound-sdk";
 import Button from "ui/button";
-import { SwitchIcon } from "@public/icons/icon";
+import { NewTbaIcon, SwitchIcon } from "@public/icons/icon";
 import Portfolio from "./components/Portfolio";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
 const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
 
 function Assets() {
-  const [isVisible, setIsVisible] = useState(false);
-
+  const [v2Address, setV2Address] = useState<string>("");
+  const [v3Address, setV3Address] = useState<string>("");
   const [version, setVersion] = useState<{
     v2: { address: string; status: boolean };
     v3: { address: string; status: boolean };
@@ -31,10 +32,10 @@ function Assets() {
     v3: { address: "", status: false },
   });
   const [activeVersion, setActiveVersion] = useState<{
-    version: "V3" | "V2";
+    version: "V3" | "V2" | "undeployed" | undefined;
     address: string;
   }>({
-    version: "V3",
+    version: undefined,
     address: "",
   });
 
@@ -45,80 +46,28 @@ function Assets() {
     nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
   });
 
-  let { id } = useParams();
-  let contractAddress = id.slice(0, 66) as string;
-  let tokenId = id.slice(66) as string;
+  const params = useParams();
+
+  let contractAddress = params.contractAddress as string;
+  let tokenId = params.tokenId as string;
+
   const { nft } = useFetchNFTMetadata(contractAddress, tokenId);
 
-  const [tokenbound, setTokenbound] = useState<TokenboundClient | undefined>(
-    undefined,
-  );
-  const [tokenboundV2, setTokenboundV2] = useState<
-    TokenboundClient | undefined
-  >(undefined);
+  const tokenboundV2 = useInitializeTokenboundV2();
+  const tokenboundV3 = useInitializeTokenboundV3();
 
-  const [deployedAddress, setDeployedAddress] = useState<string>("");
-  const [deployedAddressV2, setDeployedAddressV2] = useState<string>("");
-
-  useEffect(() => {
-    if (account && chain) {
-      const options = {
-        account: account,
-        chain_id: chain.network === "mainnet" ? "SN_MAIN" : "SN_SEPOLIA",
-        version: "V3",
-        jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-      };
-      const tb = new TokenboundClient(options);
-      setTokenbound(tb);
-    }
-  }, [account, chain]);
-
-  useEffect(() => {
-    if (account && chain) {
-      const options = {
-        account: account,
-        chain_id: chain.network === "mainnet" ? "SN_MAIN" : "SN_SEPOLIA",
-        version: "V2",
-        jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-      };
-      const tb = new TokenboundClient(options);
-      setTokenboundV2(tb);
-    }
-  }, [account, chain]);
-
-  useEffect(() => {
-    if (tokenbound) {
-      const getAccountAddress = async () => {
-        try {
-          const accountResult = await tokenbound.getAccount({
-            tokenContract: contractAddress,
-            tokenId,
-          });
-          setDeployedAddress(num.toHex(accountResult));
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      getAccountAddress();
-    }
-  }, [tokenbound, account, contractAddress, tokenId, chain]);
-
-  useEffect(() => {
-    if (tokenboundV2) {
-      const getAccountAddress = async () => {
-        try {
-          const accountResult = await tokenboundV2.getAccount({
-            tokenContract: contractAddress,
-            tokenId,
-          });
-          setDeployedAddressV2(num.toHex(accountResult));
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      getAccountAddress();
-    }
-  }, [tokenboundV2, account, contractAddress, tokenId, chain]);
+  useGetTbaAddress({
+    contractAddress: contractAddress,
+    SetVersionAddress: setV3Address,
+    tokenboundClient: tokenboundV3,
+    tokenId: tokenId,
+  });
+  useGetTbaAddress({
+    contractAddress: contractAddress,
+    SetVersionAddress: setV2Address,
+    tokenboundClient: tokenboundV2,
+    tokenId: tokenId,
+  });
 
   useEffect(() => {
     let network = chain.network;
@@ -127,16 +76,16 @@ function Assets() {
     let v3Implementation =
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
     const fetchClassHash = async () => {
-      if (deployedAddress) {
+      if (v3Address) {
         try {
-          const tbaClassHash = await provider.getClassHashAt(deployedAddress);
+          const tbaClassHash = await provider.getClassHashAt(v3Address);
           if (tbaClassHash) {
             if (tbaClassHash === v3Implementation) {
               setVersion((prev) => {
                 return {
                   ...prev,
                   v3: {
-                    address: deployedAddress,
+                    address: v3Address,
                     status: true,
                   },
                 };
@@ -148,14 +97,14 @@ function Assets() {
         }
       }
       try {
-        const tbaHashV2 = await provider.getClassHashAt(deployedAddressV2);
+        const tbaHashV2 = await provider.getClassHashAt(v2Address);
         if (tbaHashV2) {
           if (tbaHashV2 === v2Implementation) {
             setVersion((prev) => {
               return {
                 ...prev,
                 v2: {
-                  address: deployedAddressV2,
+                  address: v2Address,
                   status: true,
                 },
               };
@@ -167,21 +116,24 @@ function Assets() {
       }
     };
     fetchClassHash();
-  }, [deployedAddress, deployedAddressV2, account, chain]);
+  }, [v3Address, v2Address, account, chain]);
 
   useEffect(() => {
-    if (version.v2.status && version.v3.status) {
+    if (version.v3.status) {
       setActiveVersion({ address: version.v3.address, version: "V3" });
-    } else if (version.v3.status) {
-      setActiveVersion({ address: version.v3.address, version: "V3" });
-    } else {
+    } else if (version.v2.status) {
       setActiveVersion({ address: version.v2.address, version: "V2" });
+    } else {
+      setActiveVersion({
+        address: version.v3.address,
+        version: "undeployed",
+      });
     }
   }, [version]);
 
   const deployAccount = async () => {
     try {
-      await tokenbound?.createAccount({
+      await tokenboundV3?.createAccount({
         tokenContract: contractAddress,
         tokenId: tokenId,
       });
@@ -198,7 +150,7 @@ function Assets() {
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
     try {
       await tokenboundV2?.upgrade({
-        tbaAddress: deployedAddressV2,
+        tbaAddress: v2Address,
         newClassHash: v3Implementation,
       });
       // handleVersionSwitch(TBAVersion.V3);
@@ -208,9 +160,6 @@ function Assets() {
       toast.error("An error was encountered during the course of upgrade!");
     }
   };
-
-  const isUpgradable = !version.v3.status && version.v2.status;
-  const isDeployable = !version.v2.status && !version.v3.status;
 
   return (
     <section className="container mx-auto min-h-screen px-4 pb-16 pt-32">
@@ -245,17 +194,33 @@ function Assets() {
               >
                 {nft.name || ""}
               </h3>
-
-              <Button
-                variant={"ghost"}
-                title="switch versions"
-                className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-[#eae9e9] py-3 text-sm"
-              >
-                <span>V3</span>
-                <span>
-                  <SwitchIcon />
-                </span>
-              </Button>
+              {activeVersion.version === "V2" ? (
+                <Tooltip message="Switch to V3">
+                  <Button
+                    aria-label="Switch to V3"
+                    variant={"ghost"}
+                    className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-[#eae9e9] py-3 text-sm"
+                  >
+                    <span>V3</span>
+                    <span>
+                      <SwitchIcon />
+                    </span>
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Tooltip message="Switch to V2">
+                  <Button
+                    aria-label="Switch to V2"
+                    variant={"ghost"}
+                    className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-[#eae9e9] py-3 text-sm"
+                  >
+                    <span>V2</span>
+                    <span>
+                      <SwitchIcon />
+                    </span>
+                  </Button>
+                </Tooltip>
+              )}
 
               <div>
                 <div className="flex items-center rounded-[6px] bg-[#eae9e9] text-sm">
@@ -272,38 +237,24 @@ function Assets() {
                         : chain.network === "sepolia"
                           ? sepolia_url
                           : ""
-                    }/contract/${deployedAddress}`}
+                    }/contract/${activeVersion.address}`}
                     target="__blank"
                     title="view on starkscan"
                     className="inline-flex h-full items-center rounded-r-[6px] border border-l-deep-blue px-2 py-3 text-lg transition-all hover:bg-deep-blue hover:text-white"
                   >
                     <span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M7 7h10v10M7 17L17 7"
-                        />
-                      </svg>
+                      <NewTbaIcon />
                     </span>
                   </Link>
                 </div>
               </div>
               <div>
                 <>
-                  {isDeployable ? (
+                  {activeVersion.version === "undeployed" ? (
                     <Button onClick={deployAccount}>Deploy Account</Button>
-                  ) : isUpgradable ? (
+                  ) : activeVersion.version === "V2" ? (
                     <Button onClick={upgradeAccount}>Upgrade Account</Button>
-                  ) : version.v3.status ? (
+                  ) : activeVersion.version === "V3" ? (
                     <Button disabled>TBA Deployed</Button>
                   ) : null}
                 </>

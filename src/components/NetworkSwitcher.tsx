@@ -54,7 +54,7 @@ export function NetworkSwitcher() {
         params: { chainId: newNetworkId },
       });
       setSelectedNetwork(newNetworkId);
-      if (path.startsWith("/assets")) {
+      if (path.startsWith("/asset")) {
         push(`/wallet/${address}`);
       }
     } catch (error) {

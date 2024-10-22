@@ -6,7 +6,7 @@ interface NFTCard {
 const NFTCard = ({ nft }: NFTCard) => {
   const router = useRouter();
   const redirect = () => {
-    router.push(`/assets/${nft?.contract_address}${nft?.token_id}`);
+    router.push(`/asset/${nft?.contract_address}/${nft?.token_id}`);
   };
   return (
     <div

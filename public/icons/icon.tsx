@@ -58,3 +58,21 @@ export const CheckIcon = () => (
     </g>
   </svg>
 );
+
+export const NewTbaIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 24"
+  >
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M7 7h10v10M7 17L17 7"
+    />
+  </svg>
+);
