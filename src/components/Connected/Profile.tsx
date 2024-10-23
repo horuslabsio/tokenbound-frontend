@@ -2,11 +2,10 @@
 import { useAccount, useDisconnect } from "@starknet-react/core";
 import React, { useState } from "react";
 import { copyToClipBoard } from "@utils/helper";
-
 import Link from "next/link";
 import { CopyCheckIcon, CopyIcon } from "@public/icons/icon";
 
-function Disconnect({ closeModal }: { closeModal: () => void }) {
+const Profile = ({ closeModal }: { closeModal: () => void }) => {
   const [copied, setCopied] = useState(false);
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
@@ -66,6 +65,6 @@ function Disconnect({ closeModal }: { closeModal: () => void }) {
       </div>
     </section>
   );
-}
+};
 
-export default Disconnect;
+export default Profile;

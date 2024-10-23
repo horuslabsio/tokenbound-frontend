@@ -3,7 +3,7 @@ import { GithubIcon, SendIcon, TwitterIcon } from "@public/icons/icon";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Button from "ui/button";
+import { Button } from "ui/button";
 
 const Footer = () => {
   const [year, setYear] = useState<number>(2024);

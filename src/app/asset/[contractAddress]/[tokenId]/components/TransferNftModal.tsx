@@ -1,9 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
-import SyncLoader from "react-spinners/SyncLoader";
-
-import Modal from "@components/utils/Modal";
 import { CheckIcon, XIcon } from "@public/icons/icon";
+import { Modal } from "ui/Modal";
+import Spinner from "ui/Spinner";
 
 type Props = {
   openModal: boolean;
@@ -145,11 +144,7 @@ const TransferNftModal = ({
                   {tokenTransferredSuccessfully === false ? (
                     <span className="flex justify-center gap-2">
                       <span>sending</span>
-                      <SyncLoader
-                        aria-label="Loading Spinner"
-                        size={5}
-                        color="#ffffff"
-                      />
+                      <Spinner />
                     </span>
                   ) : (
                     <>send &rarr;</>

@@ -1,24 +1,14 @@
 "use client";
-
-import * as React from "react";
-
 import { useNetwork } from "@starknet-react/core";
 
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-} from "../components/utils/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/utils/popover";
-import { cn } from "../lib/utils";
+import { Command, CommandGroup, CommandItem } from "../ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { TBAVersion } from "starknet-tokenbound-sdk";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
-import Button from "ui/button";
+
 import { CheckIcon, SwitchIcon } from "@public/icons/icon";
+import { Button } from "ui/button";
+import { useEffect, useState } from "react";
 
 const VERSION_MAPPING: { [key: string]: string } = {
   V2: "V2",
@@ -38,20 +28,21 @@ const versions = [
 
 export function VersionSwitcher() {
   const { chain } = useNetwork();
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
-  const { handleVersionSwitch, activeVersion } = useTokenBoundSDK();
+  const { activeVersion } = useTokenBoundSDK();
 
-  const [selectedVersion, setSelectedVersion] = React.useState(
-    VERSION_MAPPING[activeVersion],
+  const [selectedVersion, setSelectedVersion] = useState(
+    ""
+    // VERSION_MAPPING[activeVersion]
   );
 
   const switchVersion = async (value: string) => {
     setSelectedVersion(value);
-    handleVersionSwitch(value);
+    // handleVersionSwitch(value);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedVersion(VERSION_MAPPING[TBAVersion.V3]);
   }, [chain.network]);
 

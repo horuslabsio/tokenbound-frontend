@@ -10,8 +10,17 @@ const Features = () => {
         </h2>
         <ul className="flex flex-col gap-8">
           <li className="flex flex-col gap-4 md:flex-row md:items-center">
-            <div className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4 xsm:w-[40%]">
-              <img src="/bitcoin-wallet.svg" alt="" className="aria-hidden" />
+            <div
+              aria-hidden={true}
+              className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4 xsm:w-[40%]"
+            >
+              <Image
+                src="/bitcoin-wallet.svg"
+                alt="img"
+                width={50}
+                height={50}
+                className="aria-hidden"
+              />
             </div>
             <div className="basis-[90%]">
               <h5 className="text-deep-blue">Own other Assets</h5>
@@ -23,8 +32,17 @@ const Features = () => {
             </div>
           </li>
           <li className="flex flex-col gap-4 md:flex-row md:items-center">
-            <div className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4">
-              <img src="/blockchain-05.svg" alt="" className="aria-hidden" />
+            <div
+              aria-hidden={true}
+              className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4"
+            >
+              <Image
+                src="/blockchain-05.svg"
+                alt="img"
+                width={50}
+                height={50}
+                className="aria-hidden"
+              />
             </div>
             <div className="basis-[90%]">
               <h5 className="text-deep-blue">Connect with NFTs</h5>
@@ -34,8 +52,17 @@ const Features = () => {
             </div>
           </li>
           <li className="flex flex-col gap-4 md:flex-row md:items-center">
-            <div className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4 xsm:w-[40%]">
-              <img src="/blockchain-05.svg" alt="" className="aria-hidden" />
+            <div
+              aria-hidden={true}
+              className="w-[5rem] rounded-[12px] bg-[#F1F1F1] p-4 xsm:w-[40%]"
+            >
+              <Image
+                src="/blockchain-05.svg"
+                alt="img"
+                width={50}
+                height={50}
+                className="aria-hidden"
+              />
             </div>
             <div className="basis-[90%]">
               <h5 className="text-deep-blue">Make Onchain History</h5>
@@ -48,11 +75,11 @@ const Features = () => {
           </li>
         </ul>
       </article>
-      <figure className="w-[50%] max-w-[400px]">
+      <figure aria-hidden={true} className="w-[50%] max-w-[400px]">
         <Image
           className="h-[40vh] rounded-[12px] lg:h-full"
           src="/erc-illustration.svg"
-          alt=""
+          alt="img"
           width={100}
           height={100}
         />

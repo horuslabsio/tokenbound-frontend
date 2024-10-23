@@ -1,7 +1,6 @@
 import { RightArrow } from "@public/icons/icon";
 import Image from "next/image";
-
-import Button from "ui/button";
+import { Button } from "ui/button";
 
 const Card = ({
   description,

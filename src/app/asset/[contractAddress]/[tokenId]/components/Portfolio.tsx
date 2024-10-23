@@ -1,11 +1,11 @@
 "use client";
-import Tooltip from "@components/utils/tooltip";
-import useRefreshMetadata from "@hooks/index";
 import { CoinsIcon, GemIcon } from "@public/icons/icon";
 import { useState } from "react";
-import Button from "ui/button";
 import NonFungibleAsset from "./NonFungibleAsset";
 import FungibleAsset from "./FungibleAsset";
+import { useRefreshMetadata } from "@hooks/index";
+import { Tooltip } from "ui/tooltip";
+import { Button } from "ui/button";
 
 const Portfolio = ({
   tbaAddress,
@@ -22,7 +22,7 @@ const Portfolio = ({
   };
   const { refreshMetadata, loading, success, showSuccess } = useRefreshMetadata(
     contractAddress,
-    tokenId,
+    tokenId
   );
 
   return (

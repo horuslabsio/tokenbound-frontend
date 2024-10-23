@@ -1,11 +1,10 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 export const shortenAddress = (address: string) => {
   if (!address) return null;
   return `${address.substr(0, 6)}...${address.substr(
     address.length - 4,
-    address.length,
+    address.length
   )}`;
 };
 
@@ -55,9 +54,7 @@ export const instance = axios.create({
 export const copyToClipBoardHandler = async (text: string) => {
   const success = await copyToClipBoard(text);
   if (success) {
-    toast.info("Copied to clipboard");
     console.log("hello");
   } else {
-    toast.error("Not Copied");
   }
 };

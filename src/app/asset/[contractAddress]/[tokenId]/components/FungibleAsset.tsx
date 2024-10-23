@@ -14,7 +14,7 @@ import {
 } from "@utils/constants";
 import Erc20Abi from "@abis/token.abi.json";
 import TransferModal from "./TransferModal";
-import Button from "ui/button";
+import { Button } from "ui/button";
 
 const Token = ({
   balance,

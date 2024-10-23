@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IWalletModal } from "types";
 import { useConnect, Connector } from "@starknet-react/core";
-import WalletIcons from "../WalletIcon/page";
+import { WalletIcons } from "@public/icons/icon";
 
 export default function ConnectWallet({
   openWalletModal,

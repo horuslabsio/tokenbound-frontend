@@ -1,11 +1,9 @@
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
-
-import SyncLoader from "react-spinners/SyncLoader";
-
-import Modal from "@components/utils/Modal";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 import { CheckIcon, XIcon } from "@public/icons/icon";
+import { Modal } from "ui/Modal";
+import Spinner from "ui/Spinner";
 
 type Props = {
   openModal: boolean;
@@ -199,11 +197,7 @@ const TransferModal = ({
                   {tokenTransferredSuccessfully === false ? (
                     <span className="flex justify-center gap-2">
                       <span>sending</span>
-                      <SyncLoader
-                        aria-label="Loading Spinner"
-                        size={5}
-                        color="#ffffff"
-                      />
+                      <Spinner />
                     </span>
                   ) : (
                     <>send &rarr;</>

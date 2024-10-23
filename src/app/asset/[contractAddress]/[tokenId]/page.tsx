@@ -7,16 +7,16 @@ import {
   useUpgradeAccount,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
-import CopyButton from "@components/utils/CopyButton";
 import { useAccount, useNetwork } from "@starknet-react/core";
-import Tooltip from "@components/utils/tooltip";
 import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";
-import Button from "ui/button";
 import { NewTbaIcon, SwitchIcon } from "@public/icons/icon";
 import Portfolio from "./components/Portfolio";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
+import { Tooltip } from "ui/tooltip";
+import { CopyButton } from "ui/CopyButton";
+import { Button } from "ui/button";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
 const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
@@ -47,6 +47,7 @@ function Assets() {
     tokenboundClient: tokenboundV3,
     tokenId: tokenId,
   });
+
   useGetTbaAddress({
     contractAddress: contractAddress,
     SetVersionAddress: setV2Address,
@@ -61,30 +62,24 @@ function Assets() {
     let v3Implementation =
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
     const fetchClassHash = async () => {
-      if (v3Address) {
+      if (v3Address || v2Address) {
         try {
-          const tbaClassHash = await provider.getClassHashAt(v3Address);
+          const tbaClassHash = await provider.getClassHashAt(
+            v3Address ? v3Address : v2Address
+          );
           if (tbaClassHash) {
             if (tbaClassHash === v3Implementation) {
               setVersion((prev) => {
                 return {
                   ...prev,
                   v3: {
-                    address: v3Address,
+                    address: v3Address ? v3Address : v2Address,
                     status: true,
                   },
                 };
               });
             }
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-      try {
-        const tbaHashV2 = await provider.getClassHashAt(v2Address);
-        if (tbaHashV2) {
-          if (tbaHashV2 === v2Implementation) {
+          } else if (tbaClassHash === v2Implementation) {
             setVersion((prev) => {
               return {
                 ...prev,
@@ -95,9 +90,9 @@ function Assets() {
               };
             });
           }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
       }
     };
     fetchClassHash();
@@ -150,7 +145,7 @@ function Assets() {
               </h3>
 
               <div className="flex gap-4">
-                {activeVersion.version === "V2" ? (
+                {activeVersion.version === "V2" && (
                   <Tooltip message="Switch to V3">
                     <Button
                       aria-label="Switch to V3"
@@ -164,26 +159,17 @@ function Assets() {
                       </span>
                     </Button>
                   </Tooltip>
-                ) : activeVersion.version === "V3" ? (
-                  <Tooltip message="Switch to V2">
-                    <Button
-                      aria-label="Switch to V2"
-                      variant={"ghost"}
-                      className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-gray-50 py-3 text-sm"
-                    >
-                      <span>V2</span>
-                      <span>
-                        <SwitchIcon />
-                      </span>
-                    </Button>
-                  </Tooltip>
-                ) : null}
+                )}
                 <div>
                   <div className="flex items-center rounded-[6px] bg-gray-50 text-sm">
                     <Tooltip message="Click to copy">
                       <CopyButton
                         className="px-2 py-3 text-center"
-                        textToCopy={activeVersion.address}
+                        textToCopy={
+                          activeVersion.address
+                            ? activeVersion.address
+                            : v3Address
+                        }
                       />
                     </Tooltip>
                     <Link

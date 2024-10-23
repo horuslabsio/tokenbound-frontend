@@ -1,24 +1,12 @@
 "use client";
 
-import * as React from "react";
 import { useAccount, useNetwork } from "@starknet-react/core";
-import Button from "ui/button";
-
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "../components/utils/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/utils/popover";
-import { cn } from "../lib/utils";
+import { Command, CommandGroup, CommandItem } from "../ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useRouter, usePathname } from "next/navigation";
 import { CheckIcon, SwitchIcon } from "@public/icons/icon";
+import { useEffect, useState } from "react";
+import { Button } from "ui/button";
 
 const NETWORK_MAPPING: { [key: string]: string } = {
   mainnet: "SN_MAIN",
@@ -43,9 +31,9 @@ export function NetworkSwitcher() {
   const { push } = useRouter();
   const path = usePathname();
 
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [selectedNetwork, setSelectedNetwork] = React.useState(
-    NETWORK_MAPPING[chain.network],
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedNetwork, setSelectedNetwork] = useState(
+    NETWORK_MAPPING[chain.network]
   );
   const switchNetwork = async (newNetworkId: string, networkLabel: string) => {
     try {
@@ -63,7 +51,7 @@ export function NetworkSwitcher() {
   };
 
   // Update selectedNetwork when chain.network changes
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedNetwork(NETWORK_MAPPING[chain.network]);
   }, [chain.network]);
 
@@ -85,11 +73,9 @@ export function NetworkSwitcher() {
           </span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search network..." />
-          <CommandEmpty>No network found.</CommandEmpty>
-          <CommandGroup>
+      <PopoverContent className="z-50 w-[200px] p-0">
+        <Command className="">
+          <CommandGroup className="min-h-[4.3rem]">
             {networks.map((network) => (
               <CommandItem
                 key={network.value}
@@ -98,14 +84,14 @@ export function NetworkSwitcher() {
                   switchNetwork(network.value, network.label);
                   setOpen(false);
                 }}
+                className="cursor-pointer hover:bg-[#0C0C4F20]"
               >
                 <span
-                  className={`mr-2 h-4 w-4 ${selectedNetwork === network.value ? "opacity-100" : "opacity-0"}`}
+                  className={`h-4 w-4 ${selectedNetwork === network.value ? "opacity-100" : "opacity-0"}`}
                 >
                   <CheckIcon />
                 </span>
-
-                {network.label}
+                <span>{network.label}</span>
               </CommandItem>
             ))}
           </CommandGroup>

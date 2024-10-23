@@ -58,7 +58,7 @@ const CopyButton = forwardRef<HTMLButtonElement, Props>(
         )}
       </button>
     );
-  },
+  }
 );
 CopyButton.displayName = "CopyButton";
-export default CopyButton;
+export { CopyButton };

@@ -1,8 +1,8 @@
 import { useTBAAsset } from "@hooks/index";
 import Link from "next/link";
 import { useState } from "react";
-import Button from "ui/button";
 import TransferNftModal from "./TransferNftModal";
+import { Button } from "ui/button";
 
 const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   const formatted_address = tbaAddress.replace("0x", "0x0");

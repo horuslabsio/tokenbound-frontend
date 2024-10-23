@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "@starknet-react/core";
 import ConnectWallet from "@components/ConnectWallet/page";
-import NFTCollection from "@components/NFTCollection/page";
-import CopyButton from "@components/utils/CopyButton";
+import NFTCollection from "./components/NFTCollection";
+import { CopyButton } from "ui/CopyButton";
 
 function NFT() {
   const { address, isConnected } = useAccount();

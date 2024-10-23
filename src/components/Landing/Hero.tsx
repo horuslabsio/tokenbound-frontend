@@ -1,3 +1,9 @@
+import Image from "next/image";
+import HERO_IMG_1 from "@public/hero-1.png";
+import HERO_IMG_2 from "@public/hero-2.png";
+import HERO_IMG_3 from "@public/hero-3.png";
+import HERO_IMG_4 from "@public/hero-4.png";
+
 import Link from "next/link";
 
 const Hero = () => {
@@ -20,28 +26,31 @@ const Hero = () => {
         </Link>
       </div>
 
-      <div className="relative mx-auto h-[200px] w-screen max-w-[2000px] overflow-hidden md:h-[400px]">
+      <div
+        aria-hidden={true}
+        className="relative mx-auto h-[200px] w-screen max-w-[2000px] overflow-hidden md:h-[400px]"
+      >
         <div className="absolute left-1/2 top-[-50px] z-[3] h-[100px] w-[110%] -translate-x-1/2 rounded-[50%] bg-[#fafafa] md:top-[-120px] md:h-[200px]"></div>
         <div className="custom-shape grid h-full w-full grid-cols-4 gap-4">
           <div className="h-[200px] md:h-[400px]">
-            <img src="/hero-1.png" alt="" className="h-full w-full" />
+            <Image src={HERO_IMG_1} alt="img" className="h-full w-full" />
           </div>
           <div className="h-[200px] md:h-[400px]">
-            <img
-              src="/hero-2.png"
-              alt=""
+            <Image
+              src={HERO_IMG_2}
+              alt="img"
               className="h-full w-full object-cover"
             />
           </div>
           <div className="h-[200px] md:h-[400px]">
-            <img
-              src="/hero-3.png"
-              alt=""
+            <Image
+              src={HERO_IMG_3}
+              alt="img"
               className="h-full w-full object-cover"
             />
           </div>
           <div className="h-[200px] md:h-[400px]">
-            <img src="/hero-4.png" alt="" className="h-full w-full" />
+            <Image src={HERO_IMG_4} alt="img" className="h-full w-full" />
           </div>
         </div>
         <div className="absolute bottom-[-50px] left-1/2 z-[3] h-[100px] w-[110%] -translate-x-1/2 rounded-[50%] bg-[#fafafa] md:bottom-[-120px] md:h-[200px]"></div>

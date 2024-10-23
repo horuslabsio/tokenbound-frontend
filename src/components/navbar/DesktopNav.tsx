@@ -7,10 +7,9 @@ import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
-import SearchNFT from "./SearchNFT";
 import NetworkSwitcher from "@components/NetworkSwitcher";
-import Button from "ui/button";
 import { DownChevronIcon } from "@public/icons/icon";
+import { Button } from "ui/button";
 
 const DesktopNav = ({
   isWalletOpen,
@@ -111,7 +110,6 @@ const DesktopNav = ({
         </div>
       </div>
       <div className="hidden items-center space-x-8 md:hidden lg:flex">
-        <SearchNFT />
         {isWalletOpen && (
           <ConnectWallet
             isWalletOpen={isWalletOpen}

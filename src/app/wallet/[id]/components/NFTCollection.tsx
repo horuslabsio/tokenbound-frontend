@@ -1,6 +1,6 @@
 "use client";
 import { useFetchUserNFT } from "@hooks/index";
-import NFTCard from "@components/NFTCard/page";
+import NFTCard from "./NFTCard";
 
 const NFTCollection = () => {
   let { nft, loading } = useFetchUserNFT();

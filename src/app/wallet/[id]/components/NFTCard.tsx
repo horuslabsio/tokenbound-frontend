@@ -1,5 +1,5 @@
-import CopyButton from "@components/utils/CopyButton";
 import { useRouter } from "next/navigation";
+import { CopyButton } from "ui/CopyButton";
 interface NFTCard {
   nft: any;
 }
