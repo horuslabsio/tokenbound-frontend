@@ -90,10 +90,12 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
     } else if (version.v2.status) {
       setActiveVersion({ address: version.v2.address, version: "V2" });
     } else {
-      setActiveVersion({
-        address: version.v3.address,
-        version: "undeployed",
-      });
+      if (version.v3.address) {
+        setActiveVersion({
+          address: version.v3.address,
+          version: "undeployed",
+        });
+      }
     }
   }, [version]);
 

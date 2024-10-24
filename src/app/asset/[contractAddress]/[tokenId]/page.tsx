@@ -11,7 +11,7 @@ import { useAccount, useNetwork } from "@starknet-react/core";
 import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";
-import { NewTbaIcon, SwitchIcon } from "@public/icons/icon";
+import { NewTbaIcon } from "@public/icons/icon";
 import Portfolio from "./components/Portfolio";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 import { Tooltip } from "ui/tooltip";
@@ -247,7 +247,9 @@ function Assets() {
                     </Button>
                   ) : activeVersion.version === "V3" ? (
                     <Button disabled>TBA Deployed</Button>
-                  ) : null}
+                  ) : (
+                    <div className="h-[2.8rem] w-[8rem] animate-pulse rounded-[8px] bg-gray-50"></div>
+                  )}
                 </>
               </div>
             </div>
@@ -255,7 +257,7 @@ function Assets() {
           {nft?.description ? (
             <p className="mt-[18px]">{nft.description}</p>
           ) : (
-            <div aria-label="loader" className="mt-[18px] flex flex-col gap-4">
+            <div aria-label="loading" className="mt-[18px] flex flex-col gap-4">
               <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-gray-50"></div>
               <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-gray-50"></div>
             </div>
