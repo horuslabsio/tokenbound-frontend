@@ -171,7 +171,6 @@ export const useUpgradeAccount = ({
         tbaAddress: contractAddress,
         newClassHash: v3Implementation,
       });
-
       setUpgradeStatus("success");
     } catch (err) {
       if (process.env.NODE_ENV !== "production") {

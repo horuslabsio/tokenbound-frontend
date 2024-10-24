@@ -175,21 +175,6 @@ function Assets() {
             </h3>
 
             <div className="flex gap-4">
-              {activeVersion.version === "V2" && (
-                <Tooltip message="Switch to V3">
-                  <Button
-                    aria-label="Switch to V3"
-                    variant={"ghost"}
-                    className="flex w-[74px] items-center justify-center gap-2 rounded-[4px] bg-gray-50 py-3 text-sm"
-                    onClick={upgradeAccount}
-                  >
-                    <span>V3</span>
-                    <span>
-                      <SwitchIcon />
-                    </span>
-                  </Button>
-                </Tooltip>
-              )}
               <div>
                 <div className="flex items-center rounded-[6px] bg-gray-50 text-sm">
                   <Tooltip message="Click to copy">
@@ -243,14 +228,18 @@ function Assets() {
                     </Button>
                   ) : activeVersion.version === "V2" ? (
                     <Button
+                      disabled={
+                        upgradeStatus === "ongoing" ||
+                        upgradeStatus === "success"
+                      }
                       className={`${upgradeStatus === "failed" && "!bg-red-500"}`}
                       onClick={upgradeAccount}
                     >
                       {upgradeStatus === "idle" ? (
                         "Upgrade Account"
-                      ) : deploymentStatus === "ongoing" ? (
+                      ) : upgradeStatus === "ongoing" ? (
                         <Spinner size="20px" color="white" />
-                      ) : deploymentStatus === "failed" ? (
+                      ) : upgradeStatus === "failed" ? (
                         "Failed"
                       ) : (
                         "TBA Deployed"
