@@ -81,10 +81,11 @@ const TransferModal = ({
           amount: (+transferDetails.amount * decimal).toString(),
         });
         setTokenTransferredSuccessfully(status);
-        console.log("transferStat", status);
       }
     } catch (error) {
-      console.log("there was an error transferring the assets");
+      if (process.env.NODE_ENV !== "production") {
+        console.log("there was an error transferring the assets:", error);
+      }
     }
   };
 

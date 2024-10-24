@@ -64,48 +64,65 @@ function Assets() {
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
 
     const fetchClassHash = async () => {
+      let success = false;
+
+      const checkV2Address = async () => {
+        if (v2Address) {
+          const tbaClassHashV2 = await provider.getClassHashAt(v2Address);
+          if (tbaClassHashV2 === v2Implementation) {
+            setVersion((prev) => ({
+              ...prev,
+              v2: {
+                address: v2Address,
+                status: true,
+              },
+            }));
+            return;
+          }
+          if (tbaClassHashV2 === v3Implementation) {
+            setVersion((prev) => ({
+              ...prev,
+              v3: {
+                address: v2Address,
+                status: true,
+              },
+            }));
+            return;
+          }
+        }
+      };
+      const checkV3Address = async () => {
+        if (v3Address) {
+          const tbaClassHashV3 = await provider.getClassHashAt(v3Address);
+          if (tbaClassHashV3 === v3Implementation) {
+            setVersion((prev) => ({
+              ...prev,
+              v3: {
+                address: v3Address,
+                status: true,
+              },
+            }));
+          }
+        }
+      };
+
       if (v2Address || v3Address) {
         try {
-          if (v2Address) {
-            const tbaClassHashV2 = await provider.getClassHashAt(v2Address);
-
-            if (tbaClassHashV2 === v2Implementation) {
-              setVersion((prev) => ({
-                ...prev,
-                v2: {
-                  address: v2Address,
-                  status: true,
-                },
-              }));
-              return;
-            }
-            if (tbaClassHashV2 === v3Implementation) {
-              setVersion((prev) => ({
-                ...prev,
-                v3: {
-                  address: v2Address,
-                  status: true,
-                },
-              }));
-              return;
-            }
-          }
-          if (v3Address) {
-            const tbaClassHashV3 = await provider.getClassHashAt(v3Address);
-            if (tbaClassHashV3 === v3Implementation) {
-              setVersion((prev) => ({
-                ...prev,
-                v3: {
-                  address: v3Address,
-                  status: true,
-                },
-              }));
-            }
-          }
+          await checkV2Address();
+          success = true;
         } catch (error) {
           if (process.env.NODE_ENV !== "production") {
+            console.error(error);
           }
-          console.error(error);
+        }
+        if (!success) {
+          try {
+            await checkV3Address();
+          } catch (error) {
+            if (process.env.NODE_ENV !== "production") {
+              console.error(error);
+            }
+          }
         }
       }
     };

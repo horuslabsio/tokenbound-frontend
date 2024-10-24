@@ -39,7 +39,9 @@ export const copyToClipBoard = (text: string) => {
       return true;
     })
     .catch((err) => {
-      console.error(err);
+      if (process.env.NODE_ENV !== "production") {
+        console.error(err);
+      }
       return false;
     });
 };
@@ -50,11 +52,3 @@ export const instance = axios.create({
     "x-api-key": process.env.NEXT_PUBLIC_ARK_API_KEY,
   },
 });
-
-export const copyToClipBoardHandler = async (text: string) => {
-  const success = await copyToClipBoard(text);
-  if (success) {
-    console.log("hello");
-  } else {
-  }
-};

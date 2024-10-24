@@ -18,11 +18,6 @@ export const useFetchUserNFT = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!address) {
-          console.error("Address is undefined. Unable to make the request.");
-          setLoading(false);
-          return;
-        }
         const url = `https://${
           chain.network === "mainnet"
             ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
@@ -33,7 +28,9 @@ export const useFetchUserNFT = () => {
         setNft(data?.result);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching user NFT:", error);
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error fetching user NFT:", error);
+        }
         setLoading(false);
       }
     };
@@ -56,11 +53,6 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!address) {
-          console.error("Address is undefined. Unable to make the request.");
-          setLoading(false);
-          return;
-        }
         const url = `https://${
           chain.network === "mainnet"
             ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
@@ -73,7 +65,9 @@ export const useFetchNFTMetadata = (address: string, id: string) => {
         setNft(data?.result?.metadata?.normalized);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching user NFT:", error);
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error fetching user NFT:", error);
+        }
         setLoading(false);
       }
     };
@@ -96,21 +90,17 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!tokenBoundAddress) {
-          console.error("Address is undefined. Unable to make the request.");
+        if (tokenBoundAddress) {
+          const url = `https://${
+            chain.network === "mainnet"
+              ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
+              : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
+          }/v1/owners/${tokenBoundAddress}/tokens`;
+          const response = await instance.get(url);
+          const { data } = response;
+          setTbaNft(data?.result);
           setTbaLoading(false);
-          return;
         }
-
-        const url = `https://${
-          chain.network === "mainnet"
-            ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
-            : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
-        }/v1/owners/${tokenBoundAddress}/tokens`;
-        const response = await instance.get(url);
-        const { data } = response;
-        setTbaNft(data?.result);
-        setTbaLoading(false);
       } catch (error) {
         console.error("Error fetching user NFT:", error);
         setTbaLoading(false);
@@ -228,11 +218,6 @@ export const useRefreshMetadata = (
   }, [success]);
 
   const refreshMetadata = async () => {
-    if (!contractAddress) {
-      console.error("Address is undefined. Unable to make the request.");
-      setLoading(false);
-      return;
-    }
     setLoading(true);
     try {
       const url = `https://${
@@ -254,7 +239,9 @@ export const useRefreshMetadata = (
       // @ts-ignore
       setSuccess(result);
     } catch (error) {
-      console.error("Error fetching user NFT:", error);
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Error fetching user NFT:", error);
+      }
     } finally {
       setLoading(false);
     }
@@ -284,7 +271,9 @@ export const useGetTbaAddress = ({
           });
           SetVersionAddress(num.toHex(accountResult));
         } catch (error) {
-          console.error(error);
+          if (process.env.NODE_ENV !== "production") {
+            console.error(error);
+          }
         }
       };
       getAccountAddress();
