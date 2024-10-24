@@ -34,7 +34,7 @@ const Footer = () => {
               type="email"
               placeholder="Email Address"
             />
-            <Button>Get Updates</Button>
+            <Button className="max-w-[12rem]">Get Updates</Button>
           </div>
         </div>
 

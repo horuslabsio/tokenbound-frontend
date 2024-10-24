@@ -23,7 +23,7 @@ interface TokenboundType {
   >;
 }
 export const TokenboundContext = createContext<TokenboundType | undefined>(
-  undefined,
+  undefined
 );
 
 interface TokenboundProviderProps {

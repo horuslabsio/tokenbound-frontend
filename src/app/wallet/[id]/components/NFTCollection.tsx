@@ -6,7 +6,7 @@ const NFTCollection = () => {
   let { nft, loading } = useFetchUserNFT();
   return (
     <div className="mt-6 grid h-auto auto-cols-auto gap-6 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
-      {Boolean(loading) ? (
+      {loading ? (
         <>
           <div className="h-[60vh] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
           <div className="h-[60vh] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>

@@ -7,6 +7,7 @@ import axios from "axios";
 import { TokenboundClient } from "starknet-tokenbound-sdk";
 import { Chain } from "@starknet-react/chains";
 import { AccountClassHashes } from "@utils/constants";
+import { useTokenBoundSDK } from "./useTokenboundHookContext";
 
 export const useFetchUserNFT = () => {
   const { address } = useAccount();
@@ -128,27 +129,27 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
 export const useDeployAccount = ({
   contractAddress,
   tokenId,
-  tokenboundClient,
 }: {
   contractAddress: string;
   tokenId: string;
-  tokenboundClient: TokenboundClient | undefined;
 }) => {
+  const { tokenboundV3 } = useTokenBoundSDK();
   const [deploymentStatus, setDeploymentStatus] = useState<
     "idle" | "success" | "failed" | "ongoing"
   >("idle");
   const deployAccount = async () => {
     setDeploymentStatus("ongoing");
     try {
-      await tokenboundClient?.createAccount({
+      await tokenboundV3?.createAccount({
         tokenContract: contractAddress,
         tokenId: tokenId,
       });
       setDeploymentStatus("success");
     } catch (err) {
-      console.log(err);
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Error deploying TBA", err);
+      }
       setDeploymentStatus("failed");
-    } finally {
       setTimeout(() => {
         setDeploymentStatus("idle");
       }, 2000);
@@ -176,16 +177,17 @@ export const useUpgradeAccount = ({
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
     setUpgradeStatus("ongoing");
     try {
-      const res = await tokenboundClient?.upgrade({
+      await tokenboundClient?.upgrade({
         tbaAddress: contractAddress,
         newClassHash: v3Implementation,
       });
 
       setUpgradeStatus("success");
     } catch (err) {
-      console.log(err);
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Error upgrading TBA", err);
+      }
       setUpgradeStatus("failed");
-    } finally {
       setTimeout(() => {
         setUpgradeStatus("idle");
       }, 2000);
@@ -274,20 +276,12 @@ export const useGetTbaAddress = ({
 }) => {
   useEffect(() => {
     if (tokenboundClient) {
-      console.log("clint", tokenboundClient);
-
       const getAccountAddress = async () => {
         try {
           const accountResult = await tokenboundClient.getAccount({
             tokenContract: contractAddress,
             tokenId,
           });
-          console.log(
-            "account res:",
-            num.toHex(accountResult),
-            tokenboundClient.supportsV3
-          );
-
           SetVersionAddress(num.toHex(accountResult));
         } catch (error) {
           console.error(error);

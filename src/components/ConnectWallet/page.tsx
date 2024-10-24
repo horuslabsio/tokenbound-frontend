@@ -61,7 +61,7 @@ export default function ConnectWallet({
                             className="font-jakarta w-full font-normal text-[#BEC9DA]"
                             onClick={() => connectWallet(connector)}
                           >
-                            <div className="flex">
+                            <div className="flex gap-2">
                               <WalletIcons id={connector.id} />
                               {`Connect ${connector.name}`}
                             </div>

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Hero from "@components/Landing/Hero";
 import Community from "@components/Landing/Community";
