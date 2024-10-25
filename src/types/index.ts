@@ -84,3 +84,21 @@ export interface TokenInfo {
   token_id: string;
   token_id_hex: string;
 }
+
+export interface TokenMetadata {
+  image: string;
+  name: string;
+  description: string;
+}
+
+export interface WalletToken {
+  collection_address: string;
+  token_id: string;
+  metadata?: TokenMetadata;
+}
+
+export interface WalletTokensApiResponse {
+  data: WalletToken[];
+  next_page: number | null;
+  token_count: number;
+}
