@@ -102,3 +102,9 @@ export interface WalletTokensApiResponse {
   next_page: number | null;
   token_count: number;
 }
+
+export interface TokensApiResponse {
+  data: WalletToken;
+  next_page: number | null;
+  token_count: number;
+}

@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
+  getNftToken,
   useDeployAccount,
-  useFetchNFTMetadata,
   useGetTbaAddress,
   useUpgradeAccount,
 } from "@hooks/index";
@@ -18,6 +18,8 @@ import { Tooltip } from "ui/tooltip";
 import { CopyButton } from "ui/CopyButton";
 import { Button } from "ui/button";
 import Spinner from "ui/Spinner";
+import { useQuery } from "@tanstack/react-query";
+import { WalletToken } from "types";
 
 const url = process.env.NEXT_PUBLIC_EXPLORER;
 const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
@@ -26,7 +28,6 @@ function Assets() {
   const { tokenboundV2, tokenboundV3, activeVersion, setVersion } =
     useTokenBoundSDK();
   const { chain } = useNetwork();
-  const { account } = useAccount();
 
   const [v2Address, setV2Address] = useState<string>("");
   const [v3Address, setV3Address] = useState<string>("");
@@ -40,7 +41,16 @@ function Assets() {
   let contractAddress = params.contractAddress as string;
   let tokenId = params.tokenId as string;
 
-  const { nft } = useFetchNFTMetadata(contractAddress, tokenId);
+  const { data: nft } = useQuery({
+    queryKey: [`${contractAddress}-${tokenId}`, { contractAddress, tokenId }],
+    queryFn: () =>
+      getNftToken({
+        contractAddress,
+        tokenId,
+        chain,
+      }),
+  });
+  const tokenData = nft?.data as WalletToken;
 
   useGetTbaAddress({
     contractAddress: contractAddress,
@@ -56,79 +66,86 @@ function Assets() {
     tokenId: tokenId,
   });
 
-  useEffect(() => {
-    const network = chain.network;
-    const v2Implementation =
-      AccountClassHashes.V2[network as keyof typeof AccountClassHashes.V2];
-    const v3Implementation =
-      AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
+  const network = chain.network;
+  const v2Implementation =
+    AccountClassHashes.V2[network as keyof typeof AccountClassHashes.V2];
+  const v3Implementation =
+    AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
 
-    const fetchClassHash = async () => {
-      let success = false;
+  const fetchClassHash = useCallback(async () => {
+    let success = false;
 
-      const checkV2Address = async () => {
-        if (v2Address) {
-          const tbaClassHashV2 = await provider.getClassHashAt(v2Address);
-          if (tbaClassHashV2 === v2Implementation) {
-            setVersion((prev) => ({
-              ...prev,
-              v2: {
-                address: v2Address,
-                status: true,
-              },
-            }));
-            return;
-          }
-          if (tbaClassHashV2 === v3Implementation) {
-            setVersion((prev) => ({
-              ...prev,
-              v3: {
-                address: v2Address,
-                status: true,
-              },
-            }));
-            return;
-          }
+    const checkV2Address = async () => {
+      if (v2Address) {
+        const tbaClassHashV2 = await provider.getClassHashAt(v2Address);
+        if (tbaClassHashV2 === v2Implementation) {
+          setVersion((prev) => ({
+            ...prev,
+            v2: {
+              address: v2Address,
+              status: true,
+            },
+          }));
+          return;
         }
-      };
-      const checkV3Address = async () => {
-        if (v3Address) {
-          const tbaClassHashV3 = await provider.getClassHashAt(v3Address);
-          if (tbaClassHashV3 === v3Implementation) {
-            setVersion((prev) => ({
-              ...prev,
-              v3: {
-                address: v3Address,
-                status: true,
-              },
-            }));
-          }
+        if (tbaClassHashV2 === v3Implementation) {
+          setVersion((prev) => ({
+            ...prev,
+            v3: {
+              address: v2Address,
+              status: true,
+            },
+          }));
+          return;
         }
-      };
+      }
+    };
+    const checkV3Address = async () => {
+      if (v3Address) {
+        const tbaClassHashV3 = await provider.getClassHashAt(v3Address);
+        if (tbaClassHashV3 === v3Implementation) {
+          setVersion((prev) => ({
+            ...prev,
+            v3: {
+              address: v3Address,
+              status: true,
+            },
+          }));
+        }
+      }
+    };
 
-      if (v2Address || v3Address) {
+    if (v2Address || v3Address) {
+      try {
+        await checkV2Address();
+        success = true;
+      } catch (error) {
+        if (process.env.NODE_ENV !== "production") {
+          console.error(error);
+        }
+      }
+      if (!success) {
         try {
-          await checkV2Address();
-          success = true;
+          await checkV3Address();
         } catch (error) {
           if (process.env.NODE_ENV !== "production") {
             console.error(error);
           }
         }
-        if (!success) {
-          try {
-            await checkV3Address();
-          } catch (error) {
-            if (process.env.NODE_ENV !== "production") {
-              console.error(error);
-            }
-          }
-        }
       }
-    };
+    }
+  }, [
+    v2Address,
+    v3Address,
+    provider,
+    setVersion,
+    v2Implementation,
+    v3Implementation,
+  ]);
 
+  useEffect(() => {
     fetchClassHash();
-  }, [v3Address, v2Address, account, chain]);
+  }, [fetchClassHash]);
 
   const { deployAccount, deploymentStatus } = useDeployAccount({
     contractAddress: contractAddress,
@@ -147,10 +164,10 @@ function Assets() {
 
       <div className="grid w-full grid-cols-[1fr] gap-8 md:grid-cols-2">
         <div className="w-full rounded-[8px]">
-          {nft?.image ? (
+          {tokenData?.metadata?.image ? (
             <img
               className="!h-[480px] !w-[673px] rounded-[8px] object-cover"
-              src={nft.image}
+              src={tokenData?.metadata?.image}
               width={673}
               height={480}
               alt="NFT Image"
@@ -166,12 +183,12 @@ function Assets() {
           <div className="flex h-fit flex-wrap items-center justify-between gap-4">
             <h3
               className={`${
-                nft?.name
+                tokenData?.metadata?.name
                   ? "max-w-[20rem] overflow-hidden text-ellipsis whitespace-nowrap text-deep-blue"
                   : "h-[1.2rem] w-[10rem] animate-pulse rounded-full bg-gray-50"
               } `}
             >
-              {nft?.name || ""}
+              {tokenData?.metadata?.name || ""}
             </h3>
 
             <div className="flex gap-4">
@@ -254,8 +271,8 @@ function Assets() {
               </div>
             </div>
           </div>
-          {nft?.description ? (
-            <p className="mt-[18px]">{nft.description}</p>
+          {tokenData?.metadata?.description ? (
+            <p className="mt-[18px]">{tokenData?.metadata?.description}</p>
           ) : (
             <div aria-label="loading" className="mt-[18px] flex flex-col gap-4">
               <div className="h-[1.2rem] w-[75%] animate-pulse rounded-full bg-gray-50"></div>
