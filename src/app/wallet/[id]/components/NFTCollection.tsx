@@ -5,6 +5,7 @@ import { getWalletNft } from "@hooks/index";
 import { useParams } from "next/navigation";
 import { WalletTokensApiResponse } from "types";
 import { Button } from "ui/button";
+import { useMemo } from "react";
 
 const NFTCollection = () => {
   const params = useParams();
@@ -25,6 +26,12 @@ const NFTCollection = () => {
         page: pageParam,
       }),
   });
+
+  const walletNfts = useMemo(
+    () => nfts?.pages.flatMap((page) => page.data) ?? [],
+    [nfts]
+  );
+
   return (
     <div className="flex flex-col justify-center">
       <div className="mt-6 grid h-auto auto-cols-auto gap-6 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
@@ -34,7 +41,7 @@ const NFTCollection = () => {
             <div className="h-[60vh] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
             <div className="hidden h-[60vh] w-full animate-pulse rounded-[5px] bg-[#eae9e9] lg:block"></div>
           </>
-        ) : nfts && nfts?.pages.length > 0 ? (
+        ) : nfts && walletNfts.length > 0 ? (
           nfts.pages.map((page) =>
             page.data.map((item, index) => <NFTCard nft={item} key={index} />)
           )
