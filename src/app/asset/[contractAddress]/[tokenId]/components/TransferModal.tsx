@@ -70,7 +70,7 @@ const TransferModal = ({
 
   const transferERC20Assets = async () => {
     const tokenbound =
-      activeVersion.version === "V2" ? tokenboundV2 : tokenboundV3;
+      activeVersion?.version === "V2" ? tokenboundV2 : tokenboundV3;
     try {
       if (tokenbound) {
         setTokenTransferredSuccessfully(false);

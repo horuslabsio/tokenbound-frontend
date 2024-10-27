@@ -46,7 +46,7 @@ const TransferNftModal = ({
   };
   const transferNFTAssets = async () => {
     const tokenbound =
-      activeVersion.version === "V2" ? tokenboundV2 : tokenboundV3;
+      activeVersion?.version === "V2" ? tokenboundV2 : tokenboundV3;
     try {
       if (tokenbound) {
         setTokenTransferredSuccessfully(false);
@@ -61,8 +61,9 @@ const TransferNftModal = ({
         console.log("transferStat", status);
       }
     } catch (error) {
-      console.log(error);
-      console.log("there was an error transferring the assets");
+      if (process.env.NODE_ENV !== "production") {
+        console.log("there was an error transferring the assets", error);
+      }
     }
   };
 
