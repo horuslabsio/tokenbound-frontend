@@ -6,9 +6,9 @@ interface TokenboundType {
   tokenboundV3: TokenboundClient | undefined;
   tokenboundV2: TokenboundClient | undefined;
   activeVersion: {
-    version: "V3" | "V2" | "undeployed" | undefined;
+    version: "V3" | "V2" | "undeployed";
     address: string;
-  };
+  } | null;
   setVersion: React.Dispatch<
     React.SetStateAction<{
       v2: {
@@ -37,12 +37,9 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
   const { chain } = useNetwork();
 
   const [activeVersion, setActiveVersion] = useState<{
-    version: "V3" | "V2" | "undeployed" | undefined;
+    version: "V3" | "V2" | "undeployed";
     address: string;
-  }>({
-    version: undefined,
-    address: "",
-  });
+  } | null>(null);
   const [version, setVersion] = useState<{
     v2: { address: string; status: boolean };
     v3: { address: string; status: boolean };
@@ -89,16 +86,19 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
       setActiveVersion({ address: version.v3.address, version: "V3" });
     } else if (version.v2.status) {
       setActiveVersion({ address: version.v2.address, version: "V2" });
-    } else {
-      if (version.v3.address) {
+    }
+
+    const timeout = setTimeout(() => {
+      if (!activeVersion) {
         setActiveVersion({
           address: version.v3.address,
           version: "undeployed",
         });
       }
-    }
-  }, [version]);
+    }, 500);
 
+    return () => clearTimeout(timeout);
+  }, [version]);
   const value = { tokenboundV2, tokenboundV3, activeVersion, setVersion };
 
   return (

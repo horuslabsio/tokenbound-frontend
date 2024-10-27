@@ -13,11 +13,12 @@ import { TokenboundClient } from "starknet-tokenbound-sdk";
 import { Chain } from "@starknet-react/chains";
 import { AccountClassHashes } from "@utils/constants";
 import { useTokenBoundSDK } from "./useTokenboundHookContext";
+import confetti from "canvas-confetti";
 
 export const useTBAAsset = (tokenBoundAddress: string) => {
   const { address } = useAccount();
   const [tbanft, setTbaNft] = useState<TokenInfo[]>([]);
-  const [loadingTba, setTbaLoading] = useState<boolean>(true);
+  const [loadingTba, setTbaLoading] = useState<boolean>(false);
   const { chain } = useNetwork();
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +29,7 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
               ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
               : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
           }/v1/owners/${tokenBoundAddress}/tokens`;
+          setTbaLoading(true);
           const response = await instance.get(url);
           const { data } = response;
           setTbaNft(data?.result);
@@ -48,6 +50,16 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
   };
 };
 
+// Confetti
+function launchConfetti() {
+  confetti({
+    origin: { y: 0.7 },
+    spread: 100,
+    startVelocity: 55,
+    particleCount: Math.floor(200 * 0.5),
+  });
+}
+
 export const useDeployAccount = ({
   contractAddress,
   tokenId,
@@ -67,6 +79,7 @@ export const useDeployAccount = ({
         tokenId: tokenId,
       });
       setDeploymentStatus("success");
+      launchConfetti();
     } catch (err) {
       if (process.env.NODE_ENV !== "production") {
         console.error("Error deploying TBA", err);

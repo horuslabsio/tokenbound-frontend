@@ -6,10 +6,10 @@ import { useParams } from "next/navigation";
 import { WalletTokensApiResponse } from "types";
 import { Button } from "ui/button";
 import { useMemo } from "react";
+import { useAccount } from "@starknet-react/core";
 
 const NFTCollection = () => {
-  const params = useParams();
-  let address = params.id as string;
+  const { address } = useAccount();
   const {
     data: nfts,
     isLoading,
@@ -22,9 +22,10 @@ const NFTCollection = () => {
     initialPageParam: undefined,
     queryFn: ({ pageParam }) =>
       getWalletNft({
-        walletAddress: address,
+        walletAddress: address || "",
         page: pageParam,
       }),
+    enabled: !!address,
   });
 
   const walletNfts = useMemo(

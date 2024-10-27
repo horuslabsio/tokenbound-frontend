@@ -134,14 +134,7 @@ function Assets() {
         }
       }
     }
-  }, [
-    v2Address,
-    v3Address,
-    provider,
-    setVersion,
-    v2Implementation,
-    v3Implementation,
-  ]);
+  }, [v2Address, v3Address]);
 
   useEffect(() => {
     fetchClassHash();
@@ -161,7 +154,6 @@ function Assets() {
   return (
     <section className="container mx-auto min-h-screen px-4 pb-16 pt-32">
       <h2 className="mb-8 text-deep-blue"> Token Bound Account</h2>
-
       <div className="grid w-full grid-cols-[1fr] gap-8 md:grid-cols-2">
         <div className="w-full rounded-[8px]">
           {tokenData?.metadata?.image ? (
@@ -198,7 +190,7 @@ function Assets() {
                     <CopyButton
                       className="px-2 py-3 text-center"
                       textToCopy={
-                        activeVersion.address
+                        activeVersion?.address
                           ? activeVersion.address
                           : v3Address
                       }
@@ -211,7 +203,7 @@ function Assets() {
                         : chain.network === "sepolia"
                           ? sepolia_url
                           : ""
-                    }/contract/${activeVersion.address}`}
+                    }/contract/${activeVersion?.address}`}
                     target="__blank"
                     title="view on starkscan"
                     className="inline-flex h-full items-center rounded-r-[6px] border border-l-deep-blue px-2 py-3 text-lg transition-all hover:bg-deep-blue hover:text-white"
@@ -224,7 +216,7 @@ function Assets() {
               </div>
               <div>
                 <>
-                  {activeVersion.version === "undeployed" ? (
+                  {activeVersion?.version === "undeployed" ? (
                     <Button
                       disabled={
                         deploymentStatus === "ongoing" ||
@@ -243,7 +235,7 @@ function Assets() {
                         "TBA Deployed"
                       )}
                     </Button>
-                  ) : activeVersion.version === "V2" ? (
+                  ) : activeVersion?.version === "V2" ? (
                     <Button
                       disabled={
                         upgradeStatus === "ongoing" ||
@@ -262,7 +254,7 @@ function Assets() {
                         "TBA Deployed"
                       )}
                     </Button>
-                  ) : activeVersion.version === "V3" ? (
+                  ) : activeVersion?.version === "V3" ? (
                     <Button disabled>TBA Deployed</Button>
                   ) : (
                     <div className="h-[2.8rem] w-[8rem] animate-pulse rounded-[8px] bg-gray-50"></div>
@@ -281,7 +273,7 @@ function Assets() {
           )}
           <Portfolio
             contractAddress={contractAddress}
-            tbaAddress={activeVersion.address}
+            tbaAddress={activeVersion?.address || ""}
             tokenId={tokenId}
           />
         </div>
