@@ -1,29 +1,39 @@
 "use client";
 import React, { useState } from "react";
 import { shortenAddress } from "@utils/helper";
-import { useAccount } from "@starknet-react/core";
-import Disconnect from "../Disconnect/page";
-import { usePathname } from "next/navigation";
-import Modal from "@components/utils/Modal";
+import { useAccount, useNetwork } from "@starknet-react/core";
+import { Modal } from "ui/Modal";
+import Profile from "./Profile";
+import { Tooltip } from "ui/tooltip";
+import { Button } from "ui/button";
 
 function ConnectedNavBar() {
-  const { address, account } = useAccount();
+  const { address } = useAccount();
+  const { chain } = useNetwork();
   const [show, setShow] = useState<boolean>(false);
-  const path = usePathname();
-  const closeModal = () => {
+  const toggleModal = () => {
     setShow(!show);
   };
   return (
-    <div className="flex flex-col gap-4 md:items-center md:flex-row">
-      <div
-        onClick={closeModal}
-        className="bg-gray-200 cursor-pointer xsm:w-[90%] w-[10rem] h-[3rem] py-3  px-4  border-solid border-[1px] border-[#C4C4C4] rounded-full lg:my-0 lg:mx-auto"
-      >
-        <p className="text-center">{shortenAddress(address as any)}</p>
-      </div>
+    <div className="flex flex-col gap-4 md:flex-row md:items-center">
+      {chain.network === "mainnet" ? (
+        <Button
+          variant={"ghost"}
+          onClick={toggleModal}
+          className="h-[3rem] w-[10rem] cursor-pointer rounded-full border-[1px] border-solid border-[#C4C4C4] bg-gray-200 p-1 xsm:w-[90%] lg:mx-auto lg:my-0"
+        >
+          {shortenAddress(address as any)}
+        </Button>
+      ) : (
+        <Tooltip message="This network is currently unavailable">
+          <p className="grid h-[3rem] min-w-[10rem] place-content-center rounded-full border-[1px] border-solid border-[#C4C4C4] bg-gray-200 p-1 text-sm">
+            Network Unavailable
+          </p>
+        </Tooltip>
+      )}
 
-      <Modal type="" closeModal={closeModal} openModal={show}>
-        <Disconnect closeModal={closeModal} />
+      <Modal type="" closeModal={toggleModal} openModal={show}>
+        <Profile closeModal={toggleModal} />
       </Modal>
     </div>
   );

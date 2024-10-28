@@ -2,15 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import DownChevronIcon from "svg/DownChevronIcon";
 import DropDown from "./DropDown";
 import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
-import SearchNFT from "./SearchNFT";
 import NetworkSwitcher from "@components/NetworkSwitcher";
-import VersionSwitcher  from "@components/VersionSwitcher";
+import { DownChevronIcon } from "@public/icons/icon";
+import { Button } from "ui/button";
 
 const DesktopNav = ({
   isWalletOpen,
@@ -53,7 +52,7 @@ const DesktopNav = ({
   }, [dropdownRef]);
 
   return (
-    <nav className="container mx-auto flex items-center gap-8 justify-between">
+    <nav className="container mx-auto flex items-center justify-between gap-8">
       <div className="flex items-center gap-10">
         <Link className="block w-[150px] md:w-[200px]" href={"/"}>
           <Image
@@ -63,7 +62,7 @@ const DesktopNav = ({
             height={46}
           />
         </Link>
-        <div ref={dropdownRef} className="hidden lg:flex gap-8">
+        <div ref={dropdownRef} className="hidden gap-8 lg:flex">
           <button
             onMouseEnter={() => setActiveDropDown("learning")}
             onClick={toggleDropDown}
@@ -74,7 +73,7 @@ const DesktopNav = ({
               className={`self-end transition-all duration-300 ease-in-out ${
                 openDropDown && activeDropDown === "learning"
                   ? "rotate-[-180deg]"
-                  : " rotate-0"
+                  : "rotate-0"
               }`}
             >
               <DownChevronIcon />
@@ -89,14 +88,14 @@ const DesktopNav = ({
           <button
             onMouseEnter={() => setActiveDropDown("community")}
             onClick={toggleDropDown}
-            className={`hidden lg:flex items-center gap-1`}
+            className={`hidden items-center gap-1 lg:flex`}
           >
             <span>Community</span>
             <span
               className={`self-end transition-all duration-300 ease-in-out ${
                 openDropDown && activeDropDown === "community"
-                  ? " rotate-[-180deg]"
-                  : " rotate-0"
+                  ? "rotate-[-180deg]"
+                  : "rotate-0"
               }`}
             >
               <DownChevronIcon />
@@ -110,8 +109,7 @@ const DesktopNav = ({
           </button>
         </div>
       </div>
-      <div className="hidden md:hidden lg:flex items-center space-x-8">
-        <SearchNFT />
+      <div className="hidden items-center space-x-8 md:hidden lg:flex">
         {isWalletOpen && (
           <ConnectWallet
             isWalletOpen={isWalletOpen}
@@ -119,16 +117,11 @@ const DesktopNav = ({
             openWalletModal={openWalletModal}
           />
         )}
-                <VersionSwitcher />
         <NetworkSwitcher />
         {!account ? (
-          <button
-            onClick={openWalletModal}
-            className="w-[14rem] h-[3rem] py-3 px-4 bg-deep-blue rounded-[8px] text-white"
-            type="button"
-          >
+          <Button onClick={openWalletModal} size={"lg"} className="w-[14rem]">
             Connect Wallet
-          </button>
+          </Button>
         ) : (
           <ConnectedNavBar />
         )}

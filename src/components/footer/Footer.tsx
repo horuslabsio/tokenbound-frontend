@@ -1,10 +1,9 @@
 "use client";
+import { GithubIcon, SendIcon, TwitterIcon } from "@public/icons/icon";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import GithubIcon from "svg/GithubIcon";
-import SendIcon from "svg/SendIcon";
-import XIcon from "svg/XIcon";
+import { Button } from "ui/button";
 
 const Footer = () => {
   const [year, setYear] = useState<number>(2024);
@@ -15,12 +14,12 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-off-white text-[#7A7A7A] flex justify-end flex-col gap-16 px-8 pt-16 pb-8">
-      <div className="container mx-auto flex flex-col  justify-center gap-8 lg:flex-row">
-        <div className="basis-1/2 flex flex-col gap-4">
+    <footer className="flex flex-col justify-end gap-16 bg-off-white px-8 pb-8 pt-16 text-[#7A7A7A]">
+      <div className="container mx-auto flex flex-col justify-center gap-8 lg:flex-row">
+        <div className="flex basis-1/2 flex-col gap-4">
           <p>Powered by</p>
-          <div className="flex items-center w-[60%] md:w-[40%] lg:w-[60%]">
-            <Link className=" inline-block w-full" href={"/"}>
+          <div className="flex w-[60%] items-center md:w-[40%] lg:w-[60%]">
+            <Link className="inline-block w-full" href={"/"}>
               <Image
                 src={"/logo-02.svg"}
                 alt="starknet logo"
@@ -29,15 +28,13 @@ const Footer = () => {
               />
             </Link>
           </div>
-          <div className="flex flex-col  mt-8 gap-6 md:items-center md:flex-row">
+          <div className="mt-8 flex flex-col gap-6 md:flex-row md:items-center">
             <input
-              className=" p-4 bg-[#EFEFEF] w-[90%] h-[3rem] border-solid border-[1px] rounded-[8px] border-[#7A7A7A] placeholder:text-[.9em] md:w-[60%] lg:w-[40%]"
+              className="h-[3rem] w-[90%] rounded-[8px] border-[1px] border-solid border-[#7A7A7A] bg-[#EFEFEF] p-4 placeholder:text-[.9em] md:w-[60%] lg:w-[40%]"
               type="email"
               placeholder="Email Address"
             />
-            <button className="h-[3rem] w-[10rem] py-3 px-4 bg-deep-blue rounded-[8px] text-white">
-              Get Updates
-            </button>
+            <Button className="max-w-[12rem]">Get Updates</Button>
           </div>
         </div>
 
@@ -76,17 +73,17 @@ const Footer = () => {
           </li>
         </ul>
         <div className="flex flex-col gap-4 lg:mt-20">
-          <h6 className=" lg:text-[1em]">Discussions</h6>
+          <h6 className="lg:text-[1em]">Discussions</h6>
           <ul className="flex gap-4">
             <li
               style={{
                 boxShadow:
                   "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
               }}
-              className="bg-white p-2 rounded-lg flex place-content-center"
+              className="flex place-content-center rounded-lg bg-white p-2"
             >
               <a href="http://" target="_blank" rel="noopener noreferrer">
-                <XIcon />
+                <TwitterIcon />
               </a>
             </li>
             <li
@@ -94,7 +91,7 @@ const Footer = () => {
                 boxShadow:
                   "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
               }}
-              className="bg-white p-2 rounded-lg flex place-content-center"
+              className="flex place-content-center rounded-lg bg-white p-2"
             >
               <a
                 href="https://github.com/Starknet-Africa-Edu"
@@ -109,7 +106,7 @@ const Footer = () => {
                 boxShadow:
                   "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
               }}
-              className="bg-white p-2 rounded-lg flex place-content-center"
+              className="flex place-content-center rounded-lg bg-white p-2"
             >
               <a
                 className="inline-block -rotate-[35deg]"

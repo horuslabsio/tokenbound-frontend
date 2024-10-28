@@ -1,5 +1,6 @@
+import { RightArrow } from "@public/icons/icon";
 import Image from "next/image";
-import RightArrow from "svg/RightArrow";
+import { Button } from "ui/button";
 
 const Card = ({
   description,
@@ -15,9 +16,9 @@ const Card = ({
   link: string;
 }) => {
   return (
-    <figure className="max-w-[436px] flex flex-col max-h-[560px] mx-auto">
+    <figure className="mx-auto flex max-h-[560px] max-w-[436px] flex-col">
       <div
-        className={`h-[200px] lg:h-[300px] overflow-clip bg-[#EFEFEF] w-full rounded-t-[8px]  relative`}
+        className={`relative h-[200px] w-full overflow-clip rounded-t-[8px] bg-[#EFEFEF] lg:h-[300px]`}
       >
         <Image
           className="rounded-t-[8px]"
@@ -27,17 +28,21 @@ const Card = ({
           height={100}
         />
       </div>
-      <figcaption className="flex-1 bg-white p-8 rounded-b-[8px] flex flex-col gap-4">
+      <figcaption className="flex flex-1 flex-col gap-4 rounded-b-[8px] bg-white p-8">
         <h5 className="text-black">{title}</h5>
         <p className="flex-1">{description}</p>
-        <button className="flex items-center w-fit h-[3rem] gap-2 border-solid border-[2px] rounded-[5px] p-2 border-deep-blue text-deep-blue group transition-all duration-300 ease-in-out hover:bg-[#0C0C4F20]">
+        <Button
+          variant={"border-bold"}
+          size={"lg"}
+          className="group flex w-fit items-center gap-2"
+        >
           <a href={link} target="_blank" rel="noopener noreferrer">
             <span className="text-start">{button}</span>
           </a>
           <span className="text-sm transition-all duration-300 ease-in-out group-hover:-rotate-[20deg]">
             <RightArrow />
           </span>
-        </button>
+        </Button>
       </figcaption>
     </figure>
   );

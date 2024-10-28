@@ -1,6 +1,8 @@
+"use client";
 import { useState } from "react";
-import DownChevronIcon from "svg/DownChevronIcon";
+
 import { FAQs as FQAData } from "../../static";
+import { DownChevronIcon } from "@public/icons/icon";
 
 type Props = {
   id: string;
@@ -18,19 +20,19 @@ const Accordion = ({
   toggleAccordion,
 }: Props) => {
   return (
-    <div className="bg-[#F0F0F0] py-3 px-6 rounded-[8px]">
+    <div className="rounded-[8px] bg-[#F0F0F0] px-6 py-3">
       <button
         aria-expanded={currentAccordion === id}
         aria-label={`Toggle ${question} accordion`}
         onClick={() => toggleAccordion({ id: id })}
-        className="grid grid-cols-10 gap-8 justify-between items-center text-deep-blue w-full"
+        className="grid w-full grid-cols-10 items-center justify-between gap-8 text-deep-blue"
       >
-        <span className="inline-block col-span-8 text-start">{question}</span>
+        <span className="col-span-8 inline-block text-start">{question}</span>
         <div aria-hidden="true" className="col-span-2 flex justify-end">
           <span
-            className={`w-[2rem] h-[2rem] rounded-full bg-deep-blue text-white flex items-center justify-center transition-all duration-300 ease-in-out ${
+            className={`flex h-[2rem] w-[2rem] items-center justify-center rounded-full bg-deep-blue text-white transition-all duration-300 ease-in-out ${
               currentAccordion === id ? "rotate-180" : "rotate-[0deg]"
-            }  `}
+            } `}
           >
             <DownChevronIcon width="1.5em" height="1.5em" />
           </span>
@@ -44,19 +46,19 @@ const Accordion = ({
         }`}
       >
         <div className="overflow-hidden">
-          <div className="py-6 flex flex-col gap-2 ">
+          <div className="flex flex-col gap-2 py-6">
             {Array.isArray(answer) ? (
               <ul className="flex flex-col gap-2">
                 {answer.map((line, index) => (
                   <li key={index}>
-                    <p className="px-4 text-deep-blue border-l-solid border-l-[1px] border-l-[#7A7A7A]">
+                    <p className="border-l-solid border-l-[1px] border-l-[#7A7A7A] px-4 text-deep-blue">
                       {line}
                     </p>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="px-4 text-deep-blue border-l-solid border-l-[1px] border-l-[#7A7A7A]">
+              <p className="border-l-solid border-l-[1px] border-l-[#7A7A7A] px-4 text-deep-blue">
                 {answer}
               </p>
             )}
@@ -79,10 +81,10 @@ const FQAs = () => {
 
   return (
     <section className="container mx-auto flex flex-col gap-8 px-4 py-16 lg:p-16">
-      <h2 className="text-black text-center">
+      <h2 className="text-center text-black">
         Frequently Asked Questions (FAQs)
       </h2>
-      <section className=" mx-auto flex flex-col gap-4 md:w-[70%]">
+      <section className="mx-auto flex flex-col gap-4 md:w-[70%]">
         {FQAData.map((items) => {
           const { answer, id, question } = items;
 

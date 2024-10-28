@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IWalletModal } from "types";
 import { useConnect, Connector } from "@starknet-react/core";
-import WalletIcons from "../WalletIcon/page";
+import { WalletIcons } from "@public/icons/icon";
 
 export default function ConnectWallet({
   openWalletModal,
@@ -32,7 +32,7 @@ export default function ConnectWallet({
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center  justify-center p-4 text-center">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -54,14 +54,14 @@ export default function ConnectWallet({
                     if (connector.available()) {
                       return (
                         <div
-                          className="flex items-center border-b border-[#7d92b5] my-2 border-opacity-20 p-1 cursor-pointer justify-between"
+                          className="my-2 flex cursor-pointer items-center justify-between border-b border-[#7d92b5] border-opacity-20 p-1"
                           key={connector.id}
                         >
                           <button
-                            className="text-[#BEC9DA] w-full font-normal font-jakarta"
+                            className="font-jakarta w-full font-normal text-[#BEC9DA]"
                             onClick={() => connectWallet(connector)}
                           >
-                            <div className="flex">
+                            <div className="flex gap-2">
                               <WalletIcons id={connector.id} />
                               {`Connect ${connector.name}`}
                             </div>
@@ -70,7 +70,6 @@ export default function ConnectWallet({
                       );
                     }
                   })}
-
                 </Dialog.Panel>
               </Transition.Child>
             </div>

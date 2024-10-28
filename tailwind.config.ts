@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     screens: {
@@ -37,7 +38,9 @@ const config: Config = {
       colors: {
         "off-white": "#F6F6F6",
         "deep-blue": "#0C0C4F",
-        "bg-white": "#FAFAFA",
+        primary: "#FAFAFA",
+        "gray-50": "#eae9e9",
+        "box-shadow": "#EC796B33",
       },
     },
     transform: {

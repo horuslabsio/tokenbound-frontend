@@ -1,13 +1,16 @@
-"use client"
 import "./globals.css";
 import { Inter } from "next/font/google";
-import StarknetProvider from "@components/starknet-provider";
 import Navbar from "@components/navbar/Navbar";
 import Footer from "@components/footer/Footer";
-import {metadata} from "./metadata"
-import { TokenboundProvider } from "@hooks/useTokenboundHookContext";
+import { Metadata } from "next";
+import Providers from "@components/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Token Bound | Starknet",
+  description: "An implementation of ERC 6551 on Starknet",
+};
 
 export default function RootLayout({
   children,
@@ -16,15 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <StarknetProvider>
-        <TokenboundProvider>
-          <body className={inter.className}>
-            <Navbar />
-            {children}
-            <Footer />
-          </body>
-        </TokenboundProvider>
-      </StarknetProvider>
+      <Providers>
+        <body className={inter.className}>
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
+      </Providers>
     </html>
   );
 }

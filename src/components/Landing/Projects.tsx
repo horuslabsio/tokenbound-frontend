@@ -1,11 +1,12 @@
 import Image, { StaticImageData } from "next/image";
-import UpRightArrowIcon from "svg/UpRightArrowIcon";
+
 import blingImage from "../../../public/community/0.png";
 import unixImage from "../../../public/community/1.png";
 import runAwaysImage from "../../../public/community/2.png";
 import tokenGImage from "../../../public/community/3.png";
 import crowdPassImage from "../../../public/community/4.png";
 import carbonableImage from "../../../public/community/5.png";
+import { UpRightArrowIcon } from "@public/icons/icon";
 
 const Project = ({
   description,
@@ -25,19 +26,19 @@ const Project = ({
       target="_blank"
       rel="noopener noreferrer"
     >
-      <figure className="max-w-[436px] h-full flex flex-col max-h-[490px]">
+      <figure className="flex h-full max-h-[490px] max-w-[436px] flex-col">
         <div
-          className={`flex w-full rounded-t-[8px] items-center justify-center relative`}
+          className={`relative flex w-full items-center justify-center rounded-t-[8px]`}
         >
-          <Image className="rounded-t-[8px] h-full w-full" src={src} alt="" />
+          <Image className="h-full w-full rounded-t-[8px]" src={src} alt="" />
 
-          <span className="absolute bg-white rounded-full flex items-center right-[3%] top-[3%] p-2">
+          <span className="absolute right-[3%] top-[3%] flex items-center rounded-full bg-white p-2">
             <span className="inline-block transition-all duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-1">
               <UpRightArrowIcon />
             </span>
           </span>
         </div>
-        <figcaption className="flex-1 bg-white p-8 rounded-b-[8px] flex flex-col gap-4">
+        <figcaption className="flex flex-1 flex-col gap-4 rounded-b-[8px] bg-white p-8">
           <h5 className="text-black">{title}</h5>
           <p className="line-clamp-3 text-ellipsis">{description}</p>
         </figcaption>
@@ -48,12 +49,12 @@ const Project = ({
 
 const Projects = () => {
   return (
-    <section className="flex container mx-auto flex-col  gap-16  px-4 py-16 lg:p-16 ">
+    <section className="container mx-auto flex flex-col gap-16 px-4 py-16 lg:p-16">
       <div className="flex flex-col lg:flex-row">
-        <h2 className="text-black basis-1/2">Community projects</h2>
-        <div className="basis-1/2 flex justify-end items-center">
+        <h2 className="basis-1/2 text-black">Community projects</h2>
+        <div className="flex basis-1/2 items-center justify-end">
           <a
-            className="bg-[#EFEFEF] rounded-full p-3"
+            className="rounded-full bg-[#EFEFEF] p-3"
             href="https://docs.tbaexplorer.com/"
             target="_blank"
             rel="noopener noreferrer"
@@ -62,7 +63,7 @@ const Projects = () => {
           </a>
         </div>
       </div>
-      <div className="flex flex-col md:grid md:grid-cols-3 gap-8">
+      <div className="flex flex-col gap-8 md:grid md:grid-cols-3">
         <Project
           url="https://www.carbonable.io/"
           title="Carbonable"

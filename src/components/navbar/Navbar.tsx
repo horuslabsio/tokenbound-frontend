@@ -1,12 +1,17 @@
 "use client";
-import { useState } from "react";
-import { useAccount } from "@starknet-react/core";
+import { useEffect, useState } from "react";
+import { useAccount, useNetwork } from "@starknet-react/core";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
+import { usePathname, useRouter } from "next/navigation";
+import ConnectWallet from "@components/ConnectWallet/page";
 
 function Navbar() {
-  const { account } = useAccount();
-  // state for connectwallet component
+  const { account, isConnected } = useAccount();
+  const { chain } = useNetwork();
+  const { push } = useRouter();
+  const path = usePathname();
+
   const [isWalletOpen, setIsWalletOpen] = useState(false);
   function closeWalletModal() {
     setIsWalletOpen(false);
@@ -15,16 +20,38 @@ function Navbar() {
   function openWalletModal() {
     setIsWalletOpen(true);
   }
+
+  useEffect(() => {
+    if (chain.network === "sepolia") {
+      push("/");
+    }
+  }, [chain]);
+
+  useEffect(() => {
+    if (!isConnected && !account && path !== "/") {
+      setIsWalletOpen(true);
+    }
+  }, [isConnected, account]);
+
   return (
-    <header className="fixed z-[99] min-h-[4rem] w-screen px-8 py-3 flex items-center justify-between lg:block  bg-white">
-      <DesktopNav
-        account={account}
-        closeWalletModal={closeWalletModal}
-        isWalletOpen={isWalletOpen}
-        openWalletModal={openWalletModal}
-      />
-      <MobileNav account={account} openWalletModal={openWalletModal} />
-    </header>
+    <>
+      <header className="fixed z-[99] flex min-h-[4rem] w-screen items-center justify-between bg-white px-8 py-3 lg:block">
+        <DesktopNav
+          account={account}
+          closeWalletModal={closeWalletModal}
+          isWalletOpen={isWalletOpen}
+          openWalletModal={openWalletModal}
+        />
+        <MobileNav account={account} openWalletModal={openWalletModal} />
+      </header>
+      {!isConnected && !account && (
+        <ConnectWallet
+          isWalletOpen={isWalletOpen}
+          closeWalletModal={closeWalletModal}
+          openWalletModal={openWalletModal}
+        />
+      )}
+    </>
   );
 }
 
