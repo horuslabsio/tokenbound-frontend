@@ -10,13 +10,11 @@ const NFTCard = ({ nft }: NFTCard) => {
     router.push(`/asset/${nft?.collection_address}/${nft?.token_id}`);
   };
   return (
-    <div
-      className="h-[500px] w-full cursor-pointer overflow-hidden rounded-[8px] bg-white"
-      onClick={redirect}
-    >
+    <div className="h-[500px] w-full overflow-hidden rounded-[8px] bg-white">
       <img
-        className="h-[300px] w-full object-cover"
+        className="h-[300px] w-full cursor-pointer object-cover"
         src={nft?.metadata?.image}
+        onClick={redirect}
       />
       <div className="flex h-[219px] w-full flex-col gap-4 px-[28px] pt-6">
         <p className="text-2xl font-medium text-[#0A0A0A]">

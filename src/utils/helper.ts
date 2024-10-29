@@ -1,4 +1,5 @@
 import axios from "axios";
+import confetti from "canvas-confetti";
 
 export const shortenAddress = (address: string) => {
   if (!address) return null;
@@ -52,3 +53,13 @@ export const instance = axios.create({
     "x-api-key": process.env.NEXT_PUBLIC_ARK_API_KEY,
   },
 });
+
+
+export function launchConfetti() {
+  confetti({
+    origin: { y: 0.7 },
+    spread: 100,
+    startVelocity: 55,
+    particleCount: Math.floor(200 * 0.5),
+  });
+}

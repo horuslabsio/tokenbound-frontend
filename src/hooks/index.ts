@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { instance } from "@utils/helper";
+import { instance, launchConfetti } from "@utils/helper";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import {
   raw,
@@ -13,7 +13,7 @@ import { TokenboundClient } from "starknet-tokenbound-sdk";
 import { Chain } from "@starknet-react/chains";
 import { AccountClassHashes } from "@utils/constants";
 import { useTokenBoundSDK } from "./useTokenboundHookContext";
-import confetti from "canvas-confetti";
+
 
 export const useTBAAsset = (tokenBoundAddress: string) => {
   const { address } = useAccount();
@@ -50,15 +50,7 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
   };
 };
 
-// Confetti
-function launchConfetti() {
-  confetti({
-    origin: { y: 0.7 },
-    spread: 100,
-    startVelocity: 55,
-    particleCount: Math.floor(200 * 0.5),
-  });
-}
+
 
 export const useDeployAccount = ({
   contractAddress,

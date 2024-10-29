@@ -14,7 +14,6 @@ import Link from "next/link";
 import { NewTbaIcon } from "@public/icons/icon";
 import Portfolio from "./components/Portfolio";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
-import { Tooltip } from "ui/tooltip";
 import { CopyButton } from "ui/CopyButton";
 import { Button } from "ui/button";
 import Spinner from "ui/Spinner";
@@ -186,16 +185,12 @@ function Assets() {
             <div className="flex gap-4">
               <div>
                 <div className="flex items-center rounded-[6px] bg-gray-50 text-sm">
-                  <Tooltip message="Click to copy">
-                    <CopyButton
-                      className="px-2 py-3 text-center"
-                      textToCopy={
-                        activeVersion?.address
-                          ? activeVersion.address
-                          : v3Address
-                      }
-                    />
-                  </Tooltip>
+                  <CopyButton
+                    className="px-2 py-3 text-center"
+                    textToCopy={
+                      activeVersion?.address ? activeVersion.address : v3Address
+                    }
+                  />
                   <Link
                     href={`${
                       chain.network === "mainnet"

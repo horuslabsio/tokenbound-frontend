@@ -1,30 +1,11 @@
 import { useAccount, useNetwork } from "@starknet-react/core";
 import { TokenboundClient } from "starknet-tokenbound-sdk";
 import { useState, ReactNode, createContext, useEffect } from "react";
+import { TokenboundContextType } from "../types";
 
-interface TokenboundType {
-  tokenboundV3: TokenboundClient | undefined;
-  tokenboundV2: TokenboundClient | undefined;
-  activeVersion: {
-    version: "V3" | "V2" | "undeployed";
-    address: string;
-  } | null;
-  setVersion: React.Dispatch<
-    React.SetStateAction<{
-      v2: {
-        address: string;
-        status: boolean;
-      };
-      v3: {
-        address: string;
-        status: boolean;
-      };
-    }>
-  >;
-}
-export const TokenboundContext = createContext<TokenboundType | undefined>(
-  undefined
-);
+export const TokenboundContext = createContext<
+  TokenboundContextType | undefined
+>(undefined);
 
 interface TokenboundProviderProps {
   children: ReactNode;
