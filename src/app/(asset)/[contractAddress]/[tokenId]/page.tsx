@@ -7,7 +7,7 @@ import {
   useUpgradeAccount,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
-import { useAccount, useNetwork } from "@starknet-react/core";
+import { useNetwork } from "@starknet-react/core";
 import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";

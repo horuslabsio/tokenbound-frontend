@@ -20,7 +20,7 @@ const Portfolio = ({
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible);
   };
-  const { refreshMetadata, loading, success, showSuccess } = useRefreshMetadata(
+  const { refreshMetadata, loading, success } = useRefreshMetadata(
     contractAddress,
     tokenId
   );
@@ -67,9 +67,9 @@ const Portfolio = ({
           >
             Refresh metadata
           </Button>
-          {showSuccess ? (
-            <p className="absolute rounded-lg bg-blue-500 pl-1 pr-1 text-xs text-white transition duration-300 ease-in-out">
-              {success?.data.result}
+          {success ? (
+            <p className="absolute grid h-full w-full place-content-start rounded-lg bg-blue-500 pl-1 pr-1 text-xs text-white transition duration-300 ease-in-out">
+              <span>{success}</span>
             </p>
           ) : (
             ""

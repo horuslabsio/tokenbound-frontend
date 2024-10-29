@@ -46,7 +46,7 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
           </span>
         </button>
 
-        <Link href={`/wallet/${address}`}>
+        <Link href={`/collections/${address}`}>
           <button
             onClick={closeModal}
             className="my-2 h-[3rem] w-full rounded-[8px] bg-deep-blue px-4 text-white"
