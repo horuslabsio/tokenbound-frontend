@@ -1,24 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { FaCheck } from "react-icons/fa";
-import { LuChevronsUpDown } from "react-icons/lu";
-
-import { useNetwork } from "@starknet-react/core";
-import { Button } from "../components/utils/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "../components/utils/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/utils/popover";
-import { cn } from "../lib/utils";
+import { useAccount, useNetwork } from "@starknet-react/core";
+import { Command, CommandGroup, CommandItem } from "../ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { useRouter, usePathname } from "next/navigation";
+import { CheckIcon, SwitchIcon } from "@public/icons";
+import { useEffect, useState } from "react";
+import { Button } from "ui/button";
 
 const NETWORK_MAPPING: { [key: string]: string } = {
   mainnet: "SN_MAIN",
@@ -38,8 +26,13 @@ const networks = [
 
 export function NetworkSwitcher() {
   const { chain } = useNetwork();
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [selectedNetwork, setSelectedNetwork] = React.useState(
+  const { address } = useAccount();
+
+  const { push } = useRouter();
+  const path = usePathname();
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [selectedNetwork, setSelectedNetwork] = useState(
     NETWORK_MAPPING[chain.network]
   );
   const switchNetwork = async (newNetworkId: string, networkLabel: string) => {
@@ -48,16 +41,17 @@ export function NetworkSwitcher() {
         type: "wallet_switchStarknetChain",
         params: { chainId: newNetworkId },
       });
-
-      console.log(`Switched to network ${networkLabel}`);
       setSelectedNetwork(newNetworkId);
+      if (path.startsWith("/asset")) {
+        push(`/wallet/${address}`);
+      }
     } catch (error) {
       console.error("Failed to switch networks:", error);
     }
   };
 
   // Update selectedNetwork when chain.network changes
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedNetwork(NETWORK_MAPPING[chain.network]);
   }, [chain.network]);
 
@@ -68,20 +62,20 @@ export function NetworkSwitcher() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] h-[3rem] justify-between"
+          className="h-[3rem] w-[200px] justify-between"
         >
           {selectedNetwork
             ? networks.find((network) => network.value === selectedNetwork)
                 ?.label
             : "Select Network..."}
-          <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <span className="ml-2 h-4 w-4 shrink-0 opacity-50">
+            <SwitchIcon />
+          </span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search network..." />
-          <CommandEmpty>No network found.</CommandEmpty>
-          <CommandGroup>
+      <PopoverContent className="z-50 w-[200px] p-0">
+        <Command className="">
+          <CommandGroup className="min-h-[4.3rem]">
             {networks.map((network) => (
               <CommandItem
                 key={network.value}
@@ -90,16 +84,18 @@ export function NetworkSwitcher() {
                   switchNetwork(network.value, network.label);
                   setOpen(false);
                 }}
+                className="cursor-pointer hover:bg-[#0C0C4F20]"
               >
-                <FaCheck
-                  className={cn(
-                    "mr-2 h-4 w-4",
+                <span
+                  className={`h-4 w-4 ${
                     selectedNetwork === network.value
                       ? "opacity-100"
                       : "opacity-0"
-                  )}
-                />
-                {network.label}
+                  }`}
+                >
+                  <CheckIcon />
+                </span>
+                <span>{network.label}</span>
               </CommandItem>
             ))}
           </CommandGroup>

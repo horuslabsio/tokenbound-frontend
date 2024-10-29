@@ -1,10 +1,8 @@
 "use client";
+import { GithubIcon, SendIcon, XIcon } from "@public/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import GithubIcon from "svg/GithubIcon";
-import SendIcon from "svg/SendIcon";
-import XIcon from "svg/XIcon";
 
 const Footer = () => {
   const [year, setYear] = useState<number>(2024);
