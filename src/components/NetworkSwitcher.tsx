@@ -4,7 +4,7 @@ import { useAccount, useNetwork } from "@starknet-react/core";
 import { Command, CommandGroup, CommandItem } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useRouter, usePathname } from "next/navigation";
-import { CheckIcon, SwitchIcon } from "@public/icons/icon";
+import { CheckIcon, SwitchIcon } from "@public/icons";
 import { useEffect, useState } from "react";
 import { Button } from "ui/button";
 

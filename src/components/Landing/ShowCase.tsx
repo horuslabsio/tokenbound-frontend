@@ -1,4 +1,4 @@
-import { RightArrow } from "@public/icons/icon";
+import { RightArrow } from "@public/icons";
 import Image from "next/image";
 import { Button } from "ui/button";
 

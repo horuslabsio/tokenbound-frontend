@@ -6,7 +6,7 @@ import runAwaysImage from "../../../public/community/2.png";
 import tokenGImage from "../../../public/community/3.png";
 import crowdPassImage from "../../../public/community/4.png";
 import carbonableImage from "../../../public/community/5.png";
-import { UpRightArrowIcon } from "@public/icons/icon";
+import { UpRightArrowIcon } from "@public/icons";
 
 const Project = ({
   description,

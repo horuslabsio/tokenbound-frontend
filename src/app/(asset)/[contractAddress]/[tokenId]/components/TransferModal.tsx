@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
-import { CheckIcon, XIcon } from "@public/icons/icon";
+import { CheckIcon, XIcon } from "@public/icons";
 import { Modal } from "ui/Modal";
 import Spinner from "ui/Spinner";
 

@@ -11,7 +11,7 @@ import { useNetwork } from "@starknet-react/core";
 import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";
-import { NewTbaIcon } from "@public/icons/icon";
+import { NewTbaIcon } from "@public/icons";
 import Portfolio from "./components/Portfolio";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 import { CopyButton } from "ui/CopyButton";

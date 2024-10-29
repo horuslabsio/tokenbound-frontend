@@ -1,5 +1,5 @@
 "use client";
-import { CoinsIcon, GemIcon } from "@public/icons/icon";
+import { CoinsIcon, GemIcon } from "@public/icons";
 import { useState } from "react";
 import NonFungibleAsset from "./NonFungibleAsset";
 import FungibleAsset from "./FungibleAsset";

@@ -1,6 +1,6 @@
 import { forwardRef, useState } from "react";
 import { copyToClipBoard } from "@utils/helper";
-import { CopyCheckIcon, CopyIcon } from "@public/icons/icon";
+import { CopyCheckIcon, CopyIcon } from "@public/icons";
 import { Tooltip } from "./tooltip";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
