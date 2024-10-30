@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 export const shortenAddress = (address: string) => {
   if (!address) return null;
@@ -43,21 +42,4 @@ export const copyToClipBoard = (text: string) => {
       console.error(err);
       return false;
     });
-};
-
-export const instance = axios.create({
-  headers: {
-    accept: "application/json",
-    "x-api-key": process.env.NEXT_PUBLIC_ARK_API_KEY,
-  },
-});
-
-export const copyToClipBoardHandler = async (text: string) => {
-  const success = await copyToClipBoard(text);
-  if (success) {
-    toast.info("Copied to clipboard");
-    console.log("hello");
-  } else {
-    toast.error("Not Copied");
-  }
 };

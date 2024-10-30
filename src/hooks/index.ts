@@ -1,125 +1,34 @@
 import { useState, useEffect } from "react";
-import { instance } from "@utils/helper";
 import { useAccount, useNetwork } from "@starknet-react/core";
-import { IAccountParam, raw, TokenInfo } from "types";
+import {
+  IAccountParam,
+  TokensApiResponse,
+  WalletTokensApiResponse,
+} from "types";
 import { num } from "starknet";
-import { TBAcontractAddress, TBAcontractAddress_SEPOLIA, TBAImplementationAccount, TBAImplementationAccount_SEPOLIA } from "@utils/constants";
+import {
+  TBAcontractAddress,
+  TBAcontractAddress_SEPOLIA,
+  TBAImplementationAccount,
+  TBAImplementationAccount_SEPOLIA,
+} from "@utils/constants";
 import { TokenboundClient } from "starknet-tokenbound-sdk";
 import axios from "axios";
-
-
-export const useFetchUserNFT = () => {
-  const { address } = useAccount();
-  const [nft, setNft] = useState<TokenInfo[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
- const {chain} = useNetwork()
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!address) {
-          console.error("Address is undefined. Unable to make the request.");
-          setLoading(false);
-          return;
-        }
-        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${address}/tokens`;
-        const response = await instance.get(url);
-        const { data } = await response;
-        setNft(data?.result);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user NFT:", error);
-        setLoading(false);
-      }
-    };
-    if (address) {
-      fetchData();
-    }
-  }, [address,chain]); // Execute the effect when address changes
-
-  return {
-    nft,
-    loading,
-  };
-};
-
-export const useFetchNFTMetadata = (address: string, id: string) => {
-  const [nft, setNft] = useState<raw>({ name: "", description: "", image: "" });
-  const [loading, setLoading] = useState<boolean>(true);
-  const {chain} = useNetwork()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!address) {
-          console.error("Address is undefined. Unable to make the request.");
-          setLoading(false);
-          return;
-        }
-        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/tokens/${address}/${id}`;
-
-        const response = await instance.get(url);
-        const { data } = await response;
-        setNft(data?.result?.metadata?.normalized);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user NFT:", error);
-        setLoading(false);
-      }
-    };
-    if (address) {
-      fetchData();
-    }
-  }, [address,chain]);
-
-  return {
-    nft,
-    loading,
-  };
-};
-
-export const useTBAAsset = (tokenBoundAddress: string) => {
-  const { address } = useAccount();
-  const [tbanft, setTbaNft] = useState<TokenInfo[]>([]);
-  const [loadingTba, setTbaLoading] = useState<boolean>(true);
-const {chain} = useNetwork()
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!tokenBoundAddress) {
-          console.error("Address is undefined. Unable to make the request.");
-          setTbaLoading(false);
-          return;
-        }
-
-        const url = `https://${chain.network === 'mainnet'? process.env.NEXT_PUBLIC_NETWORK_MAINNET :process.env.NEXT_PUBLIC_NETWORK_SEPOLIA}/v1/owners/${tokenBoundAddress}/tokens`;
-        const response = await instance.get(url);
-        const { data } = await response;
-        console.log('data:',data.result)
-        setTbaNft(data?.result);
-        setTbaLoading(false);
-      } catch (error) {
-        console.error("Error fetching user NFT:", error);
-        setTbaLoading(false);
-      }
-    };
-    if (address) {
-      fetchData();
-    }
-  }, [address, tokenBoundAddress,chain]); // Execute the effect when address changes
-
-  return {
-    tbanft,
-    loadingTba,
-  };
-};
+import { Chain } from "@starknet-react/chains";
 
 export const useTokenBoundSDK = () => {
   const { account } = useAccount();
-  const {chain} = useNetwork()
+  const { chain } = useNetwork();
   const options = {
     account: account,
-    registryAddress:  chain.network === 'mainnet'? TBAcontractAddress : TBAcontractAddress_SEPOLIA,
-    implementationAddress: chain.network === 'mainnet'? TBAImplementationAccount : TBAImplementationAccount_SEPOLIA,
+    registryAddress:
+      chain.network === "mainnet"
+        ? TBAcontractAddress
+        : TBAcontractAddress_SEPOLIA,
+    implementationAddress:
+      chain.network === "mainnet"
+        ? TBAImplementationAccount
+        : TBAImplementationAccount_SEPOLIA,
     jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
   };
 
@@ -137,7 +46,7 @@ export const useGetAccountAddress = ({
 }: IAccountParam) => {
   const { tokenbound } = useTokenBoundSDK();
   const { account } = useAccount();
-  const {chain} = useNetwork()
+  const { chain } = useNetwork();
   const [deployedAddress, setDeployedAddress] = useState<string>("");
 
   useEffect(() => {
@@ -153,22 +62,29 @@ export const useGetAccountAddress = ({
       }
     };
     getAccountAddress();
-  }, [account, contractAddress, tokenId,chain]);
+  }, [account, contractAddress, tokenId, chain]);
 
   return {
     deployedAddress,
   };
 };
 
-type RefreshType = {
-  status:number,
-  data:{result:string}
-}
-
-const useRefreshMetadata = (contractAddress:string, tokenId:string) => {
+export const useRefreshMetadata = (
+  contractAddress: string,
+  tokenId: string
+) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<RefreshType>({status:0, data:{result:""}});
-  const { chain } = useNetwork();
+  const [success, setSuccess] = useState<string>("");
+
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
 
   const refreshMetadata = async () => {
     if (!contractAddress) {
@@ -176,25 +92,24 @@ const useRefreshMetadata = (contractAddress:string, tokenId:string) => {
       setLoading(false);
       return;
     }
-    setLoading(true);
     try {
-      const url = `https://${
-        chain.network === "mainnet"
-          ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
-          : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
-      }/v1/tokens/${contractAddress}/${tokenId}/metadata/refresh`;
-      const result: string = await axios.post(url, {}, {
+      setLoading(true);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_MARKETPLACE_API_URL}/metadata/refresh`,
+        {
+          contract_address: contractAddress,
+          token_id: tokenId,
+        },
+        {
           headers: {
-            accept: "application/json",
-            "x-api-key": process.env.NEXT_PUBLIC_ARK_API_KEY,
+            accept: "text/plain",
+            "Content-Type": "application/json",
           },
-          withCredentials: false,
-
-      });
-      // @ts-ignore
-      setSuccess(result);
+        }
+      );
+      setSuccess(response.data.message);
     } catch (error) {
-      console.error("Error fetching user NFT:", error);
+      console.error("Error refreshing metadata:", error);
     } finally {
       setLoading(false);
     }
@@ -203,4 +118,53 @@ const useRefreshMetadata = (contractAddress:string, tokenId:string) => {
   return { loading, success, refreshMetadata };
 };
 
-export default useRefreshMetadata;
+export const getWalletNft = async ({
+  walletAddress,
+  page,
+}: {
+  walletAddress: string;
+  page?: number;
+}) => {
+  const url = `${
+    process.env.NEXT_PUBLIC_MARKETPLACE_API_URL
+  }/portfolio/${walletAddress}${page ? `?page=${page}` : ""}`;
+  const response = await fetch(url);
+  const data = (await response.json()) as WalletTokensApiResponse;
+  if (!response.ok) {
+    console.error(url, response.status);
+    return {
+      data: [],
+      next_page: null,
+      collection_count: 0,
+      token_count: 0,
+    };
+  }
+  return data;
+};
+
+export const getNftToken = async ({
+  contractAddress,
+  tokenId,
+  chain,
+}: {
+  contractAddress: string;
+  tokenId: string;
+  chain: Chain;
+}) => {
+  const chainId =
+    chain.network === "mainnet" ? "0x534e5f4d41494e" : "0x534e5f5345504f4c4941";
+  const url = `${process.env.NEXT_PUBLIC_MARKETPLACE_API_URL}/tokens/${contractAddress}/${chainId}/${tokenId}`;
+  const response = await fetch(url);
+  const data = (await response.json()) as TokensApiResponse;
+
+  if (!response.ok) {
+    console.error(url, response.status);
+    return {
+      data: [],
+      next_page: null,
+      collection_count: 0,
+      token_count: 0,
+    };
+  }
+  return data;
+};

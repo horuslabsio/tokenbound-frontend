@@ -5,7 +5,6 @@ import { Dialog, Transition } from "@headlessui/react";
 
 import { AccountInterface } from "starknet";
 import { Anchor } from "./DropDown";
-import SearchNFT from "./SearchNFT";
 import NetworkSwitcher from "@components/NetworkSwitcher";
 const MobileNav = ({
   account,
@@ -31,13 +30,13 @@ const MobileNav = ({
         className="flex flex-col gap-2"
       >
         <div
-          className={`w-[2em] h-[2px] bg-[#393838] rounded-full transition-all duration-300 ease-in-out ${
-            isOpen ? "rotate-45 translate-y-[.5em]" : "transform-none"
+          className={`h-[2px] w-[2em] rounded-full bg-[#393838] transition-all duration-300 ease-in-out ${
+            isOpen ? "translate-y-[.5em] rotate-45" : "transform-none"
           } `}
         ></div>
         <div
-          className={`w-[2em] h-[2px] bg-[#393838] rounded-full transition-all duration-300 ease-in-out ${
-            isOpen ? "rotate-[-45deg] translate-y-[-.2em]" : "transform-none"
+          className={`h-[2px] w-[2em] rounded-full bg-[#393838] transition-all duration-300 ease-in-out ${
+            isOpen ? "translate-y-[-.2em] rotate-[-45deg]" : "transform-none"
           } `}
         ></div>
       </button>
@@ -45,7 +44,7 @@ const MobileNav = ({
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10 block  lg:hidden "
+          className="relative z-10 block lg:hidden"
           onClose={closeMenu}
         >
           <Transition.Child
@@ -61,7 +60,7 @@ const MobileNav = ({
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="items-center justify-center  text-center">
+            <div className="items-center justify-center text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -71,36 +70,36 @@ const MobileNav = ({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full  transform overflow-hidden rounded-sm bg-white p-3 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full transform overflow-hidden rounded-sm bg-white p-3 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 flex justify-end text-gray-900"
+                    className="flex justify-end text-lg font-medium leading-6 text-gray-900"
                   >
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium text-blue-900 "
+                      className="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-blue-900"
                       onClick={closeMenu}
                     >
                       <div
-                        className={`w-[2em] h-[2px] bg-[#393838] rounded-full transition-all duration-300 ease-in-out ${
+                        className={`h-[2px] w-[2em] rounded-full bg-[#393838] transition-all duration-300 ease-in-out ${
                           isOpen
-                            ? "rotate-45 translate-y-[.5em]"
+                            ? "translate-y-[.5em] rotate-45"
                             : "transform-none"
                         } `}
                       ></div>
                       <div
-                        className={`w-[2em] h-[2px] bg-[#393838] rounded-full transition-all duration-300 ease-in-out ${
+                        className={`h-[2px] w-[2em] rounded-full bg-[#393838] transition-all duration-300 ease-in-out ${
                           isOpen
-                            ? "rotate-[-45deg] translate-y-[-.2em]"
+                            ? "translate-y-[-.2em] rotate-[-45deg]"
                             : "transform-none"
                         } `}
                       ></div>
                     </button>
                   </Dialog.Title>
 
-                  <div className="mt-8 p-4 flex flex-col gap-8">
+                  <div className="mt-8 flex flex-col gap-8 p-4">
                     <nav>
-                      <ul className="flex flex-wrap md:none lg:none items-center gap-6">
+                      <ul className="md:none lg:none flex flex-wrap items-center gap-6">
                         {learningLinks.map((item, idx) => (
                           <Anchor
                             key={idx}
@@ -119,13 +118,12 @@ const MobileNav = ({
                         ))}
                       </ul>
                     </nav>
-                    <SearchNFT />
                     <NetworkSwitcher />
                     <div>
                       {!account ? (
                         <button
                           onClick={openWalletModal}
-                          className="xsm:w-[90%] w-[14rem] bg-deep-blue text-white px-4 py-4 rounded-lg"
+                          className="w-[14rem] rounded-lg bg-deep-blue px-4 py-4 text-white xsm:w-[90%]"
                           type="button"
                         >
                           Connect Wallet
