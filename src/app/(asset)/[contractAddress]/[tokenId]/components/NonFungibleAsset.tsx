@@ -95,19 +95,21 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
             <p className="mt-8 text-red-500">No NFT Asset yet</p>
           )}
           {hasNextPage && (
-            <Button
-              size={"sm"}
-              variant={"border-thin"}
-              onClick={() => fetchNextPage()}
-              disabled={!hasNextPage || isFetchingNextPage}
-              className="mx-auto my-8"
-            >
-              {isFetchingNextPage
-                ? "Loading more..."
-                : hasNextPage
-                  ? "Load More"
-                  : "Nothing more to load"}
-            </Button>
+            <div className="grid w-full place-content-center">
+              <Button
+                size={"sm"}
+                variant={"border-thin"}
+                onClick={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetchingNextPage}
+                className="mx-auto my-8"
+              >
+                {isFetchingNextPage
+                  ? "Loading more..."
+                  : hasNextPage
+                    ? "Load More"
+                    : "Nothing more to load"}
+              </Button>
+            </div>
           )}
         </>
       )}
