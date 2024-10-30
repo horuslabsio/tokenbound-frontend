@@ -1,3 +1,5 @@
+import { TokenboundClient } from "starknet-tokenbound-sdk";
+
 export interface INavBarType {
   title: string;
   url: string;
@@ -107,4 +109,25 @@ export interface TokensApiResponse {
   data: WalletToken;
   next_page: number | null;
   token_count: number;
+}
+
+export interface TokenboundContextType {
+  tokenboundV3: TokenboundClient | undefined;
+  tokenboundV2: TokenboundClient | undefined;
+  activeVersion: {
+    version: "V3" | "V2" | "undeployed";
+    address: string;
+  } | null;
+  setVersion: React.Dispatch<
+    React.SetStateAction<{
+      v2: {
+        address: string;
+        status: boolean;
+      };
+      v3: {
+        address: string;
+        status: boolean;
+      };
+    }>
+  >;
 }

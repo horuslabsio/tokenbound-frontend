@@ -3,7 +3,7 @@ import { useAccount, useDisconnect } from "@starknet-react/core";
 import React, { useState } from "react";
 import { copyToClipBoard } from "@utils/helper";
 import Link from "next/link";
-import { CopyCheckIcon, CopyIcon } from "@public/icons/icon";
+import { CopyCheckIcon, CopyIcon } from "@public/icons";
 
 const Profile = ({ closeModal }: { closeModal: () => void }) => {
   const [copied, setCopied] = useState(false);
@@ -46,7 +46,7 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
           </span>
         </button>
 
-        <Link href={`/wallet/${address}`}>
+        <Link href={`/collections/${address}`}>
           <button
             onClick={closeModal}
             className="my-2 h-[3rem] w-full rounded-[8px] bg-deep-blue px-4 text-white"

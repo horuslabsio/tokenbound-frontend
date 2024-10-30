@@ -1,5 +1,5 @@
 "use client";
-import { GithubIcon, SendIcon, TwitterIcon } from "@public/icons/icon";
+import { GithubIcon, SendIcon, TwitterIcon } from "@public/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";

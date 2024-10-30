@@ -8,7 +8,7 @@ import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
 import NetworkSwitcher from "@components/NetworkSwitcher";
-import { DownChevronIcon } from "@public/icons/icon";
+import { DownChevronIcon } from "@public/icons";
 import { Button } from "ui/button";
 
 const DesktopNav = ({

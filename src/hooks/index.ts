@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { instance } from "@utils/helper";
+import { instance, launchConfetti } from "@utils/helper";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import {
   raw,
@@ -13,7 +13,6 @@ import { TokenboundClient } from "starknet-tokenbound-sdk";
 import { Chain } from "@starknet-react/chains";
 import { AccountClassHashes } from "@utils/constants";
 import { useTokenBoundSDK } from "./useTokenboundHookContext";
-import confetti from "canvas-confetti";
 
 export const useTBAAsset = (tokenBoundAddress: string) => {
   const { address } = useAccount();
@@ -49,16 +48,6 @@ export const useTBAAsset = (tokenBoundAddress: string) => {
     loadingTba,
   };
 };
-
-// Confetti
-function launchConfetti() {
-  confetti({
-    origin: { y: 0.7 },
-    spread: 100,
-    startVelocity: 55,
-    particleCount: Math.floor(200 * 0.5),
-  });
-}
 
 export const useDeployAccount = ({
   contractAddress,
@@ -131,30 +120,17 @@ export const useUpgradeAccount = ({
   return { upgradeAccount, upgradeStatus };
 };
 
-type RefreshType = {
-  status: number;
-  data: { result: string };
-};
-
 export const useRefreshMetadata = (
   contractAddress: string,
   tokenId: string
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<RefreshType>({
-    status: 0,
-    data: { result: "" },
-  });
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const { chain } = useNetwork();
+  const [success, setSuccess] = useState<string>("");
 
   useEffect(() => {
-    if (success?.status === 200) {
-      setShowSuccess(true);
-
+    if (success) {
       const timer = setTimeout(() => {
-        setShowSuccess(false);
+        setSuccess("");
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -162,36 +138,37 @@ export const useRefreshMetadata = (
   }, [success]);
 
   const refreshMetadata = async () => {
-    setLoading(true);
+    if (!contractAddress) {
+      console.error("Address is undefined. Unable to make the request.");
+      setLoading(false);
+      return;
+    }
     try {
-      const url = `https://${
-        chain.network === "mainnet"
-          ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
-          : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
-      }/v1/tokens/${contractAddress}/${tokenId}/metadata/refresh`;
-      const result: string = await axios.post(
-        url,
-        {},
+      setLoading(true);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_MARKETPLACE_API_URL}/metadata/refresh`,
+        {
+          contract_address: contractAddress,
+          token_id: tokenId,
+        },
         {
           headers: {
-            accept: "application/json",
-            "x-api-key": process.env.NEXT_PUBLIC_ARK_API_KEY,
+            accept: "text/plain",
+            "Content-Type": "application/json",
           },
-          withCredentials: false,
         }
       );
-      // @ts-ignore
-      setSuccess(result);
+      setSuccess(response.data.message);
     } catch (error) {
       if (process.env.NODE_ENV !== "production") {
-        console.error("Error fetching user NFT:", error);
+        console.error("Error refreshing metadata:", error);
       }
     } finally {
       setLoading(false);
     }
   };
 
-  return { loading, success, refreshMetadata, showSuccess };
+  return { loading, success, refreshMetadata };
 };
 
 export const useGetTbaAddress = ({

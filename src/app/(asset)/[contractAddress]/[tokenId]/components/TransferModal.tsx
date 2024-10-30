@@ -1,38 +1,56 @@
+import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
-import { CheckIcon, XIcon } from "@public/icons/icon";
+import { CheckIcon, XIcon } from "@public/icons";
 import { Modal } from "ui/Modal";
 import Spinner from "ui/Spinner";
 
 type Props = {
   openModal: boolean;
   closeModal: () => void;
+  abbreviation: string;
+  name: string;
+  balance: string;
+  src: string;
   tokenBoundAddress: string;
   contractAddress: string;
-  tokenId: string;
+  decimal: number;
 };
 
-const TransferNftModal = ({
+const TransferModal = ({
   closeModal,
   openModal,
+  balance,
+  name,
   tokenBoundAddress,
+  abbreviation,
+  src,
   contractAddress,
-  tokenId,
+  decimal,
 }: Props) => {
-  const { tokenboundV2, tokenboundV3, activeVersion } = useTokenBoundSDK();
   const [transferDetails, setTransferDetails] = useState({
     recipientWalletAddress: "",
+    amount: "",
   });
-
   const [tokenTransferredSuccessfully, setTokenTransferredSuccessfully] =
     useState<boolean | null>(null);
   const [disableSendBtn, setDisableSendBtn] = useState("enableButton");
+  const { tokenboundV2, tokenboundV3, activeVersion } = useTokenBoundSDK();
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     let newValue = value;
-    if (name === "recipientWalletAddress") {
-      if (value === "" && transferDetails.recipientWalletAddress === "") {
-        newValue = "0x";
+    if (name === "amount") {
+      const enteredAmount = parseFloat(value);
+      if (value === "." && transferDetails.amount === "") {
+        newValue = "0.";
+      } else if (isNaN(enteredAmount)) {
+        newValue = "";
+      } else {
+        const availableBalance = parseFloat(balance);
+        if (enteredAmount > availableBalance) {
+          newValue = balance.toString();
+        }
       }
     }
 
@@ -43,32 +61,36 @@ const TransferNftModal = ({
   };
   const closeTransferModal = () => {
     closeModal();
+    setTransferDetails({
+      amount: "",
+      recipientWalletAddress: "",
+    });
+    setTokenTransferredSuccessfully(null);
   };
-  const transferNFTAssets = async () => {
+
+  const transferERC20Assets = async () => {
     const tokenbound =
       activeVersion?.version === "V2" ? tokenboundV2 : tokenboundV3;
     try {
       if (tokenbound) {
         setTokenTransferredSuccessfully(false);
-        const status = await tokenbound.transferNFT({
+        const status = await tokenbound.transferERC20({
           tbaAddress: tokenBoundAddress,
           contractAddress: contractAddress,
-          tokenId: tokenId,
-          sender: tokenBoundAddress,
           recipient: transferDetails.recipientWalletAddress,
+          amount: (+transferDetails.amount * decimal).toString(),
         });
         setTokenTransferredSuccessfully(status);
-        console.log("transferStat", status);
       }
     } catch (error) {
       if (process.env.NODE_ENV !== "production") {
-        console.log("there was an error transferring the assets", error);
+        console.log("there was an error transferring the assets:", error);
       }
     }
   };
 
   useEffect(() => {
-    if (!transferDetails.recipientWalletAddress) {
+    if (!transferDetails.amount || !transferDetails.recipientWalletAddress) {
       setDisableSendBtn("disableButton");
     } else {
       setDisableSendBtn("enableButton");
@@ -79,7 +101,7 @@ const TransferNftModal = ({
   }, [tokenTransferredSuccessfully, transferDetails]);
 
   return (
-    <Modal type="nft" closeModal={closeTransferModal} openModal={openModal}>
+    <Modal type="erc20" closeModal={closeTransferModal} openModal={openModal}>
       <>
         {tokenTransferredSuccessfully ? (
           <div className="flex flex-col items-center justify-center gap-8">
@@ -112,12 +134,31 @@ const TransferNftModal = ({
               <div>
                 <h4 className="mb-2 text-[1em]">Asset</h4>
                 <div className="flex flex-wrap justify-between gap-2">
-                  <div className="flex flex-wrap items-center gap-4"></div>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <div className="h-[2.2rem] w-[2.2rem] rounded-full">
+                      <Image
+                        alt=""
+                        src={src}
+                        width={10}
+                        height={10}
+                        className="rounded-full"
+                      />
+                    </div>
+                    <div>
+                      <p className="uppercase">{abbreviation}</p>
+                      <p className="text-[.875em] text-[#5a5a5a]">{name}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div>
+                      <p>{balance}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
               <form className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="walletAddress">Recipient Address</label>
+                  <label htmlFor="walletAddress">Wallet Address</label>
                   <input
                     required
                     type="text"
@@ -129,12 +170,24 @@ const TransferNftModal = ({
                     className="rounded-[8px] border-[1px] border-solid border-[#7A7A7A] p-[.8rem]"
                   />
                 </div>
-
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="amount">Amount</label>
+                  <input
+                    required
+                    className="rounded-[8px] border-[1px] border-solid border-[#7A7A7A] p-[.8rem]"
+                    type="text"
+                    id="amount"
+                    name="amount"
+                    value={transferDetails.amount}
+                    onChange={handleInputChange}
+                    placeholder="Enter Amount"
+                  />
+                </div>
                 <button
                   disabled={disableSendBtn === "disableButton"}
                   onClick={(e) => {
                     e.preventDefault();
-                    transferNFTAssets();
+                    transferERC20Assets();
                   }}
                   className={`w-full rounded-[8px] bg-deep-blue p-[.8rem] text-white ${
                     disableSendBtn === "disableButton"
@@ -160,4 +213,4 @@ const TransferNftModal = ({
   );
 };
 
-export default TransferNftModal;
+export default TransferModal;
