@@ -30,7 +30,8 @@ yarn dev
 
 ### Explorer Preview
 *Explorer Preview.*
-![Local Image](.public/explorer.png)
+![Explorer Image](https://github.com/user-attachments/assets/495f51d0-0a66-444b-9883-12455b9a87d8)
+
 
 
 
