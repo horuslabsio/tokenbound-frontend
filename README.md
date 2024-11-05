@@ -30,7 +30,8 @@ yarn dev
 
 ### Explorer Preview
 *Explorer Preview.*
-![Local Image](public/explorer.png)
+![Local Image](.public/explorer.png)
+
 
 
 ### SDK Documentation
