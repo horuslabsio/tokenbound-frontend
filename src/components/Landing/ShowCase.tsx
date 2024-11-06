@@ -1,5 +1,6 @@
 import { RightArrow } from "@public/icons";
 import Image from "next/image";
+import { Button } from "ui/button";
 
 const Card = ({
   description,
@@ -50,30 +51,16 @@ const ShowCase = () => {
         Empowering Your NFTs with{" "}
         <span className="text-gradient">Next-Level</span> Functionality
       </h2>
-      <div className="h-[34rem] w-full rounded-[24px] bg-[#F5F5F5]"></div>
-      {/* <div className="flex flex-col gap-4 md:grid md:grid-cols-3">
-        <Card
-          title="EXPLORER"
-          src="/explorer.svg"
-          button="Tokenbound Explorer"
-          description="We provide an explorer UI from which you can deploy new tokenbound accounts, track them and interact with them."
-          link="#"
-        />
-        <Card
-          title="DEVELOPER SDK"
-          src="/developer-sdk.svg"
-          button="Tokenbound SDK"
-          description="Tokenbound SDK is a developer-focused kit for creating, retrieving and interacting with tokenbound accounts right from your dApp."
-          link="https://tokenbound.gitbook.io/starknet-tokenbound/"
-        />
-        <Card
-          title="SHOWCASE"
-          src="/community-showcase.svg"
-          button="Community Showcase"
-          description="View and checkout the top ecosystem/community projects built around Tokenbound Accounts."
-          link="#"
-        />
-      </div> */}
+      <div className="grid h-[34rem] w-full grid-cols-2 overflow-clip rounded-[24px]">
+        <div className="bg-gray-100"></div>
+        <div className="bg-gradient-linear-primary"></div>
+      </div>
+      <div className="flex gap-6">
+        <Button variant={"outline"}>Explore</Button>
+        <Button variant={"outline"}>SDKs</Button>
+        <Button variant={"outline"}> connect kit</Button>
+        <Button variant={"outline"}>TBA iframe</Button>
+      </div>
     </section>
   );
 };

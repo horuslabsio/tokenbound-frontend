@@ -9,7 +9,7 @@ const HeroImages = dynamic(() => import("./HeroImages"), {
 
 const Hero = () => {
   return (
-    <section className="relative mx-auto flex h-screen max-h-[1080px] w-screen max-w-[1536px] justify-center text-center">
+    <section className="relative mx-auto flex h-screen max-h-[1080px] w-screen max-w-[1536px] justify-center overflow-hidden text-center">
       <div className="relative z-[1] flex w-[28.5rem] flex-col gap-8">
         <h1 className="font-inter-variable">
           Transform <span className="text-gradient">any</span> NFT to a{" "}

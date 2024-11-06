@@ -12,7 +12,8 @@ const buttonVariants = cva(
         iconOnly: "",
         icon: "",
         base: "bg-primary-btn rounded-lg px-4 py-2 text-white font-medium",
-        outline: "",
+        outline:
+          "bg-black px-4 py-2 before:absolute before:h-[calc(100%-2px)] before:w-[calc(100%-2px)] bg-gradient-linear-primary before:bg-white relative rounded-full z-[10] before:rounded-full before:-z-[1] disabled:bg-none",
         ghost: "",
       },
       size: {

@@ -7,6 +7,7 @@ import { Button } from "ui/button";
 import Profile from "./Proile";
 import { Tooltip } from "ui/tooltip";
 import { Modal } from "ui/modal";
+import { ProfileIcon, RightArrow } from "@public/icons";
 
 function ConnectedNavBar() {
   const { address } = useAccount();
@@ -19,9 +20,10 @@ function ConnectedNavBar() {
     <div className="flex flex-col gap-4 md:flex-row md:items-center">
       {chain.network === "mainnet" ? (
         <Button
-          variant={"ghost"}
+          size={"sm"}
+          startIcon={<ProfileIcon />}
           onClick={toggleModal}
-          className="h-[3rem] w-[10rem] cursor-pointer rounded-full border-[1px] border-solid border-[#C4C4C4] bg-gray-200 p-1 xsm:w-[90%] lg:mx-auto lg:my-0"
+          className="rounded-full"
         >
           {shortenAddress(address as any)}
         </Button>

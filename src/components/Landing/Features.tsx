@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const Features = () => {
   return (
     <section className="container mx-auto flex flex-col items-center gap-8 p-8">

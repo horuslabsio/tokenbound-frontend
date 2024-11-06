@@ -2,8 +2,8 @@ export const WalletIcons = ({ id }: { id: string }) => {
   if (id === "argentX" || id == "argentWebWallet")
     return (
       <svg
-        width={24}
-        height={24}
+        width={20}
+        height={20}
         fill="currentColor"
         viewBox="0 0 40 36"
         xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +19,8 @@ export const WalletIcons = ({ id }: { id: string }) => {
         viewBox="0 0 100 100"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
-        width={24}
-        height={24}
+        width={20}
+        height={20}
         className="mr-[12px]"
       >
         <path d="M62.705 13.9116C62.8359 14.1333 62.6621 14.407 62.4039 14.407C57.1807 14.407 52.9348 18.5427 52.8351 23.6817C51.0465 23.3477 49.1933 23.3226 47.3626 23.6311C47.2361 18.5156 43.0009 14.407 37.7948 14.407C37.5365 14.407 37.3625 14.1331 37.4935 13.9112C40.0217 9.62809 44.7204 6.75 50.0991 6.75C55.4781 6.75 60.1769 9.62826 62.705 13.9116Z" />
@@ -31,8 +31,8 @@ export const WalletIcons = ({ id }: { id: string }) => {
 
   return (
     <svg
-      width={24}
-      height={24}
+      width={20}
+      height={20}
       className="mr-[12px]"
       fill="currentColor"
       viewBox="0 0 20 20"
@@ -377,6 +377,26 @@ export const ClockIcon = () => (
     >
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
+    </g>
+  </svg>
+);
+
+export const ProfileIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1.3em"
+    height="1.3em"
+    viewBox="0 0 24 24"
+  >
+    <g
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.85"
+    >
+      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2" />
+      <path d="M4.271 18.346S6.5 15.5 12 15.5s7.73 2.846 7.73 2.846M12 12a3 3 0 1 0 0-6a3 3 0 0 0 0 6" />
     </g>
   </svg>
 );

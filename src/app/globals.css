@@ -115,6 +115,9 @@
       padding: 1rem 0;
     }
   }
+  .gradient-outline {
+    border-image: linear-gradient(45deg, #ff6b6b, #f06595, #845ec2) 1;
+  }
   input[type="color"],
   input[type="date"],
   input[type="datetime"],
@@ -140,6 +143,6 @@
     @apply bg-gradient-linear-primary bg-clip-text font-instrument-serif text-transparent;
   }
   .dash-border-gradient {
-    @apply before:bg-gradient-linear-dashed before:absolute before:left-0 before:h-[1px] before:w-full before:bg-[length:7px_3px] before:content-[''];
+    @apply before:absolute before:left-0 before:h-[1px] before:w-full before:bg-gradient-linear-dashed before:bg-[length:7px_3px] before:content-[''];
   }
 }
