@@ -15,9 +15,9 @@ const Card = ({
   link: string;
 }) => {
   return (
-    <figure className="max-w-[436px] flex flex-col max-h-[560px] mx-auto">
+    <figure className="mx-auto flex max-h-[560px] max-w-[436px] flex-col">
       <div
-        className={`h-[200px] lg:h-[300px] overflow-clip bg-[#EFEFEF] w-full rounded-t-[8px]  relative`}
+        className={`relative h-[200px] w-full overflow-clip rounded-t-[8px] bg-[#EFEFEF] lg:h-[300px]`}
       >
         <Image
           className="rounded-t-[8px]"
@@ -27,10 +27,10 @@ const Card = ({
           height={100}
         />
       </div>
-      <figcaption className="flex-1 bg-white p-8 rounded-b-[8px] flex flex-col gap-4">
+      <figcaption className="flex flex-1 flex-col gap-4 rounded-b-[8px] bg-white p-8">
         <h5 className="text-black">{title}</h5>
         <p className="flex-1">{description}</p>
-        <button className="flex items-center w-fit h-[3rem] gap-2 border-solid border-[2px] rounded-[5px] p-2 border-deep-blue text-deep-blue group transition-all duration-300 ease-in-out hover:bg-[#0C0C4F20]">
+        <button className="group flex h-[3rem] w-fit items-center gap-2 rounded-[5px] border-[2px] border-solid border-deep-blue p-2 text-deep-blue transition-all duration-300 ease-in-out hover:bg-[#0C0C4F20]">
           <a href={link} target="_blank" rel="noopener noreferrer">
             <span className="text-start">{button}</span>
           </a>
@@ -45,8 +45,13 @@ const Card = ({
 
 const ShowCase = () => {
   return (
-    <section className="container mx-auto">
-      <div className="flex flex-col gap-4 md:grid md:grid-cols-3">
+    <section className="container mx-auto flex flex-col items-center gap-8 p-8">
+      <h2 className="mx-auto w-[486px] text-center">
+        Empowering Your NFTs with{" "}
+        <span className="text-gradient">Next-Level</span> Functionality
+      </h2>
+      <div className="h-[34rem] w-full rounded-[24px] bg-[#F5F5F5]"></div>
+      {/* <div className="flex flex-col gap-4 md:grid md:grid-cols-3">
         <Card
           title="EXPLORER"
           src="/explorer.svg"
@@ -68,7 +73,7 @@ const ShowCase = () => {
           description="View and checkout the top ecosystem/community projects built around Tokenbound Accounts."
           link="#"
         />
-      </div>
+      </div> */}
     </section>
   );
 };

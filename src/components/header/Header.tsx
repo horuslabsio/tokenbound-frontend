@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAccount, useNetwork } from "@starknet-react/core";
-import DesktopNav from "./DesktopNav";
-import MobileNav from "./MobileNav";
+
 import { usePathname, useRouter } from "next/navigation";
 import ConnectWallet from "@components/ConnectWallet/page";
+import Nav from "./Nav";
 
-function Navbar() {
+const Header = () => {
   const { account, isConnected } = useAccount();
   const { chain } = useNetwork();
   const { push } = useRouter();
@@ -35,13 +35,12 @@ function Navbar() {
   return (
     <>
       <header className="fixed z-[99]  flex min-h-[4rem] w-screen items-center justify-between backdrop-blur px-8 py-3 lg:block">
-        <DesktopNav
+        <Nav
           account={account}
           closeWalletModal={closeWalletModal}
           isWalletOpen={isWalletOpen}
           openWalletModal={openWalletModal}
         />
-        {/* <MobileNav account={account} openWalletModal={openWalletModal} /> */}
       </header>
       {!isConnected && !account && (
         <ConnectWallet
@@ -52,6 +51,6 @@ function Navbar() {
       )}
     </>
   );
-}
+};
 
-export default Navbar;
+export default Header;

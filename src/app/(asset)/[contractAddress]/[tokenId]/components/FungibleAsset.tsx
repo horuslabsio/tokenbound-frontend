@@ -53,7 +53,6 @@ const Token = ({
                   disabled={+balance <= 0}
                   onClick={toggleModal}
                   size={"sm"}
-                  variant={"border-thin"}
                 >
                   Transfer
                 </Button>

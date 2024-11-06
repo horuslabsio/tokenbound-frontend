@@ -29,7 +29,7 @@ const NFTCollection = () => {
 
   const walletNfts = useMemo(
     () => nfts?.pages.flatMap((page) => page.data) ?? [],
-    [nfts]
+    [nfts],
   );
   return (
     <div className="flex flex-col justify-center">
@@ -42,7 +42,7 @@ const NFTCollection = () => {
           </>
         ) : nfts && walletNfts.length > 0 ? (
           nfts.pages.map((page) =>
-            page.data.map((item, index) => <NFTCard nft={item} key={index} />)
+            page.data.map((item, index) => <NFTCard nft={item} key={index} />),
           )
         ) : (
           <p className="text-red-500">No NFT to display</p>
@@ -51,7 +51,6 @@ const NFTCollection = () => {
       {hasNextPage && (
         <Button
           size={"sm"}
-          variant={"border-thin"}
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}
           className="mx-auto my-8"
@@ -59,8 +58,8 @@ const NFTCollection = () => {
           {isFetchingNextPage
             ? "Loading more..."
             : hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
+              ? "Load More"
+              : "Nothing more to load"}
         </Button>
       )}
     </div>

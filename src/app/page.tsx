@@ -9,12 +9,12 @@ import FAQs from "@components/Landing/FQAs";
 
 export default function Home() {
   return (
-    <main className="min-h-screen pb-16 pt-32 flex flex-col gap-8">
+    <main className="flex min-h-screen flex-col gap-8 pb-16 pt-32">
       <Hero />
       <Features />
       <ShowCase />
       <FAQs />
-      <Projects />
+      {/* <Projects /> */}
       <Community />
     </main>
   );

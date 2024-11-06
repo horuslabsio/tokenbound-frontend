@@ -33,7 +33,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   });
   const walletNfts = useMemo(
     () => nfts?.pages.flatMap((page) => page.data) ?? [],
-    [nfts]
+    [nfts],
   );
 
   return (
@@ -50,7 +50,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
       ) : (
         <>
           {nfts && walletNfts.length > 0 ? (
-            <div className="mt-8 grid max-w-[350px] max-h-[310px] overflow-auto grid-cols-3 justify-between gap-2">
+            <div className="mt-8 grid max-h-[310px] max-w-[350px] grid-cols-3 justify-between gap-2 overflow-auto">
               {nfts.pages.map((page) =>
                 page.data.map((item, index) => (
                   <div className="group relative" key={index}>
@@ -70,11 +70,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
                       </div>
                     </Link>
                     <div className="absolute left-0 top-0 grid h-full w-full place-content-center bg-[#ffffffd1] opacity-0 transition-all group-hover:opacity-100">
-                      <Button
-                        size={"sm"}
-                        variant={"border-thin"}
-                        onClick={Handler}
-                      >
+                      <Button size={"sm"} onClick={Handler}>
                         Transfer
                       </Button>
                     </div>
@@ -88,7 +84,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
                       />
                     )}
                   </div>
-                ))
+                )),
               )}
             </div>
           ) : (

@@ -1,12 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import StarknetProvider from "@components/starknet-provider";
 import Favicon from "@public/favicon.ico";
 import Navbar from "@components/navbar/Navbar";
 import Footer from "@components/footer/Footer";
-
-const inter = Inter({ subsets: ["latin"] });
+import Header from "@components/header/Header";
 
 export const metadata: Metadata = {
   title: "Token Bound | Starknet",
@@ -22,8 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <StarknetProvider>
-        <body className={inter.className}>
-          <Navbar />
+        <body className={`font-inter font-normal`}>
+          <Header />
           {children}
           <Footer />
         </body>

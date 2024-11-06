@@ -1,6 +1,6 @@
 export const Spinner = ({
   size = "28px",
-  color = "#0c0c4f",
+  color = "currentColor",
 }: {
   size?: string;
   color?: string;

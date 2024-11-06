@@ -2,17 +2,16 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import DropDown from "./DropDown";
 import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
-import NetworkSwitcher from "@components/NetworkSwitcher";
 import { DownChevronIcon } from "@public/icons";
 import { Button } from "ui/button";
 import LOGO from "../../../public/logo.svg";
+import DropDown from "./DropDown";
 
-const DesktopNav = ({
+const Nav = ({
   isWalletOpen,
   account,
   closeWalletModal,
@@ -54,7 +53,7 @@ const DesktopNav = ({
 
   return (
     <nav className="container mx-auto flex items-center justify-between gap-8">
-      <Link className="block w-[8.6rem]" href={"/"}>
+      <Link className="block w-[9rem]" href={"/"}>
         <Image src={LOGO} alt="horus labs logo" />
       </Link>
       <div className="flex items-center gap-10 text-foreground-primary">
@@ -109,7 +108,7 @@ const DesktopNav = ({
   );
 };
 
-export default DesktopNav;
+export default Nav;
 
 const Menu = ({
   activeDropDown,
@@ -129,7 +128,7 @@ const Menu = ({
       onMouseEnter={() => setActiveDropDown(title)}
       onClick={toggleDropDown}
       variant={"ghost"}
-      className="flex gap-2 items-center"
+      className="flex items-center gap-2"
     >
       <span className="capitalize">{title}</span>
       <span

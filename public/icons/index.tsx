@@ -200,23 +200,21 @@ export const SearchIcon = () => {
   );
 };
 
-export const DownChevronIcon = ({
-  height = "1.2em",
-  width = "1.2em",
-}: {
-  width?: string;
-  height?: string;
-}) => {
+export const DownChevronIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
+      width="1em"
+      height="1em"
       viewBox="0 0 24 24"
     >
       <path
-        fill="currentColor"
-        d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939L6.28 8.22a.749.749 0 0 0-1.06 0"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="m4 8.417l6.587 6.587a2.013 2.013 0 0 0 2.826 0L20 8.417"
       />
     </svg>
   );
@@ -325,18 +323,60 @@ export const UpRightArrowIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="1.5em"
-      height="1.5em"
+      width="1em"
+      height="1em"
       viewBox="0 0 24 24"
     >
-      <path
+      <g
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="m6.5 17.5l11-11m0 0h-9m9 0v9"
-      />
+        strokeWidth="1.8"
+      >
+        <path strokeMiterlimit="10" d="M17.657 6.343L6.343 17.657" />
+        <path
+          strokeLinejoin="round"
+          d="M18.101 16.733V7.437A1.53 1.53 0 0 0 16.563 5.9H7.267"
+        />
+      </g>
     </svg>
   );
 };
+
+export const CalenderCheckedIcon = () => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 25"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7.99683 5.01758V3.01758M15.9968 5.01758V3.01758M9.49683 12.7676L10.9968 14.2676L14.4968 10.7676M6.99683 20.0176H16.9968C18.6537 20.0176 19.9968 18.6744 19.9968 17.0176V8.01758C19.9968 6.36072 18.6537 5.01758 16.9968 5.01758H6.99683C5.33997 5.01758 3.99683 6.36072 3.99683 8.01758V17.0176C3.99683 18.6744 5.33997 20.0176 6.99683 20.0176Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const ClockIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 24"
+  >
+    <g
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
+    </g>
+  </svg>
+);
