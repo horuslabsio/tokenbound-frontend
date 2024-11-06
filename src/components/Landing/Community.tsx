@@ -8,9 +8,9 @@ import IMG_5 from "../../../public/hero/5.svg";
 
 const Community = () => {
   return (
-    <section className="flex- container mx-auto flex-col gap-8">
+    <section className="container mx-auto px-4 py-16 lg:p-16">
       <div className="mx-auto grid h-[18.75rem] w-full max-w-[64rem] grid-cols-2">
-        <div className="gpa-4 flex w-[284.48px] flex-col justify-between">
+        <div className="gpa-4 flex w-[18rem] flex-col justify-between">
           <h2 className="w-[80%]">
             Join our
             <span className="text-gradient"> weekly </span>dev calls.
@@ -45,6 +45,7 @@ const Community = () => {
           <Image src={COMM_IMG} alt="our community" />
         </div>
       </div>
+
       <div className="relative mt-16 flex h-[40rem] w-full flex-col items-center justify-center">
         <div className="relative z-10 flex w-full max-w-[32rem] flex-col items-center justify-center gap-4">
           <h2 className="text-center text-7xl">

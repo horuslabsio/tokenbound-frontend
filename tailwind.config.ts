@@ -47,6 +47,7 @@ const config: Config = {
         "deep-blue": "#0C0C4F",
         primary: "#FAFAFA",
         "gray-50": "#e5e5e54d",
+        "gray-100": "#F8F8F8",
         "box-shadow": "#EC796B33",
         "primary-btn": "#0A0A0A",
         "foreground-primary": "#5a5a5a",

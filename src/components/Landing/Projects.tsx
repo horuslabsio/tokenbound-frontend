@@ -5,7 +5,6 @@ import runAwaysImage from "../../../public/community/2.png";
 import tokenGImage from "../../../public/community/3.png";
 import crowdPassImage from "../../../public/community/4.png";
 import carbonableImage from "../../../public/community/5.png";
-import { UpRightArrowIcon } from "@public/icons";
 
 const Project = ({
   description,
@@ -20,25 +19,23 @@ const Project = ({
 }) => {
   return (
     <a
-      className="group w-full"
+      className="group inline-block w-full"
       href={url}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <figure className="max-w-[436px] h-full flex flex-col max-h-[490px]">
+      <figure className="flex flex-col gap-4">
         <div
-          className={`flex w-full rounded-t-[8px] items-center justify-center relative`}
+          className={`relative mx-auto flex h-[10rem] w-[21rem] items-center justify-center overflow-hidden rounded-[16px]`}
         >
-          <Image className="rounded-t-[8px] h-full w-full" src={src} alt="" />
-
-          <span className="absolute bg-white rounded-full flex items-center right-[3%] top-[3%] p-2">
-            <span className="inline-block transition-all duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-1">
-              <UpRightArrowIcon />
-            </span>
-          </span>
+          <Image
+            className="h-full w-full rounded-[16px] object-cover transition-all duration-500 group-hover:scale-110"
+            src={src}
+            alt=""
+          />
         </div>
-        <figcaption className="flex-1 bg-white p-8 rounded-b-[8px] flex flex-col gap-4">
-          <h5 className="text-black">{title}</h5>
+        <figcaption className="flex w-[80%] flex-col gap-2">
+          <p className="text-lg font-medium">{title}</p>
           <p className="line-clamp-3 text-ellipsis">{description}</p>
         </figcaption>
       </figure>
@@ -48,21 +45,23 @@ const Project = ({
 
 const Projects = () => {
   return (
-    <section className="flex container mx-auto flex-col  gap-16  px-4 py-16 lg:p-16 ">
-      <div className="flex flex-col lg:flex-row">
-        <h2 className="text-black basis-1/2">Community projects</h2>
-        <div className="basis-1/2 flex justify-end items-center">
-          <a
-            className="bg-[#EFEFEF] rounded-full p-3"
-            href="https://docs.tbaexplorer.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View All
-          </a>
-        </div>
+    <section className="mx-auto max-w-[1060px] px-4 py-16 lg:p-16">
+      <div className="mb-8 flex justify-between">
+        <h2 className="">
+          <span className="text-gradient"> Community</span>
+          {""} Project Gallery
+        </h2>
+
+        <a
+          className="inline-block h-fit rounded-full bg-gray-100 px-4 py-2 text-black"
+          href="https://docs.tbaexplorer.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View All
+        </a>
       </div>
-      <div className="flex flex-col md:grid md:grid-cols-3 gap-8">
+      <div className="flex flex-col gap-8 md:grid md:grid-cols-3">
         <Project
           url="https://www.carbonable.io/"
           title="Carbonable"

@@ -13,8 +13,8 @@ export default function Home() {
       <Hero />
       <Features />
       <ShowCase />
+      <Projects />
       <FAQs />
-      {/* <Projects /> */}
       <Community />
     </main>
   );

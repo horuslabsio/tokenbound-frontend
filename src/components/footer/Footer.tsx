@@ -32,7 +32,7 @@ const Footer = () => {
             Be the first to hear about job openings, product updates and
             announcements
           </p>
-          <div className="flex items-center gap-2 rounded-[8px] bg-[#F8F8F8] p-1">
+          <div className="flex items-center gap-2 rounded-[8px] bg-gray-100 p-1">
             <input
               className="flex-1 rounded-lg bg-transparent p-2 placeholder:text-base"
               placeholder="Enter your e-mail"
