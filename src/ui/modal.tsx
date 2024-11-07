@@ -43,12 +43,12 @@ export const Modal = ({
                 style={{
                   boxShadow: "0 0 50px 0 #EC796B33",
                 }}
-                className={`bg-primary mt-20 w-[90%] overflow-hidden rounded-[20px] p-10 md:w-[50%] lg:w-[30rem] ${
+                className={`mt-20 w-[90%] overflow-hidden rounded-[20px] bg-primary p-10 md:w-[50%] lg:w-[30rem] ${
                   type === "erc20"
                     ? `min-h-[30rem]`
                     : type === "nft"
-                    ? `min-h-[2rem]`
-                    : ""
+                      ? `min-h-[2rem]`
+                      : ""
                 } text-deep-blue`}
               >
                 {children}

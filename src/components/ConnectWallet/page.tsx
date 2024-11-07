@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IWalletModal } from "types";
 import { useConnect, Connector } from "@starknet-react/core";
-import { WalletIcons } from "@public/icons";
+import { CloseIcon, WalletIcons } from "@public/icons";
 
 export default function ConnectWallet({
   openWalletModal,
@@ -52,21 +52,11 @@ export default function ConnectWallet({
                         className="grid h-10 w-10 place-content-center rounded-full bg-gray-100 text-lg text-black"
                         onClick={closeWalletModal}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="1em"
-                          height="1em"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M6.225 4.811a1 1 0 0 0-1.414 1.414L10.586 12L4.81 17.775a1 1 0 1 0 1.414 1.414L12 13.414l5.775 5.775a1 1 0 0 0 1.414-1.414L13.414 12l5.775-5.775a1 1 0 0 0-1.414-1.414L12 10.586z"
-                          />
-                        </svg>
+                        <CloseIcon />
                       </button>
                     </div>
                   </Dialog.Title>
-                  <div className="rounded-lg bg-gray-100 p-4">
+                  <div className="rounded-lg bg-gray-100 px-4 py-2">
                     {connectors.map((connector, index) => {
                       if (connector.available()) {
                         return (

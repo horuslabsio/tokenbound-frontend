@@ -1,5 +1,5 @@
+"use client";
 import { useState } from "react";
-
 import { FAQs as FQAData } from "../../static";
 import { DownChevronIcon } from "@public/icons";
 

@@ -5,7 +5,7 @@ import { Dialog, Transition } from "@headlessui/react";
 
 import { AccountInterface } from "starknet";
 import { Anchor } from "./DropDown";
-import NetworkSwitcher from "@components/NetworkSwitcher";
+import NetworkSwitcher from "@components/header/NetworkSwitcher";
 const MobileNav = ({
   account,
   openWalletModal,

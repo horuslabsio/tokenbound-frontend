@@ -6,10 +6,11 @@ import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
-import { DownChevronIcon } from "@public/icons";
+import { DownChevronIcon, WalletIcon } from "@public/icons";
 import { Button } from "ui/button";
 import LOGO from "../../../public/logo.svg";
 import DropDown from "./DropDown";
+import NetworkSwitcher from "./NetworkSwitcher";
 
 const Nav = ({
   isWalletOpen,
@@ -97,9 +98,11 @@ const Nav = ({
             openWalletModal={openWalletModal}
           />
         )}
-        {/* <NetworkSwitcher /> */}
+        {account && <NetworkSwitcher />}
         {!account ? (
-          <Button onClick={openWalletModal}>Connect Wallet</Button>
+          <Button startIcon={<WalletIcon />} onClick={openWalletModal}>
+            Connect Wallet
+          </Button>
         ) : (
           <ConnectedNavBar />
         )}

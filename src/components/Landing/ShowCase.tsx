@@ -1,6 +1,6 @@
 import { RightArrow } from "@public/icons";
 import Image from "next/image";
-import { Button } from "ui/button";
+import Carousel from "./Carousel";
 
 const Card = ({
   description,
@@ -43,7 +43,6 @@ const Card = ({
     </figure>
   );
 };
-
 const ShowCase = () => {
   return (
     <section className="container mx-auto flex flex-col items-center gap-8 p-8">
@@ -51,16 +50,8 @@ const ShowCase = () => {
         Empowering Your NFTs with{" "}
         <span className="text-gradient">Next-Level</span> Functionality
       </h2>
-      <div className="grid h-[34rem] w-full grid-cols-2 overflow-clip rounded-[24px]">
-        <div className="bg-gray-100"></div>
-        <div className="bg-gradient-linear-primary"></div>
-      </div>
-      <div className="flex gap-6">
-        <Button variant={"outline"}>Explore</Button>
-        <Button variant={"outline"}>SDKs</Button>
-        <Button variant={"outline"}> connect kit</Button>
-        <Button variant={"outline"}>TBA iframe</Button>
-      </div>
+
+      <Carousel />
     </section>
   );
 };

@@ -74,6 +74,7 @@
   @media (min-width: 1024px) {
     h1 {
       font-size: 4em;
+      line-height: 1.2;
       font-weight: 500;
     }
 
@@ -144,5 +145,98 @@
   }
   .dash-border-gradient {
     @apply before:absolute before:left-0 before:h-[1px] before:w-full before:bg-gradient-linear-dashed before:bg-[length:7px_3px] before:content-[''];
+  }
+}
+
+@keyframes fadeInSteps {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.activeCard {
+  z-index: 4;
+  top: 0;
+  transform: translateX(-50%);
+}
+.secondCard {
+  z-index: 3;
+  top: 2.5rem;
+  transform: translateX(-50%) translateZ(-6rem);
+}
+.thirdCard {
+  z-index: 2;
+  top: 4rem;
+  transform: translateX(-50%) translateZ(-8rem);
+}
+
+.lastCard {
+  top: 5.5rem;
+  transform: translateX(-50%) translateZ(-10rem);
+}
+
+.card {
+  /* padding: 20px;
+  margin: 10px;
+  cursor: pointer; */
+}
+
+.lastCard {
+  background-color: lightblue;
+}
+.secondCard {
+  background-color: lightgreen;
+}
+.thirdCard {
+  background-color: lightcoral;
+}
+.activeCard {
+  background-color: gold;
+  font-weight: bold;
+}
+
+::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+dialog {
+  opacity: 0;
+}
+dialog[open] {
+  opacity: 1;
+}
+dialog::before {
+  opacity: 0;
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: -1;
+  transition-property: opacity, display;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-behavior: allow-discrete;
+}
+
+dialog[open]::before {
+  opacity: 1;
+  display: block;
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  dialog[open]::before {
+    opacity: 0;
   }
 }

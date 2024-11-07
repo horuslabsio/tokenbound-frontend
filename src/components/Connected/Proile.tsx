@@ -1,11 +1,26 @@
 "use client";
-import { useAccount, useDisconnect } from "@starknet-react/core";
-import React, { useState } from "react";
-import { copyToClipBoard } from "@utils/helper";
-import Link from "next/link";
-import { CopyCheckIcon, CopyIcon } from "@public/icons";
+import {
+  useAccount,
+  useDisconnect,
+  useStarkProfile,
+} from "@starknet-react/core";
+
+import React, { MutableRefObject, useRef, useState } from "react";
+import { copyToClipBoard, shortenAddress } from "@utils/helper";
+
+import {
+  CloseIcon,
+  CopyIcon,
+  ExitIcon,
+  GlobeIcon,
+  GradientGlobeIcon,
+  RightArrow,
+} from "@public/icons";
+import { useRouter } from "next/navigation";
+import { CopyButton } from "ui/copy-button";
 
 const Profile = ({ closeModal }: { closeModal: () => void }) => {
+  const router = useRouter();
   const [copied, setCopied] = useState(false);
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
@@ -19,51 +34,87 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
       }, 3000);
     }
   };
-  return (
-    <section>
-      <div className="mx-auto h-[10rem] w-[10rem] rounded-full bg-[#EFC58E]"></div>
-      <div className="mt-4 flex flex-col gap-4">
-        <div
-          className={`flex w-[40%] items-center justify-center gap-2 self-end rounded-full bg-green-600 p-2 text-white transition-all duration-300 ease-in-out ${
-            copied ? "scale-100 opacity-100" : "scale-75 opacity-0"
-          }`}
-        >
-          <p className="text-center">copied!</p>
-          <span>
-            <CopyCheckIcon copied={copied} />
-          </span>
-        </div>
-        <button
-          title="Copy Address"
-          onClick={copy}
-          className="flex items-center gap-2 rounded-full border-[1px] border-solid border-[#C4C4C4] p-2"
-        >
-          <span className="max-w-[90%] overflow-hidden overflow-ellipsis whitespace-nowrap">
-            {address}
-          </span>
-          <span className="border-l-solid border-l-[1px] border-l-[#7A7A7A] pl-2">
-            <CopyIcon />
-          </span>
-        </button>
+  const { data: starknetProfile } = useStarkProfile({
+    address: address,
+  });
 
-        <Link href={`/collections/${address}`}>
+  return (
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+      className="absolute flex h-[14rem] w-[27rem] -translate-x-[58%] flex-col items-center gap-2 rounded-[16px] bg-white p-4 text-foreground-primary"
+    >
+      <div className="flex w-full items-center justify-between">
+        <h5 className="font-inter-variable">
+          My <span className="text-gradient">Wallet</span>
+        </h5>
+        <div className="flex items-center gap-4">
+          <CopyButton
+            textToCopy={address || ""}
+            className="flex w-[10rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner"
+            copyIcon
+          />
+
           <button
             onClick={closeModal}
-            className="my-2 h-[3rem] w-full rounded-[8px] bg-deep-blue px-4 text-white"
-            type="button"
+            className="grid h-10 w-10 place-content-center rounded-full bg-gray-100 text-lg text-black"
           >
-            My NFTs &rarr;
+            <CloseIcon />
           </button>
-        </Link>
+        </div>
+      </div>
+      <div className="flex gap-2">
+        <div className="mx-auto h-[5.3rem] w-[6.3rem] rounded-[16px] bg-[#EFC58E]">
+          {starknetProfile?.profilePicture && (
+            <img
+              className="rounded-[16px] object-cover"
+              src={starknetProfile?.profilePicture}
+              alt="your starknet profile picture"
+            />
+          )}
+        </div>
+
+        <button
+          onClick={() => {
+            closeModal();
+            router.push(`/collections/${address}`);
+          }}
+          className="group flex h-[5.3rem] w-[18.4rem] flex-col justify-between rounded-[16px] bg-gray-100 px-4 py-3 text-start transition-all duration-300 hover:bg-black hover:text-white"
+          type="button"
+        >
+          <span aria-hidden className="relative">
+            <span className="absolute opacity-100 group-hover:opacity-0">
+              <GlobeIcon />
+            </span>
+            <span className="absolute opacity-0 group-hover:opacity-100">
+              <GradientGlobeIcon />
+            </span>
+          </span>
+          <span className="flex items-center gap-2">
+            View my NFTs
+            <span
+              aria-hidden
+              className="text-xl opacity-0 group-hover:opacity-100"
+            >
+              <RightArrow />
+            </span>
+          </span>
+        </button>
+      </div>
+      <div>
         <button
           type="button"
           onClick={() => disconnect()}
-          className="h-[3rem] w-full rounded-[8px] border-[1px] border-solid border-[#810E0E] px-4 text-[#810E0E]"
+          className="flex h-[3rem] items-center gap-2 rounded-[8px] px-4 text-[#CE5A4C] transition-all hover:bg-gray-100"
         >
-          Disconnect
+          <span>Disconnect</span>
+          <span>
+            <ExitIcon />
+          </span>
         </button>
       </div>
-    </section>
+    </div>
   );
 };
 

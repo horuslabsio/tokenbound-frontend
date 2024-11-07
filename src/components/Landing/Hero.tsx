@@ -34,7 +34,8 @@ const Hero = () => {
               Read Documentation
             </a>
           </Button>
-          <Button>Showcase</Button>
+          <a href="#community">aa</a>
+          <Button asChild>Showcase</Button>
         </div>
       </div>
       <HeroImages />

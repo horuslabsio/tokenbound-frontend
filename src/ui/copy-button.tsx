@@ -34,31 +34,23 @@ const CopyButton = forwardRef<HTMLButtonElement, Props>(
             : `${textToCopy?.slice(0, 4)}...${textToCopy?.slice(61, 66)}`}
         </span>
         {copyIcon && (
-          <span className="relative ml-2 border-l border-gray-500">
-            <div
-              style={{
-                color: copied ? "#e5e7eb" : "",
-                transition: "opacity 300ms ease-in-out 2s",
-              }}
-              className={`flex py-[2px] pl-[6px] ${
-                copied ? "opacity-0" : "opacity-100"
-              }`}
+          <span className="relative h-6 w-6">
+            <span
+              className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${copied ? "opacity-0" : "opacity-100"}`}
             >
-              <CopyIcon width="1.3em" height="1.3em" />
-            </div>
-            <div
-              style={{
-                left: "calc(50% - 0.5em / 2)",
-              }}
-              className="absolute top-[4px]"
+              <CopyIcon />
+            </span>
+
+            <span
+              className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${copied ? "opacity-100" : "opacity-0"}`}
             >
-              <CopyCheckIcon copied={copied} width="1.2em" height="1.2em" />
-            </div>
+              <CopyCheckIcon copied={copied} />
+            </span>
           </span>
         )}
       </button>
     );
-  }
+  },
 );
 CopyButton.displayName = "CopyButton";
 export { CopyButton };
