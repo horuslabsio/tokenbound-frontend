@@ -1,3 +1,4 @@
+"use client";
 import { UpRightArrowIcon } from "@public/icons";
 import { Button } from "ui/button";
 import dynamic from "next/dynamic";
@@ -34,8 +35,16 @@ const Hero = () => {
               Read Documentation
             </a>
           </Button>
-          <a href="#community">aa</a>
-          <Button asChild>Showcase</Button>
+
+          <Button
+            onClick={() => {
+              document.getElementById("projects")?.scrollIntoView({
+                behavior: "smooth",
+              });
+            }}
+          >
+            <span>Showcase</span>
+          </Button>
         </div>
       </div>
       <HeroImages />

@@ -8,7 +8,7 @@ import IMG_5 from "../../../public/hero/5.svg";
 
 const Community = () => {
   return (
-    <section id="community" className="container mx-auto px-4 py-16 lg:p-16">
+    <section className="container mx-auto px-4 py-16 lg:p-16">
       <div className="mx-auto grid h-[18.75rem] w-full max-w-[64rem] grid-cols-2">
         <div className="gpa-4 flex w-[18rem] flex-col justify-between">
           <h2 className="w-[80%]">

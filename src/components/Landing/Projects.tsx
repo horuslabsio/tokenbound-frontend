@@ -45,7 +45,10 @@ const Project = ({
 
 const Projects = () => {
   return (
-    <section className="mx-auto max-w-[1060px] px-4 py-16 lg:p-16">
+    <section
+      id="projects"
+      className="mx-auto max-w-[1060px] px-4 py-16 lg:p-16"
+    >
       <div className="mb-8 flex justify-between">
         <h2 className="">
           <span className="text-gradient"> Community</span>

@@ -30,12 +30,14 @@
     src: url(../../public/fonts/Instrument_Serif/InstrumentSerif-Italic.ttf)
       format("truetype");
   }
+  html {
+    scroll-behavior: smooth;
+  }
   html,
   body {
     box-sizing: border-box;
     font-family: "inter", sans-serif;
     background-color: white;
-    /* background-color: #fafafa; */
     font-size: 0.875em;
     color: #5a5a5a;
   }
