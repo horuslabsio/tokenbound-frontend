@@ -6,7 +6,7 @@ import { Button } from "ui/button";
 import Profile from "./Proile";
 import { Tooltip } from "ui/tooltip";
 import { Modal } from "ui/modal";
-import { ProfileIcon } from "@public/icons";
+import { ProfileIcon, UpRightArrowIcon } from "@public/icons";
 
 function ConnectedNavBar() {
   const { address } = useAccount();
@@ -23,6 +23,7 @@ function ConnectedNavBar() {
           onClick={() => profileRef?.current?.show()}
           size={"sm"}
           startIcon={<ProfileIcon />}
+          endIcon={<UpRightArrowIcon gradient />}
           className="rounded-full"
         >
           {shortenAddress(address as any)}

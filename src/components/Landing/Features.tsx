@@ -7,8 +7,8 @@ const Features = () => {
         interact with the Starknet ecosystem.
       </h2>
 
-      <ul className="grid h-[15rem] w-full max-w-[75rem] grid-cols-3 gap-4">
-        <li className="flex flex-col justify-between py-4">
+      <ul className="mb-20 mt-12 grid h-[15rem] w-[65rem] max-w-[75rem] grid-cols-3 gap-4">
+        <li className="flex flex-col gap-2">
           <div className="w-[2.5rem] xsm:w-[40%]">
             <img src="/bitcoin-wallet.svg" alt="" className="aria-hidden" />
           </div>
@@ -20,7 +20,7 @@ const Features = () => {
             gaming.
           </p>
         </li>
-        <li className="flex flex-col justify-between py-4">
+        <li className="flex flex-col gap-2">
           <div className="w-[2.5rem] xsm:w-[40%]">
             <img src="/blockchain-05.svg" alt="" className="aria-hidden" />
           </div>
@@ -30,7 +30,7 @@ const Features = () => {
             Connect and interact with ecosystem-wide dApps using your NFTs.
           </p>
         </li>
-        <li className="flex flex-col justify-between py-4">
+        <li className="flex flex-col gap-2">
           <div className="w-[2.5rem] xsm:w-[40%]">
             <img src="/bitcoin-wallet.svg" alt="" className="aria-hidden" />
           </div>
@@ -43,8 +43,6 @@ const Features = () => {
           </p>
         </li>
       </ul>
-
-      <div className="h-[34rem] w-full rounded-[24px] bg-[#F5F5F5]"></div>
     </section>
   );
 };

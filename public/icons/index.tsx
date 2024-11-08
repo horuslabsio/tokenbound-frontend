@@ -28,8 +28,8 @@ export const WalletIcons = ({ id }: { id: string }) => {
         <path d="M18.8132 48.1707L48.8935 39.0472C49.5506 38.8478 50.2524 38.8473 50.9098 39.0456L81.1781 48.1752C83.6912 48.9332 85.411 51.2483 85.411 53.8735V81.2233C85.2944 87.8991 79.2977 93.25 72.6245 93.25H61.5406C60.4449 93.25 59.5577 92.3637 59.5577 91.268V81.6789C59.5577 77.9031 61.7921 74.4855 65.2498 72.9729C69.8849 70.9454 75.3681 68.2028 76.3994 62.6992C76.7323 60.9229 75.5741 59.2094 73.8024 58.8573C69.3226 57.9667 64.3562 58.3107 60.1564 60.1893C55.3887 62.3219 54.1415 65.8694 53.6797 70.6337L53.1201 75.7662C52.9491 77.3349 51.4785 78.5366 49.9014 78.5366C48.2699 78.5366 47.0465 77.294 46.8696 75.6712L46.3204 70.6337C45.9249 66.5529 45.2079 62.5887 40.9895 60.7018C36.1776 58.5494 31.3419 57.8347 26.1976 58.8573C24.426 59.2094 23.2678 60.9229 23.6007 62.6992C24.641 68.2507 30.0812 70.9305 34.7503 72.9729C38.208 74.4855 40.4424 77.9031 40.4424 81.6789V91.2663C40.4424 92.362 39.5555 93.25 38.4599 93.25H27.3756C20.7024 93.25 14.7057 87.8991 14.5891 81.2233V53.8663C14.5891 51.2446 16.3045 48.9316 18.8132 48.1707Z" />
 
         <linearGradient id="gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#F5B75E" />
-          <stop offset="100%" stop-color="#FF9600" />
+          <stop offset="0%" stopColor="#F5B75E" />
+          <stop offset="100%" stopColor="#FF9600" />
         </linearGradient>
       </svg>
     );
@@ -52,30 +52,41 @@ export const WalletIcons = ({ id }: { id: string }) => {
   return null;
 };
 
-export const GemIcon = () => (
+export const ImageIcon = () => (
   <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    width="1.13em"
-    height="1em"
-    viewBox="0 0 576 512"
   >
     <path
-      fill="currentColor"
-      d="M485.5 0L576 160H474.9L405.7 0zm-128 0l69.2 160H149.3L218.5 0zm-267 0h79.8l-69.2 160H0zM0 192h100.7l123 251.7c1.5 3.1-2.7 5.9-5 3.3zm148.2 0h279.6l-137 318.2c-1 2.4-4.5 2.4-5.5 0zm204.1 251.7l123-251.7H576L357.3 446.9c-2.3 2.7-6.5-.1-5-3.2"
+      d="M16.5 20.5L9.41421 13.4142C8.63317 12.6332 7.36684 12.6332 6.58579 13.4142L3.5 16.5M5.5 20.5H18.5C19.6046 20.5 20.5 19.6046 20.5 18.5V5.5C20.5 4.39543 19.6046 3.5 18.5 3.5H5.5C4.39543 3.5 3.5 4.39543 3.5 5.5V18.5C3.5 19.6046 4.39543 20.5 5.5 20.5ZM14.5 7L13.6667 8.66667L12 9.5L13.6667 10.3333L14.5 12L15.3333 10.3333L17 9.5L15.3333 8.66667L14.5 7Z"
+      stroke="currentColor"
+      strokeLinejoin="round"
     />
   </svg>
 );
 
-export const CoinsIcon = () => (
+export const CryptoIcon = () => (
   <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
-    viewBox="0 0 512 512"
   >
     <path
-      fill="currentColor"
-      d="M0 405.3V448c0 35.3 86 64 192 64s192-28.7 192-64v-42.7C342.7 434.4 267.2 448 192 448S41.3 434.4 0 405.3M320 128c106 0 192-28.7 192-64S426 0 320 0S128 28.7 128 64s86 64 192 64M0 300.4V352c0 35.3 86 64 192 64s192-28.7 192-64v-51.6c-41.3 34-116.9 51.6-192 51.6S41.3 334.4 0 300.4m416 11c57.3-11.1 96-31.7 96-55.4v-42.7c-23.2 16.4-57.3 27.6-96 34.5zM192 160C86 160 0 195.8 0 240s86 80 192 80s192-35.8 192-80s-86-80-192-80m219.3 56.3c60-10.8 100.7-32 100.7-56.3v-42.7c-35.5 25.1-96.5 38.6-160.7 41.8c29.5 14.3 51.2 33.5 60 57.2"
+      d="M21.5 12C21.5 17.2467 17.2467 21.5 12 21.5C6.75329 21.5 2.5 17.2467 2.5 12C2.5 6.75329 6.75329 2.5 12 2.5C17.2467 2.5 21.5 6.75329 21.5 12Z"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M11.25 7.23695C11.7141 6.96901 12.2859 6.96901 12.75 7.23695L15.75 8.96895C16.2141 9.2369 16.5 9.7321 16.5 10.268V13.7319C16.5 14.2678 16.2141 14.763 15.75 15.031L12.75 16.763C12.2859 17.0309 11.7141 17.0309 11.25 16.763L8.25001 15.031C7.7859 14.763 7.5 14.2678 7.5 13.7319V10.268C7.5 9.7321 7.7859 9.2369 8.25001 8.96895L11.25 7.23695Z"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -242,9 +253,9 @@ export const CopyIcon = ({
       <path
         d="M4.45833 4.45833V1.95833C4.45833 1.4981 4.83143 1.125 5.29167 1.125H14.0417C14.5019 1.125 14.875 1.4981 14.875 1.95833V10.7167C14.875 11.1769 14.5019 11.55 14.0417 11.55H11.5417M1.125 5.29167V14.0417C1.125 14.5019 1.4981 14.875 1.95833 14.875H10.7083C11.1686 14.875 11.5417 14.5019 11.5417 14.0417V5.29167C11.5417 4.83143 11.1686 4.45833 10.7083 4.45833H1.95833C1.4981 4.45833 1.125 4.83143 1.125 5.29167Z"
         stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -323,27 +334,64 @@ export const SendIcon = () => {
   );
 };
 
-export const UpRightArrowIcon = () => {
+export const UpRightArrowIcon = ({
+  gradient = false,
+}: {
+  gradient?: boolean;
+}) => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="1em"
-      height="1em"
-      viewBox="0 0 24 24"
-    >
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="1.8"
-      >
-        <path strokeMiterlimit="10" d="M17.657 6.343L6.343 17.657" />
-        <path
-          strokeLinejoin="round"
-          d="M18.101 16.733V7.437A1.53 1.53 0 0 0 16.563 5.9H7.267"
-        />
-      </g>
-    </svg>
+    <>
+      {gradient ? (
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.5834 5.41669L5.41675 14.5834M7.28768 4.79169H13.5418C14.4622 4.79169 15.2084 5.53788 15.2084 6.45835V13.5382"
+            stroke="url(#paint0_linear_259_4184)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_259_4184"
+              x1="10.3126"
+              y1="4.79169"
+              x2="10.3126"
+              y2="14.5834"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#D672EF" />
+              <stop offset="1" stopColor="#EC796B" />
+            </linearGradient>
+          </defs>
+        </svg>
+      ) : (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.8"
+          >
+            <path strokeMiterlimit="10" d="M17.657 6.343L6.343 17.657" />
+            <path
+              strokeLinejoin="round"
+              d="M18.101 16.733V7.437A1.53 1.53 0 0 0 16.563 5.9H7.267"
+            />
+          </g>
+        </svg>
+      )}
+    </>
   );
 };
 

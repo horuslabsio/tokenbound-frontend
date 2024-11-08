@@ -32,16 +32,21 @@ const NFTCollection = () => {
     [nfts],
   );
   return (
-    <div className="flex flex-col justify-center">
-      <div className="mx-auto grid h-auto auto-cols-auto gap-6 gap-y-6 md:grid-cols-2 lg:grid-cols-4">
-        {!isLoading && nfts && walletNfts.length > 0 ? (
-          nfts.pages.map((page) =>
+    <div>
+      {!isLoading && nfts && walletNfts.length > 0 ? (
+        <div className="mx-auto grid h-auto auto-cols-auto gap-6 gap-y-6 md:grid-cols-2 lg:grid-cols-4">
+          {nfts.pages.map((page) =>
             page.data.map((item, index) => <NFTCard nft={item} key={index} />),
-          )
-        ) : (
-          <p className="text-red-500">No NFT to display</p>
-        )}
-      </div>
+          )}
+        </div>
+      ) : (
+        <div className="mx-auto my-auto grid h-[70vh] place-content-center">
+          <div className="grid h-[13.5rem] w-[38rem] place-content-center rounded-[16px] bg-gray-100">
+            <p className="text-lg">Nothing to show yet.</p>
+          </div>
+        </div>
+      )}
+
       {hasNextPage && (
         <Button
           size={"sm"}

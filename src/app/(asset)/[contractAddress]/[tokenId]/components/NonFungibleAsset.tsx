@@ -1,6 +1,5 @@
 import { getWalletNft } from "@hooks/index";
-import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import TransferNftModal from "./TransferNftModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Button } from "ui/button";
@@ -8,10 +7,15 @@ import { WalletTokensApiResponse } from "../../../../../types";
 
 const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   const formatted_address = tbaAddress.replace("0x", "0x0");
+  const [selectedNft, setSelectedNft] = useState({
+    contractAddress: "",
+    tokenId: "",
+  });
   const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
-  const Handler = () => {
-    setOpen(!open);
+  const closeModal = () => {
+    dialogRef?.current?.close();
   };
 
   const {
@@ -36,61 +40,90 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     [nfts],
   );
 
+  const openTransferModal = ({
+    address,
+    id,
+  }: {
+    address: string;
+    id: string;
+  }) => {
+    setSelectedNft({
+      contractAddress: address,
+      tokenId: id,
+    });
+    dialogRef?.current?.showModal();
+  };
+
   return (
     <div className="w-full">
-      {isLoading ? (
-        <div
-          aria-label="loader"
-          className="mt-8 grid max-w-[350px] grid-cols-3 justify-between gap-2"
-        >
-          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-gray-50"></div>
-          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-gray-50"></div>
-          <div className="h-[7rem] w-full animate-pulse rounded-[5px] bg-gray-50"></div>
+      {nfts && walletNfts.length > 0 ? (
+        <div className="mt-4 flex h-[23rem] max-w-[38rem] flex-col items-center overflow-y-auto rounded-[16px] bg-gray-100 p-2">
+          <div className="grid w-full grid-cols-3 justify-between gap-2">
+            {nfts.pages.map((page) =>
+              page.data.map((item, index) => (
+                <div
+                  className="group relative h-[10.8rem] max-w-[11.8rem]"
+                  key={index}
+                >
+                  <div className="h-full w-full overflow-clip rounded-[12px]">
+                    <img
+                      className="w-full scale-110 rounded-[6px] object-cover object-center"
+                      src={
+                        item.metadata?.image ||
+                        `https://placehold.co/250x250?text=${item.token_id}`
+                      }
+                      alt="Card Image"
+                    />
+                  </div>
+
+                  <div className="absolute left-0 top-0 grid h-full w-full place-content-center rounded-[12px] bg-black/50 opacity-0 transition-all duration-300 group-hover:opacity-100">
+                    <Button
+                      size={"sm"}
+                      onClick={() =>
+                        openTransferModal({
+                          address: item.collection_address,
+                          id: item.token_id,
+                        })
+                      }
+                    >
+                      Transfer
+                    </Button>
+                  </div>
+                </div>
+              )),
+            )}
+
+            <dialog
+              className="inset-0 h-screen w-screen bg-transparent"
+              ref={dialogRef}
+            >
+              <TransferNftModal
+                closeModal={closeModal}
+                tokenBoundAddress={tbaAddress}
+                contractAddress={selectedNft.contractAddress}
+                tokenId={selectedNft.tokenId}
+              />
+            </dialog>
+          </div>
+          {hasNextPage && (
+            <Button
+              size={"sm"}
+              onClick={() => fetchNextPage()}
+              disabled={!hasNextPage || isFetchingNextPage}
+              className="mx-auto my-8"
+            >
+              {isFetchingNextPage
+                ? "Loading more..."
+                : hasNextPage
+                  ? "Load More"
+                  : "Nothing more to load"}
+            </Button>
+          )}
         </div>
       ) : (
-        <>
-          {nfts && walletNfts.length > 0 ? (
-            <div className="mt-8 grid max-h-[310px] max-w-[350px] grid-cols-3 justify-between gap-2 overflow-auto">
-              {nfts.pages.map((page) =>
-                page.data.map((item, index) => (
-                  <div className="group relative" key={index}>
-                    <Link
-                      href={`/assets/${item.collection_address}${item?.token_id}`}
-                      key={index}
-                    >
-                      <div className="h-[7rem] w-full rounded-[6px]">
-                        <img
-                          className="w-full rounded-[6px] object-cover object-center"
-                          src={
-                            item.metadata?.image ||
-                            `https://placehold.co/250x250?text=${item.token_id}`
-                          }
-                          alt="Card Image"
-                        />
-                      </div>
-                    </Link>
-                    <div className="absolute left-0 top-0 grid h-full w-full place-content-center bg-[#ffffffd1] opacity-0 transition-all group-hover:opacity-100">
-                      <Button size={"sm"} onClick={Handler}>
-                        Transfer
-                      </Button>
-                    </div>
-                    {open && (
-                      <TransferNftModal
-                        openModal={open}
-                        closeModal={Handler}
-                        tokenBoundAddress={tbaAddress}
-                        contractAddress={item.collection_address}
-                        tokenId={item.token_id}
-                      />
-                    )}
-                  </div>
-                )),
-              )}
-            </div>
-          ) : (
-            <p className="mt-8 text-red-500">No NFT Asset yet</p>
-          )}
-        </>
+        <div className="mt-8 grid h-[13.5rem] w-[38rem] place-content-center rounded-[16px] bg-gray-100">
+          <p className="text-lg">Nothing to show yet.</p>
+        </div>
       )}
     </div>
   );
