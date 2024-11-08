@@ -21,7 +21,7 @@ const Hero = () => {
           NFT. It can do everything a normal wallet can do and is compatible
           with every NFT you already own.
         </p>
-        <div className="flex gap-4">
+        <div className="mx-auto flex w-fit gap-4">
           <Button
             asChild
             className="bg-gray-50 text-foreground-secondary"
@@ -47,6 +47,7 @@ const Hero = () => {
           </Button>
         </div>
       </div>
+
       <HeroImages />
     </section>
   );

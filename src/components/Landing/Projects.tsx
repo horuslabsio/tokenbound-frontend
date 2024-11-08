@@ -26,10 +26,10 @@ const Project = ({
     >
       <figure className="flex flex-col gap-4">
         <div
-          className={`relative mx-auto flex h-[10rem] w-[21rem] items-center justify-center overflow-hidden rounded-[16px]`}
+          className={`relative mx-auto flex h-[10rem] w-full max-w-[21rem] items-center justify-center overflow-hidden rounded-[16px]`}
         >
           <Image
-            className="h-full w-full rounded-[16px] object-cover transition-all duration-500 group-hover:scale-110"
+            className="h-full w-full scale-[1.02] rounded-[16px] object-cover transition-all duration-500 group-hover:scale-[1.15]"
             src={src}
             alt=""
           />
@@ -47,7 +47,7 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="mx-auto max-w-[1060px] px-4 py-16 lg:p-16"
+      className="mx-auto max-w-[1060px] px-8 py-16 lg:p-16"
     >
       <div className="mb-8 flex justify-between">
         <h2 className="">
@@ -64,7 +64,7 @@ const Projects = () => {
           View All
         </a>
       </div>
-      <div className="flex flex-col gap-8 md:grid md:grid-cols-3">
+      <div className="flex flex-col gap-4 md:grid md:grid-cols-3 lg:gap-8">
         <Project
           url="https://www.carbonable.io/"
           title="Carbonable"

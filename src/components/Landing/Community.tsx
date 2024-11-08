@@ -8,7 +8,7 @@ import IMG_5 from "../../../public/hero/5.svg";
 
 const Community = () => {
   return (
-    <section className="container mx-auto px-4 py-16 lg:p-16">
+    <section className="container mx-auto px-8 py-16 lg:p-16">
       <div className="mx-auto grid h-[18.75rem] w-full max-w-[64rem] grid-cols-2">
         <div className="gpa-4 flex w-[18rem] flex-col justify-between">
           <h2 className="w-[80%]">
@@ -61,10 +61,10 @@ const Community = () => {
           <Button size={"sm"}>Get Started</Button>
         </div>
         <div aria-hidden className="absolute h-full w-[32rem]">
-          <div className="absolute bottom-1/4 right-0 top-1/4 h-[7.8rem] w-[7.8rem] translate-x-[200%]">
+          <div className="absolute bottom-1/4 right-0 top-1/4 h-[7.8rem] w-[7.8rem] translate-x-full lg:translate-x-[200%]">
             <Image src={IMG_4} alt="" />
           </div>
-          <div className="absolute -left-3/4 top-[5%] h-[7.8rem] w-[7.8rem] translate-x-1/2">
+          <div className="absolute top-[5%] h-[7.8rem] w-[7.8rem] -translate-x-[130%] lg:-left-3/4 lg:translate-x-1/2">
             <Image src={IMG_0} alt="" />
           </div>
           <div className="absolute bottom-12 left-0 h-[7.8rem] w-[7.8rem] -translate-x-full">

@@ -32,9 +32,9 @@ const NFTCollection = () => {
     [nfts],
   );
   return (
-    <div>
+    <div className="flex flex-col items-center">
       {!isLoading && nfts && walletNfts.length > 0 ? (
-        <div className="mx-auto grid h-auto auto-cols-auto gap-6 gap-y-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid h-auto w-full auto-cols-auto gap-6 md:grid-cols-3 lg:grid-cols-4">
           {nfts.pages.map((page) =>
             page.data.map((item, index) => <NFTCard nft={item} key={index} />),
           )}
@@ -46,13 +46,12 @@ const NFTCollection = () => {
           </div>
         </div>
       )}
-
       {hasNextPage && (
         <Button
           size={"sm"}
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}
-          className="mx-auto my-8"
+          className="mx-auto my-8 rounded-full"
         >
           {isFetchingNextPage
             ? "Loading more..."

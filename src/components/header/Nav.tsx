@@ -6,7 +6,7 @@ import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "@components/ConnectWallet/page";
 import { AccountInterface } from "starknet";
-import { DownChevronIcon, WalletIcon } from "@public/icons";
+import { DownChevronIcon, HamburgerIcon, WalletIcon } from "@public/icons";
 import { Button } from "ui/button";
 import LOGO from "../../../public/logo.svg";
 import DropDown from "./DropDown";
@@ -53,11 +53,13 @@ const Nav = ({
   }, [dropdownRef]);
 
   return (
-    <nav className="container mx-auto flex items-center justify-between gap-8">
-      <Link className="block w-[9rem]" href={"/"}>
-        <Image src={LOGO} alt="horus labs logo" />
-      </Link>
-      <div className="flex items-center gap-10 text-foreground-primary">
+    <nav className="container mx-auto flex items-center gap-8 lg:justify-between">
+      <div className="flex-1">
+        <Link className="block w-[9rem]" href={"/"}>
+          <Image src={LOGO} alt="horus labs logo" />
+        </Link>
+      </div>
+      <div className="hidden items-center gap-10 text-foreground-primary lg:flex">
         <p>Explorer</p>
 
         <Menu
@@ -90,7 +92,7 @@ const Nav = ({
           id="community"
         />
       </div>
-      <div className="hidden items-center space-x-8 md:hidden lg:flex">
+      <div className="hidden items-center space-x-8 md:flex">
         {isWalletOpen && (
           <ConnectWallet
             isWalletOpen={isWalletOpen}
@@ -107,6 +109,10 @@ const Nav = ({
           <ConnectedNavBar />
         )}
       </div>
+
+      <button className="text-3xl text-black lg:hidden">
+        <HamburgerIcon />
+      </button>
     </nav>
   );
 };

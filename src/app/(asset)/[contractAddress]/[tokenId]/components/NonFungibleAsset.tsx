@@ -111,7 +111,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
               size={"sm"}
               onClick={() => fetchNextPage()}
               disabled={!hasNextPage || isFetchingNextPage}
-              className="mx-auto my-8"
+              className="mx-auto my-8 rounded-full"
             >
               {isFetchingNextPage
                 ? "Loading more..."

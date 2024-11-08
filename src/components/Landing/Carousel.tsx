@@ -48,26 +48,26 @@ const Carousel = () => {
         className="relative h-[34rem] w-full"
       >
         <m.div
-          className={`absolute left-1/2 grid h-[27rem] w-[67rem] grid-cols-2 overflow-clip rounded-[24px] transition-all duration-1000 ${cards[3].position}`}
+          className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[24px] transition-all duration-1000 ${cards[3].position}`}
         >
           <div className="bg-gray-300">4</div>
           <div className="bg-gradient-linear-primary"></div>
         </m.div>
 
         <div
-          className={`absolute left-1/2 grid h-[27rem] w-[67rem] grid-cols-2 overflow-clip rounded-[24px] ${cards[2].position}`}
+          className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[24px] ${cards[2].position}`}
         >
           <div className="bg-purple-500"></div>
           <div className="bg-orange-700"></div>
         </div>
         <div
-          className={`absolute left-1/2 grid h-[27rem] w-[67rem] grid-cols-2 overflow-clip rounded-[24px] ${cards[1].position}`}
+          className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[24px] ${cards[1].position}`}
         >
           <div className="bg-gray-700"></div>
           <div className="bg-amber-300"></div>
         </div>
         <div
-          className={`absolute left-1/2 grid h-[27rem] w-[67rem] grid-cols-2 overflow-clip rounded-[24px] transition-all duration-500 ${cards[0].position}`}
+          className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[24px] transition-all duration-500 ${cards[0].position}`}
         >
           <div className="bg-gray-600"></div>
           <div className="bg-green-800"></div>

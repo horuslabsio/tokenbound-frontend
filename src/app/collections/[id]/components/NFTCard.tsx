@@ -11,12 +11,12 @@ const NFTCard = ({ nft }: NFTCard) => {
   };
   return (
     <div
-      className="group flex h-[23.2rem] w-[19rem] cursor-pointer flex-col gap-2"
+      className="group flex h-[23.2rem] max-w-[19rem] cursor-pointer flex-col gap-2"
       onClick={redirect}
     >
       <div className="h-[15.6rem] w-full overflow-clip rounded-[16px]">
         <img
-          className="rounded-[16px] object-cover transition-all duration-500 group-hover:scale-110"
+          className="scale-105 rounded-[16px] object-cover transition-all duration-500 group-hover:scale-[1.15]"
           src={nft?.metadata?.image}
         />
       </div>
@@ -27,7 +27,7 @@ const NFTCard = ({ nft }: NFTCard) => {
         <p className="line-clamp-2">{nft?.metadata?.description || ""}</p>
         <CopyButton
           textToCopy={nft?.collection_address || ""}
-          className="flex h-[2rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 p-1 shadow-inner"
+          className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
           copyIcon
         />
       </div>

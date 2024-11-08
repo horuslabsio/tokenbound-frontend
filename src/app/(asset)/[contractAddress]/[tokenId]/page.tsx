@@ -72,9 +72,9 @@ function Assets() {
   };
   const { chain } = useNetwork();
   return (
-    <section className="mx-auto min-h-screen max-w-[1125px] px-4 pb-16 pt-32">
-      <div className="grid w-full grid-cols-[1fr] md:grid-cols-2">
-        <div className="flex flex-col gap-4">
+    <section className="mx-auto min-h-screen max-w-[1125px] px-8 pb-16 pt-32">
+      <div className="mx-auto w-full max-w-[40rem] lg:grid lg:max-w-none lg:grid-cols-2">
+        <div className="flex flex-col items-center gap-4 lg:items-start">
           <div className="h-[31.5rem] w-[31.5rem] overflow-clip rounded-[16px]">
             {tokenData?.metadata?.image ? (
               <img
@@ -97,7 +97,7 @@ function Assets() {
             </p>
             <CopyButton
               textToCopy={deployedAddress}
-              className="flex h-[2.1rem] w-[10rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner"
+              className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
               copyIcon
             />
             {/* <Link
@@ -117,7 +117,7 @@ function Assets() {
               </span>
             </Link> */}
           </div>
-          <div className="relative flex items-center gap-8">
+          <div className="relative flex w-full items-center gap-8 md:max-w-[31.5rem] lg:max-w-none">
             {status ? (
               <Button
                 asChild
@@ -130,11 +130,11 @@ function Assets() {
                 Deploy Account
               </Button>
             )}
-            <DeployArrow />
+            {!status && <DeployArrow />}
           </div>
         </div>
-        <div>
-          <div className="flex flex-col gap-4">
+        <div className="mx-auto mt-4 w-full md:max-w-[31.5rem] lg:mt-0 lg:max-w-none">
+          <div className="flex w-full flex-col gap-4">
             <p className="text-xl">Description</p>
             {tokenData?.metadata?.description && (
               <p className="line-clamp-2 first-letter:capitalize">

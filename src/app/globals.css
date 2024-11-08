@@ -52,7 +52,7 @@
 
   h1 {
     font-size: 3em;
-    line-height: 1.5;
+    line-height: 1.2;
     font-weight: 500;
   }
 
@@ -241,16 +241,4 @@ dialog[open]::before {
   dialog[open]::before {
     opacity: 0;
   }
-}
-
-.line-1 {
-  /* background-color: #ff6b6b; */
-  clip-path: inset(0.78rem 0% 0% 0.8rem);
-}
-.line-2 {
-  /* background-color: aquamarine; */
-  clip-path: inset(0% 87% 0% 0%);
-}
-.line-3 {
-  clip-path: inset(0% 0% 0% 12%);
 }

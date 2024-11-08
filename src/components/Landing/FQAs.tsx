@@ -22,12 +22,12 @@ const FQAs = () => {
   };
 
   return (
-    <section className="mx-auto flex max-w-[1536px] flex-col gap-8 bg-[#f8f8f8] px-4 py-16 lg:p-16">
+    <section className="mx-auto flex w-full max-w-[1536px] flex-col gap-8 bg-[#f8f8f8] px-4 py-16 lg:p-16">
       <h2 className="mx-auto w-[486px] text-center">
         Frequently
         <span className="text-gradient"> Asked</span> Questions
       </h2>
-      <section className="mx-auto flex flex-col gap-4 md:w-[70%]">
+      <section className="mx-auto flex w-full flex-col gap-4 md:max-w-[50rem] lg:max-w-[64rem]">
         {FQAData.map((items) => {
           const { answer, id, question } = items;
 
