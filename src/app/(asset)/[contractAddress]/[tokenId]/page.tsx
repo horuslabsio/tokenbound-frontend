@@ -14,6 +14,7 @@ import { WalletToken } from "../../../../types";
 import { useQuery } from "@tanstack/react-query";
 import { CopyButton } from "ui/copy-button";
 import { Button } from "ui/button";
+import DeployArrow from "./ui/deploy-arrow";
 const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });
@@ -116,18 +117,21 @@ function Assets() {
               </span>
             </Link> */}
           </div>
-          {status ? (
-            <Button
-              asChild
-              className="w-fit rounded-full bg-gray-100 text-foreground-primary"
-            >
-              <span>TBA Deployed</span>
-            </Button>
-          ) : (
-            <Button className="w-fit rounded-full" onClick={deployAccount}>
-              Deploy Account
-            </Button>
-          )}
+          <div className="relative flex items-center gap-8">
+            {status ? (
+              <Button
+                asChild
+                className="w-fit rounded-full bg-gray-100 text-foreground-primary"
+              >
+                <span>TBA Deployed</span>
+              </Button>
+            ) : (
+              <Button className="w-fit rounded-full" onClick={deployAccount}>
+                Deploy Account
+              </Button>
+            )}
+            <DeployArrow />
+          </div>
         </div>
         <div>
           <div className="flex flex-col gap-4">

@@ -7,6 +7,7 @@ import { useRefreshMetadata } from "@hooks/index";
 
 import { Button } from "ui/button";
 import { Tooltip } from "ui/tooltip";
+import NothingToSee from "../ui/nothing-to-see";
 
 const Portfolio = ({
   tbaAddress,
@@ -67,9 +68,7 @@ const Portfolio = ({
           {deployed ? (
             <FungibleAsset tbaAddress={tbaAddress} />
           ) : (
-            <div className="mt-8 grid h-[13.5rem] w-[38rem] place-content-center rounded-[16px] bg-gray-100">
-              <p className="text-lg">Nothing to show yet.</p>
-            </div>
+            <NothingToSee />
           )}
         </div>
       </div>

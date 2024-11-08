@@ -4,6 +4,7 @@ import TransferNftModal from "./TransferNftModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Button } from "ui/button";
 import { WalletTokensApiResponse } from "../../../../../types";
+import NothingToSee from "../ui/nothing-to-see";
 
 const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   const formatted_address = tbaAddress.replace("0x", "0x0");
@@ -121,9 +122,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
           )}
         </div>
       ) : (
-        <div className="mt-8 grid h-[13.5rem] w-[38rem] place-content-center rounded-[16px] bg-gray-100">
-          <p className="text-lg">Nothing to show yet.</p>
-        </div>
+        <NothingToSee />
       )}
     </div>
   );

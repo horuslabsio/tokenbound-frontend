@@ -242,3 +242,15 @@ dialog[open]::before {
     opacity: 0;
   }
 }
+
+.line-1 {
+  /* background-color: #ff6b6b; */
+  clip-path: inset(0.78rem 0% 0% 0.8rem);
+}
+.line-2 {
+  /* background-color: aquamarine; */
+  clip-path: inset(0% 87% 0% 0%);
+}
+.line-3 {
+  clip-path: inset(0% 0% 0% 12%);
+}
