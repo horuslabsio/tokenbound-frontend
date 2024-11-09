@@ -22,12 +22,12 @@ const FQAs = () => {
   };
 
   return (
-    <section className="mx-auto flex w-full flex-col gap-8 bg-[#f8f8f8] px-4 py-16 md:max-w-[1536px] lg:p-16">
+    <section className="mx-auto flex w-full flex-col gap-8 bg-gray-100 px-2 py-16 md:max-w-[1536px] md:px-4 lg:p-16">
       <h2 className="mx-auto w-full max-w-[200px] text-center md:max-w-[486px]">
         Frequently
         <span className="text-gradient"> Asked</span> Questions
       </h2>
-      <section className="mx-auto flex w-full max-w-[35rem] flex-col gap-4 md:max-w-[50rem] lg:max-w-[64rem]">
+      <section className="mx-auto flex w-full max-w-[35rem] flex-col gap-2 md:max-w-[50rem] md:gap-4 lg:max-w-[64rem]">
         {FQAData.map((items) => {
           const { answer, id, question } = items;
 
@@ -57,7 +57,7 @@ const Accordion = ({
   toggleAccordion,
 }: Props) => {
   return (
-    <div className="rounded-[12px] bg-white px-6 py-3">
+    <div className="rounded-[8px] bg-white px-4 py-3 md:rounded-[12px] md:px-6">
       <button
         aria-expanded={currentAccordion === id}
         aria-label={`Toggle ${question} accordion`}

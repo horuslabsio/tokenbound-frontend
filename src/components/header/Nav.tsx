@@ -55,7 +55,7 @@ const Nav = ({
 
   return (
     <nav className="container mx-auto flex items-center gap-8 lg:justify-between">
-      <div className="flex-1">
+      <div className="flex-1 lg:flex-none">
         <Link className="block h-[1.8rem] w-[1.8rem] md:w-[9rem]" href={"/"}>
           <Image className="hidden md:block" src={LOGO} alt="horus labs logo" />
           <Image className="md:hidden" src={LOGO_SMALL} alt="horus labs logo" />

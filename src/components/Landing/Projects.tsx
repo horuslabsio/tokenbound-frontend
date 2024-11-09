@@ -45,7 +45,7 @@ const Project = ({
 
 const Projects = () => {
   return (
-    <section id="projects" className="mx-auto max-w-[1060px] px-4 py-8 lg:p-16">
+    <section id="projects" className="mx-auto max-w-[1060px] px-2 py-8 lg:p-16">
       <div className="mb-8 flex justify-center md:justify-between">
         <h2 className="flex flex-col text-center md:block md:text-start">
           <span className="text-gradient"> Community</span>

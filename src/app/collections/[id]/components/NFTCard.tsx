@@ -11,7 +11,7 @@ const NFTCard = ({ nft }: NFTCard) => {
   };
   return (
     <div
-      className="group flex h-[23.2rem] max-w-[19rem] cursor-pointer flex-col gap-2"
+      className="group flex h-[23.2rem] w-full cursor-pointer flex-col gap-4 md:max-w-[19rem] md:gap-2"
       onClick={redirect}
     >
       <div className="h-[15.6rem] w-full overflow-clip rounded-[16px]">

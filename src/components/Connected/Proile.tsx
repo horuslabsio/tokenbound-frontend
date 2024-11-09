@@ -68,6 +68,10 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
         <div className="mx-auto h-[5.3rem] w-[6.3rem] rounded-[16px] bg-[#EFC58E]">
           {starknetProfile?.profilePicture && (
             <img
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.opacity = "0";
+              }}
               className="rounded-[16px] object-cover"
               src={starknetProfile?.profilePicture}
               alt="your starknet profile picture"

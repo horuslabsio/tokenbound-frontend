@@ -1,4 +1,3 @@
-"use client";
 import { UpRightArrowIcon } from "@public/icons";
 import { Button } from "ui/button";
 import dynamic from "next/dynamic";
@@ -13,7 +12,7 @@ const Hero = () => {
   return (
     <section className="relative mx-auto flex max-h-[1080px] w-screen max-w-[1536px] flex-col items-center justify-center overflow-hidden text-center md:h-screen md:flex-row md:items-start">
       <MobileBgImage />
-      <div className="relative z-[1] mt-16 flex w-[28.5rem] flex-col gap-8 px-4 md:mt-0">
+      <div className="relative z-[1] mt-16 flex max-w-[28.5rem] flex-col gap-8 px-4 md:mt-0">
         <h1 className="font-inter-variable">
           Transform <span className="text-gradient">any</span> NFT to a{" "}
           <span className="font-instrument-serif">wallet</span>
@@ -23,7 +22,7 @@ const Hero = () => {
           NFT. It can do everything a normal wallet can do and is compatible
           with every NFT you already own.
         </p>
-        <div className="mx-auto flex w-fit gap-4">
+        <div className="mx-auto flex w-fit flex-wrap justify-center gap-4">
           <Button
             asChild
             className="bg-gray-50 text-foreground-secondary"
@@ -38,14 +37,8 @@ const Hero = () => {
             </a>
           </Button>
 
-          <Button
-            onClick={() => {
-              document.getElementById("projects")?.scrollIntoView({
-                behavior: "smooth",
-              });
-            }}
-          >
-            <span>Showcase</span>
+          <Button>
+            <a href="#projects">Showcase</a>
           </Button>
         </div>
       </div>

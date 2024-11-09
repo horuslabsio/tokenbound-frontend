@@ -42,7 +42,7 @@ export default function ConnectWallet({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="flex min-h-[250px] w-[435px] flex-col justify-between rounded-[16px] bg-white p-4">
+                <Dialog.Panel className="flex w-full max-w-[435px] flex-col justify-between rounded-[16px] bg-white p-4 md:min-h-[250px]">
                   <Dialog.Title>
                     <div className="mb-4 flex items-center justify-between py-2">
                       <h5 className={"text-start text-2xl"}>

@@ -106,7 +106,7 @@ const TransferModal = ({
           });
           setTokenTransferredSuccessfully(null);
         }}
-        className="flex min-h-[18rem] w-[27rem] flex-col justify-between rounded-[16px] bg-white p-4"
+        className="flex min-h-[18rem] w-[90vw] max-w-[27rem] flex-col justify-between rounded-[16px] bg-white p-4"
       >
         <div className="flex w-full items-center justify-between">
           <h5 className="font-inter-variable">

@@ -73,9 +73,9 @@ function Assets() {
   const { chain } = useNetwork();
   return (
     <section className="mx-auto min-h-screen max-w-[1125px] px-8 pb-16 pt-32">
-      <div className="mx-auto w-full max-w-[40rem] lg:grid lg:max-w-none lg:grid-cols-2">
+      <div className="mx-auto w-full max-w-[23rem] md:max-w-[40rem] lg:grid lg:max-w-none lg:grid-cols-2">
         <div className="flex flex-col items-center gap-4 lg:items-start">
-          <div className="h-[31.5rem] w-[31.5rem] overflow-clip rounded-[16px]">
+          <div className="h-[17.1rem] w-full overflow-clip rounded-[16px] md:h-[31.5rem] md:w-[31.5rem]">
             {tokenData?.metadata?.image ? (
               <img
                 className="scale-110 rounded-[16px] object-cover"
@@ -91,8 +91,8 @@ function Assets() {
               ></div>
             )}
           </div>
-          <div className="flex w-[31.5rem] justify-between gap-2">
-            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-3xl">
+          <div className="flex w-full justify-between gap-2 md:w-[31.5rem]">
+            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-2xl md:text-3xl">
               {tokenData?.metadata?.name || ""}
             </p>
             <CopyButton

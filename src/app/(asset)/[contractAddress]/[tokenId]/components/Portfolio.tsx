@@ -31,7 +31,7 @@ const Portfolio = ({
 
   return (
     <>
-      <div className="mt-4 flex min-h-[3rem] w-fit items-center gap-[12px] rounded-full bg-gray-100 p-1">
+      <div className="mt-4 flex w-fit items-center gap-[12px] rounded-full bg-gray-100 p-1 md:min-h-[3rem]">
         <Button
           startIcon={<ImageIcon />}
           onClick={toggleContent}

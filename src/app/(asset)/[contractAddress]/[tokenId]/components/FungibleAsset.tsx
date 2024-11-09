@@ -39,9 +39,13 @@ const Token = ({
         <div
           className={`flex w-full items-center justify-between border-b border-[#EAEAEA] py-2`}
         >
-          <div className="flex gap-4">
+          <div className="flex gap-2 md:gap-4">
             <div>
-              <img src={src} className="h-[32px] w-[32px]" alt="asset-logo" />
+              <img
+                src={src}
+                className="h-[28px] w-[28px] md:h-[32px] md:w-[32px]"
+                alt="asset-logo"
+              />
             </div>
             <div>
               <p className="uppercase">{unit}</p>
@@ -50,10 +54,10 @@ const Token = ({
           </div>
 
           <div className="flex items-center justify-between gap-4">
-            <p className="text-base">{`${balance} ${unit}`}</p>
+            <p className="md:text-base">{`${balance} ${unit}`}</p>
             <Button
               variant={"ghost"}
-              className="rounded-full bg-white px-3 py-2 text-black"
+              className="rounded-full bg-white px-1 py-2 text-black md:px-3"
               // disabled={+balance <= 0}
               onClick={toggleModal}
               size={"sm"}

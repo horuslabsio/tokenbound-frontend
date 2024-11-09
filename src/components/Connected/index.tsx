@@ -5,14 +5,12 @@ import { useAccount, useNetwork } from "@starknet-react/core";
 import { Button } from "ui/button";
 import Profile from "./Proile";
 import { Tooltip } from "ui/tooltip";
-import { Modal } from "ui/modal";
 import { ProfileIcon, UpRightArrowIcon } from "@public/icons";
 
 function ConnectedNavBar() {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const profileRef = useRef<HTMLDialogElement | null>(null);
-  const [show, setShow] = useState<boolean>(false);
   const closeModal = () => {
     profileRef?.current?.close();
   };
@@ -40,7 +38,7 @@ function ConnectedNavBar() {
         onClick={() => {
           closeModal();
         }}
-        className="absolute top-[4rem] z-[100]"
+        className="absolute top-[4rem] z-[100] h-screen bg-red-700 md:h-auto"
         ref={profileRef}
       >
         <Profile closeModal={closeModal} />

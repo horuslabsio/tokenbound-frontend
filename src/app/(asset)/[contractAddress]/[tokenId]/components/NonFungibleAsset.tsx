@@ -59,11 +59,11 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     <div className="w-full">
       {nfts && walletNfts.length > 0 ? (
         <div className="mt-4 flex h-[23rem] max-w-[38rem] flex-col items-center overflow-y-auto rounded-[16px] bg-gray-100 p-2">
-          <div className="grid w-full grid-cols-3 justify-between gap-2">
+          <div className="grid w-full grid-cols-2 justify-between gap-2 md:grid-cols-3">
             {nfts.pages.map((page) =>
               page.data.map((item, index) => (
                 <div
-                  className="group relative h-[10.8rem] max-w-[11.8rem]"
+                  className="group relative h-[91.rem] w-full max-w-[10.4rem] md:h-[10.8rem] md:max-w-[11.8rem]"
                   key={index}
                 >
                   <div className="h-full w-full overflow-clip rounded-[12px]">

@@ -35,7 +35,7 @@ const ShowCase = () => {
   }, []);
 
   return (
-    <section className="container mx-auto flex flex-col items-center gap-8 p-8">
+    <section className="container mx-auto flex flex-col items-center gap-8 p-4 md:p-8">
       <h2 className="mx-auto w-full max-w-[15rem] text-center md:max-w-[30.5rem]">
         Empowering Your NFTs with{" "}
         <span className="text-gradient">Next-Level</span> Functionality
