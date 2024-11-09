@@ -48,7 +48,7 @@ const Portfolio = ({
         </Button>
       </div>
 
-      <div className="grid grid-cols-[1fr] grid-rows-[1fr]">
+      <div className="relative z-10 grid grid-cols-[1fr] grid-rows-[1fr]">
         <div
           className={`col-start-1 row-start-1 transition-all duration-300 ${
             isCollectible
@@ -71,6 +71,7 @@ const Portfolio = ({
             <NothingToSee />
           )}
         </div>
+        <div className="absolute bottom-0 h-6 w-full translate-y-full bg-white"></div>
       </div>
       {/* <Tooltip message="click to refresh asset if metadata does not display">
         <Button
