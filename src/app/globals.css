@@ -148,6 +148,9 @@
   .dash-border-gradient {
     @apply before:absolute before:left-0 before:h-[1px] before:w-full before:bg-gradient-linear-dashed before:bg-[length:7px_3px] before:content-[''];
   }
+  .dash-border-gradient-mobile-only {
+    @apply before:absolute before:left-0 before:h-[1px] before:w-full before:bg-gradient-linear-dashed before:bg-[length:7px_3px] before:content-[''] md:before:hidden;
+  }
 }
 
 @keyframes fadeInSteps {

@@ -9,6 +9,7 @@ import { AccountInterface } from "starknet";
 import { DownChevronIcon, HamburgerIcon, WalletIcon } from "@public/icons";
 import { Button } from "ui/button";
 import LOGO from "../../../public/logo.svg";
+import LOGO_SMALL from "../../../public/logo-2.svg";
 import DropDown from "./DropDown";
 import NetworkSwitcher from "./NetworkSwitcher";
 
@@ -55,8 +56,9 @@ const Nav = ({
   return (
     <nav className="container mx-auto flex items-center gap-8 lg:justify-between">
       <div className="flex-1">
-        <Link className="block w-[9rem]" href={"/"}>
-          <Image src={LOGO} alt="horus labs logo" />
+        <Link className="block h-[1.8rem] w-[1.8rem] md:w-[9rem]" href={"/"}>
+          <Image className="hidden md:block" src={LOGO} alt="horus labs logo" />
+          <Image className="md:hidden" src={LOGO_SMALL} alt="horus labs logo" />
         </Link>
       </div>
       <div className="hidden items-center gap-10 text-foreground-primary lg:flex">

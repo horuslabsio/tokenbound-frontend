@@ -17,18 +17,18 @@ const Footer = () => {
 
   return (
     <footer className="mx-auto px-8 pb-8 pt-16 md:max-w-[1024px] xl:max-w-[1280px] 2xl:max-w-[1536px]">
-      <div className="dash-border-gradient relative flex items-center justify-between pb-4 before:bottom-0">
-        <div className="flex w-[30rem] flex-col gap-4">
+      <div className="dash-border-gradient relative flex flex-col justify-between gap-4 pb-4 before:bottom-0 md:flex-row md:items-center">
+        <div className="flex w-full max-w-[30rem] flex-col gap-4">
           <Link className="block w-[9rem]" href={"/"}>
             <Image src={LOGO} alt="horus labs logo" />
           </Link>
-          <p>
+          <p className="">
             We’re a blockchain research and development lab, powered by Starknet
             Africa.
           </p>
         </div>
-        <div className="flex w-full max-w-[25rem] flex-col gap-4">
-          <p>
+        <div className="dash-border-gradient-mobile-only flex w-full max-w-[25rem] flex-col gap-4">
+          <p className="pt-4 md:pt-0">
             Be the first to hear about job openings, product updates and
             announcements
           </p>

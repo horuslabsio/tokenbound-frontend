@@ -74,7 +74,7 @@ const Carousel = () => {
         </div>
       </div>
 
-      <div className="flex gap-6">
+      <div className="hidden gap-6 md:flex">
         {cards.map((card) => (
           <Button
             key={card.id}

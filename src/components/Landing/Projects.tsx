@@ -26,7 +26,7 @@ const Project = ({
     >
       <figure className="flex flex-col gap-4">
         <div
-          className={`relative mx-auto flex h-[10rem] w-full max-w-[21rem] items-center justify-center overflow-hidden rounded-[16px]`}
+          className={`relative mx-auto flex h-[11rem] w-full max-w-[21rem] items-center justify-center overflow-hidden rounded-[16px] md:h-[10rem]`}
         >
           <Image
             className="h-full w-full scale-[1.02] rounded-[16px] object-cover transition-all duration-500 group-hover:scale-[1.15]"
@@ -45,18 +45,15 @@ const Project = ({
 
 const Projects = () => {
   return (
-    <section
-      id="projects"
-      className="mx-auto max-w-[1060px] px-8 py-16 lg:p-16"
-    >
-      <div className="mb-8 flex justify-between">
-        <h2 className="">
+    <section id="projects" className="mx-auto max-w-[1060px] px-4 py-8 lg:p-16">
+      <div className="mb-8 flex justify-center md:justify-between">
+        <h2 className="flex flex-col text-center md:block md:text-start">
           <span className="text-gradient"> Community</span>
           {""} Project Gallery
         </h2>
 
         <a
-          className="inline-block h-fit rounded-full bg-gray-100 px-4 py-2 text-black"
+          className="hidden h-fit rounded-full bg-gray-100 px-4 py-2 text-black md:inline-block"
           href="https://docs.tbaexplorer.com/"
           target="_blank"
           rel="noopener noreferrer"
@@ -64,7 +61,7 @@ const Projects = () => {
           View All
         </a>
       </div>
-      <div className="flex flex-col gap-4 md:grid md:grid-cols-3 lg:gap-8">
+      <div className="flex max-w-[21rem] flex-col gap-4 md:grid md:max-w-none md:grid-cols-3 lg:gap-8">
         <Project
           url="https://www.carbonable.io/"
           title="Carbonable"

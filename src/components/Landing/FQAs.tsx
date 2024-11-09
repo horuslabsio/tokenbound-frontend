@@ -22,12 +22,12 @@ const FQAs = () => {
   };
 
   return (
-    <section className="mx-auto flex w-full max-w-[1536px] flex-col gap-8 bg-[#f8f8f8] px-4 py-16 lg:p-16">
-      <h2 className="mx-auto w-[486px] text-center">
+    <section className="mx-auto flex w-full flex-col gap-8 bg-[#f8f8f8] px-4 py-16 md:max-w-[1536px] lg:p-16">
+      <h2 className="mx-auto w-full max-w-[200px] text-center md:max-w-[486px]">
         Frequently
         <span className="text-gradient"> Asked</span> Questions
       </h2>
-      <section className="mx-auto flex w-full flex-col gap-4 md:max-w-[50rem] lg:max-w-[64rem]">
+      <section className="mx-auto flex w-full max-w-[35rem] flex-col gap-4 md:max-w-[50rem] lg:max-w-[64rem]">
         {FQAData.map((items) => {
           const { answer, id, question } = items;
 
@@ -83,7 +83,7 @@ const Accordion = ({
         }`}
       >
         <div className="overflow-hidden">
-          <div className="flex w-[80%] flex-col gap-2 py-6">
+          <div className="flex flex-col gap-2 py-6 md:w-[80%]">
             {Array.isArray(answer) ? (
               <ul className="flex list-disc flex-col gap-2 pl-6">
                 {answer.map((line, index) => (
