@@ -16,7 +16,7 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
 }) => {
   const { account } = useAccount();
   const { chain } = useNetwork();
-
+  const [loading, setLoading] = useState(true);
   const [activeVersion, setActiveVersion] = useState<{
     version: "V3" | "V2" | "undeployed";
     address: string;
@@ -24,10 +24,7 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
   const [version, setVersion] = useState<{
     v2: { address: string; status: boolean };
     v3: { address: string; status: boolean };
-  }>({
-    v2: { address: "", status: false },
-    v3: { address: "", status: false },
-  });
+  } | null>(null);
 
   const [tokenboundV3, setTokenboundV3] = useState<
     TokenboundClient | undefined
@@ -62,25 +59,29 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
     }
   }, [account, chain]);
 
-  useEffect(() => {
-    if (version.v3.status) {
-      setActiveVersion({ address: version.v3.address, version: "V3" });
-    } else if (version.v2.status) {
-      setActiveVersion({ address: version.v2.address, version: "V2" });
-    }
-
-    const timeout = setTimeout(() => {
-      if (!activeVersion) {
-        setActiveVersion({
-          address: version.v3.address,
-          version: "undeployed",
-        });
-      }
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, [version]);
-  const value = { tokenboundV2, tokenboundV3, activeVersion, setVersion };
+  // useEffect(() => {
+  //   if (version) {
+  //     if (version.v3.status) {
+  //       setActiveVersion({ address: version.v3.address, version: "V3" });
+  //       console.log("so im v3?");
+  //     } else if (version.v2.status) {
+  //       setActiveVersion({ address: version.v2.address, version: "V2" });
+  //     } else {
+  //       setActiveVersion({
+  //         address: version.v3.address,
+  //         version: "undeployed",
+  //       });
+  //     }
+  //     setLoading(false);
+  //   }
+  // }, [version]);
+  const value = {
+    tokenboundV2,
+    tokenboundV3,
+    activeVersion,
+    setVersion,
+    loading,
+  };
 
   return (
     <TokenboundContext.Provider value={value}>

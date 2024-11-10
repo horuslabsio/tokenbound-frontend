@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { CloseIcon, RightArrow } from "@public/icons";
-import { useTokenBoundSDK } from "@hooks/index";
+// import { useTokenBoundSDK } from "@hooks/index";
 import { Button } from "ui/button";
 
 type Props = {
@@ -16,7 +16,7 @@ const TransferNftModal = ({
   contractAddress,
   tokenId,
 }: Props) => {
-  const { tokenbound } = useTokenBoundSDK();
+  // const { tokenbound } = useTokenBoundSDK();
   const [recipientAddress, setRecipientAddress] = useState("");
   const [transferStatus, setTransferStatus] = useState<
     "idle" | "error" | "pending" | "success"
@@ -28,29 +28,28 @@ const TransferNftModal = ({
   };
 
   const transferNFTAssets = async () => {
-    try {
-      if (tokenbound) {
-        setTransferStatus("pending");
-        const status = await tokenbound.transferNFT({
-          tbaAddress: tokenBoundAddress,
-          contractAddress: contractAddress,
-          tokenId: tokenId,
-          sender: tokenBoundAddress,
-          recipient: recipientAddress,
-        });
-        setTransferStatus("success");
-        console.log("transferStat", status);
-      }
-    } catch (error) {
-      setTransferStatus("error");
-      setTimeout(() => {
-        setTransferStatus("idle");
-      }, 5000);
-
-      if (process.env.NODE_ENV !== "production") {
-        console.log("there was an error transferring the assets", error);
-      }
-    }
+    // try {
+    //   if (tokenbound) {
+    //     setTransferStatus("pending");
+    //     const status = await tokenbound.transferNFT({
+    //       tbaAddress: tokenBoundAddress,
+    //       contractAddress: contractAddress,
+    //       tokenId: tokenId,
+    //       sender: tokenBoundAddress,
+    //       recipient: recipientAddress,
+    //     });
+    //     setTransferStatus("success");
+    //     console.log("transferStat", status);
+    //   }
+    // } catch (error) {
+    //   setTransferStatus("error");
+    //   setTimeout(() => {
+    //     setTransferStatus("idle");
+    //   }, 5000);
+    //   if (process.env.NODE_ENV !== "production") {
+    //     console.log("there was an error transferring the assets", error);
+    //   }
+    // }
   };
 
   return (
@@ -104,7 +103,7 @@ const TransferNftModal = ({
               variant={"gray"}
               endIcon={transferStatus === "error" ? null : <RightArrow />}
               isLoading={transferStatus === "pending"}
-              className={`rounded-full transition-all duration-300 ${transferStatus === "error" ? "text-[#ce5a4c]" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
+              className={`rounded-full transition-all duration-300 ${transferStatus === "error" ? "text-error" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
               disabled={
                 !recipientAddress ||
                 transferStatus === "pending" ||

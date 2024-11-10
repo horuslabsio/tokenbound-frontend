@@ -58,10 +58,10 @@ export const useDeployAccount = ({
 }) => {
   const { tokenboundV3 } = useTokenBoundSDK();
   const [deploymentStatus, setDeploymentStatus] = useState<
-    "idle" | "success" | "failed" | "ongoing"
+    "idle" | "success" | "error" | "pending"
   >("idle");
   const deployAccount = async () => {
-    setDeploymentStatus("ongoing");
+    setDeploymentStatus("pending");
     try {
       await tokenboundV3?.createAccount({
         tokenContract: contractAddress,
@@ -73,25 +73,14 @@ export const useDeployAccount = ({
       if (process.env.NODE_ENV !== "production") {
         console.error("Error deploying TBA", err);
       }
-      setDeploymentStatus("failed");
+      setDeploymentStatus("error");
       setTimeout(() => {
         setDeploymentStatus("idle");
       }, 2000);
     }
   };
 
-  useEffect(() => {
-    if (account) {
-      const initTokenbound = async () => {
-        const { TokenboundClient } = await import("starknet-tokenbound-sdk");
-        const clientInstance = new TokenboundClient(options);
-        setTokenbound(clientInstance);
-      };
-      initTokenbound();
-    }
-  }, [account]);
-
-  return { tokenbound };
+  return { deploymentStatus, deployAccount };
 };
 
 export const useUpgradeAccount = ({
@@ -104,13 +93,13 @@ export const useUpgradeAccount = ({
   chain: Chain;
 }) => {
   const [upgradeStatus, setUpgradeStatus] = useState<
-    "idle" | "success" | "failed" | "ongoing"
+    "idle" | "success" | "error" | "pending"
   >("idle");
   const upgradeAccount = async () => {
     let network = chain.network;
     let v3Implementation =
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
-    setUpgradeStatus("ongoing");
+    setUpgradeStatus("pending");
     try {
       await tokenboundClient?.upgrade({
         tbaAddress: contractAddress,
@@ -121,7 +110,7 @@ export const useUpgradeAccount = ({
       if (process.env.NODE_ENV !== "production") {
         console.error("Error upgrading TBA", err);
       }
-      setUpgradeStatus("failed");
+      setUpgradeStatus("error");
       setTimeout(() => {
         setUpgradeStatus("idle");
       }, 2000);
@@ -164,8 +153,6 @@ export const useRefreshMetadata = (
         },
         {
           headers: {
-            accept: "text/plain",
-            "Content-Type": "application/json",
             accept: "text/plain",
             "Content-Type": "application/json",
           },

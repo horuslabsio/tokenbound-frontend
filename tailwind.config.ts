@@ -53,6 +53,7 @@ const config: Config = {
         "foreground-primary": "#5a5a5a",
         "foreground-secondary": "#4b4b4b",
         "foreground-tertiary": "#8f8f8f",
+        error: "#ce5a4c",
       },
     },
     transform: {

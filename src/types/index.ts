@@ -128,6 +128,7 @@ export interface TokenboundContextType {
         address: string;
         status: boolean;
       };
-    }>
+    } | null>
   >;
+  loading: boolean;
 }

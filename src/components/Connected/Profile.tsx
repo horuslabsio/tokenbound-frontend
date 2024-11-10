@@ -5,12 +5,8 @@ import {
   useStarkProfile,
 } from "@starknet-react/core";
 
-import React, { MutableRefObject, useRef, useState } from "react";
-import { copyToClipBoard, shortenAddress } from "@utils/helper";
-
 import {
   CloseIcon,
-  CopyIcon,
   ExitIcon,
   GlobeIcon,
   GradientGlobeIcon,
@@ -21,19 +17,9 @@ import { CopyButton } from "ui/copy-button";
 
 const Profile = ({ closeModal }: { closeModal: () => void }) => {
   const router = useRouter();
-  const [copied, setCopied] = useState(false);
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
 
-  const copy = () => {
-    let status = copyToClipBoard(address as string);
-    if (status) {
-      setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-      }, 3000);
-    }
-  };
   const { data: starknetProfile } = useStarkProfile({
     address: address,
   });
@@ -110,7 +96,7 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
         <button
           type="button"
           onClick={() => disconnect()}
-          className="flex h-[3rem] items-center gap-2 rounded-[8px] px-4 text-[#CE5A4C] transition-all hover:bg-gray-100"
+          className="text-error flex h-[3rem] items-center gap-2 rounded-[8px] px-4 transition-all hover:bg-gray-100"
         >
           <span>Disconnect</span>
           <span>

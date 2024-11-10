@@ -1,9 +1,9 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { shortenAddress } from "@utils/helper";
 import { useAccount, useNetwork } from "@starknet-react/core";
 import { Button } from "ui/button";
-import Profile from "./Proile";
+import Profile from "./Profile";
 import { Tooltip } from "ui/tooltip";
 import { ProfileIcon, UpRightArrowIcon } from "@public/icons";
 
