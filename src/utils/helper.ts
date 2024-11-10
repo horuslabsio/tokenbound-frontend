@@ -3,10 +3,7 @@ import confetti from "canvas-confetti";
 
 export const shortenAddress = (address: string) => {
   if (!address) return null;
-  return `${address.substr(0, 6)}...${address.substr(
-    address.length - 4,
-    address.length
-  )}`;
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
 export const fallbackCopyToClipBoard = (text: string) => {

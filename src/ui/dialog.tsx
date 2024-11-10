@@ -1,7 +1,7 @@
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { cn } from "lib/utils";
+import { cn } from "@utils/utils";
 import {
   ComponentPropsWithoutRef,
   ElementRef,

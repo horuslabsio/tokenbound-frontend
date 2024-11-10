@@ -1,7 +1,7 @@
 "use client";
 import { type DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
-import { cn } from "../lib/utils";
+import { cn } from "@utils/utils";
 import { Dialog, DialogContent } from "./dialog";
 import { forwardRef } from "react";
 
