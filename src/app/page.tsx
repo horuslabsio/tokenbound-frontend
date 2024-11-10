@@ -1,10 +1,11 @@
-import React from "react";
+import dynamic from "next/dynamic";
 import Hero from "@components/Landing/Hero";
 import Community from "@components/Landing/Community";
 import Features from "@components/Landing/Features";
 import Projects from "@components/Landing/Projects";
-import ShowCase from "@components/Landing/ShowCase";
 import FAQs from "@components/Landing/FQAs";
+
+const ShowCase = dynamic(() => import("../components/Landing/ShowCase"));
 
 export default function Home() {
   return (
@@ -12,8 +13,8 @@ export default function Home() {
       <Hero />
       <Features />
       <ShowCase />
-      <FAQs />
       <Projects />
+      <FAQs />
       <Community />
     </main>
   );

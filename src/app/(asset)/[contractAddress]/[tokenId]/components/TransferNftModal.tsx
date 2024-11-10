@@ -1,11 +1,9 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
-import { CheckIcon, XIcon } from "@public/icons";
-import { Modal } from "ui/Modal";
-import Spinner from "ui/Spinner";
+import { ChangeEvent, useState } from "react";
+import { CloseIcon, RightArrow } from "@public/icons";
+import { useTokenBoundSDK } from "@hooks/index";
+import { Button } from "ui/button";
 
 type Props = {
-  openModal: boolean;
   closeModal: () => void;
   tokenBoundAddress: string;
   contractAddress: string;
@@ -14,149 +12,115 @@ type Props = {
 
 const TransferNftModal = ({
   closeModal,
-  openModal,
   tokenBoundAddress,
   contractAddress,
   tokenId,
 }: Props) => {
-  const { tokenboundV2, tokenboundV3, activeVersion } = useTokenBoundSDK();
-  const [transferDetails, setTransferDetails] = useState({
-    recipientWalletAddress: "",
-  });
+  const { tokenbound } = useTokenBoundSDK();
+  const [recipientAddress, setRecipientAddress] = useState("");
+  const [transferStatus, setTransferStatus] = useState<
+    "idle" | "error" | "pending" | "success"
+  >("idle");
 
-  const [tokenTransferredSuccessfully, setTokenTransferredSuccessfully] =
-    useState<boolean | null>(null);
-  const [disableSendBtn, setDisableSendBtn] = useState("enableButton");
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    let newValue = value;
-    if (name === "recipientWalletAddress") {
-      if (value === "" && transferDetails.recipientWalletAddress === "") {
-        newValue = "0x";
-      }
-    }
+    const { value } = e.target;
+    setRecipientAddress(value);
+  };
 
-    setTransferDetails((prevState) => ({
-      ...prevState,
-      [name]: newValue,
-    }));
-  };
-  const closeTransferModal = () => {
-    closeModal();
-  };
   const transferNFTAssets = async () => {
-    const tokenbound =
-      activeVersion?.version === "V2" ? tokenboundV2 : tokenboundV3;
     try {
       if (tokenbound) {
-        setTokenTransferredSuccessfully(false);
+        setTransferStatus("pending");
         const status = await tokenbound.transferNFT({
           tbaAddress: tokenBoundAddress,
           contractAddress: contractAddress,
           tokenId: tokenId,
           sender: tokenBoundAddress,
-          recipient: transferDetails.recipientWalletAddress,
+          recipient: recipientAddress,
         });
-        setTokenTransferredSuccessfully(status);
+        setTransferStatus("success");
         console.log("transferStat", status);
       }
     } catch (error) {
+      setTransferStatus("error");
+      setTimeout(() => {
+        setTransferStatus("idle");
+      }, 5000);
+
       if (process.env.NODE_ENV !== "production") {
         console.log("there was an error transferring the assets", error);
       }
     }
   };
 
-  useEffect(() => {
-    if (!transferDetails.recipientWalletAddress) {
-      setDisableSendBtn("disableButton");
-    } else {
-      setDisableSendBtn("enableButton");
-    }
-    if (tokenTransferredSuccessfully === false) {
-      setDisableSendBtn("disableButton");
-    }
-  }, [tokenTransferredSuccessfully, transferDetails]);
-
   return (
-    <Modal type="nft" closeModal={closeTransferModal} openModal={openModal}>
-      <>
-        {tokenTransferredSuccessfully ? (
-          <div className="flex flex-col items-center justify-center gap-8">
-            <div className="flex w-full items-end justify-end">
-              <button onClick={closeTransferModal}>
-                <XIcon />
-              </button>
-            </div>
-            <div className="flex h-[7rem] w-[7rem] items-center justify-center rounded-full bg-deep-blue text-white">
-              <CheckIcon />
-            </div>
-            <h3 className="font-bold">Completed</h3>
-            <p>Transaction successful🎉</p>
-            <button
-              className={`w-full rounded-[8px] bg-deep-blue p-[.8rem] text-white`}
-              onClick={closeTransferModal}
-            >
-              Close
-            </button>
+    <div className="grid h-full w-full place-content-center text-foreground-primary">
+      <div className="flex min-h-[10rem] w-[90vw] max-w-[27rem] flex-col justify-between rounded-[16px] bg-white p-4">
+        <div className="flex w-full items-center justify-between">
+          <h5 className="font-inter-variable">
+            Send <span className="text-gradient uppercase">NFT</span>
+          </h5>
+
+          <button
+            onClick={() => {
+              closeModal();
+              setRecipientAddress("");
+              setTransferStatus("idle");
+            }}
+            className="grid h-10 w-10 place-content-center rounded-full bg-gray-100 text-lg text-black"
+          >
+            <CloseIcon />
+          </button>
+        </div>
+
+        {transferStatus === "success" ? (
+          <div className="flex-1 text-center">
+            <p className="text-[4rem]">🎉</p>
+            <p className="text-lg">Transaction successful!</p>
           </div>
         ) : (
-          <>
-            <div className="flex justify-between">
-              <h3 className="text-[1.5em]">Send</h3>
-              <button onClick={closeTransferModal}>
-                <XIcon />
-              </button>
-            </div>
-            <div className="flex flex-col gap-4">
-              <div>
-                <h4 className="mb-2 text-[1em]">Asset</h4>
-                <div className="flex flex-wrap justify-between gap-2">
-                  <div className="flex flex-wrap items-center gap-4"></div>
-                </div>
-              </div>
-              <form className="flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="walletAddress">Recipient Address</label>
-                  <input
-                    required
-                    type="text"
-                    id="walletAddress"
-                    name="recipientWalletAddress"
-                    placeholder="Enter Wallet Address"
-                    value={transferDetails.recipientWalletAddress}
-                    onChange={handleInputChange}
-                    className="rounded-[8px] border-[1px] border-solid border-[#7A7A7A] p-[.8rem]"
-                  />
-                </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              transferNFTAssets();
+            }}
+            className="flex flex-1 flex-col justify-between pt-4"
+          >
+            <label htmlFor="recipientWalletAddress" className="sr-only">
+              recipient Wallet Address
+            </label>
+            <input
+              className="mb-2 h-[2.8rem] rounded-full bg-gray-100 p-4 text-sm outline-none placeholder:text-base placeholder:text-foreground-tertiary"
+              type="text"
+              id="walletAddress"
+              name="recipientWalletAddress"
+              placeholder="Enter Wallet Address"
+              value={recipientAddress}
+              onChange={handleInputChange}
+            />
 
-                <button
-                  disabled={disableSendBtn === "disableButton"}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    transferNFTAssets();
-                  }}
-                  className={`w-full rounded-[8px] bg-deep-blue p-[.8rem] text-white ${
-                    disableSendBtn === "disableButton"
-                      ? "!cursor-not-allowed opacity-50"
-                      : "!cursor-pointer opacity-100"
-                  }`}
-                >
-                  {tokenTransferredSuccessfully === false ? (
-                    <span className="flex justify-center gap-2">
-                      <span>sending</span>
-                      <Spinner />
-                    </span>
-                  ) : (
-                    <>send &rarr;</>
-                  )}
-                </button>
-              </form>
-            </div>
-          </>
+            <Button
+              type="submit"
+              variant={"gray"}
+              endIcon={transferStatus === "error" ? null : <RightArrow />}
+              isLoading={transferStatus === "pending"}
+              className={`rounded-full transition-all duration-300 ${transferStatus === "error" ? "text-[#ce5a4c]" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
+              disabled={
+                !recipientAddress ||
+                transferStatus === "pending" ||
+                transferStatus === "error"
+              }
+            >
+              {transferStatus === "error" ? (
+                <span>Failed to send</span>
+              ) : (
+                <span>Send</span>
+              )}
+            </Button>
+          </form>
         )}
-      </>
-    </Modal>
+      </div>
+    </div>
   );
 };
 

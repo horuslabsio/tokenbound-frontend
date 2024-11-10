@@ -3,91 +3,245 @@
 @tailwind utilities;
 @import url("https://fonts.cdnfonts.com/css/inter");
 
-html,
-body {
-  box-sizing: border-box;
-  font-family: "Inter", sans-serif;
-  background-color: #fafafa;
-  font-size: 0.875em;
-  color: #5a5a5a;
-}
+@layer base {
+  @font-face {
+    font-family: inter;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../public/fonts/Inter/Inter_28pt-Regular.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: inter;
+    font-style: medium;
+    font-weight: 500;
+    src: url(../../public/fonts/Inter/Inter_28pt-Medium.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: inter-variable;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../public/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf)
+      format("truetype");
+  }
+  @font-face {
+    font-family: instrument-serif;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../public/fonts/Instrument_Serif/InstrumentSerif-Italic.ttf)
+      format("truetype");
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  html,
+  body {
+    box-sizing: border-box;
+    font-family: "inter", sans-serif;
+    background-color: white;
+    font-size: 0.875em;
+    color: #5a5a5a;
+  }
 
-*,
-*::after,
-*::before {
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-}
+  *,
+  *::after,
+  *::before {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+  }
 
-h1 {
-  font-size: 3em;
-  line-height: 1.5;
-  font-weight: 500;
-}
-
-h2 {
-  font-size: 1.7em;
-}
-
-h3 {
-  font-size: 1.4em;
-}
-h4 {
-  font-size: 1.2em;
-}
-h5 {
-  font-size: 1.15em;
-}
-h6 {
-  font-size: 1.1em;
-}
-
-@media (min-width: 1024px) {
   h1 {
-    font-size: 4em;
+    font-size: 3em;
+    line-height: 1.2;
     font-weight: 500;
   }
 
   h2 {
-    font-size: 2.3em;
+    font-size: 1.7em;
   }
 
   h3 {
-    font-size: 2.1em;
+    font-size: 1.4em;
   }
   h4 {
-    font-size: 1.8em;
-  }
-  h5 {
-    font-size: 1.5em;
-  }
-  h6 {
     font-size: 1.2em;
   }
-  body {
-    font-size: 1em;
+  h5 {
+    font-size: 1.15em;
   }
-}
-img {
-  width: 100%;
-  height: 100%;
-}
-.max-width {
-  max-width: 70%;
-  margin: 0 auto;
-  padding: 1rem 0;
-}
+  h6 {
+    font-size: 1.1em;
+  }
 
-@media (max-width: 480px) {
+  @media (min-width: 1024px) {
+    h1 {
+      font-size: 4em;
+      line-height: 1.2;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: 2.3em;
+    }
+
+    h3 {
+      font-size: 2.1em;
+    }
+    h4 {
+      font-size: 1.8em;
+    }
+    h5 {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+    h6 {
+      font-size: 1.2em;
+    }
+    body {
+      font-size: 1em;
+    }
+  }
+  img {
+    width: 100%;
+    height: 100%;
+  }
   .max-width {
-    max-width: 100%;
+    max-width: 70%;
     margin: 0 auto;
     padding: 1rem 0;
   }
+
+  @media (max-width: 480px) {
+    .max-width {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 1rem 0;
+    }
+  }
+  .gradient-outline {
+    border-image: linear-gradient(45deg, #ff6b6b, #f06595, #845ec2) 1;
+  }
+  input[type="color"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="email"],
+  input[type="month"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="text"],
+  input[type="time"],
+  input[type="url"],
+  input[type="week"],
+  select:focus,
+  textarea {
+    font-size: 16px !important;
+  }
 }
-input,
-select:focus,
-textarea {
-  font-size: 16px !important;
+
+@layer components {
+  .text-gradient {
+    @apply bg-gradient-linear-primary bg-clip-text font-instrument-serif text-transparent;
+  }
+  .dash-border-gradient {
+    @apply before:absolute before:left-0 before:h-[1px] before:w-full before:bg-gradient-linear-dashed before:bg-[length:7px_3px] before:content-[''];
+  }
+  .dash-border-gradient-mobile-only {
+    @apply before:absolute before:left-0 before:h-[1px] before:w-full before:bg-gradient-linear-dashed before:bg-[length:7px_3px] before:content-[''] md:before:hidden;
+  }
+}
+
+@keyframes fadeInSteps {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.activeCard {
+  z-index: 4;
+  top: 0;
+  transform: translateX(-50%);
+}
+.secondCard {
+  z-index: 3;
+  top: 2.5rem;
+  transform: translateX(-50%) translateZ(-6rem);
+}
+.thirdCard {
+  z-index: 2;
+  top: 4rem;
+  transform: translateX(-50%) translateZ(-8rem);
+}
+
+.lastCard {
+  top: 5.5rem;
+  transform: translateX(-50%) translateZ(-10rem);
+}
+
+.card {
+  /* padding: 20px;
+  margin: 10px;
+  cursor: pointer; */
+}
+
+.lastCard {
+  background-color: lightblue;
+}
+.secondCard {
+  background-color: lightgreen;
+}
+.thirdCard {
+  background-color: lightcoral;
+}
+.activeCard {
+  background-color: gold;
+  font-weight: bold;
+}
+
+::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+dialog {
+  opacity: 0;
+}
+dialog[open] {
+  opacity: 1;
+}
+dialog::before {
+  opacity: 0;
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: -1;
+  transition-property: opacity, display;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-behavior: allow-discrete;
+}
+
+dialog[open]::before {
+  opacity: 1;
+  display: block;
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  dialog[open]::before {
+    opacity: 0;
+  }
 }

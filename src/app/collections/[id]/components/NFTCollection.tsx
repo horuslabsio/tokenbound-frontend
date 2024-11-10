@@ -1,12 +1,11 @@
 "use client";
-import NFTCard from "./NFTCard";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { getWalletNft } from "@hooks/index";
-import { useParams } from "next/navigation";
-import { WalletTokensApiResponse } from "types";
-import { Button } from "ui/button";
-import { useMemo } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAccount } from "@starknet-react/core";
+import { WalletTokensApiResponse } from "../../../../types";
+import { useMemo } from "react";
+import { Button } from "ui/button";
+import NFTCard from "./NFTCard";
 
 const NFTCollection = () => {
   const { address } = useAccount();
@@ -30,33 +29,30 @@ const NFTCollection = () => {
 
   const walletNfts = useMemo(
     () => nfts?.pages.flatMap((page) => page.data) ?? [],
-    [nfts]
+    [nfts],
   );
-
   return (
-    <div className="flex flex-col justify-center">
-      <div className="mt-6 grid h-auto auto-cols-auto gap-6 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
-        {isLoading ? (
-          <>
-            <div className="h-[60vh] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
-            <div className="h-[60vh] w-full animate-pulse rounded-[5px] bg-[#eae9e9]"></div>
-            <div className="hidden h-[60vh] w-full animate-pulse rounded-[5px] bg-[#eae9e9] lg:block"></div>
-          </>
-        ) : nfts && walletNfts.length > 0 ? (
-          nfts.pages.map((page) =>
-            page.data.map((item, index) => <NFTCard nft={item} key={index} />)
-          )
-        ) : (
-          <p className="text-red-500">No NFT to display</p>
-        )}
-      </div>
+    <div className="flex flex-col items-center">
+      {!isLoading && nfts && walletNfts.length > 0 ? (
+        <div className="mx-auto grid h-auto w-full auto-cols-auto gap-6 md:grid-cols-3 lg:grid-cols-4">
+          {nfts.pages.map((page) =>
+            page.data.map((item, index) => <NFTCard nft={item} key={index} />),
+          )}
+        </div>
+      ) : (
+        <div className="mx-auto my-auto grid h-[70vh] place-content-center">
+          <div className="grid h-[13.5rem] w-[50vw] max-w-[23rem] place-content-center rounded-[16px] bg-gray-100 md:max-w-[38rem]">
+            <p className="text-lg">Nothing to show yet.</p>
+          </div>
+        </div>
+      )}
       {hasNextPage && (
         <Button
           size={"sm"}
-          variant={"border-thin"}
+          isLoading={isLoading}
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}
-          className="mx-auto my-8"
+          className="mx-auto my-8 rounded-full"
         >
           {isFetchingNextPage
             ? "Loading more..."

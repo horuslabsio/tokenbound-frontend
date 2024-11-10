@@ -80,7 +80,18 @@ export const useDeployAccount = ({
     }
   };
 
-  return { deploymentStatus, deployAccount };
+  useEffect(() => {
+    if (account) {
+      const initTokenbound = async () => {
+        const { TokenboundClient } = await import("starknet-tokenbound-sdk");
+        const clientInstance = new TokenboundClient(options);
+        setTokenbound(clientInstance);
+      };
+      initTokenbound();
+    }
+  }, [account]);
+
+  return { tokenbound };
 };
 
 export const useUpgradeAccount = ({
@@ -153,6 +164,8 @@ export const useRefreshMetadata = (
         },
         {
           headers: {
+            accept: "text/plain",
+            "Content-Type": "application/json",
             accept: "text/plain",
             "Content-Type": "application/json",
           },

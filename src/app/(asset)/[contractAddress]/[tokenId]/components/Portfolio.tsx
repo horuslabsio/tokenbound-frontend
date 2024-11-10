@@ -1,20 +1,24 @@
 "use client";
-import { CoinsIcon, GemIcon } from "@public/icons";
+import { CryptoIcon, ImageIcon } from "@public/icons";
 import { useState } from "react";
 import NonFungibleAsset from "./NonFungibleAsset";
 import FungibleAsset from "./FungibleAsset";
 import { useRefreshMetadata } from "@hooks/index";
-import { Tooltip } from "ui/tooltip";
+
 import { Button } from "ui/button";
+import { Tooltip } from "ui/tooltip";
+import NothingToSee from "../ui/nothing-to-see";
 
 const Portfolio = ({
   tbaAddress,
   contractAddress,
   tokenId,
+  deployed,
 }: {
   tbaAddress: string;
   contractAddress: string;
   tokenId: string;
+  deployed: boolean | null;
 }) => {
   const [isCollectible, setIsCollectible] = useState(true);
   const toggleContent = () => {
@@ -22,73 +26,73 @@ const Portfolio = ({
   };
   const { refreshMetadata, loading, success } = useRefreshMetadata(
     contractAddress,
-    tokenId
+    tokenId,
   );
 
   return (
-    <div>
-      <div className="mt-6 flex w-fit items-center gap-[12px] rounded-[8px] bg-[#EFEFEF] p-2">
+    <>
+      <div className="mt-4 flex w-fit items-center gap-[12px] rounded-full bg-gray-100 p-1 md:min-h-[3rem]">
         <Button
-          variant={"ghost"}
+          startIcon={<ImageIcon />}
           onClick={toggleContent}
-          className={`${
-            isCollectible
-              ? "bg-[#0C0C4F] text-white"
-              : "bg-[#F2F2F2] text-gray-400"
-          } flex cursor-pointer items-center gap-x-1 rounded-[6px] transition-all duration-500`}
+          className={`transition-all duration-300 ${isCollectible ? "rounded-full bg-black" : "bg-grey-100 text-foreground-primary"}`}
         >
-          <span className="text-lg">
-            <GemIcon />
-          </span>
           Collectible
         </Button>
         <Button
-          variant={"ghost"}
+          startIcon={<CryptoIcon />}
           onClick={toggleContent}
-          className={`${
-            !isCollectible
-              ? "bg-[#0C0C4F] text-white"
-              : "bg-[#F2F2F2] text-gray-400"
-          } flex cursor-pointer items-center gap-x-1 rounded-[6px] transition-all duration-500`}
+          className={`transition-all duration-300 ${!isCollectible ? "rounded-full bg-black" : "bg-grey-100 text-foreground-primary"}`}
         >
-          <span className="text-lg">
-            <CoinsIcon />
-          </span>
           Assets
         </Button>
-        <Tooltip message="click to refresh asset if metadata does not display">
-          <Button
-            onClick={refreshMetadata}
-            disabled={loading}
-            variant={"ghost"}
-            className={`${
-              loading ? "bg-red-300" : ""
-            } flex cursor-pointer items-center gap-x-1 rounded-[6px] bg-red-500 text-white transition-all duration-500`}
-          >
-            Refresh metadata
-          </Button>
-          {success ? (
-            <p className="absolute grid h-full w-full place-content-start rounded-lg bg-blue-500 pl-1 pr-1 text-xs text-white transition duration-300 ease-in-out">
-              <span>{success}</span>
-            </p>
-          ) : (
-            ""
-          )}
-        </Tooltip>
       </div>
-      <div className="grid grid-cols-[1fr] grid-rows-[1fr]">
+
+      <div className="relative z-10 grid grid-cols-[1fr] grid-rows-[1fr]">
         <div
-          className={`col-start-1 row-start-1 ${isCollectible ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+          className={`col-start-1 row-start-1 transition-all duration-300 ${
+            isCollectible
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-0"
+          }`}
         >
           <NonFungibleAsset tbaAddress={tbaAddress} />
         </div>
         <div
-          className={`col-start-1 row-start-1 ${isCollectible ? "pointer-events-none opacity-0" : "pointer-events-auto opacity-100"}`}
+          className={`col-start-1 row-start-1 transition-all duration-300 ${
+            isCollectible
+              ? "pointer-events-none opacity-0"
+              : "pointer-events-auto opacity-100"
+          }`}
         >
-          <FungibleAsset tbaAddress={tbaAddress} />
+          {deployed ? (
+            <FungibleAsset tbaAddress={tbaAddress} />
+          ) : (
+            <NothingToSee />
+          )}
         </div>
+        <div className="absolute bottom-0 h-6 w-full translate-y-full bg-white"></div>
       </div>
-    </div>
+      {/* <Tooltip message="click to refresh asset if metadata does not display">
+        <Button
+          onClick={refreshMetadata}
+          disabled={loading}
+          variant={"ghost"}
+          className={`${
+            loading ? "bg-red-300" : ""
+          } flex cursor-pointer items-center gap-x-1 rounded-[6px] bg-red-500 text-white transition-all duration-500`}
+        >
+          Refresh metadata
+        </Button>
+        {success ? (
+          <p className="absolute grid h-full w-full place-content-center rounded-lg bg-blue-500 pl-1 pr-1 text-xs text-white transition duration-300 ease-in-out">
+            <span>{success}</span>
+          </p>
+        ) : (
+          ""
+        )}
+      </Tooltip> */}
+    </>
   );
 };
 

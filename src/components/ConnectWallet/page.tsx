@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { IWalletModal } from "types";
 import { useConnect, Connector } from "@starknet-react/core";
-import { WalletIcons } from "@public/icons";
+import { CloseIcon, WalletIcons } from "@public/icons";
 
 export default function ConnectWallet({
   openWalletModal,
@@ -42,34 +42,43 @@ export default function ConnectWallet({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-[#010A20] p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-500"
-                  >
-                    Connect Wallet
+                <Dialog.Panel className="flex w-full max-w-[435px] flex-col justify-between rounded-[16px] bg-white p-4 md:min-h-[250px]">
+                  <Dialog.Title>
+                    <div className="mb-4 flex items-center justify-between py-2">
+                      <h5 className={"text-start text-2xl"}>
+                        Connect <span className="text-gradient">wallet</span>
+                      </h5>
+                      <button
+                        className="grid h-10 w-10 place-content-center rounded-full bg-gray-100 text-lg text-black"
+                        onClick={closeWalletModal}
+                      >
+                        <CloseIcon />
+                      </button>
+                    </div>
                   </Dialog.Title>
-
-                  {connectors.map((connector) => {
-                    if (connector.available()) {
-                      return (
-                        <div
-                          className="my-2 flex cursor-pointer items-center justify-between border-b border-[#7d92b5] border-opacity-20 p-1"
-                          key={connector.id}
-                        >
+                  <div className="rounded-lg bg-gray-100 px-4 py-2">
+                    {connectors.map((connector, index) => {
+                      if (connector.available()) {
+                        return (
                           <button
-                            className="font-jakarta w-full font-normal text-[#BEC9DA]"
                             onClick={() => connectWallet(connector)}
+                            className={`w-full py-3 ${
+                              index < connectors.length - 1
+                                ? "border-b border-[#EDEDED]"
+                                : ""
+                            }`}
+                            key={connector.id}
                           >
-                            <div className="flex gap-2">
+                            <span className="flex gap-2">
                               <WalletIcons id={connector.id} />
                               {`Connect ${connector.name}`}
-                            </div>
+                            </span>
                           </button>
-                        </div>
-                      );
-                    }
-                  })}
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

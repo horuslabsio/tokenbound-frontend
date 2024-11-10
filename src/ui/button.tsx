@@ -1,33 +1,33 @@
 import { VariantProps, cva } from "class-variance-authority";
-import { cn } from "lib/utils";
+import { cn } from "@utils/utils";
 import { ReactNode, forwardRef } from "react";
+import { Slot, Slottable } from "@radix-ui/react-slot";
+import { Spinner } from "./spinner";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center  gap-2 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap",
+  "inline-flex capitalize items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap",
   {
     variants: {
       variant: {
-        fill: "rounded-[8px] bg-deep-blue text-white",
-        "border-thin":
-          "text-deep-blue border-deep-blue border rounded-[5px] hover:bg-[#0C0C4F20]",
-        "border-bold":
-          "text-deep-blue border-deep-blue border-[2px] rounded-[5px] hover:bg-[#0C0C4F20]",
+        iconOnly: "",
+        icon: "",
+        base: "bg-primary-btn rounded-lg px-4 py-2 text-white font-medium",
+        gray: "bg-gray-100 rounded-full text-black",
         outline:
-          "border border-neutral-200 bg-white hover:bg-neutral-100 hover:text-neutral-900 dark:border-neutral-800 rounded-[6px]",
+          "bg-black px-4 py-2 before:absolute before:h-[calc(100%-2px)] before:w-[calc(100%-2px)] bg-gradient-linear-primary before:bg-white relative rounded-full z-[10] before:rounded-full before:-z-[1] disabled:bg-none",
         ghost: "",
       },
       size: {
-        sm: "py-1 px-2 text-sm ",
-        md: "px-4 py-3 text-sm ",
+        sm: "",
+        md: "h-[2.8rem] text-base",
         lg: "p-2 h-[3rem]",
-        icon: "h-10 w-10",
       },
     },
     defaultVariants: {
-      variant: "fill",
+      variant: "base",
       size: "md",
     },
-  }
+  },
 );
 
 interface Props
@@ -35,20 +35,41 @@ interface Props
     VariantProps<typeof buttonVariants> {
   children?: ReactNode;
   className?: string;
+  isLoading?: boolean;
+  endIcon?: ReactNode;
+  startIcon?: ReactNode;
+  asChild?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ children, className, variant, size, ...props }, ref) => {
+  (
+    {
+      children,
+      className,
+      isLoading,
+      variant,
+      size,
+      endIcon,
+      startIcon,
+      asChild,
+      ...props
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : "button";
     return (
-      <button
+      <Comp
+        disabled={isLoading}
         ref={ref}
         className={cn(buttonVariants({ variant, size, className }))}
         {...props}
       >
-        {children}
-      </button>
+        <span className="text-lg">{startIcon && !isLoading && startIcon}</span>
+        <Slottable>{isLoading ? <Spinner size="20px" /> : children}</Slottable>
+        <span className="text-lg">{endIcon && !isLoading && endIcon}</span>
+      </Comp>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";
