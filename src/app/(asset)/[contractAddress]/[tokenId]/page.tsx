@@ -12,13 +12,14 @@ import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import Link from "next/link";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
-import { CopyButton } from "ui/CopyButton";
+
 import { Button } from "ui/button";
 import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import { WalletToken } from "types";
 import DeployArrow from "./ui/deploy-arrow";
 import Loading from "./loading";
+import { CopyButton } from "ui/copy-button";
 const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });

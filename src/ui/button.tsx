@@ -1,5 +1,5 @@
 import { VariantProps, cva } from "class-variance-authority";
-import { cn } from "@utils/utils";
+import { cn } from "@utils/index";
 import { ReactNode, forwardRef } from "react";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { Spinner } from "./spinner";
@@ -27,7 +27,7 @@ const buttonVariants = cva(
       variant: "base",
       size: "md",
     },
-  },
+  }
 );
 
 interface Props
@@ -54,7 +54,7 @@ const Button = forwardRef<HTMLButtonElement, Props>(
       asChild,
       ...props
     },
-    ref,
+    ref
   ) => {
     const Comp = asChild ? Slot : "button";
     return (
@@ -69,7 +69,7 @@ const Button = forwardRef<HTMLButtonElement, Props>(
         <span className="text-lg">{endIcon && !isLoading && endIcon}</span>
       </Comp>
     );
-  },
+  }
 );
 
 Button.displayName = "Button";
