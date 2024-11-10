@@ -29,6 +29,8 @@ export const useTokenBoundSDK = () => {
       chain.network === "mainnet"
         ? TBAImplementationAccount
         : TBAImplementationAccount_SEPOLIA,
+    chain_id: chain.network === "mainnet" ? "SN_MAIN" : "SN_SEPOLIA",
+    version: "V2",
     jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
   };
 

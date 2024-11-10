@@ -1,5 +1,5 @@
 import { VariantProps, cva } from "class-variance-authority";
-import { cn } from "@utils/utils";
+import { cn } from "@utils/index";
 import { ReactNode, forwardRef } from "react";
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import { Spinner } from "./spinner";
