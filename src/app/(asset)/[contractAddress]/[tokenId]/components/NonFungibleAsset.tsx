@@ -1,18 +1,20 @@
 import { getWalletNft } from "@hooks/index";
 import { useMemo, useRef, useState } from "react";
-import TransferNftModal from "./TransferNftModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Button } from "ui/button";
 import { WalletTokensApiResponse } from "../../../../../types";
 import NothingToSee from "../ui/nothing-to-see";
-
+import dynamic from "next/dynamic";
+const TransferNftModal = dynamic(() => import("./TransferNftModal"), {
+  ssr: false,
+});
 const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   const formatted_address = tbaAddress.replace("0x", "0x0");
   const [selectedNft, setSelectedNft] = useState({
     contractAddress: "",
     tokenId: "",
   });
-  const [open, setOpen] = useState(false);
+
   const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   const closeModal = () => {
@@ -80,6 +82,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
                   <div className="absolute left-0 top-0 grid h-full w-full place-content-center rounded-[12px] bg-black/50 opacity-0 transition-all duration-300 group-hover:opacity-100">
                     <Button
                       size={"sm"}
+                      className="rounded-full"
                       onClick={() =>
                         openTransferModal({
                           address: item.collection_address,
@@ -108,6 +111,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
           </div>
           {hasNextPage && (
             <Button
+              isLoading={isLoading}
               size={"sm"}
               onClick={() => fetchNextPage()}
               disabled={!hasNextPage || isFetchingNextPage}

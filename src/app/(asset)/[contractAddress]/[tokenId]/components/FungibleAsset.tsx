@@ -13,9 +13,10 @@ import {
   USDT_TOKEN_DETAILS,
 } from "@utils/constants";
 import Erc20Abi from "@abis/token.abi.json";
-import TransferModal from "./TransferModal";
 import { Button } from "ui/button";
 import { RightArrow } from "@public/icons";
+import dynamic from "next/dynamic";
+const TransferModal = dynamic(() => import("./TransferModal"), { ssr: false });
 
 const Token = ({
   balance,
@@ -58,7 +59,7 @@ const Token = ({
             <Button
               variant={"ghost"}
               className="rounded-full bg-white px-1 py-2 text-black md:px-3"
-              // disabled={+balance <= 0}
+              disabled={+balance <= 0}
               onClick={toggleModal}
               size={"sm"}
             >

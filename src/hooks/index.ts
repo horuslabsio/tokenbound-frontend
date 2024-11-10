@@ -12,13 +12,13 @@ import {
   TBAImplementationAccount,
   TBAImplementationAccount_SEPOLIA,
 } from "@utils/constants";
-import { TokenboundClient } from "starknet-tokenbound-sdk";
 import axios from "axios";
 import { Chain } from "@starknet-react/chains";
 
 export const useTokenBoundSDK = () => {
   const { account } = useAccount();
   const { chain } = useNetwork();
+  const [tokenbound, setTokenbound] = useState<any | null>(null);
   const options = {
     account: account,
     registryAddress:
@@ -32,11 +32,17 @@ export const useTokenBoundSDK = () => {
     jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
   };
 
-  let tokenbound: any;
+  useEffect(() => {
+    if (account) {
+      const initTokenbound = async () => {
+        const { TokenboundClient } = await import("starknet-tokenbound-sdk");
+        const clientInstance = new TokenboundClient(options);
+        setTokenbound(clientInstance);
+      };
+      initTokenbound();
+    }
+  }, [account]);
 
-  if (account) {
-    tokenbound = new TokenboundClient(options);
-  }
   return { tokenbound };
 };
 
@@ -62,7 +68,7 @@ export const useGetAccountAddress = ({
       }
     };
     getAccountAddress();
-  }, [account, contractAddress, tokenId, chain]);
+  }, [account, contractAddress, tokenId, chain, tokenbound]);
 
   return {
     deployedAddress,
@@ -71,7 +77,7 @@ export const useGetAccountAddress = ({
 
 export const useRefreshMetadata = (
   contractAddress: string,
-  tokenId: string
+  tokenId: string,
 ) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<string>("");
@@ -105,7 +111,7 @@ export const useRefreshMetadata = (
             accept: "text/plain",
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       setSuccess(response.data.message);
     } catch (error) {

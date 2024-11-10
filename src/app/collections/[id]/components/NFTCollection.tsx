@@ -49,6 +49,7 @@ const NFTCollection = () => {
       {hasNextPage && (
         <Button
           size={"sm"}
+          isLoading={isLoading}
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}
           className="mx-auto my-8 rounded-full"

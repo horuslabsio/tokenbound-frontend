@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useTokenBoundSDK,
   useGetAccountAddress,
@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CopyButton } from "ui/copy-button";
 import { Button } from "ui/button";
 import DeployArrow from "./ui/deploy-arrow";
+import Loading from "./loading";
 const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });
@@ -28,6 +29,37 @@ function Assets() {
   let contractAddress = params.contractAddress as string;
   let tokenId = params.tokenId as string;
 
+  const { deployedAddress } = useGetAccountAddress({
+    contractAddress,
+    tokenId,
+  });
+
+  const { tokenbound } = useTokenBoundSDK();
+  const { chain } = useNetwork();
+
+  const [status, setStatus] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getAccountStatus = async () => {
+      if (tokenbound) {
+        try {
+          const accountStatus = await tokenbound?.checkAccountDeployment({
+            tokenContract: contractAddress,
+            tokenId,
+          });
+          setStatus(accountStatus?.deployed || null);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    getAccountStatus();
+  }, [tokenbound]);
+
   const { data: nft } = useQuery({
     queryKey: [`${contractAddress}-${tokenId}`, { contractAddress, tokenId }],
     queryFn: () =>
@@ -39,30 +71,9 @@ function Assets() {
   });
   const tokenData = nft?.data as WalletToken;
 
-  const { deployedAddress } = useGetAccountAddress({
-    contractAddress,
-    tokenId,
-  });
-  const { tokenbound } = useTokenBoundSDK();
-  const [status, setStatus] = useState<boolean | null>(null);
-
-  const getAccountStatus = async () => {
-    try {
-      const accountStatus = await tokenbound.checkAccountDeployment({
-        tokenContract: contractAddress,
-        tokenId,
-      });
-      setStatus(accountStatus?.deployed);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  getAccountStatus();
-
   const deployAccount = async () => {
     try {
-      await tokenbound.createAccount({
+      await tokenbound?.createAccount({
         tokenContract: contractAddress,
         tokenId: tokenId,
       });
@@ -70,7 +81,10 @@ function Assets() {
       console.log(err);
     }
   };
-  const { chain } = useNetwork();
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <section className="mx-auto min-h-screen max-w-[1125px] px-8 pb-16 pt-32">
       <div className="mx-auto w-full max-w-[23rem] md:max-w-[40rem] lg:grid lg:max-w-none lg:grid-cols-2">

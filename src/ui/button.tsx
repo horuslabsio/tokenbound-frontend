@@ -64,9 +64,9 @@ const Button = forwardRef<HTMLButtonElement, Props>(
         className={cn(buttonVariants({ variant, size, className }))}
         {...props}
       >
-        <span className="text-lg">{startIcon && startIcon}</span>
+        <span className="text-lg">{startIcon && !isLoading && startIcon}</span>
         <Slottable>{isLoading ? <Spinner size="20px" /> : children}</Slottable>
-        <span className="text-lg">{endIcon && endIcon}</span>
+        <span className="text-lg">{endIcon && !isLoading && endIcon}</span>
       </Comp>
     );
   },
