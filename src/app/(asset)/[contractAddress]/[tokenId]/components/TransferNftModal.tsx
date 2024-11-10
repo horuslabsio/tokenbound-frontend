@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { CloseIcon, RightArrow } from "@public/icons";
-// import { useTokenBoundSDK } from "@hooks/index";
 import { Button } from "ui/button";
+import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 
 type Props = {
   closeModal: () => void;
@@ -16,7 +16,7 @@ const TransferNftModal = ({
   contractAddress,
   tokenId,
 }: Props) => {
-  // const { tokenbound } = useTokenBoundSDK();
+  const { tokenboundV2, tokenboundV3, activeVersion } = useTokenBoundSDK();
   const [recipientAddress, setRecipientAddress] = useState("");
   const [transferStatus, setTransferStatus] = useState<
     "idle" | "error" | "pending" | "success"
@@ -28,28 +28,30 @@ const TransferNftModal = ({
   };
 
   const transferNFTAssets = async () => {
-    // try {
-    //   if (tokenbound) {
-    //     setTransferStatus("pending");
-    //     const status = await tokenbound.transferNFT({
-    //       tbaAddress: tokenBoundAddress,
-    //       contractAddress: contractAddress,
-    //       tokenId: tokenId,
-    //       sender: tokenBoundAddress,
-    //       recipient: recipientAddress,
-    //     });
-    //     setTransferStatus("success");
-    //     console.log("transferStat", status);
-    //   }
-    // } catch (error) {
-    //   setTransferStatus("error");
-    //   setTimeout(() => {
-    //     setTransferStatus("idle");
-    //   }, 5000);
-    //   if (process.env.NODE_ENV !== "production") {
-    //     console.log("there was an error transferring the assets", error);
-    //   }
-    // }
+    const tokenbound =
+      activeVersion?.version === "V2" ? tokenboundV2 : tokenboundV3;
+    try {
+      if (tokenbound) {
+        setTransferStatus("pending");
+        const status = await tokenbound.transferNFT({
+          tbaAddress: tokenBoundAddress,
+          contractAddress: contractAddress,
+          tokenId: tokenId,
+          sender: tokenBoundAddress,
+          recipient: recipientAddress,
+        });
+        setTransferStatus("success");
+        console.log("transferStat", status);
+      }
+    } catch (error) {
+      setTransferStatus("error");
+      setTimeout(() => {
+        setTransferStatus("idle");
+      }, 5000);
+      if (process.env.NODE_ENV !== "production") {
+        console.log("there was an error transferring the assets", error);
+      }
+    }
   };
 
   return (

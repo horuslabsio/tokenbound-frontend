@@ -1,4 +1,5 @@
 "use client";
+import { TokenboundProvider } from "context/TokenboundContext";
 import { ReactNode } from "react";
 
 export default function AssetRootLayout({
@@ -6,5 +7,9 @@ export default function AssetRootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  return <main>{children}</main>;
+  return (
+    <main>
+      <TokenboundProvider>{children}</TokenboundProvider>
+    </main>
+  );
 }

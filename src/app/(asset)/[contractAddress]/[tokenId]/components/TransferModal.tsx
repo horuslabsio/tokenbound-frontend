@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { CloseIcon, RightArrow } from "@public/icons";
-// import { useTokenBoundSDK } from "@hooks/index";
 import { Button } from "ui/button";
+import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 
 type Props = {
   closeModal: () => void;
@@ -28,8 +28,7 @@ const TransferModal = ({
     recipient: "",
   });
 
-  // const { tokenbound } = useTokenBoundSDK();
-
+  const { tokenboundV2, tokenboundV3, activeVersion } = useTokenBoundSDK();
   const [transferStatus, setTransferStatus] = useState<
     "idle" | "error" | "pending" | "success"
   >("idle");
@@ -63,39 +62,29 @@ const TransferModal = ({
   };
 
   const transferERC20Assets = async () => {
-    console.log(
-      "tokenA;",
-      tokenBoundAddress,
-      "contractAddress:",
-      contractAddress,
-      "recipient:",
-      formValues.recipient,
-      "amount:",
-      +formValues.amount * decimal
-    );
+    const tokenbound =
+      activeVersion?.version === "V2" ? tokenboundV2 : tokenboundV3;
     const bigInitAmount = +formValues.amount * decimal;
-    // try {
-    //   if (tokenbound) {
-    //     setTransferStatus("pending");
-    //     const status = await tokenbound.transferERC20({
-    //       tbaAddress: tokenBoundAddress,
-    //       contractAddress: contractAddress,
-    //       recipient: formValues.recipient,
-    //       amount: bigInitAmount.toString(),
-    //     });
-    //     setTransferStatus("success");
-    //     console.log(status);
-    //   }
-    // } catch (error) {
-    //   setTransferStatus("error");
-    //   setTimeout(() => {
-    //     setTransferStatus("idle");
-    //   }, 5000);
-
-    //   if (process.env.NODE_ENV !== "production") {
-    //     console.log("there was an error transferring the assets:", error);
-    //   }
-    // }
+    try {
+      if (tokenbound) {
+        setTransferStatus("pending");
+        const status = await tokenbound.transferERC20({
+          tbaAddress: tokenBoundAddress,
+          contractAddress: contractAddress,
+          recipient: formValues.recipient,
+          amount: bigInitAmount.toString(),
+        });
+        setTransferStatus("success");
+      }
+    } catch (error) {
+      setTransferStatus("error");
+      setTimeout(() => {
+        setTransferStatus("idle");
+      }, 5000);
+      if (process.env.NODE_ENV !== "production") {
+        console.log("there was an error transferring the assets:", error);
+      }
+    }
   };
 
   return (

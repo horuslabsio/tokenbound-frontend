@@ -7,9 +7,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient();
   return (
     <StarknetProvider>
-      <QueryClientProvider client={queryClient}>
-        <TokenboundProvider>{children}</TokenboundProvider>
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </StarknetProvider>
   );
 };
