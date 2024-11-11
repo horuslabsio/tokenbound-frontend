@@ -10,7 +10,7 @@ const HeroImages = dynamic(() => import("./HeroImages"), {
 
 const Hero = () => {
   return (
-    <section className="relative mx-auto flex max-h-[1080px] w-screen max-w-[1536px] flex-col items-center justify-center overflow-hidden text-center md:h-screen md:flex-row md:items-start">
+    <section className="relative mx-auto flex max-h-[1080px] w-full max-w-[1536px] flex-col items-center justify-center overflow-hidden text-center md:h-screen md:flex-row md:items-start">
       <MobileBgImage />
       <div className="relative z-[1] mt-16 flex max-w-[28.5rem] flex-col gap-8 px-4 md:mt-0">
         <h1 className="font-inter-variable">

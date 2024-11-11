@@ -63,16 +63,6 @@ const TransferModal = ({
   };
 
   const transferERC20Assets = async () => {
-    console.log(
-      "tokenA;",
-      tokenBoundAddress,
-      "contractAddress:",
-      contractAddress,
-      "recipient:",
-      formValues.recipient,
-      "amount:",
-      +formValues.amount * decimal,
-    );
     const bigInitAmount = +formValues.amount * decimal;
     try {
       if (tokenbound) {
@@ -84,7 +74,6 @@ const TransferModal = ({
           amount: bigInitAmount.toString(),
         });
         setTransferStatus("success");
-        console.log(status);
       }
     } catch (error) {
       setTransferStatus("error");

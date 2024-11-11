@@ -62,13 +62,9 @@ const Token = ({
               disabled={+balance <= 0}
               onClick={toggleModal}
               size={"sm"}
+              endIcon={<RightArrow />}
             >
               <span>Send</span>
-              <span>
-                <span>
-                  <RightArrow />
-                </span>
-              </span>
             </Button>
           </div>
         </div>

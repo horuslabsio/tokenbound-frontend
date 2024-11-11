@@ -39,6 +39,9 @@ function Assets() {
 
   const [status, setStatus] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
+  const [deploymentStatus, setDeploymentStatus] = useState<
+    "idle" | "error" | "pending" | "success"
+  >("idle");
 
   useEffect(() => {
     const getAccountStatus = async () => {
@@ -72,13 +75,24 @@ function Assets() {
   const tokenData = nft?.data as WalletToken;
 
   const deployAccount = async () => {
-    try {
-      await tokenbound?.createAccount({
-        tokenContract: contractAddress,
-        tokenId: tokenId,
-      });
-    } catch (err) {
-      console.log(err);
+    if (tokenbound) {
+      try {
+        setDeploymentStatus("pending");
+        await tokenbound?.createAccount({
+          tokenContract: contractAddress,
+          tokenId: tokenId,
+        });
+        setDeploymentStatus("success");
+      } catch (err) {
+        setDeploymentStatus("error");
+        setTimeout(() => {
+          setDeploymentStatus("idle");
+        }, 5000);
+
+        if (process.env.NODE_ENV !== "production") {
+          console.log("there was an error transferring the assets:", err);
+        }
+      }
     }
   };
 
@@ -140,8 +154,19 @@ function Assets() {
                 <span>TBA Deployed</span>
               </Button>
             ) : (
-              <Button className="w-fit rounded-full" onClick={deployAccount}>
-                Deploy Account
+              <Button
+                isLoading={deploymentStatus === "pending"}
+                onClick={deployAccount}
+                className={`w-fit rounded-full transition-all duration-300 ${deploymentStatus === "error" ? "bg-gray-100 text-[#ce5a4c]" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
+                disabled={
+                  deploymentStatus === "pending" || deploymentStatus === "error"
+                }
+              >
+                {deploymentStatus === "error" ? (
+                  <span>Failed to deploy</span>
+                ) : (
+                  <span> Deploy Account</span>
+                )}
               </Button>
             )}
             {!status && <DeployArrow />}
