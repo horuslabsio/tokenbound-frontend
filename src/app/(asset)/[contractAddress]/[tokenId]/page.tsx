@@ -11,7 +11,6 @@ import { useParams } from "next/navigation";
 import { useNetwork } from "@starknet-react/core";
 import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
-import Link from "next/link";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 
 import { Button } from "ui/button";
@@ -62,6 +61,12 @@ function Assets() {
     tokenboundClient: tokenboundV3,
     tokenId: tokenId,
   });
+
+  const {
+    refreshMetadata,
+    loading: loadingRefresh,
+    success,
+  } = useRefreshMetadata(contractAddress, tokenId);
 
   useGetTbaAddress({
     contractAddress: contractAddress,
@@ -197,31 +202,8 @@ function Assets() {
               className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
               copyIcon
             />
-            {/* <Link
-              href={`${
-                chain.network === "mainnet"
-                  ? url
-                  : chain.network === "sepolia"
-                    ? sepolia_url
-                    : ""
-              }/contract/${deployedAddress}`}
-              target="__blank"
-              title="view on starkscan"
-              className="inline-flex h-full items-center rounded-r-[6px] border border-l-deep-blue px-2 py-3 text-lg transition-all hover:bg-deep-blue hover:text-white"
-            >
-              <span>
-                <NewTabIcon />
-              </span>
-            </Link> */}
           </div>
-          <Button
-            onClick={refreshMetadata}
-            isLoading={loadingRefresh}
-            startIcon={success ? null : <RefreshIcon />}
-            className="rounded-full transition-all duration-300"
-          >
-            {success ? "success" : "Refresh metadata"}
-          </Button>
+
           <div className="relative flex w-full items-center gap-8 md:max-w-[31.5rem] lg:max-w-none">
             {activeVersion?.version === "undeployed" && (
               <Button
@@ -241,45 +223,84 @@ function Assets() {
               </Button>
             )}
             {activeVersion?.version === "V2" && (
-              <Button
-                disabled={
-                  upgradeStatus === "pending" || upgradeStatus === "success"
-                }
-                className={`w-fit rounded-full transition-all duration-300 ${upgradeStatus === "error" ? "text-error" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
-                onClick={upgradeAccount}
-                isLoading={upgradeStatus === "pending"}
-              >
-                {upgradeStatus === "error" ? (
-                  <span>Failed to upgrade account</span>
-                ) : (
-                  <span>Upgrade Account</span>
-                )}
-              </Button>
+              <div className="flex flex-wrap-reverse items-center gap-4">
+                <Button
+                  onClick={refreshMetadata}
+                  isLoading={loadingRefresh}
+                  startIcon={success ? null : <RefreshIcon />}
+                  className="rounded-full transition-all duration-300"
+                >
+                  {success ? "success" : "Refresh metadata"}
+                </Button>
+                <div className="flex items-center rounded-full">
+                  <Button
+                    disabled={
+                      upgradeStatus === "pending" || upgradeStatus === "success"
+                    }
+                    className={`w-fit rounded-l-full rounded-r-none transition-all duration-300 ${upgradeStatus === "error" ? "text-error bg-gray-100" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
+                    onClick={upgradeAccount}
+                    isLoading={upgradeStatus === "pending"}
+                  >
+                    {upgradeStatus === "error" ? (
+                      <span>Failed to upgrade</span>
+                    ) : (
+                      <span>Upgrade Account</span>
+                    )}
+                  </Button>
+                  <a
+                    href={`${
+                      chain.network === "mainnet"
+                        ? url
+                        : chain.network === "sepolia"
+                          ? sepolia_url
+                          : ""
+                    }/contract/${activeVersion?.address ? activeVersion.address : v3Address}`}
+                    target="_blank"
+                    className="group inline-grid h-full place-content-center rounded-l-none rounded-r-full border border-b-transparent border-l-gray-100 border-r-transparent border-t-transparent bg-black pl-2 pr-2 md:pr-4"
+                  >
+                    <span className="inline-block transition-all duration-300 group-hover:translate-x-[2px] group-hover:translate-y-[-1px]">
+                      <UpRightArrowIcon gradient />
+                    </span>
+                  </a>
+                </div>
+              </div>
             )}
 
             {activeVersion?.version === "V3" && (
-              <Button
-                isLoading={deploymentStatus === "pending"}
-                onClick={deployAccount}
-                className={`w-fit rounded-full transition-all duration-300 ${deploymentStatus === "error" ? "bg-gray-100 text-[#ce5a4c]" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
-                disabled={
-                  deploymentStatus === "pending" || deploymentStatus === "error"
-                }
-                endIcon={<UpRightArrowIcon gradient />}
-              >
-                <a
-                  href={`${
-                    chain.network === "mainnet"
-                      ? url
-                      : chain.network === "sepolia"
-                        ? sepolia_url
-                        : ""
-                  }/contract/${deployedAddress}`}
-                  target="_blank"
+              <div className="flex flex-wrap-reverse gap-4">
+                <Button
+                  onClick={refreshMetadata}
+                  isLoading={loadingRefresh}
+                  startIcon={success ? null : <RefreshIcon />}
+                  className="rounded-full transition-all duration-300"
                 >
-                  TBA Deployed
-                </a>
-              </Button>
+                  {success ? "success" : "Refresh metadata"}
+                </Button>
+                <Button
+                  asChild
+                  variant={"gray"}
+                  isLoading={deploymentStatus === "pending"}
+                  onClick={deployAccount}
+                  disabled={
+                    deploymentStatus === "pending" ||
+                    deploymentStatus === "error"
+                  }
+                  endIcon={<UpRightArrowIcon gradient />}
+                >
+                  <a
+                    href={`${
+                      chain.network === "mainnet"
+                        ? url
+                        : chain.network === "sepolia"
+                          ? sepolia_url
+                          : ""
+                    }/contract/${activeVersion?.address ? activeVersion.address : v3Address}`}
+                    target="_blank"
+                  >
+                    TBA Deployed
+                  </a>
+                </Button>
+              </div>
             )}
 
             {activeVersion?.version === "undeployed" && <DeployArrow />}

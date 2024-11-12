@@ -4,7 +4,6 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 import { cn } from "../utils";
 import { XIcon } from "@public/icons";
-import { cn } from "@utils/index";
 import {
   ComponentPropsWithoutRef,
   ElementRef,
