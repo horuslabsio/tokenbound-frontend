@@ -279,12 +279,6 @@ function Assets() {
                 <Button
                   asChild
                   variant={"gray"}
-                  isLoading={deploymentStatus === "pending"}
-                  onClick={deployAccount}
-                  disabled={
-                    deploymentStatus === "pending" ||
-                    deploymentStatus === "error"
-                  }
                   endIcon={<UpRightArrowIcon gradient />}
                 >
                   <a
