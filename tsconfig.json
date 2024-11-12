@@ -21,17 +21,22 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "@components/*":["components/*"],
-      "@hooks/*":["hooks/*"],
-      "@utils/*":["utils/*"],
-      "@abis/*":["abis/*"],
-      "@types/*":["types/*"],
-      "@static/*":["static/*"],
-      "@public/*":["../public/*"],
-      "@app/*":["app/*"]
-
+      "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
+      "@utils/*": ["utils/*"],
+      "@abis/*": ["abis/*"],
+      "@types/*": ["types/*"],
+      "@static/*": ["static/*"],
+      "@public/*": ["../public/*"],
+      "@app/*": ["app/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/starknet-provider.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/components/starknet-provider.ts"
+  ],
   "exclude": ["node_modules"]
 }

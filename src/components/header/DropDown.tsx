@@ -13,7 +13,7 @@ export const Anchor = ({
   return (
     <li>
       <a
-        className="flex gap-3 items-center text-deep-blue "
+        className="flex items-center gap-3 text-deep-blue"
         target="_blank"
         rel="noopener noreferrer"
         href={url}
@@ -23,7 +23,7 @@ export const Anchor = ({
             boxShadow:
               "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
           }}
-          className="bg-white w-[30px] h-[30px] md:w-[40px] md:h-[40px] rounded-lg shadow-inner"
+          className="h-[30px] w-[30px] rounded-lg bg-white shadow-inner md:h-[40px] md:w-[40px]"
         >
           <Image src={src} alt="logo" width={30} height={30} />
         </span>
@@ -46,17 +46,15 @@ const DropDown = ({
 }) => {
   return (
     <div
+      onClick={(e) => e.stopPropagation()}
       style={{
-        boxShadow: "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
+        boxShadow:
+          "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(215, 210, 210, 0.2)",
       }}
-      className={`rounded-lg fixed top-[4.7rem] bg-off-white transition-all duration-300 ease-in-out grid ${
-        openDropDown && activeDropDown === id
-          ? "grid-rows-[1fr] opacity-100"
-          : "grid-rows-[0fr] opacity-0"
-      } `}
+      className={`fixed top-[4.7rem] grid rounded-[16px] bg-white transition-all duration-300 ease-in-out`}
     >
       <div className="overflow-hidden">
-        <ul className="grid grid-cols-2 gap-8 p-8 min-w-[20rem] min-h-[7rem]">
+        <ul className="grid min-h-[7rem] min-w-[20rem] grid-cols-2 gap-8 p-8">
           {dropdownItems.map((item, index) => {
             const { title, url } = item;
             return (

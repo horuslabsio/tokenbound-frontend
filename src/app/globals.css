@@ -206,16 +206,14 @@
   font-weight: bold;
 }
 
-::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
 dialog {
   opacity: 0;
 }
 dialog[open] {
   opacity: 1;
 }
-dialog::before {
+dialog::before,
+dialog::backdrop {
   opacity: 0;
   content: "";
   width: 100vw;
@@ -231,7 +229,8 @@ dialog::before {
   transition-behavior: allow-discrete;
 }
 
-dialog[open]::before {
+dialog[open]::before,
+dialog[open]::backdrop {
   opacity: 1;
   display: block;
 }
@@ -241,7 +240,8 @@ dialog[open]::before {
     opacity: 0;
     transform: translateY(10%);
   }
-  dialog[open]::before {
+  dialog[open]::before,
+  dialog[open]::backdrop {
     opacity: 0;
   }
 }
