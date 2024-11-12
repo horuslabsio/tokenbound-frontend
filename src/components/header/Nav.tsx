@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
-import ConnectWallet from "@components/ConnectWallet/page";
+import ConnectWallet from "./components/ConnectWallet";
 import { AccountInterface } from "starknet";
 import { DownChevronIcon, HamburgerIcon, WalletIcon } from "@public/icons";
 import { Button } from "ui/button";
@@ -27,31 +27,43 @@ const Nav = ({
   /* STATE FOR DROPDOWN */
   const [openDropDown, setOpenDropDown] = useState(false);
   const [activeDropDown, setActiveDropDown] = useState("");
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const communityDialog = useRef<HTMLDialogElement | null>(null);
   const toggleDropDown = () => {
     setOpenDropDown((prev) => !prev);
   };
-  const closeDropDown = () => {
-    setOpenDropDown(false);
-    setActiveDropDown("");
+  const openLearnDropdown = () => {
+    communityDialog.current?.close();
+    learnDialog.current?.show();
+  };
+  const openCommunityDropdown = () => {
+    learnDialog.current?.close();
+    communityDialog.current?.show();
+  };
+  const closeCommunityDropDown = () => {
+    learnDialog.current?.close();
+    communityDialog.current?.close();
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        closeDropDown();
-      }
-    };
+  const closeLearnDropDown = () => {
+    learnDialog.current?.close();
+  };
+  const learnDialog = useRef<HTMLDialogElement | null>(null);
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (
+  //       dropdownRef.current &&
+  //       !dropdownRef.current.contains(event.target as Node)
+  //     ) {
+  //       closeDropDown();
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
+  //   document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dropdownRef]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [dropdownRef]);
 
   return (
     <nav className="container mx-auto flex items-center gap-8 lg:justify-between">
@@ -63,50 +75,66 @@ const Nav = ({
       </div>
       <div className="hidden items-center gap-10 text-foreground-primary lg:flex">
         <p>Explorer</p>
+        <div className="relative">
+          <Menu
+            activeDropDown={activeDropDown}
+            openDropDown={openDropDown}
+            setActiveDropDown={setActiveDropDown}
+            title="learn"
+            toggleDropDown={openLearnDropdown}
+          />
+          <dialog
+            onClick={closeCommunityDropDown}
+            className="before:bg-transparent"
+            ref={learnDialog}
+          >
+            <DropDown
+              dropdownItems={learningLinks}
+              openDropDown={openDropDown}
+              activeDropDown={activeDropDown}
+              id="learn"
+            />
+          </dialog>
+        </div>
+        <div className="relative">
+          <Menu
+            activeDropDown={activeDropDown}
+            openDropDown={false}
+            setActiveDropDown={setActiveDropDown}
+            title="community"
+            toggleDropDown={openCommunityDropdown}
+          />
+          <dialog
+            className="absolute top-[4rem] z-[100] h-screen bg-red-700 before:bg-transparent md:h-auto"
+            onClick={closeCommunityDropDown}
+            ref={communityDialog}
+          >
+            <DropDown
+              dropdownItems={communityLinks}
+              openDropDown={openDropDown}
+              activeDropDown={activeDropDown}
+              id="community"
+            />
+          </dialog>
+        </div>
 
-        <Menu
-          activeDropDown={activeDropDown}
-          openDropDown={openDropDown}
-          setActiveDropDown={setActiveDropDown}
-          title="learn"
-          toggleDropDown={toggleDropDown}
-        />
-        <Menu
-          activeDropDown={activeDropDown}
-          openDropDown={openDropDown}
-          setActiveDropDown={setActiveDropDown}
-          title="community"
-          toggleDropDown={toggleDropDown}
-        />
-
-        <p>Showcase</p>
-
-        <DropDown
-          dropdownItems={learningLinks}
-          openDropDown={openDropDown}
-          activeDropDown={activeDropDown}
-          id="learn"
-        />
-        <DropDown
-          dropdownItems={communityLinks}
-          openDropDown={openDropDown}
-          activeDropDown={activeDropDown}
-          id="community"
-        />
+        <a href="#projects">Showcase</a>
       </div>
       <div className="hidden items-center space-x-8 md:flex">
-        {isWalletOpen && (
-          <ConnectWallet
-            isWalletOpen={isWalletOpen}
-            closeWalletModal={closeWalletModal}
-            openWalletModal={openWalletModal}
-          />
-        )}
         {account && <NetworkSwitcher />}
         {!account ? (
-          <Button startIcon={<WalletIcon />} onClick={openWalletModal}>
-            Connect Wallet
-          </Button>
+          <>
+            <Button startIcon={<WalletIcon />} onClick={openWalletModal}>
+              Connect Wallet
+            </Button>
+            {isWalletOpen && (
+              <ConnectWallet
+                isWalletOpen={isWalletOpen}
+                closeWalletModal={closeWalletModal}
+                openWalletModal={openWalletModal}
+              />
+            )}
+          </>
         ) : (
           <ConnectedNavBar />
         )}
@@ -143,7 +171,7 @@ const Menu = ({
     >
       <span className="capitalize">{title}</span>
       <span
-        className={`text-xl transition-all duration-300 ease-in-out ${
+        className={`text-xl transition-all duration-300 ease-in-out group-hover:translate-x-0 group-hover:translate-y-0 ${
           openDropDown && activeDropDown === title
             ? "rotate-[-180deg]"
             : "rotate-0"

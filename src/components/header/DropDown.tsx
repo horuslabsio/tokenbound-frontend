@@ -46,14 +46,12 @@ const DropDown = ({
 }) => {
   return (
     <div
+      onClick={(e) => e.stopPropagation()}
       style={{
-        boxShadow: "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
+        boxShadow:
+          "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(215, 210, 210, 0.2)",
       }}
-      className={`fixed top-[4.7rem] grid rounded-lg bg-off-white transition-all duration-300 ease-in-out ${
-        openDropDown && activeDropDown === id
-          ? "grid-rows-[1fr] opacity-100"
-          : "grid-rows-[0fr] opacity-0"
-      } `}
+      className={`fixed top-[4.7rem] grid rounded-[16px] bg-white transition-all duration-300 ease-in-out`}
     >
       <div className="overflow-hidden">
         <ul className="grid min-h-[7rem] min-w-[20rem] grid-cols-2 gap-8 p-8">

@@ -139,7 +139,6 @@ export const useRefreshMetadata = (
 
   const refreshMetadata = async () => {
     if (!contractAddress) {
-      console.error("Address is undefined. Unable to make the request.");
       setLoading(false);
       return;
     }

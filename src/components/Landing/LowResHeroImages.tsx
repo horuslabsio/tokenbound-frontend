@@ -14,7 +14,7 @@ const LowResHeroImages = () => {
   return (
     <div
       aria-hidden
-      className="absolute hidden h-[calc(100%-8rem)] w-full grid-cols-2 gap-4 md:grid lg:grid-cols-3 lg:gap-0"
+      className="absolute hidden h-[calc(100%-8rem)] w-full grid-cols-2 gap-4 overflow-hidden md:grid lg:grid-cols-3 lg:gap-0"
     >
       <div className="relative mt-auto h-[75%] w-[50vw] max-w-[400px]">
         <div className="absolute left-12 top-4 h-[7.8rem] w-[7.8rem]">

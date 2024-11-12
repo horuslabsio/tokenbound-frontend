@@ -164,7 +164,6 @@
     opacity: 1;
   }
 }
-
 .activeCard {
   z-index: 4;
   top: 0;
@@ -186,12 +185,6 @@
   transform: translateX(-50%) translateZ(-10rem);
 }
 
-.card {
-  /* padding: 20px;
-  margin: 10px;
-  cursor: pointer; */
-}
-
 .lastCard {
   background-color: lightblue;
 }
@@ -206,16 +199,14 @@
   font-weight: bold;
 }
 
-::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
 dialog {
   opacity: 0;
 }
 dialog[open] {
   opacity: 1;
 }
-dialog::before {
+dialog::before,
+dialog::backdrop {
   opacity: 0;
   content: "";
   width: 100vw;
@@ -231,7 +222,8 @@ dialog::before {
   transition-behavior: allow-discrete;
 }
 
-dialog[open]::before {
+dialog[open]::before,
+dialog[open]::backdrop {
   opacity: 1;
   display: block;
 }
@@ -241,7 +233,8 @@ dialog[open]::before {
     opacity: 0;
     transform: translateY(10%);
   }
-  dialog[open]::before {
+  dialog[open]::before,
+  dialog[open]::backdrop {
     opacity: 0;
   }
 }

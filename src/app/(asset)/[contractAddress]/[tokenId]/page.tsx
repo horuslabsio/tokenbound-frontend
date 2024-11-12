@@ -5,6 +5,7 @@ import {
   useDeployAccount,
   useGetTbaAddress,
   useUpgradeAccount,
+  useRefreshMetadata,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
 import { useNetwork } from "@starknet-react/core";
@@ -20,6 +21,7 @@ import { WalletToken } from "types";
 import DeployArrow from "./ui/deploy-arrow";
 import Loading from "./loading";
 import { CopyButton } from "ui/copy-button";
+import { RefreshIcon, UpRightArrowIcon } from "@public/icons";
 const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });
@@ -212,6 +214,14 @@ function Assets() {
               </span>
             </Link> */}
           </div>
+          <Button
+            onClick={refreshMetadata}
+            isLoading={loadingRefresh}
+            startIcon={success ? null : <RefreshIcon />}
+            className="rounded-full transition-all duration-300"
+          >
+            {success ? "success" : "Refresh metadata"}
+          </Button>
           <div className="relative flex w-full items-center gap-8 md:max-w-[31.5rem] lg:max-w-none">
             {activeVersion?.version === "undeployed" && (
               <Button
@@ -249,10 +259,26 @@ function Assets() {
 
             {activeVersion?.version === "V3" && (
               <Button
-                asChild
-                className="w-fit rounded-full bg-gray-100 text-foreground-primary"
+                isLoading={deploymentStatus === "pending"}
+                onClick={deployAccount}
+                className={`w-fit rounded-full transition-all duration-300 ${deploymentStatus === "error" ? "bg-gray-100 text-[#ce5a4c]" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
+                disabled={
+                  deploymentStatus === "pending" || deploymentStatus === "error"
+                }
+                endIcon={<UpRightArrowIcon gradient />}
               >
-                <span>TBA Deployed</span>
+                <a
+                  href={`${
+                    chain.network === "mainnet"
+                      ? url
+                      : chain.network === "sepolia"
+                        ? sepolia_url
+                        : ""
+                  }/contract/${deployedAddress}`}
+                  target="_blank"
+                >
+                  TBA Deployed
+                </a>
               </Button>
             )}
 

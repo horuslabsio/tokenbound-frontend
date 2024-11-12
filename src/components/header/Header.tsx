@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAccount, useNetwork } from "@starknet-react/core";
-
 import { usePathname, useRouter } from "next/navigation";
-import ConnectWallet from "@components/ConnectWallet/page";
 import Nav from "./Nav";
 
 const Header = () => {
@@ -42,13 +40,6 @@ const Header = () => {
           openWalletModal={openWalletModal}
         />
       </header>
-      {!isConnected && !account && (
-        <ConnectWallet
-          isWalletOpen={isWalletOpen}
-          closeWalletModal={closeWalletModal}
-          openWalletModal={openWalletModal}
-        />
-      )}
     </>
   );
 };
