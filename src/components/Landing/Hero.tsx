@@ -25,7 +25,7 @@ const Hero = () => {
         <div className="mx-auto flex w-fit flex-wrap justify-center gap-4">
           <Button
             asChild
-            className="bg-gray-50 text-foreground-secondary"
+            className="bg-gray-50 text-black"
             endIcon={<UpRightArrowIcon />}
           >
             <a

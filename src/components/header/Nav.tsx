@@ -168,19 +168,17 @@ const Menu = ({
       onClick={toggleDropDown}
       variant={"ghost"}
       className="flex items-center gap-2"
-      endIcon={
-        <span
-          className={`text-xl transition-all duration-300 ease-in-out group-hover:translate-x-0 group-hover:translate-y-0 ${
-            openDropDown && activeDropDown === title
-              ? "rotate-[-180deg]"
-              : "rotate-0"
-          }`}
-        >
-          <DownChevronIcon />
-        </span>
-      }
     >
       <span className="capitalize">{title}</span>
+      <span
+        className={`text-xl transition-all duration-300 ease-in-out group-hover:translate-x-0 group-hover:translate-y-0 ${
+          openDropDown && activeDropDown === title
+            ? "rotate-[-180deg]"
+            : "rotate-0"
+        }`}
+      >
+        <DownChevronIcon />
+      </span>
     </Button>
   );
 };
