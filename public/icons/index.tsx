@@ -124,24 +124,6 @@ export const CheckIcon = () => (
   </svg>
 );
 
-export const NewTabIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
-    viewBox="0 0 24 24"
-  >
-    <path
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M7 7h10v10M7 17L17 7"
-    />
-  </svg>
-);
-
 export const XIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -585,6 +567,24 @@ export const HamburgerIcon = () => (
       fillRule="evenodd"
       d="M1.5 3a.5.5 0 0 0 0 1h12a.5.5 0 0 0 0-1zM1 7.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5m0 4a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5"
       clipRule="evenodd"
+    />
+  </svg>
+);
+
+export const RefreshIcon = () => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M16.0515 3.125V5.625C16.0515 6.08524 15.6784 6.45833 15.2182 6.45833H12.7182M3.95833 16.875V14.375C3.95833 13.9148 4.33143 13.5417 4.79167 13.5417H7.29167M3.17819 10.8594C3.14308 10.5778 3.125 10.291 3.125 10C3.125 6.20304 6.20304 3.125 10 3.125C12.2305 3.125 14.2593 4.18719 15.5268 5.83333M16.8218 9.14062C16.8569 9.42215 16.875 9.70896 16.875 10C16.875 13.797 13.797 16.875 10 16.875C7.76951 16.875 5.74073 15.8128 4.4732 14.1667"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );

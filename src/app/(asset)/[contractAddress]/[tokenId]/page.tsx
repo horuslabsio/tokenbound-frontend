@@ -4,18 +4,18 @@ import {
   useTokenBoundSDK,
   useGetAccountAddress,
   getNftToken,
+  useRefreshMetadata,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
 import { useNetwork } from "@starknet-react/core";
 import dynamic from "next/dynamic";
-import { NewTabIcon } from "@public/icons";
-import Link from "next/link";
 import { WalletToken } from "../../../../types";
 import { useQuery } from "@tanstack/react-query";
 import { CopyButton } from "ui/copy-button";
 import { Button } from "ui/button";
 import DeployArrow from "./ui/deploy-arrow";
 import Loading from "./loading";
+import { RefreshIcon, UpRightArrowIcon } from "@public/icons";
 const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });
@@ -96,6 +96,12 @@ function Assets() {
     }
   };
 
+  const {
+    refreshMetadata,
+    loading: loadingRefresh,
+    success,
+  } = useRefreshMetadata(contractAddress, tokenId);
+
   if (loading) {
     return <Loading />;
   }
@@ -128,31 +134,38 @@ function Assets() {
               className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
               copyIcon
             />
-            {/* <Link
-              href={`${
-                chain.network === "mainnet"
-                  ? url
-                  : chain.network === "sepolia"
-                    ? sepolia_url
-                    : ""
-              }/contract/${deployedAddress}`}
-              target="__blank"
-              title="view on starkscan"
-              className="inline-flex h-full items-center rounded-r-[6px] border border-l-deep-blue px-2 py-3 text-lg transition-all hover:bg-deep-blue hover:text-white"
-            >
-              <span>
-                <NewTabIcon />
-              </span>
-            </Link> */}
           </div>
           <div className="relative flex w-full items-center gap-8 md:max-w-[31.5rem] lg:max-w-none">
             {status ? (
-              <Button
-                asChild
-                className="w-fit rounded-full bg-gray-100 text-foreground-primary"
-              >
-                <span>TBA Deployed</span>
-              </Button>
+              <div className="flex flex-wrap-reverse items-center gap-4">
+                <Button
+                  onClick={refreshMetadata}
+                  isLoading={loadingRefresh}
+                  startIcon={success ? null : <RefreshIcon />}
+                  className="rounded-full transition-all duration-300"
+                >
+                  {success ? "success" : "Refresh metadata"}
+                </Button>
+                <Button
+                  asChild
+                  variant={"gray"}
+                  className="w-fit rounded-full bg-gray-100 text-foreground-primary"
+                  endIcon={<UpRightArrowIcon gradient />}
+                >
+                  <a
+                    href={`${
+                      chain.network === "mainnet"
+                        ? url
+                        : chain.network === "sepolia"
+                          ? sepolia_url
+                          : ""
+                    }/contract/${deployedAddress}`}
+                    target="_blank"
+                  >
+                    TBA Deployed
+                  </a>
+                </Button>
+              </div>
             ) : (
               <Button
                 isLoading={deploymentStatus === "pending"}

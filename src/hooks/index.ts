@@ -96,7 +96,6 @@ export const useRefreshMetadata = (
 
   const refreshMetadata = async () => {
     if (!contractAddress) {
-      console.error("Address is undefined. Unable to make the request.");
       setLoading(false);
       return;
     }
@@ -117,7 +116,9 @@ export const useRefreshMetadata = (
       );
       setSuccess(response.data.message);
     } catch (error) {
-      console.error("Error refreshing metadata:", error);
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Error refreshing metadata:", error);
+      }
     } finally {
       setLoading(false);
     }

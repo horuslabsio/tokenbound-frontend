@@ -164,7 +164,6 @@
     opacity: 1;
   }
 }
-
 .activeCard {
   z-index: 4;
   top: 0;
@@ -184,12 +183,6 @@
 .lastCard {
   top: 5.5rem;
   transform: translateX(-50%) translateZ(-10rem);
-}
-
-.card {
-  /* padding: 20px;
-  margin: 10px;
-  cursor: pointer; */
 }
 
 .lastCard {

@@ -11,15 +11,15 @@ const buttonVariants = cva(
       variant: {
         iconOnly: "",
         icon: "",
-        base: "bg-primary-btn rounded-lg hover:opacity-90 transition-all px-4 py-2 text-white font-medium",
-        gray: "bg-gray-100 rounded-full text-black",
+        base: "bg-primary-btn rounded-lg hover:opacity-90 transition-all px-2 md:px-4 py-2 text-white font-medium",
+        gray: "bg-gray-100 rounded-full px-4 py-2 text-black",
         outline:
           "bg-black px-4 py-2 before:absolute before:h-[calc(100%-2px)] before:w-[calc(100%-2px)] bg-gradient-linear-primary before:bg-white relative rounded-full z-[10] before:rounded-full before:-z-[1] disabled:bg-none",
         ghost: "",
       },
       size: {
         sm: "",
-        md: "h-[2.8rem] text-base",
+        md: "h-[2.8rem] text-sm md:text-base",
         lg: "p-2 h-[3rem]",
       },
     },
