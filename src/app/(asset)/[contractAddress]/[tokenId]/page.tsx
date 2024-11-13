@@ -172,23 +172,16 @@ function Assets() {
   }
 
   return (
-    <section className="mx-auto min-h-screen max-w-[1125px] px-8 pb-16 pt-32">
+    <section className="mx-auto min-h-screen max-w-[1125px] px-8 pb-16 pt-32 2xl:max-w-[1490px]">
       <div className="mx-auto w-full max-w-[23rem] md:max-w-[40rem] lg:grid lg:max-w-none lg:grid-cols-2">
         <div className="flex flex-col items-center gap-4 lg:items-start">
-          <div className="h-[17.1rem] w-full overflow-clip rounded-[16px] md:h-[31.5rem] md:w-[31.5rem]">
-            {tokenData?.metadata?.image ? (
+          <div className="h-[17.1rem] w-full overflow-clip rounded-[16px] md:h-[31.5rem] md:w-[31.5rem] 2xl:h-[41.5rem] 2xl:w-[41.5rem]">
+            {tokenData?.metadata?.image && (
               <img
                 className="scale-110 rounded-[16px] object-cover"
                 src={tokenData?.metadata?.image}
-                width={673}
-                height={480}
                 alt="NFT Image"
               />
-            ) : (
-              <div
-                aria-label="loader"
-                className="h-full min-h-[500px] w-full animate-pulse rounded-[8px] bg-gray-50"
-              ></div>
             )}
           </div>
           <div className="flex w-full justify-between gap-2 md:w-[31.5rem]">

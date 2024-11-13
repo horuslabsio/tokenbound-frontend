@@ -11,10 +11,10 @@ const NFTCard = ({ nft }: NFTCard) => {
   };
   return (
     <div
-      className="group flex h-[23.2rem] w-full cursor-pointer flex-col gap-4 md:max-w-[19rem] md:gap-2"
+      className="group flex h-[23.2rem] w-full cursor-pointer flex-col gap-4 md:max-w-[19rem] md:gap-2 2xl:h-[28rem] 2xl:max-w-[29rem]"
       onClick={redirect}
     >
-      <div className="h-[15.6rem] w-full overflow-clip rounded-[16px]">
+      <div className="h-[15.6rem] w-full overflow-clip rounded-[16px] 2xl:h-[20rem]">
         <img
           className="scale-105 rounded-[16px] object-cover transition-all duration-500 group-hover:scale-[1.15]"
           src={nft?.metadata?.image}

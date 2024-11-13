@@ -23,7 +23,7 @@ const FQAs = () => {
 
   return (
     <section className="mx-auto flex w-full flex-col gap-8 bg-gray-100 px-2 py-16 md:max-w-[1536px] md:px-4 lg:p-16">
-      <h2 className="mx-auto w-full max-w-[200px] text-center md:max-w-[486px]">
+      <h2 className="mx-auto w-full max-w-[200px] text-center md:max-w-[486px] 2xl:max-w-none">
         Frequently
         <span className="text-gradient"> Asked</span> Questions
       </h2>

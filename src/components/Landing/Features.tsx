@@ -1,7 +1,7 @@
 const Features = () => {
   return (
     <section className="container mx-auto flex flex-col items-center gap-8 p-8">
-      <h2 className="max-w-[47rem] text-center">
+      <h2 className="max-w-[53rem] text-center 2xl:max-w-[73rem]">
         Turn existing NFTs into a{" "}
         <span className="text-gradient">smart wallet</span> you could use to
         interact with the Starknet ecosystem.

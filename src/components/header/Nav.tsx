@@ -28,42 +28,30 @@ const Nav = ({
   const [openDropDown, setOpenDropDown] = useState(false);
   const [activeDropDown, setActiveDropDown] = useState("");
   const communityDialog = useRef<HTMLDialogElement | null>(null);
-  const toggleDropDown = () => {
-    setOpenDropDown((prev) => !prev);
+
+  const toggleLearnDropdown = () => {
+    if (learnDialog.current?.open) {
+      learnDialog.current?.close();
+    } else {
+      communityDialog.current?.close();
+      learnDialog.current?.show();
+    }
   };
-  const openLearnDropdown = () => {
-    communityDialog.current?.close();
-    learnDialog.current?.show();
+  const toggleCommunityDropdown = () => {
+    if (communityDialog.current?.open) {
+      communityDialog.current.close();
+    } else {
+      learnDialog.current?.close();
+      communityDialog.current?.show();
+    }
   };
-  const openCommunityDropdown = () => {
-    learnDialog.current?.close();
-    communityDialog.current?.show();
-  };
-  const closeCommunityDropDown = () => {
+
+  const closeDropDowns = () => {
     learnDialog.current?.close();
     communityDialog.current?.close();
   };
 
-  const closeLearnDropDown = () => {
-    learnDialog.current?.close();
-  };
   const learnDialog = useRef<HTMLDialogElement | null>(null);
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       dropdownRef.current &&
-  //       !dropdownRef.current.contains(event.target as Node)
-  //     ) {
-  //       closeDropDown();
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [dropdownRef]);
 
   return (
     <nav className="container mx-auto flex items-center gap-8 lg:justify-between">
@@ -81,10 +69,10 @@ const Nav = ({
             openDropDown={openDropDown}
             setActiveDropDown={setActiveDropDown}
             title="learn"
-            toggleDropDown={openLearnDropdown}
+            toggleDropDown={toggleLearnDropdown}
           />
           <dialog
-            onClick={closeCommunityDropDown}
+            onClick={closeDropDowns}
             className="before:bg-transparent"
             ref={learnDialog}
           >
@@ -102,11 +90,11 @@ const Nav = ({
             openDropDown={false}
             setActiveDropDown={setActiveDropDown}
             title="community"
-            toggleDropDown={openCommunityDropdown}
+            toggleDropDown={toggleCommunityDropdown}
           />
           <dialog
             className="absolute top-[4rem] z-[100] h-screen bg-red-700 before:bg-transparent md:h-auto"
-            onClick={closeCommunityDropDown}
+            onClick={closeDropDowns}
             ref={communityDialog}
           >
             <DropDown

@@ -170,7 +170,7 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   //@ts-ignore
   let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
   return (
-    <div className="relative mt-4 flex max-w-[38rem] flex-col rounded-[16px] bg-gray-100 p-4">
+    <div className="relative mt-4 flex max-w-[38rem] flex-col rounded-[16px] bg-gray-100 p-4 2xl:max-w-[50rem]">
       <Token
         balance={Number.isNaN(ETH_BALANCE) ? "0.000" : ETH_BALANCE.toFixed(4)}
         err={ethError}
@@ -284,7 +284,7 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
           decimal={selectedAsset?.decimal}
         />
       </dialog>
-      {/* UI div to cover all last boders */}
+      {/* UI div to cover all last borders */}
       <div className="absolute bottom-2 h-4 w-[95%] bg-gray-100"></div>
     </div>
   );
