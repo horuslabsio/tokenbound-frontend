@@ -41,7 +41,7 @@ const NFTCollection = () => {
         </div>
       ) : (
         <div className="mx-auto my-auto grid h-[70vh] place-content-center">
-          <div className="grid h-[13.5rem] w-[50vw] max-w-[23rem] place-content-center rounded-[16px] bg-gray-100 md:max-w-[38rem]">
+          <div className="grid h-[13.5rem] w-[50vw] max-w-[23rem] place-content-center rounded-[16px] bg-gray-100 md:max-w-[38rem] 2xl:max-w-[48rem]">
             <p className="text-lg">Nothing to show yet.</p>
           </div>
         </div>

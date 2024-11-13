@@ -9,7 +9,7 @@ const NFTCollection = dynamic(() => import("./components/NFTCollection"), {
 function NFT() {
   const { address } = useAccount();
   return (
-    <section className="mx-auto min-h-screen max-w-[23rem] px-4 pt-16 md:max-w-[1125px] md:px-8 md:pt-32">
+    <section className="mx-auto min-h-screen max-w-[23rem] px-4 pt-16 md:max-w-[1125px] md:px-8 md:pt-32 2xl:max-w-[1536px]">
       <div className="mb-8 flex items-center justify-start gap-1 space-x-4">
         <h2 className="text-4xl font-medium text-black">
           My <span className="text-gradient">NFTs</span>
