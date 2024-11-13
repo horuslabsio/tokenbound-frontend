@@ -12,7 +12,7 @@ const Hero = () => {
   return (
     <section className="relative mx-auto flex max-h-[1080px] w-full max-w-[1536px] flex-col items-center justify-center overflow-hidden text-center md:h-screen md:flex-row md:items-start">
       <MobileBgImage />
-      <div className="relative z-[1] mt-16 flex max-w-[28.5rem] flex-col gap-8 px-4 md:mt-0">
+      <div className="relative z-[1] mt-16 flex max-w-[28.5rem] flex-col gap-8 px-4 md:mt-0 2xl:max-w-[45rem]">
         <h1 className="font-inter-variable">
           Transform <span className="text-gradient">any</span> NFT to a{" "}
           <span className="font-instrument-serif">wallet</span>
