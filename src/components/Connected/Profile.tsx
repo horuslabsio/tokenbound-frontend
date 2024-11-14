@@ -1,6 +1,7 @@
 "use client";
 import {
   useAccount,
+  useConnect,
   useDisconnect,
   useStarkProfile,
 } from "@starknet-react/core";
@@ -14,17 +15,22 @@ import {
 } from "@public/icons";
 import { useRouter } from "next/navigation";
 import { CopyButton } from "ui/copy-button";
+import { useEffect } from "react";
 
 const Profile = ({ closeModal }: { closeModal: () => void }) => {
   const router = useRouter();
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
+  const { connect, connectors } = useConnect();
 
   const { data: starknetProfile } = useStarkProfile({
     address: address,
   });
-
-  console.log("cart address", address);
+  useEffect(() => {
+    if (!address) return;
+    console.log("cart address", address);
+    connectors[4].username()?.then((n) => console.log(n));
+  }, [address, connectors[4]]);
 
   return (
     <div

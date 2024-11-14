@@ -15,7 +15,6 @@ import { jsonRpcProvider } from "@starknet-react/core";
 import { ReactNode, useCallback } from "react";
 
 const StarknetProvider = ({ children }: { children: ReactNode }) => {
-  console.log(ControllerConnector);
   const chains = [mainnet, sepolia];
   const { connectors: injected } = useInjectedConnectors({
     recommended: [argent(), braavos()],
@@ -24,7 +23,8 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
 
   const rpc = useCallback((chain: Chain) => {
     return {
-      nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      nodeUrl: "https://api.cartridge.gg/x/starknet/sepolia",
+      //   nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
     };
   }, []);
 
