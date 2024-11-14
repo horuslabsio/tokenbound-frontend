@@ -10,9 +10,9 @@ import {
   starkscan,
   useInjectedConnectors,
 } from "@starknet-react/core";
-import ControllerConnector from "@cartridge/connector";
 import { jsonRpcProvider } from "@starknet-react/core";
 import { ReactNode, useCallback } from "react";
+import { cartridgeInstance } from "@utils/controller";
 
 const StarknetProvider = ({ children }: { children: ReactNode }) => {
   const chains = [mainnet, sepolia];
@@ -23,13 +23,8 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
 
   const rpc = useCallback((chain: Chain) => {
     return {
-      //   nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet",
       nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
     };
-  }, []);
-
-  const controllerRpc = useCallback(() => {
-    return { nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet" };
   }, []);
 
   const provider = jsonRpcProvider({ rpc });
@@ -38,9 +33,7 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
     ...injected,
     new WebWalletConnector({ url: "https://web.argent.xyz" }),
     new ArgentMobileConnector(),
-    new ControllerConnector({
-      rpc: controllerRpc().nodeUrl,
-    }) as never as Connector,
+    cartridgeInstance,
   ];
 
   return (

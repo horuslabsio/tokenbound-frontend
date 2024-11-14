@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import LowResHeroImages from "./LowResHeroImages";
 import MobileBgImage from "./ui/mobile-bg-image";
 const HeroImages = dynamic(() => import("./HeroImages"), {
-  ssr: false,
   loading: () => <LowResHeroImages />,
 });
 
