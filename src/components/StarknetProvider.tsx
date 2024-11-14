@@ -1,26 +1,20 @@
 "use client";
-
 import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { WebWalletConnector } from "starknetkit/webwallet";
-import { sepolia, mainnet } from "@starknet-react/chains";
+import { sepolia, mainnet, Chain } from "@starknet-react/chains";
 import {
   argent,
   braavos,
+  Connector,
   StarknetConfig,
   starkscan,
   useInjectedConnectors,
 } from "@starknet-react/core";
 import ControllerConnector from "@cartridge/connector";
 import { jsonRpcProvider } from "@starknet-react/core";
+import { ReactNode, useCallback } from "react";
 
-function rpc(chain) {
-  return {
-    nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-  };
-}
-
-const provider = jsonRpcProvider({ rpc });
-export default function StarknetProvider({ children }) {
+const StarknetProvider = ({ children }: { children: ReactNode }) => {
   console.log(ControllerConnector);
   const chains = [mainnet, sepolia];
   const { connectors: injected } = useInjectedConnectors({
@@ -28,16 +22,24 @@ export default function StarknetProvider({ children }) {
     includeRecommended: "always",
   });
 
+  const rpc = useCallback((chain: Chain) => {
+    return {
+      nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+    };
+  }, []);
+
+  const controllerRpc = useCallback((chain: Chain) => {
+    return { nodeUrl: `https://api.cartridge.gg/x/starknet/${chain.network}` };
+  }, []);
+
+  const provider = jsonRpcProvider({ rpc });
+
   const connectors = [
     ...injected,
     new WebWalletConnector({ url: "https://web.argent.xyz" }),
     new ArgentMobileConnector(),
-    new ControllerConnector({
-      rpc: "https://api.cartridge.gg/x/starknet/mainnet",
-    }),
+    new ControllerConnector() as never as Connector,
   ];
-
-  console.log;
 
   return (
     <StarknetConfig
@@ -50,4 +52,6 @@ export default function StarknetProvider({ children }) {
       {children}
     </StarknetConfig>
   );
-}
+};
+
+export default StarknetProvider;

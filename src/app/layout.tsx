@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import StarknetProvider from "@components/starknet-provider";
+import StarknetProvider from "@components/StarknetProvider";
 import Favicon from "@public/favicon.ico";
 import Footer from "@components/footer/Footer";
 import Header from "@components/header/Header";

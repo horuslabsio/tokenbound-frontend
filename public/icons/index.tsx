@@ -49,6 +49,18 @@ export const WalletIcons = ({ id }: { id: string }) => {
       </svg>
     );
   }
+  if (id === "controller") {
+    return (
+      <div
+        style={{
+          width: "20px",
+          height: "20px",
+        }}
+      >
+        <img src="./icons/controller.svg" />
+      </div>
+    );
+  }
   return null;
 };
 
