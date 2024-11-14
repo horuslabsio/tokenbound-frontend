@@ -24,8 +24,7 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
 
   const rpc = useCallback((chain: Chain) => {
     return {
-      nodeUrl: `https://api.cartridge.gg/x/starknet/${chain.network}`,
-      //   nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
     };
   }, []);
 
