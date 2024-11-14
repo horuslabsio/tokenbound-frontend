@@ -23,13 +23,13 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
 
   const rpc = useCallback((chain: Chain) => {
     return {
-      nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet",
-      //   nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+      //   nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet",
+      nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
     };
   }, []);
 
-  const controllerRpc = useCallback((chain: Chain) => {
-    return { nodeUrl: `https://api.cartridge.gg/x/starknet/${chain.network}` };
+  const controllerRpc = useCallback(() => {
+    return { nodeUrl: "https://api.cartridge.gg/x/starknet/mainnet" };
   }, []);
 
   const provider = jsonRpcProvider({ rpc });
@@ -38,7 +38,9 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
     ...injected,
     new WebWalletConnector({ url: "https://web.argent.xyz" }),
     new ArgentMobileConnector(),
-    new ControllerConnector() as never as Connector,
+    new ControllerConnector({
+      rpc: controllerRpc().nodeUrl,
+    }) as never as Connector,
   ];
 
   return (
