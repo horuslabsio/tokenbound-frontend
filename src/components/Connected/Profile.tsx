@@ -26,11 +26,13 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
   const { data: starknetProfile } = useStarkProfile({
     address: address,
   });
+  const connector = connectors[4];
   useEffect(() => {
     if (!address) return;
     console.log("cart address", address);
-    connectors[4].username()?.then((n) => console.log(n));
-  }, [address, connectors[4]]);
+    //@ts-ignore
+    connector.username()?.then((n: any) => console.log(n));
+  }, [address, connector]);
 
   return (
     <div
