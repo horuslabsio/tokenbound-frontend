@@ -30,6 +30,8 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
   useEffect(() => {
     if (!address) return;
     console.log("cart address", address);
+    console.log("connector:", connector);
+
     //@ts-ignore
     connector.username()?.then((n: any) => console.log(n));
   }, [address, connector]);
