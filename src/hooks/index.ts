@@ -59,14 +59,16 @@ export const useGetAccountAddress = ({
 
   useEffect(() => {
     const getAccountAddress = async () => {
-      try {
-        const accountResult = await tokenbound.getAccount({
-          tokenContract: contractAddress,
-          tokenId,
-        });
-        setDeployedAddress(num.toHex(accountResult));
-      } catch (error) {
-        console.error(error);
+      if (tokenbound) {
+        try {
+          const accountResult = await tokenbound.getAccount({
+            tokenContract: contractAddress,
+            tokenId,
+          });
+          setDeployedAddress(num.toHex(accountResult));
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
     getAccountAddress();
