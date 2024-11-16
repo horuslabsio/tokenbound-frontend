@@ -1,10 +1,10 @@
 import Image from "next/image";
-import IMG_2 from "../../../../public/hero/2.svg";
-import IMG_3 from "../../../../public/hero/3.svg";
-import IMG_4 from "../../../../public/hero/4.svg";
-import IMG_7 from "../../../../public/hero/7.svg";
-import IMG_8 from "../../../../public/hero/8v2.svg";
-import IMG_9 from "../../../../public/hero/9v2.svg";
+import IMG_2 from "../../../../public/hero/2.png";
+import IMG_3 from "../../../../public/hero/3.png";
+import IMG_4 from "../../../../public/hero/4.png";
+import IMG_7 from "../../../../public/hero/7.png";
+import IMG_8 from "../../../../public/hero/8v2.png";
+import IMG_9 from "../../../../public/hero/9v2.png";
 
 const MobileBgImage = () => {
   return (

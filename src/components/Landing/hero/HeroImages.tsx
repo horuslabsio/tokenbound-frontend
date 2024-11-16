@@ -1,16 +1,16 @@
 "use client";
 import Image from "next/image";
-import IMG_0 from "../../../public/hero/0.svg";
-import IMG_1 from "../../../public/hero/1.svg";
-import IMG_2 from "../../../public/hero/2.svg";
-import IMG_3 from "../../../public/hero/3.svg";
-import IMG_4 from "../../../public/hero/4.svg";
-import IMG_5 from "../../../public/hero/5.svg";
-import IMG_6 from "../../../public/hero/6.svg";
-import IMG_7 from "../../../public/hero/7.svg";
-import IMG_8 from "../../../public/hero/8.svg";
-import IMG_9 from "../../../public/hero/9.svg";
-import IMG_8v2 from "../../../public/hero/8v2.svg";
+import IMG_0 from "../../../../public/hero/0.png";
+import IMG_1 from "../../../../public/hero/1.png";
+import IMG_2 from "../../../../public/hero/2.png";
+import IMG_3 from "../../../../public/hero/3.png";
+import IMG_4 from "../../../../public/hero/4.png";
+import IMG_5 from "../../../../public/hero/5.png";
+import IMG_6 from "../../../../public/hero/6.png";
+import IMG_7 from "../../../../public/hero/7.png";
+import IMG_8 from "../../../../public/hero/8.png";
+import IMG_9 from "../../../../public/hero/9.png";
+import IMG_8v2 from "../../../../public/hero/8v2.png";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
@@ -82,9 +82,54 @@ const HeroImages = () => {
         },
         "-=3",
       )
-      .to(boxRef.current, { opacity: 0, duration: 1 })
-      .to(tbaRef.current, { opacity: 1, scale: 1, duration: 1 })
-      .to(tbaParentRef.current, { opacity: 1, duration: 1 })
+      .to(boxRef.current, { opacity: 0, scaleX: 0, duration: 1 })
+      .to(tbaRef.current, { opacity: 1, scale: 1, duration: 1 }, "-=1")
+      .to(tbaParentRef.current, { opacity: 1, duration: 1 }, "-=1")
+      .to(
+        box0Ref.current,
+        {
+          top: "5%",
+          left: "25%",
+          duration: 2,
+        },
+        "-=2",
+      )
+      .to(
+        box1Ref.current,
+        {
+          top: "50%",
+          translateX: 0,
+          duration: 2,
+        },
+        "-=2",
+      )
+      .to(
+        box2Ref.current,
+        {
+          translateX: "-15%",
+          translateY: "-15%",
+          duration: 2,
+        },
+        "-=2",
+      )
+      .to(
+        box3Ref.current,
+        {
+          top: "55%",
+          right: "10%",
+          duration: 2,
+        },
+        "-=2",
+      )
+      .to(
+        box4Ref.current,
+        {
+          bottom: "7rem",
+          left: "8rem",
+          duration: 2,
+        },
+        "-=2",
+      )
       .to(tbaRef.current, { opacity: 0, duration: 1 });
   }, []);
 
@@ -92,9 +137,9 @@ const HeroImages = () => {
     <div
       ref={parentRef}
       aria-hidden
-      className="absolute hidden h-[calc(100%-8rem)] w-full grid-cols-2 gap-4 opacity-0 md:grid lg:grid-cols-3 lg:gap-0"
+      className="absolute hidden h-[calc(100%-8rem)] w-full grid-cols-2 gap-4 opacity-0 md:grid lg:grid-cols-5 lg:gap-0"
     >
-      <div className="relative mt-auto h-[75%] w-[50vw] max-w-[400px] 2xl:max-w-[500px]">
+      <div className="relative mt-auto h-[70%] lg:col-span-2 2xl:max-w-[500px]">
         <div
           ref={box0Ref}
           className="absolute left-12 top-4 h-[7.8rem] w-[7.8rem]"
@@ -131,7 +176,7 @@ const HeroImages = () => {
 
         <div
           ref={box4Ref}
-          className="absolute bottom-12 left-12 h-[7.8rem] w-[7.8rem]"
+          className="absolute bottom-0 left-12 h-[7.8rem] w-[7.8rem]"
         >
           {/* initial:absolute bottom-12 left-12 h-[7.8rem] w-[7.8rem] */}
           <Image src={IMG_5} alt="" />
@@ -157,7 +202,10 @@ const HeroImages = () => {
           <Image src={IMG_8v2} alt="" />
         </div>
       </div>
-      <div ref={tbaParentRef} className="relative mt-auto h-[60%] opacity-0">
+      <div
+        ref={tbaParentRef}
+        className="relative mt-auto h-[60%] opacity-0 lg:col-span-2"
+      >
         <div className="absolute left-1/2 h-[4.125rem] w-[19.6rem] -translate-x-1/2">
           <Image src={IMG_7} alt="" />
         </div>

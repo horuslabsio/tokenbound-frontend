@@ -2,7 +2,7 @@ import { UpRightArrowIcon } from "@public/icons";
 import { Button } from "ui/button";
 import dynamic from "next/dynamic";
 import LowResHeroImages from "./LowResHeroImages";
-import MobileBgImage from "./ui/mobile-bg-image";
+import MobileBgImage from "./mobile-bg-image";
 const HeroImages = dynamic(() => import("./HeroImages"), {
   // loading: () => <LowResHeroImages />,
 });

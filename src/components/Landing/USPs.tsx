@@ -1,4 +1,4 @@
-const Features = () => {
+const USPs = () => {
   return (
     <section className="container mx-auto flex flex-col items-center gap-8 p-8">
       <h2 className="max-w-[53rem] text-center 2xl:max-w-[73rem]">
@@ -47,4 +47,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default USPs;

@@ -225,20 +225,6 @@ textarea {
   transform: translateX(-50%) translateZ(-10rem);
 }
 
-.lastCard {
-  background-color: lightblue;
-}
-.secondCard {
-  background-color: lightgreen;
-}
-.thirdCard {
-  background-color: lightcoral;
-}
-.activeCard {
-  background-color: gold;
-  font-weight: bold;
-}
-
 dialog {
   opacity: 0;
 }

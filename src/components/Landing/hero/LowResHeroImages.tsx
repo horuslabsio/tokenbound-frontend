@@ -1,14 +1,14 @@
 import Image from "next/image";
-import IMG_0 from "../../../public/hero/0.png";
-import IMG_1 from "../../../public/hero/1.png";
-import IMG_2 from "../../../public/hero/2.png";
-import IMG_3 from "../../../public/hero/3.png";
-import IMG_4 from "../../../public/hero/4.png";
-import IMG_5 from "../../../public/hero/5.png";
-import IMG_6 from "../../../public/hero/6.png";
-import IMG_7 from "../../../public/hero/7.png";
-import IMG_8 from "../../../public/hero/8.png";
-import IMG_9 from "../../../public/hero/9.png";
+import IMG_0 from "../../../../public/hero/low-0.png";
+import IMG_1 from "../../../../public/hero/low-1.png";
+import IMG_2 from "../../../../public/hero/low-2.png";
+import IMG_3 from "../../../../public/hero/low-3.png";
+import IMG_4 from "../../../../public/hero/low-4.png";
+import IMG_5 from "../../../../public/hero/low-5.png";
+import IMG_6 from "../../../../public/hero/low-6.png";
+import IMG_7 from "../../../../public/hero/low-7.png";
+import IMG_8 from "../../../../public/hero/low-8.png";
+import IMG_9 from "../../../../public/hero/low-9.png";
 
 const LowResHeroImages = () => {
   return (
