@@ -8,29 +8,6 @@ import IMG_5 from "@public/features/1.png";
 import IMG_6 from "@public/features/2.png";
 import IMG_7 from "@public/features/3.png";
 
-export const navItems: INavBarType[] = [
-  {
-    title: "Snip",
-    url: "https://github.com/Starknet-Africa-Edu/SNIPs/blob/main/SNIPS/snip-72.md",
-  },
-  {
-    title: "Github",
-    url: "https://github.com/Starknet-Africa-Edu",
-  },
-  {
-    title: "Telegram",
-    url: "https://t.me/+mXVPO0nwBPU3ODBk",
-  },
-  {
-    title: "SDK",
-    url: "https://tokenbound.gitbook.io/starknet-tokenbound/",
-  },
-  {
-    title: "Discussion",
-    url: "  https://community.starknet.io/t/snip-72-non-fungible-tokenbound-accounts/112479",
-  },
-];
-
 export const communityLinks: INavBarType[] = [
   {
     title: "Telegram",
@@ -50,7 +27,7 @@ export const learningLinks: INavBarType[] = [
   },
   {
     title: "Github",
-    url: "https://github.com/Starknet-Africa-Edu",
+    url: "https://github.com/horuslabsio/TBA",
   },
 
   {

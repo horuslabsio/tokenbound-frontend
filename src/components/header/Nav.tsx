@@ -6,11 +6,16 @@ import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "./components/ConnectWallet";
 import { AccountInterface } from "starknet";
-import { DownChevronIcon, HamburgerIcon, WalletIcon } from "@public/icons";
+import {
+  CloseIcon,
+  DownChevronIcon,
+  HamburgerIcon,
+  WalletIcon,
+} from "@public/icons";
 import { Button } from "ui/button";
 import LOGO from "../../../public/logo.svg";
 import LOGO_SMALL from "../../../public/logo-2.svg";
-import DropDown from "./DropDown";
+import DropDown, { Anchor } from "./DropDown";
 import NetworkSwitcher from "./NetworkSwitcher";
 
 const Nav = ({
@@ -25,7 +30,7 @@ const Nav = ({
   account: AccountInterface | undefined;
 }) => {
   /* STATE FOR DROPDOWN */
-  const [openDropDown, setOpenDropDown] = useState(false);
+  const [openSideNav, setOpenSideNav] = useState(false);
   const [activeDropDown, setActiveDropDown] = useState("");
   const communityDialog = useRef<HTMLDialogElement | null>(null);
 
@@ -64,13 +69,7 @@ const Nav = ({
       <div className="hidden items-center gap-10 text-foreground-primary lg:flex">
         <p>Explorer</p>
         <div className="relative">
-          <Menu
-            activeDropDown={activeDropDown}
-            openDropDown={openDropDown}
-            setActiveDropDown={setActiveDropDown}
-            title="learn"
-            toggleDropDown={toggleLearnDropdown}
-          />
+          <Menu title="learn" toggleDropDown={toggleLearnDropdown} />
           <dialog
             onClick={closeDropDowns}
             className="before:bg-transparent"
@@ -80,13 +79,7 @@ const Nav = ({
           </dialog>
         </div>
         <div className="relative">
-          <Menu
-            activeDropDown={activeDropDown}
-            openDropDown={false}
-            setActiveDropDown={setActiveDropDown}
-            title="community"
-            toggleDropDown={toggleCommunityDropdown}
-          />
+          <Menu title="community" toggleDropDown={toggleCommunityDropdown} />
           <dialog
             className="absolute top-[4rem] z-[100] h-screen bg-red-700 before:bg-transparent md:h-auto"
             onClick={closeDropDowns}
@@ -98,7 +91,7 @@ const Nav = ({
 
         <a href="#projects">Showcase</a>
       </div>
-      <div className="hidden items-center space-x-8 md:flex">
+      <div className="items-center space-x-8 md:flex">
         {account && <NetworkSwitcher />}
         {!account ? (
           <>
@@ -118,9 +111,47 @@ const Nav = ({
         )}
       </div>
 
-      <button aria-label="open menu" className="text-3xl text-black lg:hidden">
+      <button
+        onClick={() => {
+          setOpenSideNav(true);
+          document.body.style.overflow = "hidden";
+        }}
+        aria-label="open menu"
+        className="text-3xl text-black lg:hidden"
+      >
         <HamburgerIcon />
       </button>
+      <div
+        className={`fixed left-0 top-0 flex h-[100dvh] w-screen flex-col justify-between bg-white p-4 text-black transition-all duration-[.5s] ${openSideNav ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
+      >
+        <div className="p-2">
+          <button
+            onClick={() => {
+              document.body.style.overflow = "auto";
+              setOpenSideNav(false);
+            }}
+            className="mb-8 text-3xl"
+          >
+            <CloseIcon />
+          </button>
+          <div>
+            <p className="p-2 text-xl font-bold">Learn</p>
+            <ul>
+              {learningLinks.map((item, index) => {
+                const { title, url } = item;
+                return <Anchor key={index} url={url} title={title} />;
+              })}
+            </ul>
+            <p className="p-2 text-xl font-bold">Community</p>
+            <ul>
+              {communityLinks.map((item, index) => {
+                const { title, url } = item;
+                return <Anchor key={index} url={url} title={title} />;
+              })}
+            </ul>
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };
@@ -128,33 +159,20 @@ const Nav = ({
 export default Nav;
 
 const Menu = ({
-  activeDropDown,
-  openDropDown,
-  setActiveDropDown,
   title,
   toggleDropDown,
 }: {
   title: string;
-  activeDropDown: string;
-  openDropDown: boolean;
-  setActiveDropDown: (value: SetStateAction<string>) => void;
   toggleDropDown: () => void;
 }) => {
   return (
     <Button
-      onMouseEnter={() => setActiveDropDown(title)}
       onClick={toggleDropDown}
       variant={"ghost"}
       className="flex items-center gap-2"
     >
       <span className="capitalize">{title}</span>
-      <span
-        className={`text-xl transition-all duration-300 ease-in-out group-hover:translate-x-0 group-hover:translate-y-0 ${
-          openDropDown && activeDropDown === title
-            ? "rotate-[-180deg]"
-            : "rotate-0"
-        }`}
-      >
+      <span>
         <DownChevronIcon />
       </span>
     </Button>

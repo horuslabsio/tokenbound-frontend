@@ -8,10 +8,15 @@ export const Anchor = ({ title, url }: { url: string; title: string }) => {
       <Button
         variant={"ghost"}
         endIcon={<UpRightArrowIcon />}
-        className="w-full justify-start rounded-[8px] transition-all duration-300 hover:bg-gray-100"
+        className="w-full justify-start rounded-[8px] px-2 transition-all duration-300 hover:bg-gray-100"
       >
-        <a target="_blank" rel="noopener noreferrer" href={url}>
-          {title}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex h-full w-full items-center text-start text-base"
+          href={url}
+        >
+          <span>{title}</span>
         </a>
       </Button>
     </li>

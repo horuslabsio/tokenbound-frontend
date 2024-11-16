@@ -29,7 +29,7 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
       onClick={(e) => {
         e.stopPropagation();
       }}
-      className="absolute flex h-[14rem] w-[27rem] -translate-x-[58%] flex-col items-center gap-2 rounded-[16px] bg-white p-4 text-foreground-primary"
+      className="mt-[25%] flex h-[14rem] w-[95vw] max-w-[27rem] flex-col items-center gap-2 rounded-[16px] bg-white p-4 text-foreground-primary md:absolute md:mt-0 md:-translate-x-[58%]"
     >
       <div className="flex w-full items-center justify-between">
         <h5 className="font-inter-variable">
@@ -38,7 +38,7 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
         <div className="flex items-center gap-4">
           <CopyButton
             textToCopy={address || ""}
-            className="flex w-[10rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner"
+            className="flex w-[10rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner outline-none md:outline"
             copyIcon
           />
 
