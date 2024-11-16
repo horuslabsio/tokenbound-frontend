@@ -76,12 +76,7 @@ const Nav = ({
             className="before:bg-transparent"
             ref={learnDialog}
           >
-            <DropDown
-              dropdownItems={learningLinks}
-              openDropDown={openDropDown}
-              activeDropDown={activeDropDown}
-              id="learn"
-            />
+            <DropDown dropdownItems={learningLinks} />
           </dialog>
         </div>
         <div className="relative">
@@ -97,12 +92,7 @@ const Nav = ({
             onClick={closeDropDowns}
             ref={communityDialog}
           >
-            <DropDown
-              dropdownItems={communityLinks}
-              openDropDown={openDropDown}
-              activeDropDown={activeDropDown}
-              id="community"
-            />
+            <DropDown dropdownItems={communityLinks} />
           </dialog>
         </div>
 
@@ -128,7 +118,7 @@ const Nav = ({
         )}
       </div>
 
-      <button className="text-3xl text-black lg:hidden">
+      <button aria-label="open menu" className="text-3xl text-black lg:hidden">
         <HamburgerIcon />
       </button>
     </nav>

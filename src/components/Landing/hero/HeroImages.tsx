@@ -29,7 +29,6 @@ const HeroImages = () => {
   useEffect(() => {
     const timeline = gsap.timeline();
     timeline
-      .to(parentRef.current, { opacity: 1, duration: 1 })
       .to(boxRef.current, {
         left: "50%",
         top: "50%",
@@ -83,7 +82,7 @@ const HeroImages = () => {
         "-=3",
       )
       .to(boxRef.current, { opacity: 0, scaleX: 0, duration: 1 })
-      .to(tbaRef.current, { opacity: 1, scale: 1, duration: 1 }, "-=1")
+      .to(tbaRef.current, { opacity: 1, scale: 0.4, duration: 1 }, "-=1")
       .to(tbaParentRef.current, { opacity: 1, duration: 1 }, "-=1")
       .to(
         box0Ref.current,
@@ -137,55 +136,43 @@ const HeroImages = () => {
     <div
       ref={parentRef}
       aria-hidden
-      className="absolute hidden h-[calc(100%-8rem)] w-full grid-cols-2 gap-4 opacity-0 md:grid lg:grid-cols-5 lg:gap-0"
+      className="absolute bottom-0 hidden h-full w-full grid-cols-2 gap-4 md:grid lg:grid-cols-5 lg:gap-0"
     >
-      <div className="relative mt-auto h-[70%] lg:col-span-2 2xl:max-w-[500px]">
+      <div className="relative mt-auto h-[75%] lg:col-span-2 2xl:ml-[30px] 2xl:max-w-[500px]">
         <div
           ref={box0Ref}
           className="absolute left-12 top-4 h-[7.8rem] w-[7.8rem]"
         >
-          {/* initial: absolute left-12 top-4 h-[7.8rem] w-[7.8rem]*/}
           <Image src={IMG_0} alt="" />
         </div>
         <div
           ref={box1Ref}
           className="absolute top-1/2 h-[7.8rem] w-[7.8rem] -translate-x-1/4 -translate-y-1/2"
         >
-          {/* initial: absolute top-1/2 h-[7.8rem] w-[7.8rem] -translate-x-1/4 -translate-y-1/2 */}
           <Image src={IMG_1} alt="" />
         </div>
         <div
           ref={box2Ref}
           className="absolute right-1/4 top-[7.8rem] h-[7.8rem] w-[7.8rem] -translate-x-1/4"
         >
-          {/* initial: absolute right-1/4 top-[7.8rem] h-[7.8rem] w-[7.8rem] -translate-x-1/4 */}
           <Image src={IMG_4} alt="" />
         </div>
         <div
           ref={box3Ref}
           className="absolute right-1/4 top-2/3 h-[7.8rem] w-[7.8rem] -translate-y-1/2"
         >
-          {/* finally: absolute left-1/2 top-1/2 z-[1] h-[7.8rem] w-[7.8rem] -translate-x-1/2 -translate-y-1/2 scale-50 */}
-          {/* initial: absolute right-1/4 top-2/3 h-[7.8rem] w-[7.8rem] -translate-y-1/2  */}
           <Image src={IMG_3} alt="" />
         </div>
 
-        {/* <div className="absolute -right-[1.95rem] bottom-1/4 top-1/2 h-[7.8rem] w-[7.8rem] -translate-y-1/4 translate-x-full">
-          <Image src={IMG_2} alt="" />
-        </div> */}
-
         <div
           ref={box4Ref}
-          className="absolute bottom-0 left-12 h-[7.8rem] w-[7.8rem]"
+          className="absolute bottom-12 left-12 h-[7.8rem] w-[7.8rem]"
         >
-          {/* initial:absolute bottom-12 left-12 h-[7.8rem] w-[7.8rem] */}
           <Image src={IMG_5} alt="" />
         </div>
       </div>
 
       <div className="relative mt-auto hidden h-[50%] lg:block">
-        {/* finally: absolute left-1/2 top-1/2 z-[1] h-[7.8rem] w-[7.8rem] -translate-x-1/2 -translate-y-1/2 scale-50 */}
-        {/* initial: absolute left-[10%] top-[30%] z-[1] h-[7.8rem] w-[7.8rem] -translate-x-1/2 -translate-y-1/2 2xl:left-0 */}
         <div
           ref={boxRef}
           className="absolute left-[10%] top-[30%] z-[1] h-[7.8rem] w-[7.8rem] -translate-x-1/2 -translate-y-1/2 2xl:left-0"
@@ -197,7 +184,7 @@ const HeroImages = () => {
         </div>
         <div
           ref={tbaRef}
-          className="absolute left-1/2 top-1/2 h-[7.75rem] w-[6.1rem] -translate-x-1/2 -translate-y-1/2 scale-50 opacity-0"
+          className="absolute left-1/2 top-1/2 h-[4.125rem] w-[19.6rem] -translate-x-1/2 -translate-y-1/2 scale-[.2] opacity-0"
         >
           <Image src={IMG_8v2} alt="" />
         </div>

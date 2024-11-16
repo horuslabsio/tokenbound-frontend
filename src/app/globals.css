@@ -209,19 +209,8 @@ textarea {
   top: 0;
   transform: translateX(-50%);
 }
-.secondCard {
-  z-index: 3;
-  top: 2.5rem;
-  transform: translateX(-50%) translateZ(-6rem);
-}
-.thirdCard {
-  z-index: 2;
-  top: 4rem;
-  transform: translateX(-50%) translateZ(-8rem);
-}
-
-.lastCard {
-  top: 5.5rem;
+.inactiveCard {
+  top: 10%;
   transform: translateX(-50%) translateZ(-10rem);
 }
 

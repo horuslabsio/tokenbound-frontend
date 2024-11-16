@@ -57,7 +57,7 @@ export const WalletIcons = ({ id }: { id: string }) => {
           height: "20px",
         }}
       >
-        <img src="./icons/controller.svg" />
+        <img src="./icons/controller.png" />
       </div>
     );
   }

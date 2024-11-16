@@ -11,7 +11,7 @@ const Features = dynamic(
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col gap-8 pb-16 pt-32">
+    <main className="flex min-h-screen flex-col pb-16 pt-32">
       <Hero />
       <USPs />
       <Features />

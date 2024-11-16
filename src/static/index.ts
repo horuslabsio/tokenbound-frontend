@@ -1,4 +1,12 @@
-import { INavBarType } from "../types"; // Update the import to match your type definition
+import { INavBarType } from "../types";
+import IMG_0 from "@public/features/lg-0.png";
+import IMG_1 from "@public/features/lg-1.png";
+import IMG_2 from "@public/features/lg-2.png";
+import IMG_3 from "@public/features/lg-3.png";
+import IMG_4 from "@public/features/0.png";
+import IMG_5 from "@public/features/1.png";
+import IMG_6 from "@public/features/2.png";
+import IMG_7 from "@public/features/3.png";
 
 export const navItems: INavBarType[] = [
   {
@@ -101,5 +109,44 @@ export const FAQs = [
       "On-chain meme/derivative economies",
       "NFTs as onboarding vehicles instead of wallets",
     ],
+  },
+];
+
+export const FEATURES = [
+  {
+    id: "card0",
+    title: "Explorer",
+    description:
+      "Effortlessly deploy, track, and manage Tokenbound Accounts (TBAs) with our intuitive Explorer. This user-friendly interface allows you to view and interact with wallets associated with your NFTs, providing a seamless experience for both new and experienced users.",
+    link: "",
+    src: IMG_0,
+    sm_src: IMG_4,
+  },
+  {
+    id: "card1",
+    title: "SDK",
+    description:
+      "Our Software Development Kit (SDK) equips developers with ready-made tools and functions to integrate token-bound accounts into their projects quickly and efficiently. Simplify workflows, reduce development time, and add powerful token-bound functionality to your apps, whether you’re creating a marketplace, game, or something entirely new.",
+    link: "https://docs.tbaexplorer.com/sdk",
+    src: IMG_1,
+    sm_src: IMG_5,
+  },
+  {
+    id: "card2",
+    title: "Connect Kit",
+    description:
+      "Tokenbound accounts don’t appear in regular wallets, but with the Connect Kit, they’re just a link away. Easily connect your token-bound account to the wallet holding your NFT, giving you full control to sign, approve, and manage transactions. Experience smooth integration between your wallets and token-bound accounts.",
+    link: "https://docs.tbaexplorer.com/toolings/tokenbound-connectkit",
+    src: IMG_2,
+    sm_src: IMG_6,
+  },
+  {
+    id: "card3",
+    title: "TBA Iframe",
+    description:
+      "The iFrame tool lets you display your NFT and its token-bound account, along with any assets it holds, in a sleek, customizable format. Whether it’s a marketplace or a portfolio, effortlessly demo the full capabilities of token-bound accounts in one unified view—perfect for creators, collectors, and businesses alike.",
+    link: "https://docs.tbaexplorer.com/toolings/tokenbound-iframe",
+    src: IMG_3,
+    sm_src: IMG_7,
   },
 ];

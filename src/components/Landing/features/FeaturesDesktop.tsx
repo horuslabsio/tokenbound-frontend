@@ -2,95 +2,75 @@
 import { useState } from "react";
 import { Button } from "ui/button";
 import { RightArrow } from "@public/icons";
-import IMG_0 from "../../../../public/features/lg-0.png";
-import IMG_1 from "../../../../public/features/lg-1.png";
-import IMG_2 from "../../../../public/features/lg-2.png";
-import IMG_3 from "../../../../public/features/lg-3.png";
+import { FEATURES } from "@static/index";
 import Image, { StaticImageData } from "next/image";
 
-const initialCards = [
-  { id: "card1", position: "activeCard", title: "Explorer" },
-  { id: "card2", position: "secondCard", title: "SDK" },
-  { id: "card3", position: "thirdCard", title: "Connect Kit" },
-  { id: "card4", position: "lastCard", title: "TBA Iframe" },
-];
+type CardId = "card0" | "card1" | "card2" | "card3";
+
 const FeaturesDesktop = () => {
-  const [cards, setCards] = useState(initialCards);
+  const [active, setActive] = useState<CardId>("card0");
 
-  const handleClick = (clickedId: string) => {
-    setCards((prevCards) => {
-      // Find the active and clicked cards
-      const activeCard = prevCards.find(
-        (card) => card.position === "activeCard",
-      );
-      const clickedCard = prevCards.find((card) => card.id === clickedId);
-
-      if (!clickedCard || !activeCard || activeCard.id === clickedId) {
-        return prevCards; // No change if the clicked card is already active
-      }
-
-      // Update cards with new positions
-      return prevCards.map((card) => {
-        if (card.id === clickedId) {
-          // Set clicked card to active
-          return { ...card, position: "activeCard" };
-        }
-        if (card.id === activeCard.id) {
-          // Move previous active card to clicked card’s old position
-          return { ...card, position: clickedCard.position };
-        }
-        return card; // Keep other cards' positions unchanged
-      });
-    });
+  const handleClick = (clickedId: CardId) => {
+    setActive((prev) => (prev !== clickedId ? clickedId : prev));
   };
+
   return (
     <>
+      {/* Cards */}
       <div
-        style={{
-          perspective: "1000px",
-        }}
+        style={{ perspective: "1000px" }}
         className="relative hidden h-[34rem] w-full md:block"
       >
-        <Card
-          description="The iFrame tool lets you display your NFT and its token-bound account, along with any assets it holds, in a sleek, customizable format. Whether it’s a marketplace or a portfolio, effortlessly demo the full capabilities of token-bound accounts in one unified view—perfect for creators, collectors, and businesses alike."
-          link="https://docs.tbaexplorer.com/toolings/tokenbound-iframe"
-          position={cards[3].position}
-          src={IMG_3}
-          title="TBA IFrame"
-        />
+        {FEATURES.map((card) => (
+          <Card
+            key={card.id}
+            id={card.id as CardId}
+            title={card.title}
+            description={card.description}
+            link={card.link}
+            src={card.src}
+            active={active}
+          />
+        ))}
 
-        <Card
-          description="Tokenbound accounts don’t appear in regular wallets, but with the Connect Kit, they’re just a link away. Easily connect your token-bound account to the wallet holding your NFT, giving you full control to sign, approve, and manage transactions. Experience smooth integration between your wallets and token-bound accounts."
-          link="https://docs.tbaexplorer.com/toolings/tokenbound-connectkit"
-          position={cards[2].position}
-          src={IMG_2}
-          title="Connect Kit"
-        />
-
-        <Card
-          description="Our Software Development Kit (SDK) equips developers with ready-made tools and functions to integrate token-bound accounts into their projects quickly and efficiently. Simplify workflows, reduce development time, and add powerful token-bound functionality to your apps, whether you’re creating a marketplace, game, or something entirely new."
-          link="https://docs.tbaexplorer.com/sdk"
-          position={cards[1].position}
-          src={IMG_1}
-          title="SDK"
-        />
-
-        <Card
-          description="Effortlessly deploy, track, and manage Tokenbound Accounts (TBAs) with our intuitive Explorer. This user-friendly interface allows you to view and interact with wallets associated with your NFTs, providing a seamless experience for both new and experienced users."
-          link=""
-          position={cards[0].position}
-          src={IMG_0}
-          title="Tokenbound Explorer"
-        />
+        {/* Faux Cards */}
+        <div
+          aria-hidden
+          style={{
+            top: "10%",
+            transform: "translateX(-50%) translateZ(-10rem)",
+          }}
+          className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[16px] bg-[#B0B0B0] transition-all duration-500`}
+        ></div>
+        <div
+          aria-hidden
+          style={{
+            top: "7.5%",
+            transform: "translateX(-50%) translateZ(-8rem)",
+          }}
+          className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[16px] bg-[#cac8c8] transition-all duration-500`}
+        ></div>
+        <div
+          aria-hidden
+          style={{
+            top: "5%",
+            transform: "translateX(-50%) translateZ(-6rem)",
+          }}
+          className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[16px] bg-[#E7E7E7] transition-all duration-500`}
+        >
+          <div className="h-[95%] w-full bg-gray-100"></div>
+          <div className="h-[95%] w-full bg-gradient-linear-primary"></div>
+        </div>
       </div>
 
+      {/* Navigation Buttons */}
       <div className="hidden gap-6 md:flex">
-        {cards.map((card) => (
+        {FEATURES.map((card) => (
           <Button
-            className="px-4"
             key={card.id}
-            variant={card.position === "activeCard" ? "outline" : "ghost"}
-            onClick={() => handleClick(card.id)}
+            className="px-4"
+            variant={card.id === active ? "outline" : "ghost"}
+            onClick={() => handleClick(card.id as CardId)}
           >
             {card.title}
           </Button>
@@ -107,17 +87,19 @@ export const Card = ({
   link,
   src,
   title,
-  position,
+  id,
+  active,
 }: {
   title: string;
   description: string;
   src: StaticImageData;
   link: string;
-  position: string;
+  id: CardId;
+  active: CardId;
 }) => {
   return (
     <div
-      className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[16px] transition-all duration-500 ${position}`}
+      className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[16px] transition-all duration-500 ${active === id ? "activeCard" : "inactiveCard"}`}
     >
       <div className="flex flex-col justify-between bg-gray-100 p-8">
         <div>
@@ -125,16 +107,27 @@ export const Card = ({
         </div>
         <div className="flex flex-col gap-8">
           <p className="font-normal">{description}</p>
-          <Button
-            className="w-fit min-w-[8rem] bg-white font-normal shadow-md"
-            asChild
-            variant={"gray"}
-            endIcon={<RightArrow />}
-          >
-            <a href={link} target="_blank" rel="noopener noreferrer">
+          {id === "card0" ? (
+            <Button
+              disabled
+              className="w-fit min-w-[8rem] font-normal disabled:cursor-default disabled:opacity-100"
+              variant={"gray"}
+              endIcon={<RightArrow />}
+            >
               <span className="text-start">Explore</span>
-            </a>
-          </Button>
+            </Button>
+          ) : (
+            <Button
+              className="w-fit min-w-[8rem] bg-white font-normal shadow-md"
+              asChild
+              variant={"gray"}
+              endIcon={<RightArrow />}
+            >
+              <a href={link} target="_blank" rel="noopener noreferrer">
+                <span className="text-start">Explore</span>
+              </a>
+            </Button>
+          )}
         </div>
       </div>
       <div aria-hidden className="max-h-[27rem]">

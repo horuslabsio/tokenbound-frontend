@@ -1,49 +1,24 @@
+import { UpRightArrowIcon } from "@public/icons";
 import { INavBarType } from "../../types";
-import Image from "next/image";
+import { Button } from "ui/button";
 
-export const Anchor = ({
-  src,
-  title,
-  url,
-}: {
-  url: string;
-  title: string;
-  src: string;
-}) => {
+export const Anchor = ({ title, url }: { url: string; title: string }) => {
   return (
     <li>
-      <a
-        className="flex items-center gap-3 text-deep-blue"
-        target="_blank"
-        rel="noopener noreferrer"
-        href={url}
+      <Button
+        variant={"ghost"}
+        endIcon={<UpRightArrowIcon />}
+        className="w-full justify-start rounded-[8px] transition-all duration-300 hover:bg-gray-100"
       >
-        <span
-          style={{
-            boxShadow:
-              "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
-          }}
-          className="h-[30px] w-[30px] rounded-lg bg-white shadow-inner md:h-[40px] md:w-[40px]"
-        >
-          <Image src={src} alt="logo" width={30} height={30} />
-        </span>
-        {title}
-      </a>
+        <a target="_blank" rel="noopener noreferrer" href={url}>
+          {title}
+        </a>
+      </Button>
     </li>
   );
 };
 
-const DropDown = ({
-  dropdownItems,
-  activeDropDown,
-  openDropDown,
-  id,
-}: {
-  dropdownItems: INavBarType[];
-  openDropDown: boolean;
-  activeDropDown: string;
-  id: string;
-}) => {
+const DropDown = ({ dropdownItems }: { dropdownItems: INavBarType[] }) => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
@@ -51,23 +26,14 @@ const DropDown = ({
         boxShadow:
           "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(215, 210, 210, 0.2)",
       }}
-      className={`fixed top-[4.7rem] grid rounded-[16px] bg-white transition-all duration-300 ease-in-out`}
+      className={`fixed top-[4.7rem] grid rounded-[8px] bg-white p-1 transition-all duration-300 ease-in-out`}
     >
-      <div className="overflow-hidden">
-        <ul className="grid min-h-[7rem] min-w-[20rem] grid-cols-2 gap-8 p-8">
-          {dropdownItems.map((item, index) => {
-            const { title, url } = item;
-            return (
-              <Anchor
-                key={index}
-                url={url}
-                src="/blockchain-05.svg"
-                title={title}
-              />
-            );
-          })}
-        </ul>
-      </div>
+      <ul className="flex min-h-[5.1rem] w-[9.2rem] flex-col gap-1 rounded-[8px] p-1">
+        {dropdownItems.map((item, index) => {
+          const { title, url } = item;
+          return <Anchor key={index} url={url} title={title} />;
+        })}
+      </ul>
     </div>
   );
 };
