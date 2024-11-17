@@ -208,10 +208,27 @@ textarea {
   z-index: 4;
   top: 0;
   transform: translateX(-50%);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
 }
 .inactiveCard {
   top: 10%;
   transform: translateX(-50%) translateZ(-10rem);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
+}
+@media (prefers-reduced-motion) {
+  .activeCard {
+    z-index: 4;
+    top: 0;
+    transform: translateX(-50%);
+  }
+  .inactiveCard {
+    top: 10%;
+    transform: translateX(-50%) translateZ(-10rem);
+  }
 }
 
 dialog {

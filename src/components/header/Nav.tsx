@@ -1,22 +1,18 @@
 "use client";
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { communityLinks, learningLinks } from "@static/index";
 import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "./components/ConnectWallet";
 import { AccountInterface } from "starknet";
-import {
-  CloseIcon,
-  DownChevronIcon,
-  HamburgerIcon,
-  WalletIcon,
-} from "@public/icons";
+import { DownChevronIcon, WalletIcon } from "@public/icons";
 import { Button } from "ui/button";
 import LOGO from "../../../public/logo.svg";
 import LOGO_SMALL from "../../../public/logo-2.svg";
-import DropDown, { Anchor } from "./DropDown";
+import DropDown from "./DropDown";
 import NetworkSwitcher from "./NetworkSwitcher";
+import SideNav from "./SideNav";
 
 const Nav = ({
   isWalletOpen,
@@ -29,10 +25,8 @@ const Nav = ({
   openWalletModal(): void;
   account: AccountInterface | undefined;
 }) => {
-  /* STATE FOR DROPDOWN */
-  const [openSideNav, setOpenSideNav] = useState(false);
-  const [activeDropDown, setActiveDropDown] = useState("");
   const communityDialog = useRef<HTMLDialogElement | null>(null);
+  const learnDialog = useRef<HTMLDialogElement | null>(null);
 
   const toggleLearnDropdown = () => {
     if (learnDialog.current?.open) {
@@ -55,8 +49,6 @@ const Nav = ({
     learnDialog.current?.close();
     communityDialog.current?.close();
   };
-
-  const learnDialog = useRef<HTMLDialogElement | null>(null);
 
   return (
     <nav className="container mx-auto flex items-center gap-8 lg:justify-between">
@@ -110,48 +102,7 @@ const Nav = ({
           <ConnectedNavBar />
         )}
       </div>
-
-      <button
-        onClick={() => {
-          setOpenSideNav(true);
-          document.body.style.overflow = "hidden";
-        }}
-        aria-label="open menu"
-        className="text-3xl text-black lg:hidden"
-      >
-        <HamburgerIcon />
-      </button>
-      <div
-        className={`fixed left-0 top-0 flex h-[100dvh] w-screen flex-col justify-between bg-white p-4 text-black transition-all duration-[.5s] ${openSideNav ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
-      >
-        <div className="p-2">
-          <button
-            onClick={() => {
-              document.body.style.overflow = "auto";
-              setOpenSideNav(false);
-            }}
-            className="mb-8 text-3xl"
-          >
-            <CloseIcon />
-          </button>
-          <div>
-            <p className="p-2 text-xl font-bold">Learn</p>
-            <ul>
-              {learningLinks.map((item, index) => {
-                const { title, url } = item;
-                return <Anchor key={index} url={url} title={title} />;
-              })}
-            </ul>
-            <p className="p-2 text-xl font-bold">Community</p>
-            <ul>
-              {communityLinks.map((item, index) => {
-                const { title, url } = item;
-                return <Anchor key={index} url={url} title={title} />;
-              })}
-            </ul>
-          </div>
-        </div>
-      </div>
+      <SideNav />
     </nav>
   );
 };

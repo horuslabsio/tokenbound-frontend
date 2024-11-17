@@ -99,7 +99,7 @@ export const Card = ({
 }) => {
   return (
     <div
-      className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[16px] transition-all duration-500 ${active === id ? "activeCard" : "inactiveCard"}`}
+      className={`absolute left-1/2 grid h-[27rem] w-full max-w-[67rem] grid-cols-2 overflow-clip rounded-[16px] ${active === id ? "activeCard" : "inactiveCard"}`}
     >
       <div className="flex flex-col justify-between bg-gray-100 p-8">
         <div>

@@ -1,4 +1,3 @@
-"use client";
 import dynamic from "next/dynamic";
 import Community from "@components/Landing/Community";
 import FAQs from "@components/Landing/FQAs";

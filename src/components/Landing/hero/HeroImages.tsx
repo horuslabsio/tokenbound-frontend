@@ -19,7 +19,6 @@ const HeroImages = () => {
   const boxRef = useRef<HTMLDivElement | null>(null);
   const tbaParentRef = useRef<HTMLDivElement | null>(null);
   const tbaRef = useRef<HTMLDivElement | null>(null);
-
   const box0Ref = useRef<HTMLDivElement | null>(null);
   const box1Ref = useRef<HTMLDivElement | null>(null);
   const box2Ref = useRef<HTMLDivElement | null>(null);
@@ -27,13 +26,61 @@ const HeroImages = () => {
   const box4Ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const hasAnimated = sessionStorage.getItem("hasAnimated");
+
+    if (hasAnimated) {
+      gsap.set(boxRef.current, { opacity: 0, scaleX: 0 });
+      gsap.set(tbaRef.current, { opacity: 0 });
+      gsap.to(tbaParentRef.current, {
+        opacity: 1,
+        duration: 0.5,
+        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+      });
+      gsap.to(box0Ref.current, {
+        top: "5%",
+        left: "25%",
+        duration: 0.5,
+        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+      });
+      gsap.to(box1Ref.current, {
+        top: "50%",
+        translateX: 0,
+        duration: 0.5,
+        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+      });
+      gsap.to(box2Ref.current, {
+        translateX: "-15%",
+        translateY: "-15%",
+        duration: 0.5,
+        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+      });
+      gsap.to(box3Ref.current, {
+        top: "55%",
+        right: "10%",
+        duration: 0.5,
+        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+      });
+      gsap.to(box4Ref.current, {
+        bottom: "7rem",
+        left: "8rem",
+        duration: 0.5,
+        ease: "cubic-bezier(0.4, 0, 0.2, 1)",
+      });
+      return;
+    }
+
     const timeline = gsap.timeline();
     timeline
+      .to(boxRef.current, {
+        opacity: 1,
+        duration: 0.8,
+      })
       .to(boxRef.current, {
         left: "50%",
         top: "50%",
         scale: 0.5,
         duration: 3,
+        delay: 0.5,
       })
       .to(
         box0Ref.current,
@@ -130,6 +177,8 @@ const HeroImages = () => {
         "-=2",
       )
       .to(tbaRef.current, { opacity: 0, duration: 1 });
+
+    sessionStorage.setItem("hasAnimated", "true");
   }, []);
 
   return (
@@ -175,7 +224,7 @@ const HeroImages = () => {
       <div className="relative mt-auto hidden h-[50%] lg:block">
         <div
           ref={boxRef}
-          className="absolute left-[10%] top-[30%] z-[1] h-[7.8rem] w-[7.8rem] -translate-x-1/2 -translate-y-1/2 2xl:left-0"
+          className="absolute left-[10%] top-[30%] z-[1] h-[7.8rem] w-[7.8rem] -translate-x-1/2 -translate-y-1/2 opacity-0 2xl:left-0"
         >
           <Image src={IMG_2} alt="" />
         </div>
@@ -191,7 +240,7 @@ const HeroImages = () => {
       </div>
       <div
         ref={tbaParentRef}
-        className="relative mt-auto h-[60%] opacity-0 lg:col-span-2"
+        className="relative mt-auto h-[60%] opacity-0 transition-all lg:col-span-2"
       >
         <div className="absolute left-1/2 h-[4.125rem] w-[19.6rem] -translate-x-1/2">
           <Image src={IMG_7} alt="" />
