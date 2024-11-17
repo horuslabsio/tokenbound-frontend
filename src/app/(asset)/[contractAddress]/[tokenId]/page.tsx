@@ -225,12 +225,12 @@ function Assets() {
                 >
                   {success ? "success" : "Refresh metadata"}
                 </Button>
-                <div className="flex items-center rounded-full">
+                <div className="flex h-[2.8rem] items-center rounded-full">
                   <Button
                     disabled={
                       upgradeStatus === "pending" || upgradeStatus === "success"
                     }
-                    className={`w-fit rounded-l-full rounded-r-none transition-all duration-300 ${upgradeStatus === "error" ? "text-error bg-gray-100" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
+                    className={`w-fit rounded-l-full rounded-r-none transition-all duration-300 ${upgradeStatus === "error" ? "text-error bg-gray-100" : upgradeStatus === "success" ? "disabled:bg-black disabled:opacity-100" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
                     onClick={upgradeAccount}
                     isLoading={upgradeStatus === "pending"}
                   >
@@ -240,6 +240,7 @@ function Assets() {
                       <span>Upgrade Account</span>
                     )}
                   </Button>
+
                   <a
                     href={`${
                       chain.network === "mainnet"
