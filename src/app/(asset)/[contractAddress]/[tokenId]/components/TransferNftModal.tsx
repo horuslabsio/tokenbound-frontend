@@ -55,7 +55,7 @@ const TransferNftModal = ({
   };
 
   return (
-    <div className="grid h-full w-full place-content-center text-foreground-primary">
+    <div className="grid h-full w-screen place-content-center text-foreground-primary">
       <div className="flex min-h-[10rem] w-[90vw] max-w-[27rem] flex-col justify-between rounded-[16px] bg-white p-4">
         <div className="flex w-full items-center justify-between">
           <h5 className="font-inter-variable">

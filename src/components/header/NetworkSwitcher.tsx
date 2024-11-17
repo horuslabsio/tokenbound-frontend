@@ -52,7 +52,7 @@ export function NetworkSwitcher() {
   }, [chain.network]);
 
   return (
-    <div className="relative">
+    <div className="relative hidden md:block">
       <Button
         onClick={() => dialogRef?.current?.show()}
         variant="ghost"

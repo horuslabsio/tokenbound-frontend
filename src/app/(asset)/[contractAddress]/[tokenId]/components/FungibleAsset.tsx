@@ -272,7 +272,7 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
         }
       />
       <dialog
-        className="inset-0 h-screen w-screen bg-transparent"
+        className="inset-0 h-screen overflow-visible bg-transparent"
         ref={transferDialogRef}
       >
         <TransferModal

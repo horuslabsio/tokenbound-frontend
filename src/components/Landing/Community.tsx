@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Button } from "ui/button";
-import COMM_IMG from "@public/hero/community.svg";
+import COMM_IMG from "@public/hero/community.png";
 import { CalenderCheckedIcon, ClockIcon } from "@public/icons";
-import IMG_0 from "../../../public/hero/0.svg";
-import IMG_4 from "../../../public/hero/4.svg";
-import IMG_5 from "../../../public/hero/5.svg";
+import IMG_0 from "../../../public/hero/0.png";
+import IMG_4 from "../../../public/hero/4.png";
+import IMG_5 from "../../../public/hero/5.png";
 
 const Community = () => {
   return (
@@ -53,7 +53,9 @@ const Community = () => {
               contributors on Telegram.
             </p>
           </div>
-          <Image src={COMM_IMG} alt="our community" />
+          <div>
+            <Image src={COMM_IMG} alt="our community" />
+          </div>
         </div>
       </div>
 

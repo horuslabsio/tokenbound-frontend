@@ -1,13 +1,29 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import Favicon from "@public/favicon.ico";
 import Footer from "@components/footer/Footer";
 import Header from "@components/header/Header";
 import Providers from "@components/Providers";
-import { ReactLenis } from "@utils/lenis";
 
 export const metadata: Metadata = {
-  title: "Token Bound | Starknet",
-  description: "An implementation of ERC 6551 on Starknet",
+  title: "Token Bound Explorer | ERC-6551 on Starknet",
+  description:
+    "Explore NFTs as wallets on Starknet with our ERC-6551 implementation. Token Bound Explorer makes NFT-powered wallets a reality.",
+  icons: [{ rel: "icon", url: Favicon.src }],
+  openGraph: {
+    title: "Token Bound Explorer | ERC-6551 on Starknet",
+    description:
+      "Unlock the potential of NFTs as wallets with our ERC-6551 implementation on Starknet. Visit Token Bound Explorer now!",
+    url: "https://www.tbaexplorer.com/",
+    siteName: "Token Bound Explorer",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Token Bound Explorer | ERC-6551 on Starknet",
+    description:
+      "Unlock the potential of NFTs as wallets with our ERC-6551 implementation on Starknet. Visit Token Bound Explorer now!",
+    creator: "@horuslabsio",
+  },
 };
 
 export default function RootLayout({
@@ -18,13 +34,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <ReactLenis root>
-          <body className={`font-inter font-normal`}>
-            <Header />
-            {children}
-            <Footer />
-          </body>
-        </ReactLenis>
+        <body className={`font-inter font-normal`}>
+          <Header />
+          {children}
+          <Footer />
+        </body>
       </Providers>
     </html>
   );
