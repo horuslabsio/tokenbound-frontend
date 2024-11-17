@@ -15,7 +15,7 @@ function ConnectedNavBar() {
     profileRef?.current?.close();
   };
   return (
-    <div className="relative flex flex-col gap-4 md:flex-row md:items-center">
+    <div className="flex flex-col gap-4 md:relative md:flex-row md:items-center">
       {chain.network === "mainnet" ? (
         <Button
           onClick={() => profileRef?.current?.show()}
@@ -38,10 +38,12 @@ function ConnectedNavBar() {
         onClick={() => {
           closeModal();
         }}
-        className="absolute top-[4rem] z-[100] h-screen bg-red-700 md:h-auto"
+        className="absolute left-0 top-0 z-[100] h-screen bg-transparent md:top-[4rem] md:h-auto"
         ref={profileRef}
       >
-        <Profile closeModal={closeModal} />
+        <div className="flex h-full w-screen justify-center md:block md:w-fit">
+          <Profile closeModal={closeModal} />
+        </div>
       </dialog>
     </div>
   );

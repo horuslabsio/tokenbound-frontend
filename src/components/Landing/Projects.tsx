@@ -25,9 +25,9 @@ const Project = ({
       target="_blank"
       rel="noopener noreferrer"
     >
-      <figure className="flex flex-col gap-4">
+      <figure className="flex flex-col gap-4 2xl:h-[25rem]">
         <div
-          className={`relative mx-auto flex h-[11rem] w-full max-w-[21rem] items-center justify-center overflow-hidden rounded-[16px] md:h-[10rem]`}
+          className={`relative mx-auto flex h-[11rem] w-full max-w-[21rem] items-center justify-center overflow-hidden rounded-[16px] md:h-[10rem] 2xl:h-[15rem] 2xl:max-w-[31rem]`}
         >
           <Image
             className="h-full w-full scale-[1.02] rounded-[16px] object-cover transition-all duration-500 group-hover:scale-[1.15]"
@@ -35,7 +35,7 @@ const Project = ({
             alt=""
           />
         </div>
-        <figcaption className="flex w-[80%] flex-col gap-2">
+        <figcaption className="flex w-[80%] flex-1 flex-col gap-2 px-2">
           <p className="text-lg font-medium">{title}</p>
           <p className="line-clamp-3 text-ellipsis">{description}</p>
         </figcaption>
@@ -46,7 +46,10 @@ const Project = ({
 
 const Projects = () => {
   return (
-    <section id="projects" className="mx-auto max-w-[1060px] px-2 py-8 lg:p-16">
+    <section
+      id="projects"
+      className="mx-auto max-w-[1060px] px-2 py-8 lg:p-16 2xl:max-w-[1490px]"
+    >
       <div className="mb-8 flex justify-center md:justify-between">
         <h2 className="flex flex-col text-center md:block md:text-start">
           <span className="text-gradient"> Community</span>

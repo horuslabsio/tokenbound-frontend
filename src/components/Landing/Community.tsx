@@ -1,16 +1,16 @@
 import Image from "next/image";
 import { Button } from "ui/button";
-import COMM_IMG from "@public/hero/community.svg";
+import COMM_IMG from "@public/hero/community.png";
 import { CalenderCheckedIcon, ClockIcon } from "@public/icons";
-import IMG_0 from "../../../public/hero/0.svg";
-import IMG_4 from "../../../public/hero/4.svg";
-import IMG_5 from "../../../public/hero/5.svg";
+import IMG_0 from "../../../public/hero/0.png";
+import IMG_4 from "../../../public/hero/4.png";
+import IMG_5 from "../../../public/hero/5.png";
 
 const Community = () => {
   return (
     <section className="container mx-auto py-8 lg:p-16">
-      <div className="mx-auto flex w-full max-w-[35rem] flex-col-reverse gap-8 px-8 md:grid md:h-[18.75rem] md:max-w-[64rem] md:grid-cols-2 md:gap-0">
-        <div className="flex w-[18rem] flex-col justify-between gap-4">
+      <div className="mx-auto flex w-full max-w-[35rem] flex-col-reverse gap-8 px-8 md:grid md:h-[18.75rem] md:max-w-[64rem] md:grid-cols-2 md:gap-0 2xl:max-w-[74rem]">
+        <div className="flex w-[18rem] flex-col justify-between gap-4 2xl:w-full 2xl:max-w-[28rem]">
           <h2 className="hidden w-[80%] md:block">
             Join our
             <span className="text-gradient"> weekly </span>dev calls.
@@ -35,7 +35,7 @@ const Community = () => {
               <span>6PM [GMT +1]</span>
             </p>
           </div>
-          <Button asChild className="w-[70%]" size={"sm"}>
+          <Button asChild className="w-[70%] 2xl:w-[60%]" size={"sm"}>
             <a href="https://t.me/starknet_tokenbound">
               Join Telegram Community
             </a>
@@ -53,7 +53,9 @@ const Community = () => {
               contributors on Telegram.
             </p>
           </div>
-          <Image src={COMM_IMG} alt="our community" />
+          <div>
+            <Image src={COMM_IMG} alt="our community" />
+          </div>
         </div>
       </div>
 
