@@ -1,10 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import StarknetProvider from "@components/StarknetProvider";
 import Favicon from "@public/favicon.ico";
 import Footer from "@components/footer/Footer";
 import Header from "@components/header/Header";
-import { ReactLenis } from "@utils/lenis";
+import Providers from "@components/Providers";
 
 export const metadata: Metadata = {
   title: "Token Bound Explorer | ERC-6551 on Starknet",
@@ -34,15 +33,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <StarknetProvider>
-        <ReactLenis root>
-          <body className={`font-inter font-normal`}>
-            <Header />
-            {children}
-            <Footer />
-          </body>
-        </ReactLenis>
-      </StarknetProvider>
+      <Providers>
+        <body className={`font-inter font-normal`}>
+          <Header />
+          {children}
+          <Footer />
+        </body>
+      </Providers>
     </html>
   );
 }

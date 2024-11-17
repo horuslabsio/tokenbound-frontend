@@ -1,14 +1,17 @@
 "use client";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import StarknetProvider from "./starknet-provider";
-import { TokenboundProvider } from "context/TokenboundContext";
+import { ReactLenis } from "@utils/lenis";
+import StarknetProvider from "./StarknetProvider";
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient();
   return (
-    <StarknetProvider>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </StarknetProvider>
+    <ReactLenis root>
+      <StarknetProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </StarknetProvider>
+    </ReactLenis>
   );
 };
 
