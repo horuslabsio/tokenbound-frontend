@@ -131,4 +131,10 @@ export interface TokenboundContextType {
     }>
   >;
   loading: boolean;
+  setActiveVersion: (
+    value: React.SetStateAction<{
+      version: "V3" | "V2" | "undeployed";
+      address: string;
+    } | null>
+  ) => void;
 }

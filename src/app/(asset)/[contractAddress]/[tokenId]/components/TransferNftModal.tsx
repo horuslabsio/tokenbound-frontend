@@ -41,7 +41,6 @@ const TransferNftModal = ({
           recipient: recipientAddress,
         });
         setTransferStatus("success");
-        console.log("transferStat", status);
       }
     } catch (error) {
       setTransferStatus("error");

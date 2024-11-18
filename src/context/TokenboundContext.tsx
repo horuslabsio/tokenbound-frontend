@@ -83,6 +83,7 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
     activeVersion,
     setVersion,
     loading,
+    setActiveVersion,
   };
 
   return (

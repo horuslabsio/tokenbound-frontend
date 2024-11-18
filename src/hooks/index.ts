@@ -11,9 +11,18 @@ import { useTokenBoundSDK } from "./useTokenboundHookContext";
 export const useDeployAccount = ({
   contractAddress,
   tokenId,
+  v3Address,
+  setActiveVersion,
 }: {
   contractAddress: string;
   tokenId: string;
+  v3Address: string;
+  setActiveVersion: (
+    value: React.SetStateAction<{
+      version: "V3" | "V2" | "undeployed";
+      address: string;
+    } | null>
+  ) => void;
 }) => {
   const { tokenboundV3 } = useTokenBoundSDK();
   const [deploymentStatus, setDeploymentStatus] = useState<
@@ -28,6 +37,10 @@ export const useDeployAccount = ({
       });
       setDeploymentStatus("success");
       launchConfetti();
+      setActiveVersion({
+        address: v3Address,
+        version: "V3",
+      });
     } catch (err) {
       if (process.env.NODE_ENV !== "production") {
         console.error("Error deploying TBA", err);
@@ -46,10 +59,19 @@ export const useUpgradeAccount = ({
   contractAddress,
   tokenboundClient,
   chain,
+  setActiveVersion,
+  v3Address,
 }: {
   contractAddress: string;
   tokenboundClient: TokenboundClient | undefined;
   chain: Chain;
+  v3Address: string;
+  setActiveVersion: (
+    value: React.SetStateAction<{
+      version: "V3" | "V2" | "undeployed";
+      address: string;
+    } | null>
+  ) => void;
 }) => {
   const [upgradeStatus, setUpgradeStatus] = useState<
     "idle" | "success" | "error" | "pending"
@@ -65,6 +87,10 @@ export const useUpgradeAccount = ({
         newClassHash: v3Implementation,
       });
       setUpgradeStatus("success");
+      setActiveVersion({
+        address: v3Address,
+        version: "V3",
+      });
     } catch (err) {
       if (process.env.NODE_ENV !== "production") {
         console.error("Error upgrading TBA", err);

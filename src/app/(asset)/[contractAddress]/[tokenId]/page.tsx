@@ -29,8 +29,14 @@ const url = process.env.NEXT_PUBLIC_EXPLORER;
 const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
 
 function Assets() {
-  const { tokenboundV2, tokenboundV3, activeVersion, setVersion, loading } =
-    useTokenBoundSDK();
+  const {
+    tokenboundV2,
+    tokenboundV3,
+    activeVersion,
+    setVersion,
+    loading,
+    setActiveVersion,
+  } = useTokenBoundSDK();
   const { chain } = useNetwork();
 
   const [v2Address, setV2Address] = useState<string>("");
@@ -159,12 +165,16 @@ function Assets() {
   const { deployAccount, deploymentStatus } = useDeployAccount({
     contractAddress: contractAddress,
     tokenId: tokenId,
+    v3Address,
+    setActiveVersion,
   });
 
   const { upgradeAccount, upgradeStatus } = useUpgradeAccount({
     chain: chain,
     contractAddress: v2Address,
     tokenboundClient: tokenboundV2,
+    v3Address,
+    setActiveVersion,
   });
 
   if (loading) {
@@ -206,7 +216,7 @@ function Assets() {
                 }
                 isLoading={deploymentStatus === "pending"}
                 onClick={deployAccount}
-                className={`w-fit rounded-full transition-all duration-300 ${deploymentStatus === "error" ? "text-error" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
+                className={`w-fit rounded-full transition-all duration-300 ${deploymentStatus === "error" ? "bg-gray-100 text-error" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
               >
                 {deploymentStatus === "error" ? (
                   <span>Failed to deploy</span>
