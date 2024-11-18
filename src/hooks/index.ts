@@ -1,53 +1,12 @@
 import { useState, useEffect } from "react";
-import { instance, launchConfetti } from "@utils/helper";
-import { useAccount, useNetwork } from "@starknet-react/core";
-import {
-  raw,
-  TokenInfo,
-  TokensApiResponse,
-  WalletTokensApiResponse,
-} from "types";
+import { launchConfetti } from "@utils/helper";
+import { TokensApiResponse, WalletTokensApiResponse } from "types";
 import { num } from "starknet";
 import axios from "axios";
 import { TokenboundClient } from "starknet-tokenbound-sdk";
 import { Chain } from "@starknet-react/chains";
 import { AccountClassHashes } from "@utils/constants";
 import { useTokenBoundSDK } from "./useTokenboundHookContext";
-
-export const useTBAAsset = (tokenBoundAddress: string) => {
-  const { address } = useAccount();
-  const [tbanft, setTbaNft] = useState<TokenInfo[]>([]);
-  const [loadingTba, setTbaLoading] = useState<boolean>(false);
-  const { chain } = useNetwork();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (tokenBoundAddress) {
-          const url = `https://${
-            chain.network === "mainnet"
-              ? process.env.NEXT_PUBLIC_NETWORK_MAINNET
-              : process.env.NEXT_PUBLIC_NETWORK_SEPOLIA
-          }/v1/owners/${tokenBoundAddress}/tokens`;
-          setTbaLoading(true);
-          const response = await instance.get(url);
-          const { data } = response;
-          setTbaNft(data?.result);
-          setTbaLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching user NFT:", error);
-        setTbaLoading(false);
-      }
-    };
-    if (address) {
-      fetchData();
-    }
-  }, [address, tokenBoundAddress, chain]);
-  return {
-    tbanft,
-    loadingTba,
-  };
-};
 
 export const useDeployAccount = ({
   contractAddress,

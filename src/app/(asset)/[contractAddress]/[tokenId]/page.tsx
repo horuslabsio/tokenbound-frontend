@@ -91,7 +91,7 @@ function Assets() {
           setVersion((prev) => ({
             v2: {
               address: v2Address,
-              status: tbaClassHashV2 === v2Implementation,
+              status: true,
             },
             v3: prev?.v3 || { address: "", status: false },
           }));
@@ -116,7 +116,7 @@ function Assets() {
           setVersion((prev) => ({
             v2: prev?.v2 || { address: "", status: false },
             v3: {
-              address: v2Address,
+              address: v3Address,
               status: true,
             },
           }));
@@ -140,7 +140,7 @@ function Assets() {
           setVersion((prev) => ({
             v2: prev?.v2 || { address: "", status: false },
             v3: {
-              address: v2Address,
+              address: v3Address,
               status: false,
             },
           }));
@@ -230,7 +230,7 @@ function Assets() {
                     disabled={
                       upgradeStatus === "pending" || upgradeStatus === "success"
                     }
-                    className={`w-fit rounded-l-full rounded-r-none transition-all duration-300 ${upgradeStatus === "error" ? "text-error bg-gray-100" : upgradeStatus === "success" ? "disabled:bg-black disabled:opacity-100" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
+                    className={`w-fit rounded-l-full rounded-r-none transition-all duration-300 ${upgradeStatus === "error" ? "bg-gray-100 text-error" : upgradeStatus === "success" ? "disabled:bg-black disabled:opacity-100" : "bg-black text-white disabled:bg-gray-100 disabled:text-black"}`}
                     onClick={upgradeAccount}
                     isLoading={upgradeStatus === "pending"}
                   >
