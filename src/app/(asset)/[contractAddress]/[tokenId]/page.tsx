@@ -82,9 +82,7 @@ function Assets() {
           tokenId: tokenId,
         });
         setDeploymentStatus("success");
-        setTimeout(() => {
-          getAccountStatus();
-        }, 5000);
+        setStatus(true);
       } catch (err) {
         setDeploymentStatus("error");
         setTimeout(() => {
