@@ -2,7 +2,7 @@ import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@utils/index";
 import { ReactNode, forwardRef } from "react";
 import { Slot, Slottable } from "@radix-ui/react-slot";
-import { Spinner } from "./spinner";
+import { Spinner } from "ui/spinner";
 
 const buttonVariants = cva(
   "inline-flex capitalize items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap group",
