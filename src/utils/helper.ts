@@ -51,8 +51,14 @@ export const instance = axios.create({
   },
 });
 
-
 export function launchConfetti() {
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (prefersReducedMotion) {
+    return;
+  }
   confetti({
     origin: { y: 0.7 },
     spread: 100,
