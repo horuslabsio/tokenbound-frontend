@@ -43,23 +43,22 @@ function Assets() {
     "idle" | "error" | "pending" | "success"
   >("idle");
 
-  useEffect(() => {
-    const getAccountStatus = async () => {
-      if (tokenbound) {
-        try {
-          const accountStatus = await tokenbound?.checkAccountDeployment({
-            tokenContract: contractAddress,
-            tokenId,
-          });
-          setStatus(accountStatus?.deployed || null);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setLoading(false);
-        }
+  const getAccountStatus = async () => {
+    if (tokenbound) {
+      try {
+        const accountStatus = await tokenbound?.checkAccountDeployment({
+          tokenContract: contractAddress,
+          tokenId,
+        });
+        setStatus(accountStatus?.deployed || null);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
-    };
-
+    }
+  };
+  useEffect(() => {
     getAccountStatus();
   }, [tokenbound]);
 
@@ -83,6 +82,9 @@ function Assets() {
           tokenId: tokenId,
         });
         setDeploymentStatus("success");
+        setTimeout(() => {
+          getAccountStatus();
+        }, 5000);
       } catch (err) {
         setDeploymentStatus("error");
         setTimeout(() => {
@@ -170,8 +172,10 @@ function Assets() {
               >
                 {deploymentStatus === "error" ? (
                   <span>Failed to deploy</span>
+                ) : deploymentStatus === "success" ? (
+                  <span>Deployed</span>
                 ) : (
-                  <span> Deploy Account</span>
+                  <span>Deploy Account</span>
                 )}
               </Button>
             )}
