@@ -16,6 +16,7 @@ import { Button } from "ui/button";
 import DeployArrow from "./ui/deploy-arrow";
 import Loading from "./loading";
 import { RefreshIcon, UpRightArrowIcon } from "@public/icons";
+import { getVoyagerUrl } from "@utils/helper";
 const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });
@@ -146,13 +147,7 @@ function Assets() {
                   endIcon={<UpRightArrowIcon gradient />}
                 >
                   <a
-                    href={`${
-                      chain.network === "mainnet"
-                        ? url
-                        : chain.network === "sepolia"
-                          ? sepolia_url
-                          : ""
-                    }/contract/${deployedAddress}`}
+                    href={getVoyagerUrl(chain, deployedAddress)}
                     target="_blank"
                   >
                     TBA Deployed
