@@ -1,3 +1,4 @@
+import { Chain } from "@starknet-react/chains";
 import axios from "axios";
 import confetti from "canvas-confetti";
 
@@ -66,3 +67,8 @@ export function launchConfetti() {
     particleCount: Math.floor(200 * 0.5),
   });
 }
+
+export const getVoyagerUrl = (chain: Chain, address: string): string => {
+  const subdomain = chain.network === "sepolia" ? "sepolia." : "";
+  return `https://${subdomain}voyager.online/contract/${address}?mtm_campaign=token-bound-iframe-redirect&mtm_source=horus-labs&mtm_medium=referral`;
+};

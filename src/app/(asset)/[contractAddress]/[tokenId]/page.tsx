@@ -21,6 +21,7 @@ import DeployArrow from "./ui/deploy-arrow";
 import Loading from "./loading";
 import { CopyButton } from "ui/copy-button";
 import { RefreshIcon, UpRightArrowIcon } from "@public/icons";
+import { getVoyagerUrl } from "@utils/helper";
 const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });
@@ -252,13 +253,10 @@ function Assets() {
                   </Button>
 
                   <a
-                    href={`${
-                      chain.network === "mainnet"
-                        ? url
-                        : chain.network === "sepolia"
-                          ? sepolia_url
-                          : ""
-                    }/contract/${activeVersion?.address ? activeVersion.address : v3Address}`}
+                    href={getVoyagerUrl(
+                      chain,
+                      activeVersion?.address ? activeVersion.address : v3Address
+                    )}
                     target="_blank"
                     className="group inline-grid h-full place-content-center rounded-l-none rounded-r-full border border-b-transparent border-l-gray-100 border-r-transparent border-t-transparent bg-black pl-2 pr-2 md:pr-4"
                   >
@@ -286,13 +284,10 @@ function Assets() {
                   endIcon={<UpRightArrowIcon gradient />}
                 >
                   <a
-                    href={`${
-                      chain.network === "mainnet"
-                        ? url
-                        : chain.network === "sepolia"
-                          ? sepolia_url
-                          : ""
-                    }/contract/${activeVersion?.address ? activeVersion.address : v3Address}`}
+                    href={getVoyagerUrl(
+                      chain,
+                      activeVersion?.address ? activeVersion.address : v3Address
+                    )}
                     target="_blank"
                   >
                     TBA Deployed
