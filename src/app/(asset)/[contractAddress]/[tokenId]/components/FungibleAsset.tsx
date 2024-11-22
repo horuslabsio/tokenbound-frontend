@@ -4,7 +4,7 @@ import USDC from "@public/USDC.png";
 import DAI from "@public/DAI.png";
 import USDT from "@public/usdt.png";
 import STRK from "@public/starknet.jpeg";
-import { useContractRead } from "@starknet-react/core";
+import { useReadContract } from "@starknet-react/core";
 import {
   DAI_TOKEN_DETAILS,
   ETHER_TOKEN_DETAILS,
@@ -106,8 +106,8 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     data: eth,
     isLoading: ethLoading,
     error: ethError,
-  } = useContractRead({
-    address: ETHER_TOKEN_DETAILS.address,
+  } = useReadContract({
+    address: `0x${ETHER_TOKEN_DETAILS.address}`,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tbaAddress!],
@@ -117,8 +117,8 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     data: stark,
     isLoading: starkLoading,
     error: starkError,
-  } = useContractRead({
-    address: STARK_TOKEN_DETAILS.address,
+  } = useReadContract({
+    address: `0x${STARK_TOKEN_DETAILS.address}`,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tbaAddress!],
@@ -128,8 +128,8 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     data: dai,
     isLoading: daiLoading,
     error: daiError,
-  } = useContractRead({
-    address: DAI_TOKEN_DETAILS.address,
+  } = useReadContract({
+    address: `0x${DAI_TOKEN_DETAILS.address}`,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tbaAddress!],
@@ -139,8 +139,8 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     data: usdc,
     isLoading: usdcLoading,
     error: usdcError,
-  } = useContractRead({
-    address: USDC_TOKEN_DETAILS.address,
+  } = useReadContract({
+    address: `0x${USDC_TOKEN_DETAILS.address}`,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tbaAddress!],
@@ -151,8 +151,8 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     data: usdt,
     isLoading: usdtLoading,
     error: usdtError,
-  } = useContractRead({
-    address: USDT_TOKEN_DETAILS.address,
+  } = useReadContract({
+    address: `0x${USDT_TOKEN_DETAILS.address}`,
     abi: Erc20Abi,
     functionName: "balanceOf",
     args: [tbaAddress!],

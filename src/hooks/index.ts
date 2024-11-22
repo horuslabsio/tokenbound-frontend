@@ -31,16 +31,18 @@ export const useDeployAccount = ({
   const deployAccount = async () => {
     setDeploymentStatus("pending");
     try {
-      await tokenboundV3?.createAccount({
-        tokenContract: contractAddress,
-        tokenId: tokenId,
-      });
-      setDeploymentStatus("success");
-      launchConfetti();
-      setActiveVersion({
-        address: v3Address,
-        version: "V3",
-      });
+      if (tokenboundV3) {
+        await tokenboundV3?.createAccount({
+          tokenContract: contractAddress,
+          tokenId: tokenId,
+        });
+        setDeploymentStatus("success");
+        launchConfetti();
+        setActiveVersion({
+          address: v3Address,
+          version: "V3",
+        });
+      }
     } catch (err) {
       if (process.env.NODE_ENV !== "production") {
         console.error("Error deploying TBA", err);
@@ -177,7 +179,7 @@ export const useGetTbaAddress = ({
           SetVersionAddress(num.toHex(accountResult));
         } catch (error) {
           if (process.env.NODE_ENV !== "production") {
-            console.error(error);
+            console.error("Error from useGetTokenbound:", error);
           }
         }
       };

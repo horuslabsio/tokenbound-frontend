@@ -89,7 +89,7 @@ const HeroImages = () => {
           left: "12.5%",
           duration: 2,
         },
-        "-=3",
+        "-=3"
       )
       .to(
         box1Ref.current,
@@ -97,7 +97,7 @@ const HeroImages = () => {
           top: "55%",
           duration: 2,
         },
-        "-=3",
+        "-=3"
       )
       .to(
         box2Ref.current,
@@ -108,7 +108,7 @@ const HeroImages = () => {
           translateY: "25%",
           duration: 3,
         },
-        "-=3",
+        "-=3"
       )
       .to(
         box3Ref.current,
@@ -117,7 +117,7 @@ const HeroImages = () => {
           right: "20%",
           duration: 3,
         },
-        "-=3",
+        "-=3"
       )
       .to(
         box4Ref.current,
@@ -126,7 +126,7 @@ const HeroImages = () => {
           left: "5rem",
           duration: 2,
         },
-        "-=3",
+        "-=3"
       )
       .to(boxRef.current, { opacity: 0, scaleX: 0, duration: 1 })
       .to(tbaRef.current, { opacity: 1, scale: 0.4, duration: 1 }, "-=1")
@@ -138,7 +138,7 @@ const HeroImages = () => {
           left: "25%",
           duration: 2,
         },
-        "-=2",
+        "-=2"
       )
       .to(
         box1Ref.current,
@@ -147,7 +147,7 @@ const HeroImages = () => {
           translateX: 0,
           duration: 2,
         },
-        "-=2",
+        "-=2"
       )
       .to(
         box2Ref.current,
@@ -156,7 +156,7 @@ const HeroImages = () => {
           translateY: "-15%",
           duration: 2,
         },
-        "-=2",
+        "-=2"
       )
       .to(
         box3Ref.current,
@@ -165,7 +165,7 @@ const HeroImages = () => {
           right: "10%",
           duration: 2,
         },
-        "-=2",
+        "-=2"
       )
       .to(
         box4Ref.current,
@@ -174,7 +174,7 @@ const HeroImages = () => {
           left: "8rem",
           duration: 2,
         },
-        "-=2",
+        "-=2"
       )
       .to(tbaRef.current, { opacity: 0, duration: 1 });
 
@@ -187,7 +187,7 @@ const HeroImages = () => {
       aria-hidden
       className="absolute bottom-0 hidden h-full w-full grid-cols-2 gap-4 md:grid lg:grid-cols-5 lg:gap-0"
     >
-      <div className="relative mt-auto h-[75%] lg:col-span-2 2xl:ml-[30px] 2xl:max-w-[500px]">
+      <div className="relative mt-auto h-[75%] min-w-[500px] lg:col-span-2 2xl:ml-[30px] 2xl:max-w-[500px]">
         <div
           ref={box0Ref}
           className="absolute left-12 top-4 h-[7.8rem] w-[7.8rem]"

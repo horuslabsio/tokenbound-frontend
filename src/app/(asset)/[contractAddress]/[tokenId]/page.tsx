@@ -26,9 +26,6 @@ const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });
 
-const url = process.env.NEXT_PUBLIC_EXPLORER;
-const sepolia_url = process.env.NEXT_PUBLIC_TESTNET_EXPLORER;
-
 function Assets() {
   const {
     tokenboundV2,

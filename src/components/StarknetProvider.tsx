@@ -31,8 +31,10 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
 
   const connectors = [
     ...injected,
-    new WebWalletConnector({ url: "https://web.argent.xyz" }),
-    new ArgentMobileConnector(),
+    new WebWalletConnector({
+      url: "https://web.argent.xyz",
+    }) as never as Connector,
+    new ArgentMobileConnector() as never as Connector,
     cartridgeInstance,
   ];
 
