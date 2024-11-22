@@ -21,7 +21,7 @@ import DeployArrow from "./ui/deploy-arrow";
 import Loading from "./loading";
 import { CopyButton } from "ui/copy-button";
 import { RefreshIcon, UpRightArrowIcon } from "@public/icons";
-import { getVoyagerUrl } from "@utils/helper";
+import { formatAddressTo0x0, getVoyagerUrl } from "@utils/helper";
 const Portfolio = dynamic(() => import("./components/Portfolio"), {
   ssr: false,
 });
@@ -199,13 +199,8 @@ function Assets() {
             <CopyButton
               textToCopy={
                 activeVersion?.address
-                  ? activeVersion.address.startsWith("0x") &&
-                    !activeVersion.address.startsWith("0x0")
-                    ? activeVersion.address.replace(/^0x/, "0x0")
-                    : activeVersion.address
-                  : v3Address.startsWith("0x") && !v3Address.startsWith("0x0")
-                    ? v3Address.replace(/^0x/, "0x0")
-                    : v3Address
+                  ? formatAddressTo0x0(activeVersion.address)
+                  : formatAddressTo0x0(v3Address)
               }
               className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
               copyIcon

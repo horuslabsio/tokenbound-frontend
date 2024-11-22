@@ -29,7 +29,7 @@ export function NetworkSwitcher() {
   const path = usePathname();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [selectedNetwork, setSelectedNetwork] = useState(
-    NETWORK_MAPPING[chain.network],
+    NETWORK_MAPPING[chain.network]
   );
   const switchNetwork = async (newNetworkId: string, networkLabel: string) => {
     try {
@@ -71,7 +71,7 @@ export function NetworkSwitcher() {
           dialogRef?.current?.close();
         }}
         ref={dialogRef}
-        className="absolute top-0 z-[100] rounded-[8px]"
+        className="absolute top-0 z-[10] rounded-[8px]"
       >
         <div className="flex min-h-[5.1rem] w-[9.2rem] flex-col gap-1 rounded-[8px] bg-white p-1">
           {networks.map((network) => {

@@ -72,3 +72,22 @@ export const getVoyagerUrl = (chain: Chain, address: string): string => {
   const subdomain = chain.network === "sepolia" ? "sepolia." : "";
   return `https://${subdomain}voyager.online/contract/${address}?mtm_campaign=token-bound-iframe-redirect&mtm_source=horus-labs&mtm_medium=referral`;
 };
+
+export function formatAddressTo0x0(address?: string): `0x0${string}` {
+  if (!address) return `0x0`;
+  if (address.startsWith("0x") && !address.startsWith("0x0")) {
+    return `0x0${address.slice(2)}`;
+  }
+  if (address.startsWith("0x0")) {
+    return address as `0x0${string}`;
+  }
+  return `0x0${address}`;
+}
+
+export function formatAddressTo0x(address?: string): `0x${string}` {
+  if (!address) return `0x0`;
+  if (address.startsWith("0x0")) {
+    return `0x${address.slice(3)}` as `0x${string}`;
+  }
+  return address as `0x${string}`;
+}

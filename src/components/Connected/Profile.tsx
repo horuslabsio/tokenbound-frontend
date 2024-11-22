@@ -14,14 +14,16 @@ import {
 } from "@public/icons";
 import { useRouter } from "next/navigation";
 import { CopyButton } from "ui/copy-button";
+import { formatAddressTo0x } from "@utils/helper";
 
 const Profile = ({ closeModal }: { closeModal: () => void }) => {
   const router = useRouter();
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
 
+  const profileAddress = formatAddressTo0x(address);
   const { data: starknetProfile } = useStarkProfile({
-    address: address,
+    address: profileAddress,
   });
 
   return (
@@ -96,7 +98,7 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
         <button
           type="button"
           onClick={() => disconnect()}
-          className="text-error flex h-[3rem] items-center gap-2 rounded-[8px] px-4 transition-all hover:bg-gray-100"
+          className="flex h-[3rem] items-center gap-2 rounded-[8px] px-4 text-error transition-all hover:bg-gray-100"
         >
           <span>Disconnect</span>
           <span>

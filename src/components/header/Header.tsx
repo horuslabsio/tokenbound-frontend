@@ -31,16 +31,14 @@ const Header = () => {
     }
   }, [isConnected, account]);
   return (
-    <>
-      <header className="fixed z-[99] flex min-h-[4rem] w-screen items-center justify-between px-8 py-3 backdrop-blur lg:block">
-        <Nav
-          account={account}
-          closeWalletModal={closeWalletModal}
-          isWalletOpen={isWalletOpen}
-          openWalletModal={openWalletModal}
-        />
-      </header>
-    </>
+    <header className="fixed z-50 flex min-h-[4rem] w-screen items-center justify-between px-8 py-3 backdrop-blur lg:block">
+      <Nav
+        account={account}
+        closeWalletModal={closeWalletModal}
+        isWalletOpen={isWalletOpen}
+        openWalletModal={openWalletModal}
+      />
+    </header>
   );
 };
 

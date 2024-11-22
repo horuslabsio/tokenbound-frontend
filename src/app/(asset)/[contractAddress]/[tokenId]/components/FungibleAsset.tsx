@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import ETH from "@public/eth.png";
 import USDC from "@public/USDC.png";
 import DAI from "@public/DAI.png";
@@ -100,83 +100,150 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     setOpenModal(true);
   };
 
-  const tokens = [
-    {
-      details: ETHER_TOKEN_DETAILS,
-      src: ETH.src,
-      unit: "ETH",
-      name: "Ether",
-      decimal: 1e18,
-    },
-    {
-      details: STARK_TOKEN_DETAILS,
-      src: STRK.src,
-      unit: "STRK",
-      name: "Stark",
-      decimal: 1e18,
-    },
-    {
-      details: USDT_TOKEN_DETAILS,
-      src: USDT.src,
-      unit: "USDT",
-      name: "Tether USD",
-      decimal: 1e6,
-    },
-    {
-      details: USDC_TOKEN_DETAILS,
-      src: USDC.src,
-      unit: "USDC",
-      name: "USD Coin",
-      decimal: 1e6,
-    },
-    {
-      details: DAI_TOKEN_DETAILS,
-      src: DAI.src,
-      unit: "DAI",
-      name: "DAI",
-      decimal: 1e18,
-    },
-  ];
-
-  const tokenData = tokens.map(({ details, src, unit, name, decimal }) => {
-    const { data, error } = useReadContract({
-      address: `0x${details.address.slice(2)}`,
-      abi: Erc20Abi,
-      functionName: "balanceOf",
-      args: [tbaAddress!],
-      watch: true,
-    });
-    const BALANCE = data?.balance?.low.toString() / decimal;
-    // Convert balance to a human-readable format
-    const balance = Number.isNaN(BALANCE) ? "0.000" : BALANCE.toFixed(4);
-
-    return { src, unit, name, balance, error, details, decimal };
+  const { data: eth, error: ethError } = useReadContract({
+    address: ETHER_TOKEN_DETAILS.address as `0x${string}`,
+    abi: Erc20Abi,
+    functionName: "balanceOf",
+    args: [tbaAddress!],
+    watch: true,
   });
+  const { data: stark, error: starkError } = useReadContract({
+    address: STARK_TOKEN_DETAILS.address as `0x${string}`,
+    abi: Erc20Abi,
+    functionName: "balanceOf",
+    args: [tbaAddress!],
+    watch: true,
+  });
+  const { data: dai, error: daiError } = useReadContract({
+    address: DAI_TOKEN_DETAILS.address as `0x${string}`,
+    abi: Erc20Abi,
+    functionName: "balanceOf",
+    args: [tbaAddress!],
+    watch: true,
+  });
+  const { data: usdc, error: usdcError } = useReadContract({
+    address: USDC_TOKEN_DETAILS.address as `0x${string}`,
+    abi: Erc20Abi,
+    functionName: "balanceOf",
+    args: [tbaAddress!],
+    watch: true,
+  });
+
+  const { data: usdt, error: usdtError } = useReadContract({
+    address: USDT_TOKEN_DETAILS.address as `0x${string}`,
+    abi: Erc20Abi,
+    functionName: "balanceOf",
+    args: [tbaAddress!],
+    watch: true,
+  });
+
+  let ETH_BALANCE = eth?.balance?.low.toString() / 1e18;
+  let STARK_BALANCE = stark?.balance?.low.toString() / 1e18;
+  let DAI_BALANCE = dai?.balance?.low.toString() / 1e18;
+  let USDC_BALANCE = usdc?.balance?.low.toString() / 1e6;
+  let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
 
   return (
     <div className="relative mt-4 flex max-w-[38rem] flex-col rounded-[16px] bg-gray-100 p-4 2xl:max-w-[50rem]">
-      {tokenData.map(
-        ({ src, unit, name, balance, error, details, decimal }) => (
-          <Token
-            key={unit}
-            src={src}
-            unit={unit}
-            name={name}
-            balance={balance}
-            err={error}
-            toggleModal={() =>
-              openTransferModal({
-                src,
-                abbreviation: unit,
-                balance,
-                name,
-                contractAddress: details.address,
-                decimal,
-              })
-            }
-          />
-        )
-      )}
+      <Token
+        balance={Number.isNaN(ETH_BALANCE) ? "0.000" : ETH_BALANCE.toFixed(4)}
+        err={ethError}
+        src={ETH.src}
+        unit="ETH"
+        name="Ether"
+        toggleModal={() =>
+          openTransferModal({
+            src: ETH.src,
+            abbreviation: "ETH",
+            balance: Number.isNaN(ETH_BALANCE)
+              ? "0.000"
+              : ETH_BALANCE.toFixed(3),
+            name: "Ethereum",
+            contractAddress: ETHER_TOKEN_DETAILS.address,
+            decimal: ETHER_TOKEN_DETAILS.decimal,
+          })
+        }
+      />
+
+      <Token
+        balance={
+          Number.isNaN(STARK_BALANCE) ? "0.000" : STARK_BALANCE.toFixed(4)
+        }
+        err={starkError}
+        src={STRK.src}
+        unit="STRK"
+        name="Stark"
+        toggleModal={() =>
+          openTransferModal({
+            src: STRK.src,
+            abbreviation: "STRK",
+            balance: Number.isNaN(STARK_BALANCE)
+              ? "0.000"
+              : STARK_BALANCE.toFixed(3),
+            name: "Stark",
+            contractAddress: STARK_TOKEN_DETAILS.address,
+            decimal: STARK_TOKEN_DETAILS.decimal,
+          })
+        }
+      />
+      <Token
+        balance={Number.isNaN(USDT_BALANCE) ? "0.000" : USDT_BALANCE.toFixed(4)}
+        err={usdtError}
+        src={USDT.src}
+        unit="USDT"
+        name="Tether USD"
+        toggleModal={() =>
+          openTransferModal({
+            src: USDT.src,
+            abbreviation: "USDT",
+            balance: Number.isNaN(USDT_BALANCE)
+              ? "0.000"
+              : USDT_BALANCE.toFixed(3),
+            name: "USDT",
+            contractAddress: USDT_TOKEN_DETAILS.address,
+            decimal: USDT_TOKEN_DETAILS.decimal,
+          })
+        }
+      />
+
+      <Token
+        balance={Number.isNaN(USDC_BALANCE) ? "0.000" : USDC_BALANCE.toFixed(4)}
+        err={usdcError}
+        src={USDC.src}
+        unit="USDC"
+        name="USD coin"
+        toggleModal={() =>
+          openTransferModal({
+            src: USDC.src,
+            abbreviation: "USDC",
+            balance: Number.isNaN(USDC_BALANCE)
+              ? "0.000"
+              : USDC_BALANCE.toFixed(3),
+            name: "USDC",
+            contractAddress: USDC_TOKEN_DETAILS.address,
+            decimal: USDC_TOKEN_DETAILS.decimal,
+          })
+        }
+      />
+      <Token
+        balance={Number.isNaN(DAI_BALANCE) ? "0.000" : DAI_BALANCE.toFixed(4)}
+        err={daiError}
+        src={DAI.src}
+        unit="DAI"
+        name="DAI"
+        toggleModal={() =>
+          openTransferModal({
+            src: DAI.src,
+            abbreviation: "DAI",
+            balance: Number.isNaN(DAI_BALANCE)
+              ? "0.000"
+              : DAI_BALANCE.toFixed(3),
+            name: "DAI",
+            contractAddress: DAI_TOKEN_DETAILS.address,
+            decimal: DAI_TOKEN_DETAILS.decimal,
+          })
+        }
+      />
 
       <Modal closeModal={closeModal} modalOpen={openModal}>
         <TransferModal
