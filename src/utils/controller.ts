@@ -1,5 +1,5 @@
 "use client";
-import ControllerConnector from "@cartridge/connector";
+import ControllerConnector from "@cartridge/connector/controller";
 import { Connector } from "@starknet-react/core";
 
 export const cartridgeInstance = new ControllerConnector({

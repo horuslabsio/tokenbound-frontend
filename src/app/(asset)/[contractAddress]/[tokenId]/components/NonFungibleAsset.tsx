@@ -5,6 +5,7 @@ import { Button } from "ui/button";
 import { WalletTokensApiResponse } from "../../../../../types";
 import NothingToSee from "../ui/nothing-to-see";
 import dynamic from "next/dynamic";
+import Modal from "ui/modal";
 const TransferNftModal = dynamic(() => import("./TransferNftModal"), {
   ssr: false,
 });
@@ -14,11 +15,10 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     contractAddress: "",
     tokenId: "",
   });
-
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const [openModal, setOpenModal] = useState(false);
 
   const closeModal = () => {
-    dialogRef?.current?.close();
+    setOpenModal(false);
   };
 
   const {
@@ -40,7 +40,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   });
   const walletNfts = useMemo(
     () => nfts?.pages.flatMap((page) => page.data) ?? [],
-    [nfts],
+    [nfts]
   );
 
   const openTransferModal = ({
@@ -54,7 +54,7 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
       contractAddress: address,
       tokenId: id,
     });
-    dialogRef?.current?.showModal();
+    setOpenModal(true);
   };
 
   return (
@@ -94,20 +94,17 @@ const NonFungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
                     </Button>
                   </div>
                 </div>
-              )),
+              ))
             )}
 
-            <dialog
-              className="inset-0 h-screen overflow-visible bg-transparent"
-              ref={dialogRef}
-            >
+            <Modal closeModal={closeModal} modalOpen={openModal}>
               <TransferNftModal
                 closeModal={closeModal}
                 tokenBoundAddress={tbaAddress}
                 contractAddress={selectedNft.contractAddress}
                 tokenId={selectedNft.tokenId}
               />
-            </dialog>
+            </Modal>
           </div>
           {hasNextPage && (
             <Button

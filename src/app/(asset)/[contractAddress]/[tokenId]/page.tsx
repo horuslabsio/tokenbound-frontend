@@ -198,7 +198,14 @@ function Assets() {
             </p>
             <CopyButton
               textToCopy={
-                activeVersion?.address ? activeVersion.address : v3Address
+                activeVersion?.address
+                  ? activeVersion.address.startsWith("0x") &&
+                    !activeVersion.address.startsWith("0x0")
+                    ? activeVersion.address.replace(/^0x/, "0x0")
+                    : activeVersion.address
+                  : v3Address.startsWith("0x") && !v3Address.startsWith("0x0")
+                    ? v3Address.replace(/^0x/, "0x0")
+                    : v3Address
               }
               className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
               copyIcon

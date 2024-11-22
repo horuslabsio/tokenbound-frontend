@@ -9,23 +9,23 @@ export const TBAImplementationAccount: string =
   "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd";
 
 export const ETHER_TOKEN_DETAILS: TokenDetailsProps = {
-  address: "049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+  address: "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
   decimal: 1e18,
 };
 export const USDC_TOKEN_DETAILS: TokenDetailsProps = {
-  address: "053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
+  address: "0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
   decimal: 1e6,
 };
 export const DAI_TOKEN_DETAILS: TokenDetailsProps = {
-  address: "00da114221cb83fa859dbdb4c44beeaa0bb37c7537ad5ae66fe5e0efd20e6eb3",
+  address: "0x00da114221cb83fa859dbdb4c44beeaa0bb37c7537ad5ae66fe5e0efd20e6eb3",
   decimal: 1e18,
 };
 export const USDT_TOKEN_DETAILS: TokenDetailsProps = {
-  address: "068f5c6a61780768455de69077e07e89787839bf8166decfbf92b645209c0fb8",
+  address: "0x068f5c6a61780768455de69077e07e89787839bf8166decfbf92b645209c0fb8",
   decimal: 1e6,
 };
 export const STARK_TOKEN_DETAILS: TokenDetailsProps = {
-  address: "04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+  address: "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
   decimal: 1e18,
 };
 
