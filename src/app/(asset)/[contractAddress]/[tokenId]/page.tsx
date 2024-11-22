@@ -180,13 +180,13 @@ function Assets() {
   }
 
   return (
-    <section className="mx-auto min-h-screen max-w-[1125px] px-8 pb-16 pt-32 2xl:max-w-[1490px]">
-      <div className="mx-auto w-full max-w-[23rem] md:max-w-[40rem] lg:grid lg:max-w-none lg:grid-cols-2">
+    <section className="mx-auto min-h-screen max-w-[1125px] px-4 pb-16 pt-32 md:px-8 2xl:max-w-[1490px]">
+      <div className="mx-auto w-full max-w-[31.5rem] md:max-w-[40rem] lg:grid lg:max-w-none lg:grid-cols-2">
         <div className="flex flex-col items-center gap-4 lg:items-start">
-          <div className="h-[17.1rem] w-full overflow-clip rounded-[16px] md:h-[31.5rem] md:w-[31.5rem] 2xl:h-[41.5rem] 2xl:w-[41.5rem]">
+          <div className="h-[20rem] w-full overflow-clip rounded-[16px] md:h-[31.5rem] md:w-[31.5rem] 2xl:h-[41.5rem] 2xl:w-[41.5rem]">
             {tokenData?.metadata?.image && (
               <img
-                className="scale-110 rounded-[16px] object-cover"
+                className="scale-105 rounded-[16px] object-cover transition-all md:scale-110"
                 src={tokenData?.metadata?.image}
                 alt="NFT Image"
               />

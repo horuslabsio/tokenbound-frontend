@@ -37,7 +37,7 @@ const HeroImages = () => {
         ease: "cubic-bezier(0.4, 0, 0.2, 1)",
       });
       gsap.to(box0Ref.current, {
-        top: "5%",
+        top: "8%",
         left: "25%",
         duration: 0.5,
         ease: "cubic-bezier(0.4, 0, 0.2, 1)",
@@ -134,7 +134,7 @@ const HeroImages = () => {
       .to(
         box0Ref.current,
         {
-          top: "5%",
+          top: "8%",
           left: "25%",
           duration: 2,
         },

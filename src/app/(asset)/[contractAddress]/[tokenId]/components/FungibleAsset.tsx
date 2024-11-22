@@ -41,7 +41,7 @@ const Token = ({
         <div
           className={`flex w-full items-center justify-between border-b border-[#EAEAEA] py-2`}
         >
-          <div className="flex gap-2 md:gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <div>
               <img
                 src={src}
@@ -51,12 +51,13 @@ const Token = ({
             </div>
             <div>
               <p className="uppercase">{unit}</p>
-              <p className="text-sm capitalize">{name}</p>
+              <p className="md:hidden">{`${balance} ${unit}`}</p>
+              <p className="hidden text-sm capitalize md:block">{name}</p>
             </div>
           </div>
 
           <div className="flex items-center justify-between gap-4">
-            <p className="md:text-base">{`${balance} ${unit}`}</p>
+            <p className="hidden text-base md:block">{`${balance} ${unit}`}</p>
             <Button
               variant={"ghost"}
               className="rounded-full bg-white px-1 py-2 text-black md:px-3"

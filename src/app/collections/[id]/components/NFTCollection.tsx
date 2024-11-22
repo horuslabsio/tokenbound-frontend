@@ -29,14 +29,14 @@ const NFTCollection = () => {
 
   const walletNfts = useMemo(
     () => nfts?.pages.flatMap((page) => page.data) ?? [],
-    [nfts],
+    [nfts]
   );
   return (
     <div className="flex flex-col items-center">
       {!isLoading && nfts && walletNfts.length > 0 ? (
         <div className="mx-auto grid h-auto w-full max-w-[23rem] auto-cols-auto gap-6 md:max-w-none md:grid-cols-3 lg:grid-cols-4">
           {nfts.pages.map((page) =>
-            page.data.map((item, index) => <NFTCard nft={item} key={index} />),
+            page.data.map((item, index) => <NFTCard nft={item} key={index} />)
           )}
         </div>
       ) : (
