@@ -1,5 +1,5 @@
+"use client";
 import { useState } from "react";
-
 import { FAQs as FQAData } from "../../static";
 import { DownChevronIcon } from "@public/icons";
 
@@ -11,65 +11,8 @@ type Props = {
   toggleAccordion: ({ id }: { id: string }) => void;
 };
 
-const Accordion = ({
-  id,
-  question,
-  answer,
-  currentAccordion,
-  toggleAccordion,
-}: Props) => {
-  return (
-    <div className="bg-[#F0F0F0] py-3 px-6 rounded-[8px]">
-      <button
-        aria-expanded={currentAccordion === id}
-        aria-label={`Toggle ${question} accordion`}
-        onClick={() => toggleAccordion({ id: id })}
-        className="grid grid-cols-10 gap-8 justify-between items-center text-deep-blue w-full"
-      >
-        <span className="inline-block col-span-8 text-start">{question}</span>
-        <div aria-hidden="true" className="col-span-2 flex justify-end">
-          <span
-            className={`w-[2rem] h-[2rem] rounded-full bg-deep-blue text-white flex items-center justify-center transition-all duration-300 ease-in-out ${
-              currentAccordion === id ? "rotate-180" : "rotate-[0deg]"
-            }  `}
-          >
-            <DownChevronIcon width="1.5em" height="1.5em" />
-          </span>
-        </div>
-      </button>
-      <div
-        className={`grid overflow-hidden transition-all duration-300 ease-in-out ${
-          currentAccordion === id
-            ? "grid-rows-[1fr] opacity-100"
-            : "grid-rows-[0fr] opacity-0"
-        }`}
-      >
-        <div className="overflow-hidden">
-          <div className="py-6 flex flex-col gap-2 ">
-            {Array.isArray(answer) ? (
-              <ul className="flex flex-col gap-2">
-                {answer.map((line, index) => (
-                  <li key={index}>
-                    <p className="px-4 text-deep-blue border-l-solid border-l-[1px] border-l-[#7A7A7A]">
-                      {line}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="px-4 text-deep-blue border-l-solid border-l-[1px] border-l-[#7A7A7A]">
-                {answer}
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const FQAs = () => {
-  const [currentAccordion, setCurrentAccordion] = useState("");
+  const [currentAccordion, setCurrentAccordion] = useState("FQ1");
   const toggleAccordion = ({ id }: { id: string }) => {
     if (currentAccordion === id) {
       setCurrentAccordion("");
@@ -79,11 +22,12 @@ const FQAs = () => {
   };
 
   return (
-    <section className="container mx-auto flex flex-col gap-8 px-4 py-16 lg:p-16">
-      <h2 className="text-black text-center">
-        Frequently Asked Questions (FAQs)
+    <section className="mx-auto flex w-full flex-col gap-8 bg-gray-100 px-2 py-16 md:max-w-[1536px] md:px-4 lg:p-16">
+      <h2 className="mx-auto w-full max-w-[200px] text-center md:max-w-[486px] 2xl:max-w-none">
+        Frequently
+        <span className="text-gradient"> Asked</span> Questions
       </h2>
-      <section className=" mx-auto flex flex-col gap-4 md:w-[70%]">
+      <section className="mx-auto flex w-full max-w-[35rem] flex-col gap-2 md:max-w-[50rem] md:gap-4 lg:max-w-[64rem]">
         {FQAData.map((items) => {
           const { answer, id, question } = items;
 
@@ -104,4 +48,56 @@ const FQAs = () => {
 };
 
 export default FQAs;
-/*  */
+
+const Accordion = ({
+  id,
+  question,
+  answer,
+  currentAccordion,
+  toggleAccordion,
+}: Props) => {
+  return (
+    <div className="rounded-[8px] bg-white px-4 py-3 md:rounded-[12px] md:px-6">
+      <button
+        aria-expanded={currentAccordion === id}
+        aria-label={`Toggle ${question} accordion`}
+        onClick={() => toggleAccordion({ id: id })}
+        className={`relative grid w-full grid-cols-10 items-center justify-between gap-8 transition-all duration-300 ease-in-out ${currentAccordion === id ? "dash-border-gradient text-foreground-secondary before:-bottom-2" : "text-foreground-tertiary"}`}
+      >
+        <span className="col-span-8 inline-block text-start">{question}</span>
+        <div aria-hidden="true" className="col-span-2 flex justify-end">
+          <span
+            className={`flex h-[2rem] w-[2rem] items-center justify-center text-xl transition-all duration-300 ease-in-out ${
+              currentAccordion === id ? "rotate-180" : "rotate-[0deg]"
+            } `}
+          >
+            <DownChevronIcon />
+          </span>
+        </div>
+      </button>
+      <div
+        className={`grid overflow-hidden transition-all duration-300 ease-in-out ${
+          currentAccordion === id
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-col gap-2 py-6 md:w-[80%]">
+            {Array.isArray(answer) ? (
+              <ul className="flex list-disc flex-col gap-2 pl-6">
+                {answer.map((line, index) => (
+                  <li className="px-4" key={index}>
+                    {line}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>{answer}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

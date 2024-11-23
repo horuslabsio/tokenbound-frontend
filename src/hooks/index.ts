@@ -1,72 +1,110 @@
 import { useState, useEffect } from "react";
-import { useAccount, useNetwork } from "@starknet-react/core";
-import {
-  IAccountParam,
-  TokensApiResponse,
-  WalletTokensApiResponse,
-} from "types";
+import { launchConfetti } from "@utils/helper";
+import { TokensApiResponse, WalletTokensApiResponse } from "types";
 import { num } from "starknet";
-import {
-  TBAcontractAddress,
-  TBAcontractAddress_SEPOLIA,
-  TBAImplementationAccount,
-  TBAImplementationAccount_SEPOLIA,
-} from "@utils/constants";
-import { TokenboundClient } from "starknet-tokenbound-sdk";
 import axios from "axios";
+import { TokenboundClient } from "starknet-tokenbound-sdk";
 import { Chain } from "@starknet-react/chains";
+import { AccountClassHashes } from "@utils/constants";
+import { useTokenBoundSDK } from "./useTokenboundHookContext";
 
-export const useTokenBoundSDK = () => {
-  const { account } = useAccount();
-  const { chain } = useNetwork();
-  const options = {
-    account: account,
-    registryAddress:
-      chain.network === "mainnet"
-        ? TBAcontractAddress
-        : TBAcontractAddress_SEPOLIA,
-    implementationAddress:
-      chain.network === "mainnet"
-        ? TBAImplementationAccount
-        : TBAImplementationAccount_SEPOLIA,
-    jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-  };
-
-  let tokenbound: any;
-
-  if (account) {
-    tokenbound = new TokenboundClient(options);
-  }
-  return { tokenbound };
-};
-
-export const useGetAccountAddress = ({
+export const useDeployAccount = ({
   contractAddress,
   tokenId,
-}: IAccountParam) => {
-  const { tokenbound } = useTokenBoundSDK();
-  const { account } = useAccount();
-  const { chain } = useNetwork();
-  const [deployedAddress, setDeployedAddress] = useState<string>("");
-
-  useEffect(() => {
-    const getAccountAddress = async () => {
-      try {
-        const accountResult = await tokenbound.getAccount({
+  v3Address,
+  setActiveVersion,
+}: {
+  contractAddress: string;
+  tokenId: string;
+  v3Address: string;
+  setActiveVersion: (
+    value: React.SetStateAction<{
+      version: "V3" | "V2" | "undeployed";
+      address: string;
+    } | null>
+  ) => void;
+}) => {
+  const { tokenboundV3 } = useTokenBoundSDK();
+  const [deploymentStatus, setDeploymentStatus] = useState<
+    "idle" | "success" | "error" | "pending"
+  >("idle");
+  const deployAccount = async () => {
+    setDeploymentStatus("pending");
+    try {
+      if (tokenboundV3) {
+        await tokenboundV3?.createAccount({
           tokenContract: contractAddress,
-          tokenId,
+          tokenId: tokenId,
         });
-        setDeployedAddress(num.toHex(accountResult));
-      } catch (error) {
-        console.error(error);
+        setDeploymentStatus("success");
+        launchConfetti();
+        setActiveVersion({
+          address: v3Address,
+          version: "V3",
+        });
       }
-    };
-    getAccountAddress();
-  }, [account, contractAddress, tokenId, chain]);
-
-  return {
-    deployedAddress,
+    } catch (err) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Error deploying TBA", err);
+      }
+      setDeploymentStatus("error");
+      setTimeout(() => {
+        setDeploymentStatus("idle");
+      }, 2000);
+    }
   };
+
+  return { deploymentStatus, deployAccount };
+};
+
+export const useUpgradeAccount = ({
+  contractAddress,
+  tokenboundClient,
+  chain,
+  setActiveVersion,
+  v3Address,
+}: {
+  contractAddress: string;
+  tokenboundClient: TokenboundClient | undefined;
+  chain: Chain;
+  v3Address: string;
+  setActiveVersion: (
+    value: React.SetStateAction<{
+      version: "V3" | "V2" | "undeployed";
+      address: string;
+    } | null>
+  ) => void;
+}) => {
+  const [upgradeStatus, setUpgradeStatus] = useState<
+    "idle" | "success" | "error" | "pending"
+  >("idle");
+  const upgradeAccount = async () => {
+    let network = chain.network;
+    let v3Implementation =
+      AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
+    setUpgradeStatus("pending");
+    try {
+      await tokenboundClient?.upgrade({
+        tbaAddress: contractAddress,
+        newClassHash: v3Implementation,
+      });
+      setUpgradeStatus("success");
+      setActiveVersion({
+        address: v3Address,
+        version: "V3",
+      });
+    } catch (err) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Error upgrading TBA", err);
+      }
+      setUpgradeStatus("error");
+      setTimeout(() => {
+        setUpgradeStatus("idle");
+      }, 2000);
+    }
+  };
+
+  return { upgradeAccount, upgradeStatus };
 };
 
 export const useRefreshMetadata = (
@@ -88,7 +126,6 @@ export const useRefreshMetadata = (
 
   const refreshMetadata = async () => {
     if (!contractAddress) {
-      console.error("Address is undefined. Unable to make the request.");
       setLoading(false);
       return;
     }
@@ -109,13 +146,46 @@ export const useRefreshMetadata = (
       );
       setSuccess(response.data.message);
     } catch (error) {
-      console.error("Error refreshing metadata:", error);
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Error refreshing metadata:", error);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return { loading, success, refreshMetadata };
+};
+
+export const useGetTbaAddress = ({
+  contractAddress,
+  tokenId,
+  tokenboundClient,
+  SetVersionAddress,
+}: {
+  contractAddress: string;
+  tokenId: string;
+  tokenboundClient: TokenboundClient | undefined;
+  SetVersionAddress: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  useEffect(() => {
+    if (tokenboundClient) {
+      const getAccountAddress = async () => {
+        try {
+          const accountResult = await tokenboundClient.getAccount({
+            tokenContract: contractAddress,
+            tokenId,
+          });
+          SetVersionAddress(num.toHex(accountResult));
+        } catch (error) {
+          if (process.env.NODE_ENV !== "production") {
+            console.error("Error from useGetTokenbound:", error);
+          }
+        }
+      };
+      getAccountAddress();
+    }
+  }, [tokenboundClient, contractAddress, tokenId]);
 };
 
 export const getWalletNft = async ({
@@ -125,9 +195,7 @@ export const getWalletNft = async ({
   walletAddress: string;
   page?: number;
 }) => {
-  const url = `${
-    process.env.NEXT_PUBLIC_MARKETPLACE_API_URL
-  }/portfolio/${walletAddress}${page ? `?page=${page}` : ""}`;
+  const url = `${process.env.NEXT_PUBLIC_MARKETPLACE_API_URL}/portfolio/${walletAddress}${page ? `?page=${page}` : ""}`;
   const response = await fetch(url);
   const data = (await response.json()) as WalletTokensApiResponse;
   if (!response.ok) {

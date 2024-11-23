@@ -3,11 +3,48 @@
 @tailwind utilities;
 @import url("https://fonts.cdnfonts.com/css/inter");
 
+@layer base {
+  @font-face {
+    font-family: inter;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../public/fonts/Inter/Inter_28pt-Regular.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: inter;
+    font-style: medium;
+    font-weight: 500;
+    src: url(../../public/fonts/Inter/Inter_28pt-Medium.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: inter-variable;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../public/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf)
+      format("truetype");
+  }
+  @font-face {
+    font-family: instrument-serif;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../public/fonts/Instrument_Serif/InstrumentSerif-Italic.ttf)
+      format("truetype");
+  }
+}
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
 html,
 body {
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
-  background-color: #fafafa;
+  font-family: "inter", sans-serif;
+  background-color: white;
   font-size: 0.875em;
   color: #5a5a5a;
 }
@@ -22,7 +59,7 @@ body {
 
 h1 {
   font-size: 3em;
-  line-height: 1.5;
+  line-height: 1.2;
   font-weight: 500;
 }
 
@@ -43,9 +80,16 @@ h6 {
   font-size: 1.1em;
 }
 
+@media (min-width: 768px) {
+  body {
+    font-size: 0.9em;
+  }
+}
+
 @media (min-width: 1024px) {
   h1 {
     font-size: 4em;
+    line-height: 1.2;
     font-weight: 500;
   }
 
@@ -60,7 +104,8 @@ h6 {
     font-size: 1.8em;
   }
   h5 {
-    font-size: 1.5em;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
   h6 {
     font-size: 1.2em;
@@ -69,6 +114,40 @@ h6 {
     font-size: 1em;
   }
 }
+
+@media (min-width: 1536px) {
+  h1 {
+    font-size: 6em;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 3em;
+  }
+
+  h3 {
+    font-size: 2.6em;
+  }
+
+  h4 {
+    font-size: 2.2em;
+  }
+
+  h5 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  h6 {
+    font-size: 1.3em;
+  }
+
+  body {
+    font-size: 1.1em;
+  }
+}
+
 img {
   width: 100%;
   height: 100%;
@@ -85,6 +164,9 @@ img {
     margin: 0 auto;
     padding: 1rem 0;
   }
+}
+.gradient-outline {
+  border-image: linear-gradient(45deg, #ff6b6b, #f06595, #845ec2) 1;
 }
 input[type="color"],
 input[type="date"],
@@ -103,4 +185,115 @@ input[type="week"],
 select:focus,
 textarea {
   font-size: 16px !important;
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-gradient-linear-primary bg-clip-text font-instrument-serif text-transparent;
+  }
+  .dash-border-gradient {
+    @apply before:absolute before:left-0 before:h-[1px] before:w-full before:bg-gradient-linear-dashed before:bg-[length:7px_3px] before:content-[''];
+  }
+  .dash-border-gradient-mobile-only {
+    @apply before:absolute before:left-0 before:h-[1px] before:w-full before:bg-gradient-linear-dashed before:bg-[length:7px_3px] before:content-[''] md:before:hidden;
+  }
+}
+
+@keyframes fadeInSteps {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.activeCard {
+  z-index: 4;
+  top: 0;
+  transform: translateX(-50%);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
+}
+.inactiveCard {
+  top: 10%;
+  transform: translateX(-50%) translateZ(-10rem);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
+}
+@media (prefers-reduced-motion) {
+  .activeCard {
+    z-index: 4;
+    top: 0;
+    transform: translateX(-50%);
+  }
+  .inactiveCard {
+    top: 10%;
+    transform: translateX(-50%) translateZ(-10rem);
+  }
+}
+
+dialog {
+  opacity: 0;
+}
+dialog[open] {
+  opacity: 1;
+}
+dialog::before,
+dialog::backdrop {
+  opacity: 0;
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: -1;
+  transition-property: opacity, display;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-behavior: allow-discrete;
+}
+
+dialog[open]::before,
+dialog[open]::backdrop {
+  opacity: 1;
+  display: block;
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  dialog[open]::before,
+  dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }

@@ -1,3 +1,5 @@
+import { TokenboundClient } from "starknet-tokenbound-sdk";
+
 export interface INavBarType {
   title: string;
   url: string;
@@ -8,10 +10,6 @@ export interface IWalletModal {
   closeWalletModal: () => void;
   openWalletModal: () => void;
 }
-
-export type WalletIconsProps = {
-  id: string;
-};
 
 export type NftItem = {
   acquiredAt: { blockTimestamp: null; blockNumber: null };
@@ -112,3 +110,41 @@ export interface TokensApiResponse {
   next_page: number | null;
   token_count: number;
 }
+
+export interface TokenboundContextType {
+  tokenboundV3: TokenboundClient | undefined;
+  tokenboundV2: TokenboundClient | undefined;
+  activeVersion: {
+    version: "V3" | "V2" | "undeployed";
+    address: string;
+  } | null;
+  setVersion: React.Dispatch<
+    React.SetStateAction<{
+      v2: {
+        address: string;
+        status: boolean;
+      };
+      v3: {
+        address: string;
+        status: boolean;
+      };
+    }>
+  >;
+  loading: boolean;
+  setActiveVersion: (
+    value: React.SetStateAction<{
+      version: "V3" | "V2" | "undeployed";
+      address: string;
+    } | null>
+  ) => void;
+}
+
+export type TokenDetailsProps = {
+  address: string;
+  decimal: number;
+};
+
+export type useTokenBalanceProps = {
+  tokenAddress: `0x${string}`;
+  accountAddress: `0x${string}`;
+};

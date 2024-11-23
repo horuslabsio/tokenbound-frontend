@@ -1,18 +1,26 @@
 "use client";
 import { useAccount } from "@starknet-react/core";
-import NFTCollection from "./components/NFTCollection";
+import dynamic from "next/dynamic";
 import { CopyButton } from "ui/copy-button";
+const NFTCollection = dynamic(() => import("./components/NFTCollection"), {
+  ssr: false,
+});
 
 function NFT() {
   const { address } = useAccount();
   return (
-    <section className="container mx-auto min-h-screen  pt-32 px-4 md:px-16 lg:px-16">
-      <div className="flex items-center space-x-4 justify-start gap-1 mb-16">
-        <h2 className=" text-black text-4xl font-medium ">
-          My NFT Collections
+    <section className="mx-auto min-h-screen max-w-[28rem] px-4 pt-24 md:max-w-[1125px] md:px-8 md:pt-32 2xl:max-w-[1536px]">
+      <div className="mb-8 flex items-center justify-between gap-1 space-x-4">
+        <h2 className="text-4xl font-medium text-black">
+          My <span className="text-gradient">NFTs</span>
         </h2>
-        <CopyButton textToCopy={address || ""} />
+        <CopyButton
+          textToCopy={address || ""}
+          className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
+          copyIcon
+        />
       </div>
+
       <NFTCollection />
     </section>
   );

@@ -11,26 +11,25 @@ const NFTCard = ({ nft }: NFTCard) => {
   };
   return (
     <div
-      className="h-[500px] w-full cursor-pointer overflow-hidden rounded-[8px] bg-white"
+      className="group flex h-[23.2rem] w-full cursor-pointer flex-col gap-4 md:max-w-[19rem] md:gap-2 2xl:h-[28rem] 2xl:max-w-[29rem]"
       onClick={redirect}
     >
-      <img
-        className="h-[300px] w-full object-cover"
-        src={nft?.metadata?.image}
-      />
-      <div className="flex h-[219px] w-full flex-col gap-4 px-[28px] pt-6">
-        <p className="text-2xl font-medium text-[#0A0A0A]">
+      <div className="h-[15.6rem] w-full overflow-clip rounded-[16px] 2xl:h-[20rem]">
+        <img
+          className="scale-105 rounded-[16px] object-cover transition-all duration-500 group-hover:scale-[1.15]"
+          src={nft?.metadata?.image}
+        />
+      </div>
+      <div className="flex w-full flex-1 flex-col justify-between gap-1">
+        <p className="text-foreground-secondary">
           {nft?.metadata?.name || "No name available"}
         </p>
+        <p className="line-clamp-2">{nft?.metadata?.description || ""}</p>
         <CopyButton
           textToCopy={nft?.collection_address || ""}
+          className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
           copyIcon
-          className="flex w-fit cursor-pointer items-center gap-x-[6px] rounded-full border-[1px] border-solid border-[#C4C4C4] bg-[#EFEFEF] px-[12px] py-[6px] text-[12px] font-normal text-[#7A7A7A]"
         />
-
-        <p className="w-full text-[14px] font-medium leading-[20px] text-[#5A5A5A]">
-          {nft?.metadata?.description || ""}
-        </p>
       </div>
     </div>
   );

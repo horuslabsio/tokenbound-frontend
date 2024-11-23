@@ -1,7 +1,4 @@
-type TokenDetailsProps = {
-  address: string;
-  decimal: number;
-};
+import { TokenDetailsProps } from "../types/index";
 
 export const TBAcontractAddress: string =
   "0x7f63abcad960f980c12d650b2cc4c27a8f63ee1f6eb36ea8286a946a2330c1b";
@@ -31,5 +28,23 @@ export const STARK_TOKEN_DETAILS: TokenDetailsProps = {
 
 export const TBAcontractAddress_SEPOLIA: string =
   "0x4101d3fa033024654083dd982273a300cb019b8cb96dd829267a4daf59f7b7e";
+
 export const TBAImplementationAccount_SEPOLIA: string =
   "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd";
+
+export type ChainId = "mainnet" | "sepolia";
+
+export const AccountClassHashes = {
+  V2: {
+    mainnet:
+      "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd",
+    sepolia:
+      "0x45d67b8590561c9b54e14dd309c9f38c4e2c554dd59414021f9d079811621bd",
+  },
+  V3: {
+    mainnet:
+      "0x3d311ba322e1f900d669586b191a2a82c50f6cb850563a8e1c01c7bac9be7b0",
+    sepolia:
+      "0x29d2a1b11dd97289e18042502f11356133a2201dd19e716813fb01fbee9e9a4",
+  },
+};

@@ -1,10 +1,10 @@
-export const Spinner = ({
+export function Spinner({
   size = "28px",
-  color = "#0c0c4f",
+  color = "currentColor",
 }: {
   size?: string;
   color?: string;
-}) => {
+}) {
   return (
     <span
       style={{
@@ -17,4 +17,4 @@ export const Spinner = ({
       aria-label="Loading"
     ></span>
   );
-};
+}

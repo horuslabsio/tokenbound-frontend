@@ -1,72 +1,67 @@
-import { RightArrow } from "@public/icons";
-import Image from "next/image";
-
-const Card = ({
-  description,
-  title,
-  src,
-  button,
-  link,
-}: {
-  description: string;
-  button: string;
-  title: string;
-  src: string;
-  link: string;
-}) => {
-  return (
-    <figure className="max-w-[436px] flex flex-col max-h-[560px] mx-auto">
-      <div
-        className={`h-[200px] lg:h-[300px] overflow-clip bg-[#EFEFEF] w-full rounded-t-[8px]  relative`}
-      >
-        <Image
-          className="rounded-t-[8px]"
-          src={src}
-          alt=""
-          width={100}
-          height={100}
-        />
-      </div>
-      <figcaption className="flex-1 bg-white p-8 rounded-b-[8px] flex flex-col gap-4">
-        <h5 className="text-black">{title}</h5>
-        <p className="flex-1">{description}</p>
-        <button className="flex items-center w-fit h-[3rem] gap-2 border-solid border-[2px] rounded-[5px] p-2 border-deep-blue text-deep-blue group transition-all duration-300 ease-in-out hover:bg-[#0C0C4F20]">
-          <a href={link} target="_blank" rel="noopener noreferrer">
-            <span className="text-start">{button}</span>
-          </a>
-          <span className="text-sm transition-all duration-300 ease-in-out group-hover:-rotate-[20deg]">
-            <RightArrow />
-          </span>
-        </button>
-      </figcaption>
-    </figure>
-  );
-};
-
+import Image, { StaticImageData } from "next/image";
+import blingImage from "../../../public/community/0.png";
+import unixImage from "../../../public/community/1.png";
+import runAwaysImage from "../../../public/community/2.png";
+import tokenGImage from "../../../public/community/3.png";
+import crowdPassImage from "../../../public/community/4.png";
+import carbonableImage from "../../../public/community/5.png";
 const ShowCase = () => {
   return (
-    <section className="container mx-auto">
-      <div className="flex flex-col gap-4 md:grid md:grid-cols-3">
-        <Card
-          title="EXPLORER"
-          src="/explorer.svg"
-          button="Tokenbound Explorer"
-          description="We provide an explorer UI from which you can deploy new tokenbound accounts, track them and interact with them."
-          link="#"
+    <section
+      id="projects"
+      className="mx-auto max-w-[1060px] px-2 py-8 md:px-8 lg:p-16 2xl:max-w-[1490px]"
+    >
+      <div className="mb-8 flex justify-center md:justify-between">
+        <h2 className="flex flex-col text-center md:block md:text-start">
+          <span className="text-gradient"> Community</span>
+          {""} Project Gallery
+        </h2>
+
+        <a
+          className="hidden h-fit rounded-full bg-gray-100 px-4 py-2 text-black md:inline-block"
+          href="https://docs.tbaexplorer.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View All
+        </a>
+      </div>
+      <div className="flex max-w-[21rem] flex-col gap-4 md:grid md:max-w-none md:grid-cols-3 lg:gap-8">
+        <Project
+          url="https://www.carbonable.io/"
+          title="Carbonable"
+          src={carbonableImage}
+          description="Carbonable is a platform for planning, managing and reporting every carbon contribution with ease and guaranteed authenticity"
         />
-        <Card
-          title="DEVELOPER SDK"
-          src="/developer-sdk.svg"
-          button="Tokenbound SDK"
-          description="Tokenbound SDK is a developer-focused kit for creating, retrieving and interacting with tokenbound accounts right from your dApp."
-          link="https://tokenbound.gitbook.io/starknet-tokenbound/"
+        <Project
+          url="https://tokenbound-hackathon-bling.vercel.app/"
+          title="Bling Bling"
+          src={blingImage}
+          description="BLING BLING is a project about tokenbound 6551. Players can mint Tokenbound and then choose to put it on the market for buying and selling, or play games to earn BLING and climb the ranks."
         />
-        <Card
-          title="SHOWCASE"
-          src="/community-showcase.svg"
-          button="Community Showcase"
-          description="View and checkout the top ecosystem/community projects built around Tokenbound Accounts."
-          link="#"
+        <Project
+          url="https://unix-tba.vercel.app/"
+          title="Unix"
+          src={unixImage}
+          description="Unix is a decentralized application designed to streamline the management and tracking of token-bound accounts across multiple blockchain networks, offering a comprehensive multi-chain solution. "
+        />
+        <Project
+          url="https://runaways-azure.vercel.app/"
+          title="Runaways"
+          src={runAwaysImage}
+          description="Runaways is a gaming project that combines the thrill of evading capture with the excitement of collecting and growing unique digital assets."
+        />
+        <Project
+          url="https://token-giver-7u11.vercel.app/"
+          title="Token Giver"
+          src={tokenGImage}
+          description="Token Giver is a decentralized application designed to revolutionize charity and fundraising."
+        />
+        <Project
+          url="https://crowdpass.vercel.app/"
+          title="Crowdpass"
+          src={crowdPassImage}
+          description="Crowdpass is a decentralized Event management platform, crowdpass aids event organizers to create and manage event ticketing."
         />
       </div>
     </section>
@@ -74,3 +69,40 @@ const ShowCase = () => {
 };
 
 export default ShowCase;
+
+const Project = ({
+  description,
+  title,
+  src,
+  url,
+}: {
+  description: string;
+  title: string;
+  src: StaticImageData;
+  url: string;
+}) => {
+  return (
+    <a
+      className="group inline-block w-full"
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <figure className="flex flex-col gap-4 2xl:h-[25rem]">
+        <div
+          className={`relative mx-auto flex h-[11rem] w-full max-w-[21rem] items-center justify-center overflow-hidden rounded-[16px] md:h-[10rem] 2xl:h-[15rem] 2xl:max-w-[31rem]`}
+        >
+          <Image
+            className="h-full w-full scale-[1.02] rounded-[16px] object-cover transition-all duration-500 group-hover:scale-[1.15]"
+            src={src}
+            alt=""
+          />
+        </div>
+        <figcaption className="flex w-[80%] flex-1 flex-col gap-2 px-2">
+          <p className="text-lg font-medium">{title}</p>
+          <p className="line-clamp-3 text-ellipsis">{description}</p>
+        </figcaption>
+      </figure>
+    </a>
+  );
+};

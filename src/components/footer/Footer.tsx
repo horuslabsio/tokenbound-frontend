@@ -2,7 +2,10 @@
 import { GithubIcon, SendIcon, XIcon } from "@public/icons";
 import Image from "next/image";
 import Link from "next/link";
+import LOGO from "../../../public/logo.svg";
+
 import { useEffect, useState } from "react";
+import { Button } from "ui/button";
 
 const Footer = () => {
   const [year, setYear] = useState<number>(2024);
@@ -13,116 +16,34 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-off-white text-[#7A7A7A] flex justify-end flex-col gap-16 px-8 pt-16 pb-8">
-      <div className="container mx-auto flex flex-col  justify-center gap-8 lg:flex-row">
-        <div className="basis-1/2 flex flex-col gap-4">
-          <p>Powered by</p>
-          <div className="flex items-center w-[60%] md:w-[40%] lg:w-[60%]">
-            <Link className=" inline-block w-full" href={"/"}>
-              <Image
-                src={"/logo-02.svg"}
-                alt="starknet logo"
-                width={200}
-                height={46}
-              />
-            </Link>
-          </div>
-          <div className="flex flex-col  mt-8 gap-6 md:items-center md:flex-row">
-            <input
-              className=" p-4 bg-[#EFEFEF] w-[90%] h-[3rem] border-solid border-[1px] rounded-[8px] border-[#7A7A7A] placeholder:text-[.9em] md:w-[60%] lg:w-[40%]"
-              type="email"
-              placeholder="Email Address"
-            />
-            <button className="h-[3rem] w-[10rem] py-3 px-4 bg-deep-blue rounded-[8px] text-white">
-              Get Updates
-            </button>
-          </div>
+    <footer className="mx-auto px-8 pb-8 pt-16 md:max-w-[1024px] xl:max-w-[1280px] 2xl:max-w-[1536px]">
+      <div className="dash-border-gradient relative flex flex-col justify-between gap-4 pb-4 before:bottom-0 md:flex-row md:items-center">
+        <div className="flex w-full max-w-[30rem] flex-col gap-4">
+          <Link className="block w-[9rem]" href={"/"}>
+            <Image src={LOGO} alt="horus labs logo" />
+          </Link>
+          <p className="">
+            We’re a blockchain research and development lab, powered by Starknet
+            Africa.
+          </p>
         </div>
-
-        <ul className="flex flex-col gap-8 lg:mt-20">
-          <li>
-            <a
-              href="https://github.com/Starknet-Africa-Edu"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Github
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://github.com/Starknet-Africa-Edu/SNIPs/blob/main/SNIPS/snip-72.md"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Snips
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://tokenbound.gitbook.io/starknet-tokenbound/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              SDK
-            </a>
-          </li>
-          <li>
-            <a href="http://" target="_blank" rel="noopener noreferrer">
-              ERC-6551
-            </a>
-          </li>
-        </ul>
-        <div className="flex flex-col gap-4 lg:mt-20">
-          <h6 className=" lg:text-[1em]">Discussions</h6>
-          <ul className="flex gap-4">
-            <li
-              style={{
-                boxShadow:
-                  "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
-              }}
-              className="bg-white p-2 rounded-lg flex place-content-center"
-            >
-              <a href="http://" target="_blank" rel="noopener noreferrer">
-                <XIcon />
-              </a>
-            </li>
-            <li
-              style={{
-                boxShadow:
-                  "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
-              }}
-              className="bg-white p-2 rounded-lg flex place-content-center"
-            >
-              <a
-                href="https://github.com/Starknet-Africa-Edu"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GithubIcon />
-              </a>
-            </li>
-            <li
-              style={{
-                boxShadow:
-                  "0 0 2px 0 #c3c0c0, inset 0 0 2px 0 rgba(85, 85, 85, 0.2)",
-              }}
-              className="bg-white p-2 rounded-lg flex place-content-center"
-            >
-              <a
-                className="inline-block -rotate-[35deg]"
-                href="http://"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <SendIcon />
-              </a>
-            </li>
-          </ul>
+        <div className="dash-border-gradient-mobile-only flex w-full max-w-[25rem] flex-col gap-4">
+          <p className="pt-4 md:pt-0">
+            Be the first to hear about job openings, product updates and
+            announcements
+          </p>
+          <div className="flex items-center gap-2 rounded-[8px] bg-gray-100 p-1">
+            <input
+              className="flex-1 rounded-lg bg-transparent p-2 placeholder:text-base"
+              placeholder="Enter your e-mail"
+              type="text"
+            />
+            <Button size={"sm"}>Submit</Button>
+          </div>
         </div>
       </div>
-      <div className="text-center">
-        <p>&copy; {year} StarknetAfrica. All Rights Reserved</p>
+      <div className="pt-4">
+        <p>(c) {year} Horus Labs. All Rights Reserved.</p>
       </div>
     </footer>
   );

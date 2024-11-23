@@ -28,19 +28,30 @@ const config: Config = {
     },
 
     extend: {
+      fontFamily: {
+        inter: ["inter", "sans-serif"],
+        "inter-variable": ["inter-variable", "sans-serif"],
+        "instrument-serif": ["instrument-serif", "sans-serif"],
+      },
       backgroundImage: {
-        "gradient-linear-starknet-gradient":
+        "gradient-linear-primary":
           "linear-gradient(90deg, #EC796B 0%, #D672EF 100%)",
+        "gradient-linear-dashed":
+          "linear-gradient(90deg,transparent,transparent 50%,#fff 50%,#fff 100%),linear-gradient(90deg, #ec796b 0%, #d672ef 100%)",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "off-white": "#F6F6F6",
-        "deep-blue": "#0C0C4F",
         primary: "#FAFAFA",
-        "gray-50": "#eae9e9",
+        "gray-50": "#e5e5e54d",
+        "gray-100": "#F8F8F8",
         "box-shadow": "#EC796B33",
+        "primary-btn": "#0A0A0A",
+        "foreground-primary": "#5a5a5a",
+        "foreground-secondary": "#4b4b4b",
+        "foreground-tertiary": "#8f8f8f",
+        error: "#ce5a4c",
       },
     },
     transform: {
