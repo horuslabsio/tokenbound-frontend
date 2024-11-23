@@ -4,6 +4,7 @@ import {
   useDisconnect,
   useStarkProfile,
 } from "@starknet-react/core";
+import Blockies from "react-blockies";
 
 import {
   CloseIcon,
@@ -53,14 +54,21 @@ const Profile = ({ closeModal }: { closeModal: () => void }) => {
         </div>
       </div>
       <div className="flex gap-2">
-        <div className="mx-auto h-[5.3rem] w-[6.3rem] rounded-[16px] bg-[#EFC58E]">
+        <div className="relative mx-auto h-[5.3rem] w-[6.3rem] overflow-clip rounded-[16px] bg-[#EFC58E]">
+          <Blockies
+            seed={address ? address : "TBA Explorer"}
+            size={28}
+            scale={3.5}
+            className="absolute"
+          />
+
           {starknetProfile?.profilePicture && (
             <img
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.opacity = "0";
               }}
-              className="rounded-[16px] object-cover"
+              className="absolute rounded-[16px] object-cover"
               src={starknetProfile?.profilePicture}
               alt="your starknet profile picture"
             />

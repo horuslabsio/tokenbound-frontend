@@ -138,3 +138,13 @@ export interface TokenboundContextType {
     } | null>
   ) => void;
 }
+
+export type TokenDetailsProps = {
+  address: string;
+  decimal: number;
+};
+
+export type useTokenBalanceProps = {
+  tokenAddress: `0x${string}`;
+  accountAddress: `0x${string}`;
+};

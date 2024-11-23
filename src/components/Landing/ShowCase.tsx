@@ -9,7 +9,7 @@ const ShowCase = () => {
   return (
     <section
       id="projects"
-      className="mx-auto max-w-[1060px] px-2 py-8 lg:p-16 2xl:max-w-[1490px]"
+      className="mx-auto max-w-[1060px] px-2 py-8 md:px-8 lg:p-16 2xl:max-w-[1490px]"
     >
       <div className="mb-8 flex justify-center md:justify-between">
         <h2 className="flex flex-col text-center md:block md:text-start">

@@ -1,7 +1,4 @@
-type TokenDetailsProps = {
-  address: string;
-  decimal: number;
-};
+import { TokenDetailsProps } from "../types/index";
 
 export const TBAcontractAddress: string =
   "0x7f63abcad960f980c12d650b2cc4c27a8f63ee1f6eb36ea8286a946a2330c1b";

@@ -245,7 +245,7 @@ const HeroImages = () => {
         <div className="absolute left-1/2 h-[4.125rem] w-[19.6rem] -translate-x-1/2">
           <Image src={IMG_7} alt="" />
         </div>
-        <div className="absolute left-0 top-1/2 h-[4.125rem] w-[19.6rem] -translate-y-1/2">
+        <div className="absolute left-[20%] top-1/2 h-[4.125rem] w-[19.6rem] -translate-y-1/2 lg:left-0">
           <Image src={IMG_8} alt="" />
         </div>
         <div className="absolute bottom-16 left-1/2 h-[4.125rem] w-[19.6rem] -rotate-3">

@@ -4,7 +4,6 @@ import USDC from "@public/USDC.png";
 import DAI from "@public/DAI.png";
 import USDT from "@public/usdt.png";
 import STRK from "@public/starknet.jpeg";
-import { useReadContract } from "@starknet-react/core";
 import {
   DAI_TOKEN_DETAILS,
   ETHER_TOKEN_DETAILS,
@@ -12,77 +11,23 @@ import {
   USDC_TOKEN_DETAILS,
   USDT_TOKEN_DETAILS,
 } from "@utils/constants";
-import Erc20Abi from "@abis/token.abi.json";
 import { Button } from "ui/button";
 import { RightArrow } from "@public/icons";
 import dynamic from "next/dynamic";
 import Modal from "ui/modal";
+import { useTokenBalance } from "@utils/helper";
+import { TokenDetailsProps } from "../../../../../types/index";
+
 const TransferModal = dynamic(() => import("./TransferModal"), { ssr: false });
-
-const Token = ({
-  balance,
-  err,
-  src,
-  unit,
-  toggleModal,
-  name,
-}: {
-  src: string;
-
-  err: Error | null;
-  balance: string;
-  unit: string;
-  name: string;
-  toggleModal: () => void;
-}) => {
-  return (
-    <>
-      {err ? null : (
-        <div
-          className={`flex w-full items-center justify-between border-b border-[#EAEAEA] py-2`}
-        >
-          <div className="flex items-center gap-2 md:gap-4">
-            <div>
-              <img
-                src={src}
-                className="h-[28px] w-[28px] md:h-[32px] md:w-[32px]"
-                alt="asset-logo"
-              />
-            </div>
-            <div>
-              <p className="uppercase">{unit}</p>
-              <p className="md:hidden">{`${balance} ${unit}`}</p>
-              <p className="hidden text-sm capitalize md:block">{name}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between gap-4">
-            <p className="hidden text-base md:block">{`${balance} ${unit}`}</p>
-            <Button
-              variant={"ghost"}
-              className="rounded-full bg-white px-1 py-2 text-black md:px-3"
-              disabled={+balance <= 0}
-              onClick={toggleModal}
-              size={"sm"}
-              endIcon={<RightArrow />}
-            >
-              <span>Send</span>
-            </Button>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
 
 const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   const [selectedAsset, setSelectedAsset] = useState({
     src: "",
-    abbreviation: "",
+    symbol: "",
     balance: "",
-    name: "",
-    contractAddress: "",
+    tokenAddress: "",
     decimal: 1e18,
+    refreshBalance: () => {},
   });
   const [openModal, setOpenModal] = useState(false);
 
@@ -91,167 +36,62 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
   };
   const openTransferModal = (asset: {
     src: string;
-    abbreviation: string;
+    symbol: string;
     balance: string;
-    name: string;
-    contractAddress: string;
+    tokenAddress: string;
     decimal: number;
+    refreshBalance: () => void;
   }) => {
     setSelectedAsset(asset);
     setOpenModal(true);
   };
 
-  const { data: eth, error: ethError } = useReadContract({
-    address: ETHER_TOKEN_DETAILS.address as `0x${string}`,
-    abi: Erc20Abi,
-    functionName: "balanceOf",
-    args: [tbaAddress!],
-    watch: true,
-  });
-  const { data: stark, error: starkError } = useReadContract({
-    address: STARK_TOKEN_DETAILS.address as `0x${string}`,
-    abi: Erc20Abi,
-    functionName: "balanceOf",
-    args: [tbaAddress!],
-    watch: true,
-  });
-  const { data: dai, error: daiError } = useReadContract({
-    address: DAI_TOKEN_DETAILS.address as `0x${string}`,
-    abi: Erc20Abi,
-    functionName: "balanceOf",
-    args: [tbaAddress!],
-    watch: true,
-  });
-  const { data: usdc, error: usdcError } = useReadContract({
-    address: USDC_TOKEN_DETAILS.address as `0x${string}`,
-    abi: Erc20Abi,
-    functionName: "balanceOf",
-    args: [tbaAddress!],
-    watch: true,
-  });
-
-  const { data: usdt, error: usdtError } = useReadContract({
-    address: USDT_TOKEN_DETAILS.address as `0x${string}`,
-    abi: Erc20Abi,
-    functionName: "balanceOf",
-    args: [tbaAddress!],
-    watch: true,
-  });
-
-  let ETH_BALANCE = eth?.balance?.low.toString() / 1e18;
-  let STARK_BALANCE = stark?.balance?.low.toString() / 1e18;
-  let DAI_BALANCE = dai?.balance?.low.toString() / 1e18;
-  let USDC_BALANCE = usdc?.balance?.low.toString() / 1e6;
-  let USDT_BALANCE = usdt?.balance?.low.toString() / 1e6;
-
   return (
     <div className="relative mt-4 flex max-w-[38rem] flex-col rounded-[16px] bg-gray-100 p-4 2xl:max-w-[50rem]">
       <Token
-        balance={Number.isNaN(ETH_BALANCE) ? "0.000" : ETH_BALANCE.toFixed(4)}
-        err={ethError}
         src={ETH.src}
-        unit="ETH"
         name="Ether"
-        toggleModal={() =>
-          openTransferModal({
-            src: ETH.src,
-            abbreviation: "ETH",
-            balance: Number.isNaN(ETH_BALANCE)
-              ? "0.000"
-              : ETH_BALANCE.toFixed(3),
-            name: "Ethereum",
-            contractAddress: ETHER_TOKEN_DETAILS.address,
-            decimal: ETHER_TOKEN_DETAILS.decimal,
-          })
-        }
+        tokenDetails={ETHER_TOKEN_DETAILS}
+        tbaAddress={tbaAddress}
+        toggleModal={openTransferModal}
       />
 
       <Token
-        balance={
-          Number.isNaN(STARK_BALANCE) ? "0.000" : STARK_BALANCE.toFixed(4)
-        }
-        err={starkError}
         src={STRK.src}
-        unit="STRK"
         name="Stark"
-        toggleModal={() =>
-          openTransferModal({
-            src: STRK.src,
-            abbreviation: "STRK",
-            balance: Number.isNaN(STARK_BALANCE)
-              ? "0.000"
-              : STARK_BALANCE.toFixed(3),
-            name: "Stark",
-            contractAddress: STARK_TOKEN_DETAILS.address,
-            decimal: STARK_TOKEN_DETAILS.decimal,
-          })
-        }
+        tokenDetails={STARK_TOKEN_DETAILS}
+        tbaAddress={tbaAddress}
+        toggleModal={openTransferModal}
       />
       <Token
-        balance={Number.isNaN(USDT_BALANCE) ? "0.000" : USDT_BALANCE.toFixed(4)}
-        err={usdtError}
         src={USDT.src}
-        unit="USDT"
         name="Tether USD"
-        toggleModal={() =>
-          openTransferModal({
-            src: USDT.src,
-            abbreviation: "USDT",
-            balance: Number.isNaN(USDT_BALANCE)
-              ? "0.000"
-              : USDT_BALANCE.toFixed(3),
-            name: "USDT",
-            contractAddress: USDT_TOKEN_DETAILS.address,
-            decimal: USDT_TOKEN_DETAILS.decimal,
-          })
-        }
+        tokenDetails={USDT_TOKEN_DETAILS}
+        tbaAddress={tbaAddress}
+        toggleModal={openTransferModal}
       />
 
       <Token
-        balance={Number.isNaN(USDC_BALANCE) ? "0.000" : USDC_BALANCE.toFixed(4)}
-        err={usdcError}
         src={USDC.src}
-        unit="USDC"
         name="USD coin"
-        toggleModal={() =>
-          openTransferModal({
-            src: USDC.src,
-            abbreviation: "USDC",
-            balance: Number.isNaN(USDC_BALANCE)
-              ? "0.000"
-              : USDC_BALANCE.toFixed(3),
-            name: "USDC",
-            contractAddress: USDC_TOKEN_DETAILS.address,
-            decimal: USDC_TOKEN_DETAILS.decimal,
-          })
-        }
+        tokenDetails={USDC_TOKEN_DETAILS}
+        tbaAddress={tbaAddress}
+        toggleModal={openTransferModal}
       />
       <Token
-        balance={Number.isNaN(DAI_BALANCE) ? "0.000" : DAI_BALANCE.toFixed(4)}
-        err={daiError}
         src={DAI.src}
-        unit="DAI"
+        tokenDetails={DAI_TOKEN_DETAILS}
+        tbaAddress={tbaAddress}
         name="DAI"
-        toggleModal={() =>
-          openTransferModal({
-            src: DAI.src,
-            abbreviation: "DAI",
-            balance: Number.isNaN(DAI_BALANCE)
-              ? "0.000"
-              : DAI_BALANCE.toFixed(3),
-            name: "DAI",
-            contractAddress: DAI_TOKEN_DETAILS.address,
-            decimal: DAI_TOKEN_DETAILS.decimal,
-          })
-        }
+        toggleModal={openTransferModal}
       />
 
       <Modal closeModal={closeModal} modalOpen={openModal}>
         <TransferModal
           closeModal={closeModal}
-          abbreviation={selectedAsset?.abbreviation}
+          abbreviation={selectedAsset?.symbol}
           balance={selectedAsset?.balance}
-          contractAddress={selectedAsset?.contractAddress}
+          contractAddress={selectedAsset?.tokenAddress}
           tokenBoundAddress={tbaAddress}
           decimal={selectedAsset?.decimal}
         />
@@ -264,3 +104,83 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
 };
 
 export default FungibleAsset;
+
+const Token = ({
+  src,
+  toggleModal,
+  name,
+  tokenDetails,
+  tbaAddress,
+}: {
+  src: string;
+  name: string;
+
+  tokenDetails: TokenDetailsProps;
+  tbaAddress: string;
+  toggleModal: (asset: {
+    src: string;
+    symbol: string;
+    balance: string;
+    tokenAddress: string;
+    decimal: number;
+    refreshBalance: () => Promise<void>;
+  }) => void;
+}) => {
+  const { formatted, refetch, error, symbol, decimals } = useTokenBalance({
+    tokenAddress: tokenDetails.address as `0x${string}`,
+    accountAddress: tbaAddress as `0x${string}`,
+  });
+  const balance = Number(formatted).toFixed(3);
+
+  const refreshBalance = async () => {
+    await refetch();
+  };
+
+  const asset = {
+    src,
+    symbol: symbol || "",
+    balance,
+    tokenAddress: tokenDetails.address,
+    decimal: 10 ** (decimals ?? 18),
+    refreshBalance,
+  };
+
+  if (error) return null;
+
+  return (
+    <>
+      <div
+        className={`flex w-full items-center justify-between border-b border-[#EAEAEA] py-2`}
+      >
+        <div className="flex items-center gap-2 md:gap-4">
+          <div>
+            <img
+              src={src}
+              className="h-[28px] w-[28px] md:h-[32px] md:w-[32px]"
+              alt="asset-logo"
+            />
+          </div>
+          <div>
+            <p className="uppercase">{symbol}</p>
+            <p className="md:hidden">{`${balance} ${symbol}`}</p>
+            <p className="hidden text-sm capitalize md:block">{name}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-4">
+          <p className="hidden text-base md:block">{`${balance} ${symbol}`}</p>
+          <Button
+            variant={"ghost"}
+            className="rounded-full bg-white px-1 py-2 text-black md:px-3"
+            disabled={+balance <= 0}
+            onClick={() => toggleModal(asset)}
+            size={"sm"}
+            endIcon={<RightArrow />}
+          >
+            <span>Send</span>
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+};

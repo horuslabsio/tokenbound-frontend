@@ -131,7 +131,7 @@ export const Card = ({
         </div>
       </div>
       <div aria-hidden className="max-h-[27rem]">
-        <Image src={src} alt="" className="" />
+        <Image src={src} alt="" className="object-cover" />
       </div>
     </div>
   );

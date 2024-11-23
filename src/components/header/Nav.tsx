@@ -3,7 +3,6 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { communityLinks, learningLinks } from "@static/index";
-import ConnectedNavBar from "@components/Connected";
 import ConnectWallet from "./components/ConnectWallet";
 import { AccountInterface } from "starknet";
 import { DownChevronIcon, WalletIcon } from "@public/icons";
@@ -13,6 +12,7 @@ import LOGO_SMALL from "../../../public/logo-2.svg";
 import DropDown from "./DropDown";
 import NetworkSwitcher from "./NetworkSwitcher";
 import SideNav from "./SideNav";
+import ConnectedNavBar from "./components";
 
 const Nav = ({
   isWalletOpen,

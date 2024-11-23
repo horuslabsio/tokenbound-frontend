@@ -1,4 +1,6 @@
 import { Chain } from "@starknet-react/chains";
+import { useBalance } from "@starknet-react/core";
+import { useTokenBalanceProps } from "../types/index";
 import axios from "axios";
 import confetti from "canvas-confetti";
 
@@ -90,4 +92,18 @@ export function formatAddressTo0x(address?: string): `0x${string}` {
     return `0x${address.slice(3)}` as `0x${string}`;
   }
   return address as `0x${string}`;
+}
+
+export function useTokenBalance({
+  tokenAddress,
+  accountAddress,
+}: useTokenBalanceProps) {
+  const { data, refetch, error, ...rest } = useBalance({
+    token: tokenAddress,
+    address: accountAddress,
+    watch: true,
+    refetchInterval: 1000,
+  });
+  const { value, decimals, symbol, formatted } = data || {};
+  return { value, decimals, symbol, formatted, refetch, error, ...rest };
 }

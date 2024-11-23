@@ -80,6 +80,12 @@ h6 {
   font-size: 1.1em;
 }
 
+@media (min-width: 768px) {
+  body {
+    font-size: 0.9em;
+  }
+}
+
 @media (min-width: 1024px) {
   h1 {
     font-size: 4em;

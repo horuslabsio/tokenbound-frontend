@@ -5,7 +5,6 @@ import { useConnect, Connector } from "@starknet-react/core";
 import { CloseIcon, WalletIcons } from "@public/icons";
 
 export default function ConnectWallet({
-  openWalletModal,
   isWalletOpen,
   closeWalletModal,
 }: IWalletModal) {
