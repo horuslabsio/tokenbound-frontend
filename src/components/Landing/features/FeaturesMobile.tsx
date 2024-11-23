@@ -12,7 +12,7 @@ const FeaturesMobile = () => {
           link={card.link}
           title={card.title}
           src={card.sm_src}
-          description={card.description}
+          description={card.summary}
         />
       ))}
     </div>
@@ -50,7 +50,17 @@ const Card = ({
         <p className="flex-1 overflow-hidden first-letter:uppercase">
           {description}
         </p>
-        {title !== "Explorer" && (
+
+        {title == "Explorer" ? (
+          <Button
+            disabled
+            className="w-fit min-w-[8rem] font-normal disabled:cursor-default disabled:opacity-100"
+            variant={"gray"}
+            endIcon={<RightArrow />}
+          >
+            <span className="text-start">Explore</span>
+          </Button>
+        ) : (
           <Button
             asChild
             variant={"gray"}
