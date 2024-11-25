@@ -5,7 +5,7 @@ import USPs from "@components/Landing/USPs";
 import ShowCase from "../components/Landing/ShowCase";
 import Hero from "@components/Landing/hero/Hero";
 const Features = dynamic(
-  () => import("../components/Landing/features/Features"),
+  () => import("../components/Landing/features/Features")
 );
 
 export default function Home() {

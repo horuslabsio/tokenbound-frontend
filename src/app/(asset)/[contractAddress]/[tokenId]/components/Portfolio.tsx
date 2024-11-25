@@ -3,29 +3,20 @@ import { CryptoIcon, ImageIcon } from "@public/icons";
 import { useState } from "react";
 import NonFungibleAsset from "./NonFungibleAsset";
 import FungibleAsset from "./FungibleAsset";
-import { useRefreshMetadata } from "@hooks/index";
 import { Button } from "ui/button";
 import NothingToSee from "../ui/nothing-to-see";
 
 const Portfolio = ({
   tbaAddress,
-  contractAddress,
-  tokenId,
   deployed,
 }: {
   tbaAddress: string;
-  contractAddress: string;
-  tokenId: string;
   deployed: boolean | null;
 }) => {
   const [isCollectible, setIsCollectible] = useState(true);
   const toggleContent = () => {
     setIsCollectible((prevIsCollectible) => !prevIsCollectible);
   };
-  const { refreshMetadata, loading, success } = useRefreshMetadata(
-    contractAddress,
-    tokenId,
-  );
 
   return (
     <>

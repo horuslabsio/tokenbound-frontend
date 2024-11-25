@@ -1,5 +1,4 @@
 "use client";
-import { GithubIcon, SendIcon, XIcon } from "@public/icons";
 import Image from "next/image";
 import Link from "next/link";
 import LOGO from "../../../public/logo.svg";
