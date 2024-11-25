@@ -23,7 +23,7 @@ export const communityLinks: INavBarType[] = [
 export const learningLinks: INavBarType[] = [
   {
     title: "Snip",
-    url: "https://github.com/Starknet-Africa-Edu/SNIPs/blob/main/SNIPS/snip-72.md",
+    url: "https://github.com/starknet-io/SNIPs/blob/main/SNIPS/snip-14.md",
   },
   {
     title: "Github",

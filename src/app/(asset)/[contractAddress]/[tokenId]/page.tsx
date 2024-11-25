@@ -12,7 +12,6 @@ import { useNetwork } from "@starknet-react/core";
 import { RpcProvider } from "starknet";
 import { AccountClassHashes } from "@utils/constants";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
-
 import { Button } from "ui/button";
 import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
@@ -309,11 +308,9 @@ function Assets() {
           </div>
 
           <Portfolio
-            contractAddress={contractAddress}
             tbaAddress={
               activeVersion?.address ? activeVersion.address : v3Address
             }
-            tokenId={tokenId}
             deployed={activeVersion?.version !== "undeployed"}
           />
         </div>

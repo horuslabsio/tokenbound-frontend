@@ -27,7 +27,6 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     balance: "",
     tokenAddress: "",
     decimal: 1e18,
-    refreshBalance: () => {},
   });
   const [openModal, setOpenModal] = useState(false);
 
@@ -40,7 +39,6 @@ const FungibleAsset = ({ tbaAddress }: { tbaAddress: string }) => {
     balance: string;
     tokenAddress: string;
     decimal: number;
-    refreshBalance: () => void;
   }) => {
     setSelectedAsset(asset);
     setOpenModal(true);
@@ -123,18 +121,13 @@ const Token = ({
     balance: string;
     tokenAddress: string;
     decimal: number;
-    refreshBalance: () => Promise<void>;
   }) => void;
 }) => {
-  const { formatted, refetch, error, symbol, decimals } = useTokenBalance({
+  const { formatted, error, symbol, decimals } = useTokenBalance({
     tokenAddress: tokenDetails.address as `0x${string}`,
     accountAddress: tbaAddress as `0x${string}`,
   });
   const balance = Number(formatted).toFixed(3);
-
-  const refreshBalance = async () => {
-    await refetch();
-  };
 
   const asset = {
     src,
@@ -142,7 +135,6 @@ const Token = ({
     balance,
     tokenAddress: tokenDetails.address,
     decimal: 10 ** (decimals ?? 18),
-    refreshBalance,
   };
 
   if (error) return null;
