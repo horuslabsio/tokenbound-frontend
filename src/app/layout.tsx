@@ -4,8 +4,6 @@ import Favicon from "@public/favicon.ico";
 import Footer from "@components/footer/Footer";
 import Header from "@components/header/Header";
 import Providers from "@components/Providers";
-import { Analytics } from '@vercel/analytics/next';
-
 
 export const metadata: Metadata = {
   title: "Token Bound Explorer | ERC-6551 on Starknet",
@@ -39,7 +37,6 @@ export default function RootLayout({
         <body className={`font-inter font-normal`}>
           <Header />
           {children}
-          <Analytics />
           <Footer />
         </body>
       </Providers>
