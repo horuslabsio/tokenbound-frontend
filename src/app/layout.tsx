@@ -4,6 +4,7 @@ import Favicon from "@public/favicon.ico";
 import Footer from "@components/footer/Footer";
 import Header from "@components/header/Header";
 import Providers from "@components/Providers";
+import { Analytics } from "@components/Analytics";
 
 export const metadata: Metadata = {
   title: "Token Bound Explorer | ERC-6551 on Starknet",
@@ -33,6 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Analytics/>
       <Providers>
         <body className={`font-inter font-normal`}>
           <Header />
