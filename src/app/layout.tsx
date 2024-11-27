@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     creator: "@horuslabsio",
   },
 };
-
 export default function RootLayout({
   children,
 }: {
