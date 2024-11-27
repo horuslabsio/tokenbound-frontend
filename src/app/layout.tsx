@@ -34,12 +34,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Analytics/>
       <Providers>
         <body className={`font-inter font-normal`}>
           <Header />
           {children}
           <Footer />
+          <Analytics/>
         </body>
       </Providers>
     </html>
