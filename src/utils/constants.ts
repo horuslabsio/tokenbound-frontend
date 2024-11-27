@@ -48,3 +48,5 @@ export const AccountClassHashes = {
       "0x29d2a1b11dd97289e18042502f11356133a2201dd19e716813fb01fbee9e9a4",
   },
 };
+
+export const HOTJAR_ID:number = 5222294
