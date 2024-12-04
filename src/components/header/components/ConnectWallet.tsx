@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import { IWalletModal } from "types";
 import { useConnect, Connector } from "@starknet-react/core";
-import { CloseIcon, WalletIcons } from "@public/icons";
+import { CloseIcon } from "@public/icons";
 
 export default function ConnectWallet({
   isWalletOpen,
@@ -13,6 +13,28 @@ export default function ConnectWallet({
     connect({ connector });
     closeWalletModal();
   };
+
+  const walletIcons = useMemo(() => {
+    if (!connectors) return [];
+
+    const svgToBase64 = (
+      svgString: string | { dark: string; light: string }
+    ) => {
+      if (typeof svgString === "string") {
+        return svgString.startsWith("<svg")
+          ? `data:image/svg+xml;base64,${btoa(svgString)}`
+          : svgString;
+      }
+      return svgString.light.startsWith("<svg")
+        ? `data:image/svg+xml;base64,${btoa(svgString.light)}`
+        : svgString.light;
+    };
+
+    return connectors.map((connector) => ({
+      id: connector.id,
+      icon: svgToBase64(connector.icon),
+    }));
+  }, [connectors]);
 
   return (
     <>
@@ -57,7 +79,11 @@ export default function ConnectWallet({
                   </Dialog.Title>
                   <div className="rounded-lg bg-gray-100 px-4 py-2">
                     {connectors.map((connector, index) => {
-                      if (connector.available()) {
+                      if (connector.id && connector.available()) {
+                        const walletIcon = walletIcons.find(
+                          (icon) => icon.id === connector.id
+                        )?.icon;
+
                         return (
                           <button
                             onClick={() => connectWallet(connector)}
@@ -68,8 +94,15 @@ export default function ConnectWallet({
                             }`}
                             key={connector.id}
                           >
-                            <span className="flex gap-2">
-                              <WalletIcons id={connector.id} />
+                            <span className="flex items-center gap-2">
+                              {walletIcon && (
+                                <div className="h-6 w-6">
+                                  <img
+                                    src={walletIcon}
+                                    alt={`${connector.name} Wallet Icon`}
+                                  />
+                                </div>
+                              )}
                               {`Connect ${connector.name}`}
                             </span>
                           </button>

@@ -1,16 +1,15 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import {
   getNftToken,
   useDeployAccount,
   useGetTbaAddress,
   useUpgradeAccount,
   useRefreshMetadata,
+  useSetTbaVersion,
 } from "@hooks/index";
 import { useParams } from "next/navigation";
 import { useNetwork } from "@starknet-react/core";
-import { RpcProvider } from "starknet";
-import { AccountClassHashes } from "@utils/constants";
 import { useTokenBoundSDK } from "@hooks/useTokenboundHookContext";
 import { Button } from "ui/button";
 import dynamic from "next/dynamic";
@@ -38,9 +37,6 @@ function Assets() {
 
   const [v2Address, setV2Address] = useState<string>("");
   const [v3Address, setV3Address] = useState<string>("");
-  const provider = new RpcProvider({
-    nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-  });
 
   const params = useParams();
 
@@ -78,86 +74,11 @@ function Assets() {
     tokenId: tokenId,
   });
 
-  const network = chain.network;
-  const v2Implementation =
-    AccountClassHashes.V2[network as keyof typeof AccountClassHashes.V2];
-  const v3Implementation =
-    AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
-
-  const fetchClassHash = useCallback(async () => {
-    let success = false;
-
-    const checkV2Address = async () => {
-      if (v2Address) {
-        const tbaClassHashV2 = await provider.getClassHashAt(v2Address);
-        if (tbaClassHashV2 === v2Implementation) {
-          setVersion((prev) => ({
-            v2: {
-              address: v2Address,
-              status: true,
-            },
-            v3: prev?.v3 || { address: "", status: false },
-          }));
-          return;
-        }
-        if (tbaClassHashV2 === v3Implementation) {
-          setVersion((prev) => ({
-            v2: prev?.v2 || { address: "", status: false },
-            v3: {
-              address: v2Address,
-              status: true,
-            },
-          }));
-          return;
-        }
-      }
-    };
-    const checkV3Address = async () => {
-      if (v3Address) {
-        const tbaClassHashV3 = await provider.getClassHashAt(v3Address);
-        if (tbaClassHashV3 === v3Implementation) {
-          setVersion((prev) => ({
-            v2: prev?.v2 || { address: "", status: false },
-            v3: {
-              address: v3Address,
-              status: true,
-            },
-          }));
-        }
-      }
-    };
-
-    if (v2Address || v3Address) {
-      try {
-        await checkV2Address();
-        success = true;
-      } catch (error) {
-        if (process.env.NODE_ENV !== "production") {
-          console.error(error);
-        }
-      }
-      if (!success) {
-        try {
-          await checkV3Address();
-        } catch (error) {
-          setVersion((prev) => ({
-            v2: prev?.v2 || { address: "", status: false },
-            v3: {
-              address: v3Address,
-              status: false,
-            },
-          }));
-          if (process.env.NODE_ENV !== "production") {
-            console.error(error);
-          }
-        }
-      }
-    }
-  }, [v2Address, v3Address]);
-
-  useEffect(() => {
-    fetchClassHash();
-  }, [fetchClassHash]);
+  useSetTbaVersion({
+    setVersion,
+    v2Address: v2Address as `0x${string}`,
+    v3Address: v3Address as `0x${string}`,
+  });
 
   const { deployAccount, deploymentStatus } = useDeployAccount({
     contractAddress: contractAddress,
@@ -170,7 +91,6 @@ function Assets() {
     chain: chain,
     contractAddress: v2Address,
     tokenboundClient: tokenboundV2,
-    v3Address,
     setActiveVersion,
   });
 

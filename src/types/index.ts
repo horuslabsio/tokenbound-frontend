@@ -120,11 +120,11 @@ export interface TokenboundContextType {
   } | null;
   setVersion: React.Dispatch<
     React.SetStateAction<{
-      v2: {
+      V2: {
         address: string;
         status: boolean;
       };
-      v3: {
+      V3: {
         address: string;
         status: boolean;
       };

@@ -25,11 +25,13 @@ const NFTCard = ({ nft }: NFTCard) => {
           {nft?.metadata?.name || "No name available"}
         </p>
         <p className="line-clamp-2">{nft?.metadata?.description || ""}</p>
-        <CopyButton
-          textToCopy={nft?.collection_address || ""}
-          className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
-          copyIcon
-        />
+        <div onClick={(e) => e.stopPropagation()}>
+          <CopyButton
+            textToCopy={nft?.collection_address || ""}
+            className="flex h-[2.1rem] w-[9rem] items-center justify-between rounded-full bg-gray-100 px-4 py-2 shadow-inner lg:w-[10rem]"
+            copyIcon
+          />
+        </div>
       </div>
     </div>
   );

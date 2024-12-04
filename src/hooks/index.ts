@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { launchConfetti } from "@utils/helper";
 import { TokensApiResponse, WalletTokensApiResponse } from "types";
-import { num } from "starknet";
+import { RpcProvider, num } from "starknet";
 import axios from "axios";
-import { TokenboundClient } from "starknet-tokenbound-sdk";
+import { TBAVersion, TokenboundClient } from "starknet-tokenbound-sdk";
 import { Chain } from "@starknet-react/chains";
 import { AccountClassHashes } from "@utils/constants";
 import { useTokenBoundSDK } from "./useTokenboundHookContext";
+import { useNetwork } from "@starknet-react/core";
 
 export const useDeployAccount = ({
   contractAddress,
@@ -62,12 +63,10 @@ export const useUpgradeAccount = ({
   tokenboundClient,
   chain,
   setActiveVersion,
-  v3Address,
 }: {
   contractAddress: string;
   tokenboundClient: TokenboundClient | undefined;
   chain: Chain;
-  v3Address: string;
   setActiveVersion: (
     value: React.SetStateAction<{
       version: "V3" | "V2" | "undeployed";
@@ -82,15 +81,17 @@ export const useUpgradeAccount = ({
     let network = chain.network;
     let v3Implementation =
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
+
     setUpgradeStatus("pending");
     try {
-      await tokenboundClient?.upgrade({
+      const res = await tokenboundClient?.upgrade({
         tbaAddress: contractAddress,
         newClassHash: v3Implementation,
       });
+      console.log(res);
       setUpgradeStatus("success");
       setActiveVersion({
-        address: v3Address,
+        address: contractAddress,
         version: "V3",
       });
     } catch (err) {
@@ -176,6 +177,7 @@ export const useGetTbaAddress = ({
             tokenContract: contractAddress,
             tokenId,
           });
+
           SetVersionAddress(num.toHex(accountResult));
         } catch (error) {
           if (process.env.NODE_ENV !== "production") {
@@ -235,4 +237,109 @@ export const getNftToken = async ({
     };
   }
   return data;
+};
+
+export const useSetTbaVersion = ({
+  setVersion,
+  v2Address,
+  v3Address,
+}: {
+  setVersion: React.Dispatch<
+    React.SetStateAction<{
+      V2: {
+        address: string;
+        status: boolean;
+      };
+      V3: {
+        address: string;
+        status: boolean;
+      };
+    }>
+  >;
+  v2Address: `0x${string}`;
+  v3Address: `0x${string}`;
+}) => {
+  const { chain } = useNetwork();
+
+  const network = chain.network;
+  const v2Implementation =
+    AccountClassHashes.V2[network as keyof typeof AccountClassHashes.V2];
+  const v3Implementation =
+    AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
+  const provider = new RpcProvider({
+    nodeUrl: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
+  });
+
+  const fetchClassHash = useCallback(async () => {
+    const setVersionState = (
+      versionKey: "V3" | "V2",
+      address: string,
+      status: boolean
+    ) => {
+      setVersion((prev) => ({
+        ...prev,
+        [versionKey]: { address, status },
+      }));
+    };
+
+    const handleClassHashCheck = async (
+      address: string,
+      expectedHash: string,
+      versionKey: "V3" | "V2"
+    ) => {
+      if (!address) return false;
+
+      try {
+        const classHash = await provider.getClassHashAt(address);
+        if (classHash === expectedHash) {
+          setVersionState(versionKey, address, true);
+          return true;
+        }
+      } catch (error) {
+        if (process.env.NODE_ENV !== "production") {
+          console.error(`Error fetching class hash for ${versionKey}:`, error);
+        }
+      }
+      return false;
+    };
+
+    const checkV2Address = async (): Promise<boolean> => {
+      const v2Account = await handleClassHashCheck(
+        v2Address,
+        v2Implementation,
+        TBAVersion.V2
+      );
+      if (v2Account) {
+        return true;
+      }
+
+      const v3Account = await handleClassHashCheck(
+        v2Address,
+        v3Implementation,
+        TBAVersion.V3
+      );
+
+      return v3Account;
+    };
+
+    const checkV3Address = async () =>
+      handleClassHashCheck(v3Address, v3Implementation, TBAVersion.V3);
+
+    // Main logic
+    if (v2Address || v3Address) {
+      const v2Result = await checkV2Address();
+
+      if (!v2Result) {
+        const v3Result = await checkV3Address();
+
+        if (!v3Result) {
+          setVersionState(TBAVersion.V3, v3Address, false);
+        }
+      }
+    }
+  }, [v2Address, v3Address]);
+
+  useEffect(() => {
+    fetchClassHash();
+  }, [fetchClassHash]);
 };

@@ -1,5 +1,5 @@
 import { useAccount, useNetwork } from "@starknet-react/core";
-import { TokenboundClient } from "starknet-tokenbound-sdk";
+import { TokenboundClient, TBAVersion } from "starknet-tokenbound-sdk";
 import { useState, ReactNode, createContext, useEffect } from "react";
 import { TokenboundContextType } from "../types";
 
@@ -22,11 +22,11 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
     address: string;
   } | null>(null);
   const [version, setVersion] = useState<{
-    v2: { address: string; status: boolean };
-    v3: { address: string; status: boolean };
+    V2: { address: string; status: boolean };
+    V3: { address: string; status: boolean };
   }>({
-    v2: { address: "", status: false },
-    v3: { address: "", status: false },
+    V2: { address: "", status: false },
+    V3: { address: "", status: false },
   });
 
   const [tokenboundV3, setTokenboundV3] = useState<
@@ -41,7 +41,7 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
       const options = {
         account: account,
         chain_id: chain.network === "mainnet" ? "SN_MAIN" : "SN_SEPOLIA",
-        version: "V3",
+        version: TBAVersion.V3,
         jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
       };
       const tb = new TokenboundClient(options);
@@ -54,7 +54,7 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
       const options = {
         account: account,
         chain_id: chain.network === "mainnet" ? "SN_MAIN" : "SN_SEPOLIA",
-        version: "V2",
+        version: TBAVersion.V2,
         jsonRPC: `https://starknet-${chain.network}.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
       };
       const tb = new TokenboundClient(options);
@@ -63,15 +63,15 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
   }, [account, chain]);
 
   useEffect(() => {
-    if (version.v3.status) {
-      setActiveVersion({ address: version.v3.address, version: "V3" });
+    if (version.V3.status) {
+      setActiveVersion({ address: version.V3.address, version: "V3" });
       setLoading(false);
-    } else if (version.v2.status) {
-      setActiveVersion({ address: version.v2.address, version: "V2" });
+    } else if (version.V2.status) {
+      setActiveVersion({ address: version.V2.address, version: "V2" });
       setLoading(false);
-    } else if (!activeVersion && version.v3.address) {
+    } else if (!activeVersion && version.V3.address) {
       setActiveVersion({
-        address: version.v3.address,
+        address: version.V3.address,
         version: "undeployed",
       });
       setLoading(false);
