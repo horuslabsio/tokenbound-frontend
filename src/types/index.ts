@@ -137,6 +137,12 @@ export interface TokenboundContextType {
       address: string;
     } | null>
   ) => void;
+  setAddresses: (
+    value: React.SetStateAction<{
+      implHash: string;
+      registry: string;
+    } | null>
+  ) => void;
 }
 
 export type TokenDetailsProps = {

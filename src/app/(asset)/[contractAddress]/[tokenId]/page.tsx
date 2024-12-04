@@ -98,23 +98,17 @@ function Assets() {
             },
             v3: prev?.v3 || { address: "", status: false },
           }));
+          success = true;
           return;
         }
-        if (tbaClassHashV2 === v3Implementation) {
-          setVersion((prev) => ({
-            v2: prev?.v2 || { address: "", status: false },
-            v3: {
-              address: v2Address,
-              status: true,
-            },
-          }));
-          return;
-        }
+        success = false;
       }
     };
+
     const checkV3Address = async () => {
       if (v3Address) {
         const tbaClassHashV3 = await provider.getClassHashAt(v3Address);
+
         if (tbaClassHashV3 === v3Implementation) {
           setVersion((prev) => ({
             v2: prev?.v2 || { address: "", status: false },
@@ -130,7 +124,6 @@ function Assets() {
     if (v2Address || v3Address) {
       try {
         await checkV2Address();
-        success = true;
       } catch (error) {
         if (process.env.NODE_ENV !== "production") {
           console.error(error);
@@ -147,6 +140,7 @@ function Assets() {
               status: false,
             },
           }));
+
           if (process.env.NODE_ENV !== "production") {
             console.error(error);
           }

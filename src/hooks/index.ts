@@ -178,9 +178,9 @@ export const useGetTbaAddress = ({
           });
           SetVersionAddress(num.toHex(accountResult));
         } catch (error) {
-          if (process.env.NODE_ENV !== "production") {
-            console.error("Error from useGetTokenbound:", error);
-          }
+          // if (process.env.NODE_ENV !== "production") {
+          //   console.error("Error from useGetTokenbound:", error);
+          // }
         }
       };
       getAccountAddress();
@@ -196,6 +196,7 @@ export const getWalletNft = async ({
   page?: number;
 }) => {
   const url = `${process.env.NEXT_PUBLIC_MARKETPLACE_API_URL}/portfolio/${walletAddress}${page ? `?page=${page}` : ""}`;
+
   const response = await fetch(url);
   const data = (await response.json()) as WalletTokensApiResponse;
   if (!response.ok) {

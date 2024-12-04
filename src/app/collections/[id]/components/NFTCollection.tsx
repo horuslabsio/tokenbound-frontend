@@ -31,6 +31,7 @@ const NFTCollection = () => {
     () => nfts?.pages.flatMap((page) => page.data) ?? [],
     [nfts]
   );
+
   return (
     <div className="flex flex-col items-center">
       {!isLoading && nfts && walletNfts.length > 0 ? (
