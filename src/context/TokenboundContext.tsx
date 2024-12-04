@@ -86,7 +86,8 @@ export const TokenboundProvider: React.FC<TokenboundProviderProps> = ({
     } else if (!version.v3.status && !version.v2.status) {
       setActiveVersion({
         address: version.v3.address,
-        version: "V3",
+        version: "undeployed",
+
       });
       setLoading(false);
     }
