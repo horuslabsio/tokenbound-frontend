@@ -1,5 +1,6 @@
 "use client";
-import { useAccount, useNetwork } from "@starknet-react/core";
+import { useAccount, useNetwork, useSwitchChain } from "@starknet-react/core";
+
 import { useRouter, usePathname } from "next/navigation";
 import { DownChevronIcon } from "@public/icons";
 import { useEffect, useRef, useState } from "react";
@@ -31,12 +32,14 @@ export function NetworkSwitcher() {
   const [selectedNetwork, setSelectedNetwork] = useState(
     NETWORK_MAPPING[chain.network]
   );
+  const { switchChain } = useSwitchChain({
+    params: {
+      chainId: networks[0].value,
+    },
+  });
   const switchNetwork = async (newNetworkId: string, networkLabel: string) => {
     try {
-      await window?.starknet?.request({
-        type: "wallet_switchStarknetChain",
-        params: { chainId: newNetworkId },
-      });
+      switchChain({ chainId: newNetworkId });
       setSelectedNetwork(newNetworkId);
       if (path.startsWith("/asset")) {
         push(`/wallet/${address}`);
