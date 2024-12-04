@@ -63,12 +63,10 @@ export const useUpgradeAccount = ({
   tokenboundClient,
   chain,
   setActiveVersion,
-  v3Address,
 }: {
   contractAddress: string;
   tokenboundClient: TokenboundClient | undefined;
   chain: Chain;
-  v3Address: string;
   setActiveVersion: (
     value: React.SetStateAction<{
       version: "V3" | "V2" | "undeployed";
@@ -83,8 +81,6 @@ export const useUpgradeAccount = ({
     let network = chain.network;
     let v3Implementation =
       AccountClassHashes.V3[network as keyof typeof AccountClassHashes.V3];
-    console.log("v3 impl:", v3Implementation);
-    console.log("tbc:", tokenboundClient);
 
     setUpgradeStatus("pending");
     try {
@@ -93,10 +89,9 @@ export const useUpgradeAccount = ({
         newClassHash: v3Implementation,
       });
       console.log(res);
-
       setUpgradeStatus("success");
       setActiveVersion({
-        address: v3Address,
+        address: contractAddress,
         version: "V3",
       });
     } catch (err) {
@@ -308,9 +303,24 @@ export const useSetTbaVersion = ({
       return false;
     };
 
-    const checkV2Address = async () =>
-      handleClassHashCheck(v2Address, v2Implementation, TBAVersion.V2) ||
-      handleClassHashCheck(v2Address, v3Implementation, TBAVersion.V3);
+    const checkV2Address = async (): Promise<boolean> => {
+      const v2Account = await handleClassHashCheck(
+        v2Address,
+        v2Implementation,
+        TBAVersion.V2
+      );
+      if (v2Account) {
+        return true;
+      }
+
+      const v3Account = await handleClassHashCheck(
+        v2Address,
+        v3Implementation,
+        TBAVersion.V3
+      );
+
+      return v3Account;
+    };
 
     const checkV3Address = async () =>
       handleClassHashCheck(v3Address, v3Implementation, TBAVersion.V3);

@@ -91,7 +91,6 @@ function Assets() {
     chain: chain,
     contractAddress: v2Address,
     tokenboundClient: tokenboundV2,
-    v3Address,
     setActiveVersion,
   });
 
