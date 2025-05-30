@@ -1,6 +1,4 @@
 "use client";
-import { ArgentMobileConnector } from "starknetkit/argentMobile";
-import { WebWalletConnector } from "starknetkit/webwallet";
 import { sepolia, mainnet, Chain } from "@starknet-react/chains";
 import {
   argent,
@@ -11,11 +9,31 @@ import {
   useInjectedConnectors,
 } from "@starknet-react/core";
 import { jsonRpcProvider } from "@starknet-react/core";
-import { ReactNode, useCallback } from "react";
-import { cartridgeInstance } from "@utils/controller";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 
 const StarknetProvider = ({ children }: { children: ReactNode }) => {
   const chains = [mainnet, sepolia];
+
+  const [mounted, setMounted] = useState(false);
+  const [extraConnectors, setExtraConnectors] = useState<Connector[]>([]);
+
+  useEffect(() => {
+    setMounted(true);
+    async function loadConnectors() {
+      const { WebWalletConnector } = await import("starknetkit/webwallet");
+      const { cartridgeInstance } = await import("@utils/controller");
+
+      setExtraConnectors([
+        new WebWalletConnector({
+          url: "https://web.argent.xyz",
+        }) as unknown as Connector,
+        cartridgeInstance,
+      ]);
+    }
+
+    loadConnectors();
+  }, []);
+
   const { connectors: injected } = useInjectedConnectors({
     recommended: [argent(), braavos()],
     includeRecommended: "always",
@@ -29,13 +47,10 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
 
   const provider = jsonRpcProvider({ rpc });
 
-  const connectors = [
-    ...injected,
-    new WebWalletConnector({
-      url: "https://web.argent.xyz",
-    }) as never as Connector,
-    cartridgeInstance,
-  ];
+  // Only set connectors after mount and after dynamic import
+  if (!mounted) return null;
+
+  const connectors = [...injected, ...extraConnectors];
 
   return (
     <StarknetConfig

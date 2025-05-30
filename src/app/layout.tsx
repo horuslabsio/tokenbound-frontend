@@ -33,14 +33,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Providers>
-        <body className={`font-inter font-normal`}>
+      <body className={`font-inter font-normal`}>
+        <Providers>
           <Header />
           {children}
           <Footer />
           <Analytics />
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   );
 }
