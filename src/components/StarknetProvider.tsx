@@ -29,14 +29,6 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
 
   const provider = jsonRpcProvider({ rpc });
 
-  const ArgentMobile = ArgentMobileConnector.init({
-    options: {
-      dappName: "Token bound explorer",
-      url: "https://www.tbaexplorer.com/",
-    },
-    inAppBrowserOptions: {},
-  });
-
   const connectors = [
     ...injected,
     new WebWalletConnector({
