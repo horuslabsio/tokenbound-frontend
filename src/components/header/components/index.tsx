@@ -27,9 +27,9 @@ function ConnectedNavBar() {
           {shortenAddress(address as any)}
         </Button>
       ) : (
-        <Tooltip message="This network is currently not supported">
+        <Tooltip message="This application supports only the Starknet Mainnet. Kindly switch your network to proceed.">
           <Button asChild>
-            <p>Network Unavailable</p>
+            <p>Wrong Network </p>
           </Button>
         </Tooltip>
       )}

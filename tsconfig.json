@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -21,14 +25,30 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@hooks/*": ["hooks/*"],
-      "@utils/*": ["utils/*"],
-      "@abis/*": ["abis/*"],
-      "@types/*": ["types/*"],
-      "@static/*": ["static/*"],
-      "@public/*": ["../public/*"],
-      "@app/*": ["app/*"]
+      "@components/*": [
+        "components/*"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@abis/*": [
+        "abis/*"
+      ],
+      "@types/*": [
+        "types/*"
+      ],
+      "@static/*": [
+        "static/*"
+      ],
+      "@public/*": [
+        "../public/*"
+      ],
+      "@app/*": [
+        "app/*"
+      ]
     }
   },
   "include": [
@@ -38,5 +58,7 @@
     ".next/types/**/*.ts",
     "src/components/starknet-provider.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

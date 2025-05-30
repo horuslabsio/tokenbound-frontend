@@ -42,7 +42,6 @@ const StarknetProvider = ({ children }: { children: ReactNode }) => {
     new WebWalletConnector({
       url: "https://web.argent.xyz",
     }) as never as Connector,
-    ArgentMobile as never as Connector,
     cartridgeInstance,
   ];
 
