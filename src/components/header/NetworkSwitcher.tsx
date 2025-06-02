@@ -1,10 +1,16 @@
 "use client";
-import { useAccount, useNetwork, useSwitchChain } from "@starknet-react/core";
-
+import {
+  useAccount,
+  useDisconnect,
+  useNetwork,
+  useSwitchChain,
+} from "@starknet-react/core";
 import { useRouter, usePathname } from "next/navigation";
 import { DownChevronIcon } from "@public/icons";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "ui/button";
+import { constants } from "starknet";
+import { supportSwitchNetwork } from "@utils/index";
 
 const NETWORK_MAPPING: { [key: string]: string } = {
   mainnet: "SN_MAIN",
@@ -24,7 +30,13 @@ const networks = [
 
 export function NetworkSwitcher() {
   const { chain } = useNetwork();
-  const { address } = useAccount();
+  const { address, connector } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { switchChainAsync } = useSwitchChain({
+    params: {
+      chainId: constants.StarknetChainId.SN_MAIN,
+    },
+  });
 
   const { push } = useRouter();
   const path = usePathname();
@@ -32,17 +44,20 @@ export function NetworkSwitcher() {
   const [selectedNetwork, setSelectedNetwork] = useState(
     NETWORK_MAPPING[chain.network]
   );
-  const { switchChain } = useSwitchChain({
-    params: {
-      chainId: networks[0].value,
-    },
-  });
+  const [isSupportSwitchNetwork, setIsSupportSwitchNetwork] = useState<
+    boolean | undefined
+  >(undefined);
+
   const switchNetwork = async (newNetworkId: string, networkLabel: string) => {
     try {
-      switchChain({ chainId: newNetworkId });
-      setSelectedNetwork(newNetworkId);
-      if (path.startsWith("/asset")) {
-        push(`/wallet/${address}`);
+      if (supportSwitchNetwork(connector)) {
+        await switchChainAsync();
+        setSelectedNetwork(newNetworkId);
+        if (path.startsWith("/asset")) {
+          push(`/wallet/${address}`);
+        }
+      } else {
+        disconnect();
       }
     } catch (error) {
       console.error("Failed to switch networks:", error);
@@ -51,8 +66,10 @@ export function NetworkSwitcher() {
 
   useEffect(() => {
     setSelectedNetwork(NETWORK_MAPPING[chain.network]);
-    dialogRef?.current?.close();
-  }, [chain.network]);
+    setIsSupportSwitchNetwork(supportSwitchNetwork(connector));
+  }, [chain.network, connector]);
+
+  if (chain.network === "mainnet") return null;
 
   return (
     <div className="relative hidden md:block">
@@ -76,21 +93,39 @@ export function NetworkSwitcher() {
         ref={dialogRef}
         className="absolute top-0 z-[10] rounded-[8px]"
       >
-        <div className="flex min-h-[5.1rem] w-[9.2rem] flex-col gap-1 rounded-[8px] bg-white p-1">
-          {networks.map((network) => {
-            return (
+        <div
+          className={`flex flex-col gap-1 rounded-[8px] ${isSupportSwitchNetwork ? "min-h-[5.1rem] w-[9.2rem]" : "h-[3rem] w-[13rem]"} bg-white p-1`}
+        >
+          {isSupportSwitchNetwork ? (
+            <>
+              {networks.map((network) => {
+                return (
+                  <button
+                    key={network.label}
+                    className={`h-[2.8rem] rounded-lg px-4 py-2 text-start text-base ${selectedNetwork === network.value ? "bg-primary-btn text-white" : ""}`}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      switchNetwork(network.value, network.label);
+                    }}
+                  >
+                    {network.label}
+                  </button>
+                );
+              })}
+            </>
+          ) : (
+            <>
               <button
-                key={network.label}
-                className={`h-[2.8rem] rounded-lg px-4 py-2 text-start text-base ${selectedNetwork === network.value ? "bg-primary-btn text-white" : ""}`}
+                className={`h-[2.8rem] rounded-lg bg-primary-btn px-4 py-2 text-start text-base text-white`}
                 onClick={(event) => {
                   event.stopPropagation();
-                  switchNetwork(network.value, network.label);
+                  disconnect();
                 }}
               >
-                {network.label}
+                Disconnect then switch
               </button>
-            );
-          })}
+            </>
+          )}
         </div>
       </dialog>
     </div>

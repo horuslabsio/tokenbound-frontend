@@ -7,7 +7,7 @@ import Nav from "./Nav";
 const Header = () => {
   const { account, isConnected } = useAccount();
   const { chain } = useNetwork();
-  const { push } = useRouter();
+  const router = useRouter();
   const path = usePathname();
 
   const [isWalletOpen, setIsWalletOpen] = useState(false);
@@ -21,15 +21,15 @@ const Header = () => {
 
   useEffect(() => {
     if (chain.network === "sepolia") {
-      push("/");
+      router.push("/");
     }
-  }, [chain]);
+  }, [chain, router]);
 
   useEffect(() => {
     if (!isConnected && !account && path !== "/") {
       setIsWalletOpen(true);
     }
-  }, [isConnected, account]);
+  }, [isConnected, account, path]);
   return (
     <header className="fixed z-50 flex min-h-[4rem] w-screen items-center justify-between px-8 py-3 backdrop-blur lg:block">
       <Nav
